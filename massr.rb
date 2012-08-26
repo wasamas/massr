@@ -18,8 +18,9 @@ module Massr
 		set :haml, { format: :html5, escape_html: true }
 
 		configure :development do
-			require 'pit'
-			
+			Bundler.require :development
+			register Sinatra::Reloader
+
 			@auth_twitter = Pit::get( 'auth_twitter', :require => {
 					:id => 'your CUNSUMER KEY of Twitter APP.',
 					:secret => 'your CUNSUMER SECRET of Twitter APP.',

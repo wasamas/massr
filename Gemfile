@@ -8,7 +8,7 @@ gem 'omniauth-twitter'
 group :development, :test do
 	gem 'rake'
 	gem 'rspec'
-	gem 'shotgun'
+	gem 'sinatra-reloader', require: 'sinatra/reloader'
 	gem 'thin'
-	gem 'pit'
+	gem 'pit', require: 'pit'
 end
