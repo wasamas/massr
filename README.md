@@ -21,7 +21,7 @@ $ git clone git://github.com/tdtds/massr.git
 $ cd massr
 $ mkdir vendor
 $ bundle install --path vendor/bundle
-$ bundle exec rackup config.ru
+$ bundle exec rackup --port 9393
 ```
 
 http://127.0.0.1:9393 へ接続し、動作確認
