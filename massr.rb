@@ -11,6 +11,9 @@ require 'json'
 require 'omniauth'
 require 'omniauth-twitter'
 
+require 'mongo_mapper'
+require './models'
+
 module Massr
 
 	class App < Sinatra::Base
@@ -32,6 +35,7 @@ module Massr
 		end
 
 		use OmniAuth::Strategies::Twitter  , @auth_twitter[:id]  , @auth_twitter[:secret]
+		use Rack::Session::Cookie,:expire_after => 3600,:secret => ENV['SESSION_SECRET']
 
 		enable :sessions
 
@@ -41,7 +45,12 @@ module Massr
 
 		get '/auth/:provider/callback' do
 			info = request.env['omniauth.auth']
-			"#{info['info']['name']}さんこんにちは！"
+			session[:user_name] = info['info']['name']
+			session[:token]     = info['credentials']['token']
+			redirect '/'
+		end
+
+		get '/user' do
 		end
 	end
 end
