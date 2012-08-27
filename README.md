@@ -9,7 +9,7 @@ Mini Wassr
 * Twitter用開発者登録
 『https://dev.twitter.com/apps/ 』でアプリ登録
 
-call back用のURLは『http://127.0.0.1:9292/auth/twitter/callback 』(開発用)、または、『http://XXXXXXXXX/auth/twitter/callback 』(heroku用)とする。
+call back用のURLは『http://127.0.0.1:9393/auth/twitter/callback 』(開発用)、または、『http://XXXXXXXXX/auth/twitter/callback 』(heroku用)とする。
 
 ### 開発環境(development)で実行方法
 ```sh
