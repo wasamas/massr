@@ -59,6 +59,4 @@ module Models
 		belongs_to :entry, :class_name => 'Entry', :in => :entry_id
 		belongs_to :user, :class_name => 'User',  :in=> :user_id
    end 
-
-	class 
 end
