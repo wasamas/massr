@@ -4,4 +4,8 @@
 		%title Massr - Mini Wassr
 	%body
 		%h1 Massr - Mini Wassr
-		%a(href="auth/twitter" title="Twitter認証")<Twitter認証
+		-if session[:twitter_id] != nil
+			%p
+				#{session[:twitter_name]} さん ようこそ！
+		-else 
+			%a(href="auth/twitter" title="Twitter認証")<Twitter認証

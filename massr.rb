@@ -12,7 +12,7 @@ require 'omniauth'
 require 'omniauth-twitter'
 
 require 'mongo_mapper'
-require './models'
+require './lib/models/user'
 
 module Massr
 
@@ -28,6 +28,10 @@ module Massr
 					:id => 'your CUNSUMER KEY of Twitter APP.',
 					:secret => 'your CUNSUMER SECRET of Twitter APP.',
 				} )
+			
+			MongoMapper.connection = Mongo::Connection.new('localhost', 27017)
+			MongoMapper.database = 'massr'
+
 		end
 
 		configure :production do
@@ -35,23 +39,47 @@ module Massr
 		end
 
 		use OmniAuth::Strategies::Twitter  , @auth_twitter[:id]  , @auth_twitter[:secret]
-		use Rack::Session::Cookie,:expire_after => 3600,:secret => ENV['SESSION_SECRET']
+		use Rack::Session::Cookie,:expire_after => 3600, :secret => ENV['SESSION_SECRET']
 
 		enable :sessions
-
+				
 		get '/' do
 			haml :index
 		end
 
 		get '/auth/:provider/callback' do
 			info = request.env['omniauth.auth']
-			session[:user_name] = info['info']['name']
-			session[:token]     = info['credentials']['token']
-			redirect '/'
+
+			session[:twitter_name] = info['extra']['raw_info']['name']
+			session[:twitter_id]   = info['extra']['raw_info']['screen_name']
+			session[:twitter_icon] = info['extra']['raw_info']['profile_background_image_url']
+			redirect '/user'
+		end
+
+		before '/user' do
+			session[:twitter_id]
+			
+			##登録済みチェック
+			if Models::User.all(:twitter_id => session[:twitter_id]).size > 0
+				redirect '/'
+			end
+			
 		end
 
 		get '/user' do
+			haml :user 
 		end
+
+		post '/user' do
+			user = Models::User.new(
+				:massr_id   => request[:id],
+				:twitter_id => session[:twitter_id],
+				:name       => request[:name],
+				:email      => request[:email])
+			user.save
+			redirect '/'
+		end
+		
 	end
 end
 

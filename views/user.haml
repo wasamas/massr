@@ -1,0 +1,32 @@
+!!!
+%html
+	%head  
+		%title Massr - Mini Wassr - User Registration.
+	%body
+		%h1 User Registration
+		%p
+			=session[:errors]
+		%form{:method => "POST", :action => '/user'}
+			%table
+				%tr
+					%td Massr ID
+					%td
+						%input{:type => "text", :name => "id", :value => "#{session[:twitter_id]}"}
+					%td
+				%tr
+					%td Twitter ID
+					%td
+						=session[:twitter_id]
+						
+				%tr
+					%td 表示名
+					%td
+						%input{:type => "text", :name => "name" ,:value => "#{session[:twitter_name]}"}
+				%tr
+					%td E-Mail
+					%td
+						%input{:type => "text", :name => "email"}
+				%tr
+					%td
+					%td
+						%input{:type => "submit" , :value => "登録"}
