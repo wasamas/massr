@@ -21,7 +21,10 @@
 				%tr
 					%td 表示名
 					%td
-						%input{:type => "text", :name => "name" ,:value => "#{session[:twitter_name]}"}
+						- if session[:user] == nil
+							%input{:type => "text", :name => "name" ,:value => "#{session[:twitter_name]}"}
+						- else
+							%input{:type => "text", :name => "name" ,:value => "#{session[:user].name}"}
 				%tr
 					%td E-Mail
 					%td
