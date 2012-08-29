@@ -37,7 +37,7 @@ module Massr
 		configure :production do
          @auth_twitter  = {:id => ENV['TWITTER_CONSUMER_ID'], :secret => ENV['TWITTER_CONSUMER_SECRET']}
 
-			uri =  URI.parse(ENV['MONGOHQ_URL'])
+			p uri =  URI.parse(ENV['MONGOHQ_URL'])
 
 			mongo_connection = Mongo::Connection.from_uri( uri )
 			mongo_db = mongo_connection.db(uri.path.gsub(/^\//, ''))
