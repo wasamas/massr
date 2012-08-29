@@ -36,8 +36,13 @@ module Massr
 
 		configure :production do
          @auth_twitter  = {:id => ENV['TWITTER_CONSUMER_ID'], :secret => ENV['TWITTER_CONSUMER_SECRET']}
-			MongoMapper.config = {APP_ENVIRONMENT => {'uri' => ENV['MONGOHQ_URL']}}
-			MongoMapper.connect(APP_ENVIRONMENT)
+
+			uri =  URI.parse(ENV['MONGOHQ_URL'])
+
+			mongo_connection = Mongo::Connection.from_uri( uri )
+			mongo_db = mongo_connection.db(uri.path.gsub(/^\//, ''))
+			mongo_db.authenticate(uri.user, uri.password)
+
 		end
 
 		use OmniAuth::Strategies::Twitter  , @auth_twitter[:id]  , @auth_twitter[:secret]
