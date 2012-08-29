@@ -25,7 +25,10 @@
 				%tr
 					%td E-Mail
 					%td
-						%input{:type => "text", :name => "email"}
+						- if session[:user] == nil
+							%input{:type => "text", :name => "email" , :value => ""}
+						- else
+							%input{:type => "text", :name => "email" , :value => "#{session[:user].email}"}
 				%tr
 					%td
 					%td

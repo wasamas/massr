@@ -36,50 +36,66 @@ module Massr
 
 		configure :production do
          @auth_twitter  = {:id => ENV['TWITTER_CONSUMER_ID'], :secret => ENV['TWITTER_CONSUMER_SECRET']}
+			MongoMapper.config = {APP_ENVIRONMENT => {'uri' => ENV['MONGOHQ_URL']}}
+			MongoMapper.connect(APP_ENVIRONMENT)
 		end
 
 		use OmniAuth::Strategies::Twitter  , @auth_twitter[:id]  , @auth_twitter[:secret]
 		use Rack::Session::Cookie,:expire_after => 3600, :secret => ENV['SESSION_SECRET']
 
 		enable :sessions
-				
+
 		get '/' do
 			haml :index
 		end
 
-		get '/auth/:provider/callback' do
+		get '/login' do
+			redirect '/auth/twitter'
+		end
+
+		get '/logout' do
+			session.clear
+			redirect '/'
+		end
+
+		get '/auth/twitter/callback' do
 			info = request.env['omniauth.auth']
 
 			session[:twitter_name] = info['extra']['raw_info']['name']
 			session[:twitter_id]   = info['extra']['raw_info']['screen_name']
-			session[:twitter_icon] = info['extra']['raw_info']['profile_background_image_url']
-			redirect '/user'
+			##session[:twitter_icon] = info['extra']['raw_info']['profile_background_image_url']
 		end
 
-		before '/user' do
-			session[:twitter_id]
-			
+		after '/auth/twitter/callback' do
 			##登録済みチェック
-			if Models::User.all(:twitter_id => session[:twitter_id]).size > 0
+			p user = Models::User.first(:twitter_id => session[:twitter_id])
+			if user != nil
+				session[:user] = user
 				redirect '/'
+			else
+				redirect '/user'
 			end
-			
 		end
 
 		get '/user' do
-			haml :user 
+			haml :user
 		end
 
 		post '/user' do
-			user = Models::User.new(
-				:massr_id   => request[:id],
-				:twitter_id => session[:twitter_id],
-				:name       => request[:name],
-				:email      => request[:email])
-			user.save
+			user = session[:user]
+			user = user ? user : Models::User.new
+
+			user[:massr_id]   = request[:id]
+			user[:twitter_id] = session[:twitter_id]
+			user[:name]       = request[:name]
+			user[:email]      = request[:email]
+
+			if user.save!
+				session[:user] = user
+			end
+
 			redirect '/'
 		end
-		
 	end
 end
 
