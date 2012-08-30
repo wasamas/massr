@@ -2,7 +2,10 @@
 #
 # massr.rb : Massr - Mini Wassr
 #
-# Copyright (C) 2012 by TADA Tadashi <t@tdtds.jp>
+# Copyright (C) 2012 by wasam@s production
+# https://github.com/tdtds/massr
+#
+# Distributed under GPL
 #
 
 require 'sinatra/base'
