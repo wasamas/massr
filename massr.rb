@@ -25,7 +25,7 @@ module Massr
 
 		set :haml, { format: :html5, escape_html: true }
 
-		configure :development do
+		configure :development, :test do
 			Bundler.require :development
 			register Sinatra::Reloader
 

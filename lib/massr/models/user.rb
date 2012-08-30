@@ -1,4 +1,5 @@
 # -*- coding: utf-8; -*-
+require 'mongo_mapper'
 
 module Massr
 	class User
