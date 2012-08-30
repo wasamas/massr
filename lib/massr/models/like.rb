@@ -1,4 +1,6 @@
-module Models
+# -*- coding: utf-8; -*-
+
+module Massr
 	class Like
 		include MongoMapper::Document
 

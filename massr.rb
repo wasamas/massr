@@ -12,7 +12,9 @@ require 'omniauth'
 require 'omniauth-twitter'
 
 require 'mongo_mapper'
-require './lib/models/user'
+
+$:.unshift './lib'
+require 'massr/models'
 
 module Massr
 
@@ -71,7 +73,7 @@ module Massr
 
 		after '/auth/twitter/callback' do
 			##登録済みチェック
-			p user = Models::User.first(:twitter_id => session[:twitter_id])
+			p user = User.first(:twitter_id => session[:twitter_id])
 			if user != nil
 				session[:user] = user
 				redirect '/'
@@ -86,7 +88,7 @@ module Massr
 
 		post '/user' do
 			user = session[:user]
-			user = user ? user : Models::User.new
+			user = user ? user : User.new
 
 			user[:massr_id]   = request[:id]
 			user[:twitter_id] = session[:twitter_id]

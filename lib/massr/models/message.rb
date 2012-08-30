@@ -1,4 +1,6 @@
-module Models
+# -*- coding: utf-8; -*-
+
+module Massr
 	class Message
 		include MongoMapper::Document
 		
