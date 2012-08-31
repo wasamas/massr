@@ -7,19 +7,24 @@ describe 'Massr::User' do
 		Massr::User.collection.remove
 	end
 
-	context '新規ユーザ登録' do
-		request = {
-			:id => 'wasamas',
-			:twitter_id => '1234567',
-			:name => 'わさます',
-			:email => 'wasamas@example.com',
-		}
-		user = Massr::User.create_by_registration_form( request )
+	describe '.create_by_registration_form' do
+		before do
+			request = {
+				:id => 'wasamas',
+				:twitter_id => '1234567',
+				:name => 'わさます',
+				:email => 'wasamas@example.com',
+			}
+			@user = Massr::User.create_by_registration_form( request )
+		end
+		subject{ @user }
 
-		it { user[:massr_id].should eq('wasamas') }
-		it { user[:twitter_id].should eq('1234567') }
-		it { user[:name].should eq('わさます') }
-		it { user[:email].should eq('wasamas@example.com') }
+		context '新規ユーザ登録が正常にできているか' do
+			its(:massr_id) { should eq('wasamas') }
+			its(:twitter_id) { should eq('1234567') }
+			its(:name) { should eq('わさます') }
+			its(:email) { should eq('wasamas@example.com') }
+		end
 	end
 
 	after do
