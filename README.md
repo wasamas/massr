@@ -40,7 +40,7 @@ $ sudo gem install heroku  # 上記以外
 # ここまでheroku未実施のみ
 
 # アプリ初回作成時
-$ heroku apps:create --stack cedar massr-XXX #アプリ作成
+$ heroku apps:create massr-XXX #アプリ作成
 $ heroku addons:add mongohq:free # MongoHQの有効化
 ## ※ MongoHQ を有効にするには Herokuにてクレジットカード登録が必要です
 $ heroku config:add \
