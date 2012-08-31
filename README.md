@@ -39,15 +39,18 @@ $ gem install heroku       # rvmとかrbenvな環境の人用
 $ sudo gem install heroku  # 上記以外
 # ここまでheroku未実施のみ
 
-$ heroku apps:create --stack cedar massr-<<foo>>
-
+# アプリ初回作成時
+$ heroku apps:create --stack cedar massr-XXX #アプリ作成
+$ heroku addons:add mongohq:free # MongoHQの有効化
+## ※ MongoHQ を有効にするには Herokuにてクレジットカード登録が必要です
 $ heroku config:add \
   RACK_ENV=production \
   TWITTER_CONSUMER_ID=XXXXXXXXXXXXXXX \
   TWITTER_CONSUMER_SECRET=XXXXXXXXXXXXXXX
 
+# アプリケーションデプロイ
 $ git push heroku master
-$ heroku ps:scale web=0 clock=1
+$ heroku ps:scale web=1
 
 # ログみてちゃんと動いているか確認してください
 $ heroku ps
