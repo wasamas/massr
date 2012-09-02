@@ -76,8 +76,8 @@ module Massr
 
 		after '/auth/twitter/callback' do
 			##登録済みチェック
-			p user = User.first(:twitter_id => session[:twitter_id])
-			if user != nil
+			p user = User.find_by_twitter_id(session[:twitter_id])
+			if user
 				session[:user] = user
 				redirect '/'
 			else
@@ -91,15 +91,11 @@ module Massr
 
 		post '/user' do
 			user = session[:user]
-			user = user ? user : User.new
-
-			user[:massr_id]   = request[:massr_id]
-			user[:twitter_id] = session[:twitter_id]
-			user[:name]       = request[:name]
-			user[:email]      = request[:email]
-
-			if user.save!
-				session[:user] = user
+			if user
+				# not implement
+			else
+				request[:twitter_id] = session[:twitter_id]
+				session[:user] = User.create_by_registration_form( request )
 			end
 
 			redirect '/'
