@@ -93,7 +93,7 @@ module Massr
 			user = session[:user]
 			user = user ? user : User.new
 
-			user[:massr_id]   = request[:id]
+			user[:massr_id]   = request[:massr_id]
 			user[:twitter_id] = session[:twitter_id]
 			user[:name]       = request[:name]
 			user[:email]      = request[:email]
