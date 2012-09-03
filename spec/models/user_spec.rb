@@ -71,10 +71,12 @@ describe 'Massr::User' do
 			end
 			subject{ @user }
 
-			its(:massr_id) { should eq(prototype(1)[:massr_id]) }
 			its(:twitter_id) { should eq(prototype(1)[:twitter_id]) }
 			its(:name) { should eq(prototype(1)[:name]) }
 			its(:email) { should eq(prototype(1)[:email]) }
+
+			# massr_idを変えてはいけない
+			its(:massr_id) { should eq(prototype(0)[:massr_id]) }
 		end
 	end
 

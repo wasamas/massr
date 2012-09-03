@@ -24,7 +24,6 @@ module Massr
 		end
 
 		def update_profile(request)
-			self[:massr_id] = request[:massr_id]
 			self[:twitter_id] = request[:twitter_id]
 			self[:name] = request[:name]
 			self[:email] = request[:email]
