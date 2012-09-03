@@ -14,13 +14,8 @@ module Massr
 		timestamps!
 
 		def self.create_by_registration_form( request )
-			user = User.new
-			user[:massr_id] = request[:massr_id]
-			user[:twitter_id] = request[:twitter_id]
-			user[:name] = request[:name]
-			user[:email] = request[:email]
-
-			user.save!
+			user = User.new( :massr_id => request[:massr_id] )
+			user.update_profile( request )
 			return user
 		end
 
