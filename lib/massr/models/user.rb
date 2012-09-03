@@ -19,10 +19,6 @@ module Massr
 			return user
 		end
 
-		def self.find_by_twitter_id( twitter_id )
-			User.first( :twitter_id => twitter_id )
-		end
-
 		def update_profile(request)
 			self[:twitter_id] = request[:twitter_id]
 			self[:name] = request[:name]

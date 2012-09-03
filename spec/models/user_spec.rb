@@ -38,27 +38,6 @@ describe 'Massr::User' do
 		end
 	end
 
-	describe '.find_by_twitter_id' do
-		before do
-			Massr::User.create_by_registration_form( prototype(0) )
-			@user0 = Massr::User.find_by_twitter_id(prototype(0)[:twitter_id])
-			@user1 = Massr::User.find_by_twitter_id(prototype(1)[:twitter_id])
-		end
-
-		context '既存ユーザを検索する' do
-			subject{ @user0 }
-
-			it { should_not be_nil }
-			its(:twitter_id) { should eq(prototype(0)[:twitter_id]) }
-		end
-
-		context '存在しないユーザを検索する' do
-			subject{ @user1 }
-
-			it { should be_nil }
-		end
-	end
-
 	describe '#update' do
 		before do
 			Massr::User.create_by_registration_form( prototype(0) )
