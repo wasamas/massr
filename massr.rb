@@ -91,10 +91,10 @@ module Massr
 
 		post '/user' do
 			user = session[:user]
+			request[:twitter_id] = session[:twitter_id]
 			if user
-				# not implement
+				user.update_profile(request)
 			else
-				request[:twitter_id] = session[:twitter_id]
 				session[:user] = User.create_by_registration_form( request )
 			end
 
