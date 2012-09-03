@@ -59,6 +59,25 @@ describe 'Massr::User' do
 		end
 	end
 
+	describe '#update' do
+		before do
+			Massr::User.create_by_registration_form( prototype(0) )
+		end
+
+		context 'すべての属性を指定して更新する' do
+			before :all do
+				@user = Massr::User.find_by_twitter_id(prototype(0)[:twitter_id])
+				@user.update_profile(prototype(1))
+			end
+			subject{ @user }
+
+			its(:massr_id) { should eq(prototype(1)[:massr_id]) }
+			its(:twitter_id) { should eq(prototype(1)[:twitter_id]) }
+			its(:name) { should eq(prototype(1)[:name]) }
+			its(:email) { should eq(prototype(1)[:email]) }
+		end
+	end
+
 	after do
 	end
 end
