@@ -53,12 +53,21 @@ module Massr
 
 		enable :sessions
 
+		before do
+			case request.path
+			when '/login'
+			when %r|^/auth/|
+			else
+				redirect '/login' unless session[:user]
+			end
+		end
+
 		get '/' do
 			haml :index
 		end
 
 		get '/login' do
-			redirect '/auth/twitter'
+			haml :login
 		end
 
 		get '/logout' do

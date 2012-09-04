@@ -4,10 +4,7 @@
 		%title Massr - Mini Wassr
 	%body
 		%h1 Massr - Mini Wassr
-		-if session[:user] != nil
-			%p
-				#{session[:user].name} さん ようこそ！
-				%a(href="logout" title="Logout")<Logout
-				%a(href="user" title="setting")<Setting
-		-else 
-			%a(href="login" title="Login")<Login
+		%p
+			#{session[:user].name} さん ようこそ！
+			%a(href="logout" title="Logout")<Logout
+			%a(href="user" title="setting")<Setting
