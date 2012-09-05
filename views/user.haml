@@ -3,7 +3,7 @@
 	%head  
 		%title Massr - Mini Wassr - User Registration.
 	%body
-		%h1 User Registration
+		!= haml :header
 		%p
 			=session[:errors]
 		%form{:method => "POST", :action => '/user'}
@@ -36,3 +36,4 @@
 					%td
 					%td
 						%input{:type => "submit" , :value => "登録"}
+		!= haml :footer
