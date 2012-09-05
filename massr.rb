@@ -57,6 +57,8 @@ module Massr
 			case request.path
 			when '/login'
 			when %r|^/auth/|
+			when '/user'
+				redirect '/login' unless session[:twitter_id]
 			else
 				redirect '/login' unless session[:user]
 			end
@@ -85,7 +87,7 @@ module Massr
 
 		after '/auth/twitter/callback' do
 			##登録済みチェック
-			p user = User.find_by_twitter_id(session[:twitter_id])
+			user = User.find_by_twitter_id(session[:twitter_id])
 			if user
 				session[:user] = user
 				redirect '/'
