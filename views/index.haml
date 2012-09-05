@@ -4,9 +4,10 @@
 		%title Massr - Mini Wassr
 		!= haml :head
 	%body
-		!= haml :header
-		%p
-			#{session[:user].name} さん ようこそ！
-			%a(href="logout" title="Logout")<Logout
-			%a(href="user" title="setting")<Setting
-		!= haml :footer
+		.container
+			!= haml :header
+			%p
+				#{session[:user].name} さん ようこそ！
+				%a(href="logout" title="Logout")<Logout
+				%a(href="user" title="setting")<Setting
+			!= haml :footer

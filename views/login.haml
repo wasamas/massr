@@ -4,6 +4,7 @@
 		%title login - Massr
 		!= haml :head
 	%body
-		!= haml :header
-		%a(href="/auth/twitter" title="Login")<Login
-		!= haml :footer
+		.container
+			!= haml :header
+			%a(href="/auth/twitter" title="Login")<Login
+			!= haml :footer

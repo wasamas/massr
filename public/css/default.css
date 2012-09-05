@@ -1,0 +1,36 @@
+/*
+ * default.css : massr default stylesheet
+ *
+ * Copyright (C) 2012 by wasam@s production
+ */
+
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	background-color: #555;
+	width: 100%;
+	text-align: center;
+}
+
+div.container {
+	background-color: #fff;
+	text-align: left;
+	margin: 0px auto;
+	margin-top: 8px;
+	overflow: hidden;
+	max-width: 700px;
+}
+
+h1 {
+	text-align: left;
+}
+
+footer {
+	background-image: url('/image/masao.jpg');
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	height: 364px;
+}

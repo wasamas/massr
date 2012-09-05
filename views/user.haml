@@ -4,37 +4,38 @@
 		%title Massr - Mini Wassr - User Registration.
 		!= haml :head
 	%body
-		!= haml :header
-		%p
-			=session[:errors]
-		%form{:method => "POST", :action => '/user'}
-			%table
-				%tr
-					%td Massr ID
-					%td
-						%input{:type => "text", :name => "massr_id", :value => "#{session[:twitter_id]}"}
-					%td
-				%tr
-					%td Twitter ID
-					%td
-						=session[:twitter_id]
-						
-				%tr
-					%td 表示名
-					%td
-						- if session[:user] == nil
-							%input{:type => "text", :name => "name" ,:value => "#{session[:twitter_name]}"}
-						- else
-							%input{:type => "text", :name => "name" ,:value => "#{session[:user].name}"}
-				%tr
-					%td E-Mail
-					%td
-						- if session[:user] == nil
-							%input{:type => "text", :name => "email" , :value => ""}
-						- else
-							%input{:type => "text", :name => "email" , :value => "#{session[:user].email}"}
-				%tr
-					%td
-					%td
-						%input{:type => "submit" , :value => "登録"}
-		!= haml :footer
+		.container
+			!= haml :header
+			%p
+				=session[:errors]
+			%form{:method => "POST", :action => '/user'}
+				%table
+					%tr
+						%td Massr ID
+						%td
+							%input{:type => "text", :name => "massr_id", :value => "#{session[:twitter_id]}"}
+						%td
+					%tr
+						%td Twitter ID
+						%td
+							=session[:twitter_id]
+							
+					%tr
+						%td 表示名
+						%td
+							- if session[:user] == nil
+								%input{:type => "text", :name => "name" ,:value => "#{session[:twitter_name]}"}
+							- else
+								%input{:type => "text", :name => "name" ,:value => "#{session[:user].name}"}
+					%tr
+						%td E-Mail
+						%td
+							- if session[:user] == nil
+								%input{:type => "text", :name => "email" , :value => ""}
+							- else
+								%input{:type => "text", :name => "email" , :value => "#{session[:user].email}"}
+					%tr
+						%td
+						%td
+							%input{:type => "submit" , :value => "登録"}
+			!= haml :footer
