@@ -10,4 +10,8 @@
 				#{session[:user].name} さん ようこそ！
 				%a(href="logout" title="Logout")<Logout
 				%a(href="user" title="setting")<Setting
+			%p
+				%form{:method => "POST", :action => '/entry'}
+				%input{:type => "text", :name => "body"}
+				%input{:type => "submit" , :value => "投稿"}
 			!= haml :footer
