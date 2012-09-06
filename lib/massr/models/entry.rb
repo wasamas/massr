@@ -1,20 +1,28 @@
 # -*- coding: utf-8; -*-
+require 'mongo_mapper'
 
 module Massr
 	class Entry
 		include MongoMapper::Document
-		
-		key :user_id, :type => ObjectId
-		key :entry,   :type => String,   :required => true
-		key :res_id,  :type => ObjectId
-		key :photo,   :type => String
-
-		timestamps!
-		
 		safe
 		
-		belongs_to :user, :class_name => 'User',  :in=> :user_id
-		belongs_to :res , :class_name => 'Entry', :in=> :res_id
-		many :likes
+		key :body,  :type => String, :required => true
+		key :photo, :type => String
+
+		timestamps!
+
+		belongs_to :user  , :class_name => 'Massr::User'
+		belongs_to :res   , :class_name => 'Massr::Entry'
+		many       :likes , :class_name => 'Massr::Like'
+
+		def update_entry(request,session)
+			p session[:user]
+			self[:body]  = request[:body]
+			self[:photo] = request[:photo] if request[:photo]
+			self.user  = session[:user]
+			save!
+
+			return self
+		end
 	end
 end

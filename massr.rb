@@ -65,7 +65,7 @@ module Massr
 		end
 
 		get '/' do
-			haml :index
+			haml :index , :locals => {:entries => Entry.sort(:updated_at).sort(:updated_at.desc).limit(50) }
 		end
 
 		get '/login' do
@@ -110,6 +110,13 @@ module Massr
 			end
 
 			redirect '/'
+		end
+
+		post '/entry' do
+			entry = Entry.new
+			entry.update_entry( request, session )
+			redirect '/'
+			
 		end
 	end
 end

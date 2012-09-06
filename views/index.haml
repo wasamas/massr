@@ -14,4 +14,17 @@
 				%form{:method => "POST", :action => '/entry'}
 				%input{:type => "text", :name => "body"}
 				%input{:type => "submit" , :value => "投稿"}
+			%p
+				- entries.each do |entry|
+					%p
+						%table
+							%tr
+								%td
+									= entry.user.name
+								%td
+									= entry.body
+								%td
+									= entry.created_at
+								%td
+									%a(href="#{entry._id}" title="like")<わかるわ！
 			!= haml :footer
