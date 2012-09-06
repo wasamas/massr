@@ -7,7 +7,9 @@ module Massr
 
 		key :is_read,  :type => Boolean,  :required => true 
 		timestamps!
+
 		embedded_in :entry
+		belongs_to :user  , :class_name => 'Massr::User'
 
 	end 
 end

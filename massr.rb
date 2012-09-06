@@ -65,7 +65,7 @@ module Massr
 		end
 
 		get '/' do
-			haml :index , :locals => {:entries => Entry.sort(:updated_at).sort(:updated_at.desc).limit(50) }
+			haml :index , :locals => {:entries => Entry.sort(:created_at.desc).limit(50) }
 		end
 
 		get '/login' do
@@ -114,10 +114,21 @@ module Massr
 
 		post '/entry' do
 			entry = Entry.new
-			entry.update_entry( request, session )
+			entry.update_entry( request, session ) unless request[:body].size==0
 			redirect '/'
-			
 		end
+		
+		post '/like/:id' do
+			user = session[:user]
+			entry = Entry.find_by_id(params[:id])
+			unless ((entry.likes.map{|like| like.user._id == user._id  }).include? true)
+				p like = Like.new(:user => user)
+				entry.likes << like
+				entry.save!
+			end
+			redirect '/'
+		end
+
 	end
 end
 

@@ -12,8 +12,8 @@
 				%a(href="user" title="setting")<Setting
 			%p
 				%form{:method => "POST", :action => '/entry'}
-				%input{:type => "text", :name => "body"}
-				%input{:type => "submit" , :value => "投稿"}
+					%input{:type => "text", :name => "body"}
+					%input{:type => "submit" , :value => "投稿"}
 			%p
 				- entries.each do |entry|
 					%p
@@ -26,5 +26,13 @@
 								%td
 									= entry.created_at
 								%td
-									%a(href="#{entry._id}" title="like")<わかるわ！
+									%form{:method => "POST", :action => "/like/#{entry._id}"}
+										%input{:type => "submit" , :value => "わかるわ"}
+							- unless entry.likes.size == 0
+								%tr
+									%td
+										わかるわ：
+									%td
+										- entry.likes.each do |like|
+											= like.user.name
 			!= haml :footer
