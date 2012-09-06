@@ -122,7 +122,7 @@ module Massr
 			user = session[:user]
 			entry = Entry.find_by_id(params[:id])
 			unless ((entry.likes.map{|like| like.user._id == user._id  }).include? true)
-				p like = Like.new(:user => user)
+				like = Like.new(:user => user)
 				entry.likes << like
 				entry.save!
 			end

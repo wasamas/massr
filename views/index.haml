@@ -13,17 +13,27 @@
 			%p
 				%form{:method => "POST", :action => '/entry'}
 					%input{:type => "text", :name => "body"}
-					%input{:type => "submit" , :value => "投稿"}
+					%input{:type => "submit" , :value => "投稿にょわー☆"}
 			%p
 				- entries.each do |entry|
 					%hr
-					%p						
+					- if entry.res
+						%p
+							レス元＞
+							= entry.res.user.name
+							：
+							= entry.res.body
+					%p
 						= entry.body
 					%p
 						= entry.user.name
 						= entry.created_at
 						%form{:method => "POST", :action => "/like/#{entry._id}"}
 							%input{:type => "submit" , :value => "わかるわ"}
+						%form{:method => "POST", :action => "/entry"}
+							%input{:type => "text", :name => "body"}
+							%input{:type => "hidden", :name => "res_id", :value => "#{entry._id}" }
+							%input{:type => "submit" , :value => "レスるわ"}
 					%p
 						- unless entry.likes.size == 0
 							わかるわ
