@@ -7,6 +7,7 @@
 		.container
 			!= haml :header
 			%p
+				%img{:SRC => "#{session[:user].twitter_icon_url}",:width => "20" ,:height => "20"}
 				#{session[:user].name} さん ようこそ！
 				%a(href="logout" title="Logout")<Logout
 				%a(href="user" title="setting")<Setting
@@ -26,6 +27,7 @@
 					%p
 						= entry.body
 					%p
+						%img{:SRC => "#{entry.user.twitter_icon_url}",:width => "20" ,:height => "20"}
 						= entry.user.name
 						= entry.created_at
 						%form{:method => "POST", :action => "/like/#{entry._id}"}
@@ -38,5 +40,5 @@
 						- unless entry.likes.size == 0
 							わかるわ
 							- entry.likes.each do |like|
-								= like.user.name
+								%img{:SRC => "#{like.user.twitter_icon_url}",:width => "20" ,:height => "20"}
 			!= haml :footer

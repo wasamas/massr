@@ -79,10 +79,9 @@ module Massr
 
 		get '/auth/twitter/callback' do
 			info = request.env['omniauth.auth']
-
 			session[:twitter_name] = info['extra']['raw_info']['name']
 			session[:twitter_id]   = info['extra']['raw_info']['screen_name']
-			##session[:twitter_icon] = info['extra']['raw_info']['profile_background_image_url']
+			session[:twitter_icon_url] = info['extra']['raw_info']['profile_image_url']
 		end
 
 		after '/auth/twitter/callback' do
@@ -103,6 +102,7 @@ module Massr
 		post '/user' do
 			user = session[:user]
 			request[:twitter_id] = session[:twitter_id]
+			request[:twitter_icon_url] = session[:twitter_icon_url]
 			if user
 				user.update_profile(request)
 			else
