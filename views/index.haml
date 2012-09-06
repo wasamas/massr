@@ -15,25 +15,18 @@
 					%input{:type => "text", :name => "body"}
 					%input{:type => "submit" , :value => "投稿"}
 			%p
-				%table
-					- entries.each do |entry|
-						%p						
-							%tr
-								%td
-									= entry.body
-							%tr
-								%td
-									= entry.user.name
-								%td
-									= entry.created_at
-								%td
-									%form{:method => "POST", :action => "/like/#{entry._id}"}
-										%input{:type => "submit" , :value => "わかるわ"}
-							- unless entry.likes.size == 0
-								%tr
-									%td
-										わかるわ
-									%td
-										- entry.likes.each do |like|
-											= like.user.name
+				- entries.each do |entry|
+					%hr
+					%p						
+						= entry.body
+					%p
+						= entry.user.name
+						= entry.created_at
+						%form{:method => "POST", :action => "/like/#{entry._id}"}
+							%input{:type => "submit" , :value => "わかるわ"}
+					%p
+						- unless entry.likes.size == 0
+							わかるわ
+							- entry.likes.each do |like|
+								= like.user.name
 			!= haml :footer
