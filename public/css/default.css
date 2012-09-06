@@ -22,6 +22,8 @@ div.container {
 	margin-top: 8px;
 	overflow: hidden;
 	max-width: 700px;
+	padding: 8px;
+	border-radius: 4px;
 }
 
 h1 {
@@ -29,8 +31,17 @@ h1 {
 }
 
 footer {
-	background-image: url('/image/masao.jpg');
+	background-image: url('/image/masao_footer.jpg');
 	background-repeat: no-repeat;
 	background-position: right bottom;
-	height: 364px;
+	height: 100px;
+	position: relative;
+}
+
+footer div {
+	position: absolute;
+	bottom: 0px;
+	right: 100px;
+	width: 100%;
+	text-align:right;
 }
