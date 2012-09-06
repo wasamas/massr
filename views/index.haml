@@ -30,8 +30,12 @@
 						%img{:SRC => "#{entry.user.twitter_icon_url}",:width => "20" ,:height => "20"}
 						= entry.user.name
 						= entry.created_at
-						%form{:method => "POST", :action => "/like/#{entry._id}"}
-							%input{:type => "submit" , :value => "わかるわ"}
+						- if (entry.likes.map{|like| like.user._id == session[:user]._id  }).include? true
+							%form{:method => "POST", :action => "/like/#{entry._id}"}
+								%input{:type => "image" ,:src=>"/image/wakaranaiwa.png", :value => "わからないわ"}
+						- else
+							%form{:method => "POST", :action => "/like/#{entry._id}"}
+								%input{:type => "image" ,:src=>"/image/wakaruwa.png", :value => "わかるわ"}
 						%form{:method => "POST", :action => "/entry"}
 							%input{:type => "text", :name => "body"}
 							%input{:type => "hidden", :name => "res_id", :value => "#{entry._id}" }
