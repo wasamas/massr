@@ -15,14 +15,15 @@
 					%input{:type => "text", :name => "body"}
 					%input{:type => "submit" , :value => "投稿"}
 			%p
-				- entries.each do |entry|
-					%p
-						%table
+				%table
+					- entries.each do |entry|
+						%p						
+							%tr
+								%td
+									= entry.body
 							%tr
 								%td
 									= entry.user.name
-								%td
-									= entry.body
 								%td
 									= entry.created_at
 								%td
@@ -31,7 +32,7 @@
 							- unless entry.likes.size == 0
 								%tr
 									%td
-										わかるわ：
+										わかるわ
 									%td
 										- entry.likes.each do |like|
 											= like.user.name
