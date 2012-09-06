@@ -7,12 +7,14 @@ def prototype(no)
 		{
 			:massr_id => 'wasamas',
 			:twitter_id => '1234567',
+			:twitter_icon_url => 'http://example.com/foo1.png',
 			:name => 'わさます',
 			:email => 'wasamas@example.com',
 		},
 		{
 			:massr_id => 'wasamas2',
 			:twitter_id => '7654321',
+			:twitter_icon_url => 'http://example.com/foo2.png',
 			:name => 'わさます2',
 			:email => 'wasamas2@example.com',
 		}
@@ -33,6 +35,7 @@ describe 'Massr::User' do
 		context '新規ユーザ登録が正常にできているか' do
 			its(:massr_id) { should eq(prototype(0)[:massr_id]) }
 			its(:twitter_id) { should eq(prototype(0)[:twitter_id]) }
+			its(:twitter_icon_url) { should eq(prototype(0)[:twitter_icon_url]) }
 			its(:name) { should eq(prototype(0)[:name]) }
 			its(:email) { should eq(prototype(0)[:email]) }
 		end
@@ -51,6 +54,7 @@ describe 'Massr::User' do
 			subject{ @user }
 
 			its(:twitter_id) { should eq(prototype(1)[:twitter_id]) }
+			its(:twitter_icon_url) { should eq(prototype(1)[:twitter_icon_url]) }
 			its(:name) { should eq(prototype(1)[:name]) }
 			its(:email) { should eq(prototype(1)[:email]) }
 
