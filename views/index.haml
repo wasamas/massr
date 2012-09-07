@@ -31,8 +31,8 @@
 						= entry.user.name
 						= entry.created_at
 						- if (entry.likes.map{|like| like.user._id == session[:user]._id  }).include? true
-							%form{:method => "POST", :action => "/like/#{entry._id}"}
-								%input{:type => "image" ,:src=>"/image/wakaranaiwa.png", :value => "わからないわ"}
+							%p
+								%input{:type => "image" ,:src=>"/image/wakaranaiwa.png", :value => "わからないわ" , :onClick=>"doDetele('#{entry._id}');"}
 						- else
 							%form{:method => "POST", :action => "/entry/#{entry._id}/like"}
 								%input{:type => "image" ,:src=>"/image/wakaruwa.png", :value => "わかるわ"}

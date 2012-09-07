@@ -118,14 +118,23 @@ module Massr
 			redirect '/'
 		end
 		
+		before '/entry/:id/like' do
+			@user = session[:user]
+			@entry = Entry.find_by_id(params[:id])
+		end
+		
 		post '/entry/:id/like' do
-			user = session[:user]
-			entry = Entry.find_by_id(params[:id])
-			unless ((entry.likes.map{|like| like.user._id == user._id  }).include? true)
-				like = Like.new(:user => user)
-				entry.likes << like
-				entry.save!
+			unless ((@entry.likes.map{|like| like.user._id == @user._id  }).include? true)
+				like = Like.new(:user => @user)
+				@entry.likes << like
+				@entry.save!
 			end
+			redirect '/'
+		end
+
+		delete '/entry/:id/like' do
+			@entry.likes.delete_if{ |like| like.user.id == @user._id}
+			@entry.save!
 			redirect '/'
 		end
 
