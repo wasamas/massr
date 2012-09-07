@@ -5,3 +5,10 @@
 			%a(href="/logout" title="Logout")<Logout
 		%li
 			%a(href="/user" title="setting")<Setting
+	%p<メンバ
+	- Massr::User.sort(:created_at.desc).each do |user|
+		%p
+			%img{:SRC => "#{user.twitter_icon_url}" ,:width => "45" ,:height => "45"}
+			= user.name
+			= user.massr_id
+			= user.created_at
