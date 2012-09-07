@@ -52,7 +52,7 @@ module Massr
 		use Rack::Session::Cookie,:expire_after => 3600, :secret => ENV['SESSION_SECRET']
 
 		#表示エントリ数
-		@limit = 20
+		$limit = 20
 
 		enable :sessions
 
@@ -68,7 +68,7 @@ module Massr
 		end
 
 		get '/' do
-			haml :index , :locals => {:entries => Entry.sort(:created_at.desc).limit(@limit) }
+			haml :index , :locals => {:entries => Entry.sort(:created_at.desc).limit($limit) }
 		end
 
 		get '/login' do
