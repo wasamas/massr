@@ -34,7 +34,7 @@
 							%form{:method => "POST", :action => "/like/#{entry._id}"}
 								%input{:type => "image" ,:src=>"/image/wakaranaiwa.png", :value => "わからないわ"}
 						- else
-							%form{:method => "POST", :action => "/like/#{entry._id}"}
+							%form{:method => "POST", :action => "/entry/#{entry._id}/like"}
 								%input{:type => "image" ,:src=>"/image/wakaruwa.png", :value => "わかるわ"}
 						%form{:method => "POST", :action => "/entry"}
 							%input{:type => "text", :name => "body"}

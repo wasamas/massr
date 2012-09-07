@@ -118,7 +118,7 @@ module Massr
 			redirect '/'
 		end
 		
-		post '/like/:id' do
+		post '/entry/:id/like' do
 			user = session[:user]
 			entry = Entry.find_by_id(params[:id])
 			unless ((entry.likes.map{|like| like.user._id == user._id  }).include? true)
