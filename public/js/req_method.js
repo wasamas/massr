@@ -1,4 +1,4 @@
-function doDetele(id) {
+function del_like(id) {
 	 $.ajax({
 		  url: '/entry/'+id+'/like',
 		  type: 'DELETE',
