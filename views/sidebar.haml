@@ -1,11 +1,11 @@
 %aside
-	%p<メニュー
+	%h2<メニュー
 	%ul
 		%li
 			%a(href="/logout" title="Logout")<Logout
 		%li
 			%a(href="/user" title="setting")<Setting
-	%p<メンバ
+	%h2<メンバ
 	- Massr::User.sort(:created_at.desc).each do |user|
 		%p
 			%img{:SRC => "#{user.twitter_icon_url}" ,:width => "45" ,:height => "45"}

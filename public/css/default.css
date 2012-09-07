@@ -36,6 +36,15 @@ h1 {
 	text-align: left;
 }
 
+aside {
+	padding: 4px;
+}
+
+aside h2 {
+	font-size: medium;
+	font-weight: bold;
+}
+
 footer {
 	background-image: url('/img/masao_footer.jpg');
 	background-repeat: no-repeat;
