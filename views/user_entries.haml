@@ -10,6 +10,5 @@
 				.span8
 					!= haml :entries ,:locals => {:entries => entries}
 				.span4
-					%aside
-						サイドバー
+					!= haml :sidebar
 		!= haml :footer

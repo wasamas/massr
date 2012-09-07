@@ -17,10 +17,5 @@
 							%input{:type => "submit" , :value => "投稿にょわー☆"}
 					!= haml :entries ,:locals => {:entries => entries}
 				.span4
-					%aside
-						%ul
-							%li
-								%a(href="/logout" title="Logout")<Logout
-							%li
-								%a(href="/user" title="setting")<Setting
+					!= haml :sidebar
 		!= haml :footer
