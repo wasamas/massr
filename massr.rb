@@ -130,6 +130,10 @@ module Massr
 			redirect '/'
 		end
 		
+		get '/entry/:id' do
+			haml :user_entry, :locals => {:entry => Entry.find_by_id(params[:id])}
+		end
+
 		delete '/entry/:id' do
 			Entry.destroy(params[:id])
 			redirect '/'
