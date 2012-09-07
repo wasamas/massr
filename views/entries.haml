@@ -10,8 +10,9 @@
 		%p
 			= entry.body
 		%p
-			%img{:SRC => "#{entry.user.twitter_icon_url}",:width => "20" ,:height => "20"}
-			= entry.user.name
+			%a{:href => "/user/#{entry.user.massr_id}"}<
+				%img{:SRC => "#{entry.user.twitter_icon_url}",:width => "45" ,:height => "45"}
+			%a{:href => "/user/#{entry.user.massr_id}"}<#{entry.user.name}
 			= entry.created_at
 			- if entry.user._id == session[:user]._id
 				%input{:type => "image" ,:src=>"/img/delete.png", :value => "削除" , :onClick=>"del_entry('#{entry._id}');"}
@@ -29,4 +30,5 @@
 			- unless entry.likes.size == 0
 				わかるわ
 				- entry.likes.each do |like|
-					%img{:SRC => "#{like.user.twitter_icon_url}",:width => "20" ,:height => "20"}
+					%a{:href => "/user/#{like.user.massr_id}"}<
+						%img{:SRC => "#{like.user.twitter_icon_url}",:width => "20" ,:height => "20"}
