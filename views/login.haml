@@ -6,5 +6,7 @@
 	%body
 		.container
 			!= haml :header
-			%a(href="/auth/twitter" title="Login")<Login
+			.row-fluid
+				.span12
+					%a(href="/auth/twitter" title="Login")<Login
 			!= haml :footer
