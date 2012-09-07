@@ -32,6 +32,8 @@
 								%img{:SRC => "#{entry.user.twitter_icon_url}",:width => "20" ,:height => "20"}
 								= entry.user.name
 								= entry.created_at
+								- if entry.user._id == session[:user]._id
+									%input{:type => "image" ,:src=>"/img/delete.png", :value => "削除" , :onClick=>"del_entry('#{entry._id}');"}
 								- if (entry.likes.map{|like| like.user._id == session[:user]._id  }).include? true
 									%p
 										%input{:type => "image" ,:src=>"/img/wakaruwa.png", :value => "わからないわ" , :onClick=>"del_like('#{entry._id}');"}

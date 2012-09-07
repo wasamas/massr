@@ -118,6 +118,11 @@ module Massr
 			redirect '/'
 		end
 		
+		delete '/entry/:id' do
+			Entry.destroy(params[:id])
+			redirect '/'
+		end
+
 		before '/entry/:id/like' do
 			@user = session[:user]
 			@entry = Entry.find_by_id(params[:id])
