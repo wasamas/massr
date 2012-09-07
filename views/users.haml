@@ -10,11 +10,12 @@
 				.span8
 					%p
 						=session[:errors]
-					%p
 						- users.each do |user|
-							%img{:SRC => "#{user.twitter_icon_url}" ,:width => "45" ,:height => "45"}
-							= user.name
-							= user.massr_id
+							%p
+								%img{:SRC => "#{user.twitter_icon_url}" ,:width => "45" ,:height => "45"}
+								= user.name
+								= user.massr_id
+							   = user.created_at
 				.span4
 					%aside
 						サイドバー
