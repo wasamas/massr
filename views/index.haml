@@ -11,8 +11,6 @@
 					%p
 						%img{:SRC => "#{session[:user].twitter_icon_url}",:width => "20" ,:height => "20"}
 						#{session[:user].name} さん ようこそ！
-						%a(href="logout" title="Logout")<Logout
-						%a(href="user" title="setting")<Setting
 					%p
 						%form{:method => "POST", :action => "/entry"}
 							%input{:type => "text", :name => "body"}
@@ -20,5 +18,9 @@
 					!= haml :entries ,:locals => {:entries => entries}
 				.span4
 					%aside
-						サイドバー
+						%ul
+							%li
+								%a(href="/logout" title="Logout")<Logout
+							%li
+								%a(href="/user" title="setting")<Setting
 		!= haml :footer
