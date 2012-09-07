@@ -9,7 +9,7 @@ function del_like(id) {
 }
 
 function del_entry(id) {
-	if(window.confirm('本当に削除してよろしいいですか？'));
+	if(window.confirm('本当に削除してよろしいいですか？'))
 	{
 		$.ajax({
 			url: '/entry/'+id,
