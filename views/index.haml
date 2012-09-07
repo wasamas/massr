@@ -17,38 +17,7 @@
 						%form{:method => "POST", :action => "/entry"}
 							%input{:type => "text", :name => "body"}
 							%input{:type => "submit" , :value => "投稿にょわー☆"}
-					%p
-						- entries.each do |entry|
-							%hr
-							- if entry.res
-								%p
-									レス元＞
-									= entry.res.user.name
-									：
-									= entry.res.body
-							%p
-								= entry.body
-							%p
-								%img{:SRC => "#{entry.user.twitter_icon_url}",:width => "20" ,:height => "20"}
-								= entry.user.name
-								= entry.created_at
-								- if entry.user._id == session[:user]._id
-									%input{:type => "image" ,:src=>"/img/delete.png", :value => "削除" , :onClick=>"del_entry('#{entry._id}');"}
-								- if (entry.likes.map{|like| like.user._id == session[:user]._id  }).include? true
-									%p
-										%input{:type => "image" ,:src=>"/img/wakaruwa.png", :value => "わからないわ" , :onClick=>"del_like('#{entry._id}');"}
-								- else
-									%form{:method => "POST", :action => "/entry/#{entry._id}/like"}
-										%input{:type => "image" ,:src=>"/img/wakaranaiwa.png", :value => "わかるわ"}
-								%form{:method => "POST", :action => "/entry"}
-									%input{:type => "text", :name => "body"}
-									%input{:type => "hidden", :name => "res_id", :value => "#{entry._id}" }
-									%input{:type => "submit" , :value => "レスるわ"}
-							%p
-								- unless entry.likes.size == 0
-									わかるわ
-									- entry.likes.each do |like|
-										%img{:SRC => "#{like.user.twitter_icon_url}",:width => "20" ,:height => "20"}
+					!= haml :entries ,:locals => {:entries => entries}
 				.span4
 					%aside
 						サイドバー

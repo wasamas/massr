@@ -51,6 +51,9 @@ module Massr
 		use OmniAuth::Strategies::Twitter  , @auth_twitter[:id]  , @auth_twitter[:secret]
 		use Rack::Session::Cookie,:expire_after => 3600, :secret => ENV['SESSION_SECRET']
 
+		#表示エントリ数
+		@limit = 20
+
 		enable :sessions
 
 		before do
@@ -65,7 +68,7 @@ module Massr
 		end
 
 		get '/' do
-			haml :index , :locals => {:entries => Entry.sort(:created_at.desc).limit(50) }
+			haml :index , :locals => {:entries => Entry.sort(:created_at.desc).limit(@limit) }
 		end
 
 		get '/login' do
@@ -101,6 +104,11 @@ module Massr
 
 		get '/user' do
 			haml :user
+		end
+
+		get '/user/:massr_id' do
+			user = User.find_by_massr_id(params[:massr_id])
+			haml :user_entries , :locals => {:entries => Entry.all(:user_id => user._id , :order => :created_at.desc, :limit => @limit) }
 		end
 
 		post '/user' do
