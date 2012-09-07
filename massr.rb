@@ -95,6 +95,10 @@ module Massr
 			end
 		end
 
+		get '/users.html' do
+			haml :users , :locals => { :users => User.sort(:created_at.desc) }
+		end
+
 		get '/user' do
 			haml :user
 		end
