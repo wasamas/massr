@@ -29,6 +29,8 @@ module Massr
 			Bundler.require :development
 			register Sinatra::Reloader
 
+			disable :protection
+
 			@auth_twitter = Pit::get( 'auth_twitter', :require => {
 					:id => 'your CUNSUMER KEY of Twitter APP.',
 					:secret => 'your CUNSUMER SECRET of Twitter APP.',
