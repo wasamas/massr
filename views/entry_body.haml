@@ -4,7 +4,7 @@
 	%a{:href => "/user/#{entry.user.massr_id}"}<
 		%img{:SRC => "#{entry.user.twitter_icon_url}",:width => "45" ,:height => "45"}
 	%a{:href => "/user/#{entry.user.massr_id}"}<#{entry.user.name}
-	%a{:href => "/entry/#{entry._id}"}<#{entry.created_at}
+	%a{:href => "/entry/#{entry._id}"}<#{entry.created_at.localtime}
 	- if entry.user._id == session[:user]._id
 		%a(href="#" onClick="del_entry('#{entry._id}');")
 			%i.icon-trash

@@ -15,7 +15,7 @@
 							%img{:SRC => "#{user.twitter_icon_url}" ,:width => "45" ,:height => "45"}
 							= user.name
 							= user.massr_id
-							= user.created_at
+							= user.created_at.localtime
 				.span4
 					!= haml :sidebar
 			!= haml :footer
