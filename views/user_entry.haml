@@ -9,7 +9,9 @@
 			.row-fluid
 				.span8
 					%p
-						!= haml :entry ,:locals => {:entry => entry}
+						!= haml :entry_head ,:locals => {:entry => entry}
+						!= haml :entry_body ,:locals => {:entry => entry}
+						!= haml :entry_foot ,:locals => {:entry => entry}
 				.span4
 					!= haml :sidebar
 		!= haml :footer

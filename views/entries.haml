@@ -1,4 +1,5 @@
 %p
 	- entries.each do |entry|
 		%hr
-		!= haml :entry , :locals => {:entry => entry}
+		!= haml :entry_head , :locals => {:entry => entry}
+		!= haml :entry_body , :locals => {:entry => entry}

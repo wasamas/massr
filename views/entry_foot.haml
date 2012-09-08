@@ -1,0 +1,3 @@
+%p
+	- entry.ref.each do |res|
+		!= haml :entry_body , :locals => {:entry => res}
