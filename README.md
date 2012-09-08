@@ -28,7 +28,7 @@ http://127.0.0.1:9393 へ接続し、動作確認
 
 ### Heroku環境(production)での実行方法
 ```sh 
-$ git clone git://github.com/tdtds/massr.gi
+$ git clone git://github.com/tdtds/massr.git
 $ cd massr
 $ mkdir vendor
 $ bundle install --path vendor/bundle
