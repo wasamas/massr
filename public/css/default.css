@@ -60,22 +60,26 @@ footer div {
 }
 
 textarea {
-	 width: 90%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+	width: 90%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 img.massr_icon {
-	 width: 45px;
-	 height: 45px;
+	width: 45px;
+	eight: 45px;
 }
 
 img.massr_icon_mini {
-	 width: 20px;
-	 height: 20px;
+	width: 20px;
+	height: 20px;
 }
 
 div.response {
-	 display: none;
+	display: none;
+}
+
+.inline {
+	 display: inline;
 }

@@ -1,7 +1,7 @@
 %div{:id=>"#{entry._id}"}
 %p
 	= entry.body
-%p
+%p{:class=>"inline"}
 	%a{:href => "/user/#{entry.user.massr_id}"}<
 		%img{:SRC => "#{entry.user.twitter_icon_url}",:width => "45" ,:height => "45"}
 	%a{:href => "/user/#{entry.user.massr_id}"}<#{entry.user.name}
@@ -9,14 +9,13 @@
 	- if entry.user._id == session[:user]._id
 		%a(href="#" onClick="del_entry('#{entry._id}');")
 			%i.icon-trash
-	%p
-		- if (entry.likes.map{|like| like.user._id == session[:user]._id  }).include? true
-			%input{:type => "image" ,:src=>"/img/wakaruwa.png", :value => "わからないわ" , :onClick=>"del_like('#{entry._id}');"}
-		- else
-			%form{:method => "POST", :action => "/entry/#{entry._id}/like"}
+	- if (entry.likes.map{|like| like.user._id == session[:user]._id  }).include? true
+		%input{:type => "image" ,:src=>"/img/wakaruwa.png", :value => "わからないわ" , :onClick=>"del_like('#{entry._id}');"}
+	- else
+		%form{:method => "POST", :action => "/entry/#{entry._id}/like" ,:class => "inline"}
 			%input{:type => "image" ,:src=>"/img/wakaranaiwa.png", :value => "わかるわ"}
-		%a{:href=>"##{entry._id}", :onClick => "toggle_response('#{entry._id}');"}<
-			%i.icon-comment
+	%a{:href=>"##{entry._id}", :onClick => "toggle_response('#{entry._id}');"}<
+		%i.icon-comment
 	.response{:id=>"res#{entry._id}"}
 		%form{:method => "POST", :action => "/entry"}
 			%textarea{:type => "text", :name => "body"}
