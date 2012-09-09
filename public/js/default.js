@@ -20,3 +20,7 @@ function del_entry(id) {
 		});
 	}
 }
+
+function toggle_response(id) {
+	 $("#res"+id).toggle();
+}
