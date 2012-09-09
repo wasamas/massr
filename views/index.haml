@@ -9,9 +9,6 @@
 			.row-fluid
 				.span8
 					%p
-						%img{:SRC => "#{session[:user].twitter_icon_url}",:width => "20" ,:height => "20"}
-						#{session[:user].name} さん ようこそ！
-					%p
 						%form{:method => "POST", :action => "/entry"}
 							%p
 								%textarea{:type => "text", :name => "body"}

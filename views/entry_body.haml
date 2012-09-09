@@ -23,4 +23,4 @@
 		わかるわ
 		- entry.likes.each do |like|
 			%a{:href => "/user/#{like.user.massr_id}"}<
-				%img{:SRC => "#{like.user.twitter_icon_url}",:width => "20" ,:height => "20", :title => "#{like.user.name}", :alt => "#{like.user.name}"}
+				%img{:SRC => "#{like.user.twitter_icon_url}", :class => "massr_icon_mini", :title => "#{like.user.name}", :alt => "#{like.user.name}"}
