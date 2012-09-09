@@ -19,7 +19,7 @@
 			%i.icon-comment
 	.response{:id=>"res#{entry._id}"}
 		%form{:method => "POST", :action => "/entry"}
-			%input{:type => "text", :name => "body"}
+			%textarea{:type => "text", :name => "body"}
 			%input{:type => "hidden", :name => "res_id", :value => "#{entry._id}" }
 			%input{:type => "submit" , :value => "レスるわ"}
 %p
