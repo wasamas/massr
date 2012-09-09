@@ -51,7 +51,7 @@ module Massr
 		end
 
 		use OmniAuth::Strategies::Twitter  , @auth_twitter[:id]  , @auth_twitter[:secret]
-		use Rack::Session::Cookie,:expire_after => 3600, :secret => ENV['SESSION_SECRET']
+		use Rack::Session::Cookie,:expire_after => 6 * 30 * 24 * 60 * 60 , :secret => ENV['SESSION_SECRET']
 
 		#表示エントリ数
 		$limit = 20
