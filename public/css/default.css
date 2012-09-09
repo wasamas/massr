@@ -58,3 +58,10 @@ footer div {
 	bottom: 0px;
 	text-align:right;
 }
+
+textarea {
+	 width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

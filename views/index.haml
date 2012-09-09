@@ -13,8 +13,10 @@
 						#{session[:user].name} さん ようこそ！
 					%p
 						%form{:method => "POST", :action => "/entry"}
-							%input{:type => "text", :name => "body"}
-							%input{:type => "submit" , :value => "投稿にょわー☆"}
+							%p
+								%textarea{:type => "text", :name => "body"}
+							%p
+								%input{:type => "submit" , :value => "投稿にょわー☆"}
 					!= haml :entries ,:locals => {:entries => entries}
 				.span4
 					!= haml :sidebar
