@@ -70,7 +70,8 @@ module Massr
 		end
 
 		get '/' do
-			haml :index , :locals => {:entries => Entry.sort(:created_at.desc).limit($limit) }
+			page = params[:page]?params[:page]:0
+			haml :index , :locals => {:page => page , :entries => Entry.get_entries(page)}
 		end
 
 		get '/login' do
@@ -110,7 +111,8 @@ module Massr
 
 		get '/user/:massr_id' do
 			user = User.find_by_massr_id(params[:massr_id])
-			haml :user_entries , :locals => {:entries => Entry.all(:user_id => user._id , :order => :created_at.desc, :limit => @limit) }
+			page = params[:page]?params[:page]:0
+			haml :user_entries , :locals => {:page=>page,:entries => Entry.get_entries(page,{:user_id => user.id}) }		   
 		end
 
 		post '/user' do
@@ -159,6 +161,13 @@ module Massr
 			@entry.likes.delete_if{ |like| like.user.id == @user._id}
 			@entry.save!
 			redirect '/'
+		end
+		
+		post '/search' do
+			page = params[:page]?params[:page]:0
+			haml :index , :locals => {
+				:page => page , 
+				:entries => Entry.get_entries(page,{:body=>/.*#{params[:search]}.*/})}
 		end
 
 	end

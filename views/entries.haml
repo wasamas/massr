@@ -3,3 +3,8 @@
 		%hr
 		!= haml :entry_head , :locals => {:entry => entry}
 		!= haml :entry_body , :locals => {:entry => entry}
+%p
+	- if page != "1"
+		%a{:href => "#{request.path_info}?page=#{page.to_i-1}"}<prev
+	%a{:href => "#{request.path_info}?page=#{page.to_i+1}"}<next
+

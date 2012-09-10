@@ -9,6 +9,13 @@
 			%a(href="/logout" title="Logout")<Logout
 		%li
 			%a(href="/user" title="setting")<Setting
+		%li
+			Search
+			%form{:method => "POST", :action => "/search"}
+				%p
+					%input{:type => "text", :name => "search"}
+				%p
+					%input{:type => "submit" , :value => "みつけるわ"}
 	%h2<メンバ
 	- Massr::User.sort(:created_at.desc).each do |user|
 		%p

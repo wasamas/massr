@@ -8,7 +8,7 @@
 		.container
 			.row-fluid
 				.span8
-					!= haml :entries ,:locals => {:entries => entries}
+					!= haml :entries ,:locals => {:page=>page,:entries => entries}
 				.span4
 					!= haml :sidebar
 		!= haml :footer

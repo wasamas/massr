@@ -14,7 +14,7 @@
 								%textarea{:type => "text", :name => "body"}
 							%p
 								%input{:type => "submit" , :value => "投稿にょわー☆"}
-					!= haml :entries ,:locals => {:entries => entries}
+					!= haml :entries ,:locals => {:page=>page,:entries => entries}
 				.span4
 					!= haml :sidebar
 		!= haml :footer

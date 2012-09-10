@@ -16,6 +16,13 @@ module Massr
 		many       :likes , :class_name => 'Massr::Like'
 		many       :ref   , :class_name => 'Massr::Entry'
 
+		def self.get_entries(page,options={})
+			options[:order]    = :created_at.desc
+			options[:per_page] = $limit
+			options[:page]     = page
+			return self.paginate(options)
+		end
+
 		def update_entry(request,session)
 			self[:body]  = request[:body]
 			self[:photo] = request[:photo] if request[:photo]
@@ -29,5 +36,6 @@ module Massr
 
 			return self
 		end
+		
 	end
 end
