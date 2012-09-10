@@ -40,6 +40,11 @@
 								%td
 								%td
 									%input{:type => "submit" , :value => "登録"}
+							-if session[:user]
+								%tr
+									%td
+									%td
+										%input{:type => "button" , :value => "削除" ,:onClick=>"del_user();"}
 				-if session[:user]
 					.span4
 						!= haml :sidebar

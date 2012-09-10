@@ -21,6 +21,19 @@ function del_entry(id) {
 	}
 }
 
+function del_user(id) {
+	if(window.confirm('本当に削除してよろしいいですか？'))
+	{
+		$.ajax({
+			url: '/user',
+			type: 'DELETE',
+			success: function(result) {
+				location.href="/";
+			}
+		});
+	}
+}
+
 function toggle_response(id) {
 	 $("#res"+id).toggle();
 }

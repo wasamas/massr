@@ -14,6 +14,8 @@ module Massr
 
 		timestamps!
 
+		many :entry , :class_name => 'Massr::Entry', :dependent => :destroy
+
 		def self.create_by_registration_form( request )
 			user = User.new( :massr_id => request[:massr_id] )
 			user.update_profile( request )

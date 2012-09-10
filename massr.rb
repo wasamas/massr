@@ -128,6 +128,13 @@ module Massr
 			redirect '/'
 		end
 
+		delete '/user' do
+			user = session[:user]
+			user.destroy
+			session.clear
+			redirect '/'
+		end
+
 		post '/entry' do
 			entry = Entry.new
 			entry.update_entry( request, session ) unless request[:body].size==0

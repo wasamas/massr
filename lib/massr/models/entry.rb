@@ -31,8 +31,12 @@ module Massr
 				self.res   = res_entry
 				res_entry.ref << self
 			end
-			self.user  = session[:user]
-			save!
+			user = session[:user]
+			self.user  = user
+			
+			if save!
+				user.entry << self
+			end
 
 			return self
 		end
