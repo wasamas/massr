@@ -70,7 +70,7 @@ module Massr
 		end
 
 		get '/' do
-			page = params[:page]?params[:page]:0
+			page = params[:page]?params[:page]:1
 			haml :index , :locals => {:page => page , :entries => Entry.get_entries(page)}
 		end
 
@@ -164,7 +164,7 @@ module Massr
 		end
 		
 		post '/search' do
-			page = params[:page]?params[:page]:0
+			page = params[:page]?params[:page]:1
 			haml :index , :locals => {
 				:page => page , 
 				:entries => Entry.get_entries(page,{:body=>/.*#{params[:search]}.*/})}
