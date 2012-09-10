@@ -40,6 +40,7 @@
 								%td
 								%td
 									%input{:type => "submit" , :value => "登録"}
-				.span4
-					!= haml :sidebar
+				-if session[:user]
+					.span4
+						!= haml :sidebar
 			!= haml :footer
