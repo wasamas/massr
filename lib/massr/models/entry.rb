@@ -36,7 +36,7 @@ module Massr
 
 			user = request[:user]
 			self.user  = user
-			
+
 			if save!
 				user.entries << self
 				user.save!

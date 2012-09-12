@@ -158,15 +158,17 @@ module Massr
 		end
 		
 		post '/entry/:id/like' do
+			@entry.likes.delete_if{ |like| !like.user}
 			unless ((@entry.likes.map{|like| like.user._id == @user._id  }).include? true)
 				like = Like.new(:user => @user)
 				@entry.likes << like
-				@entry.save!
 			end
+			@entry.save!
 			redirect '/'
 		end
 
 		delete '/entry/:id/like' do
+			@entry.likes.delete_if{ |like| !like.user}
 			@entry.likes.delete_if{ |like| like.user.id == @user._id}
 			@entry.save!
 			redirect '/'
