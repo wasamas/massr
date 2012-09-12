@@ -11,6 +11,7 @@
 					%p
 						=session[:errors]
 					%form{:method => "POST", :action => '/user'}
+						- user = Massr::User.find_by_id(session[:user_id]) if session[:user_id]
 						%table
 							%tr
 								%td Massr ID
@@ -25,27 +26,27 @@
 							%tr
 								%td 表示名
 								%td
-									- if session[:user] == nil
+									- if !user
 										%input{:type => "text", :name => "name" ,:value => "#{session[:twitter_name]}"}
 									- else
-										%input{:type => "text", :name => "name" ,:value => "#{session[:user].name}"}
+										%input{:type => "text", :name => "name" ,:value => "#{user.name}"}
 							%tr
 								%td E-Mail
 								%td
-									- if session[:user] == nil
+									- if !user
 										%input{:type => "text", :name => "email" , :value => ""}
 									- else
-										%input{:type => "text", :name => "email" , :value => "#{session[:user].email}"}
+										%input{:type => "text", :name => "email" , :value => "#{user.email}"}
 							%tr
 								%td
 								%td
 									%input{:type => "submit" , :value => "登録"}
-							-if session[:user]
+							-if user
 								%tr
 									%td
 									%td
 										%input{:type => "button" , :value => "削除" ,:onClick=>"del_user();"}
-				-if session[:user]
+				-if !user
 					.span4
 						!= haml :sidebar
 			!= haml :footer

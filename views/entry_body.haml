@@ -6,11 +6,11 @@
 		%img{:SRC => "#{entry.user.twitter_icon_url}",:width => "45" ,:height => "45"}
 	%a{:href => "/user/#{entry.user.massr_id}"}<#{entry.user.name}
 	%a{:href => "/entry/#{entry._id}"}<#{entry.created_at.localtime}
-	- if entry.user._id == session[:user]._id
+	- if entry.user._id == session[:user_id]
 		%a(href="#" onClick="del_entry('#{entry._id}');")
 			%i.icon-trash
 	- entry.likes.delete_if{|like| !like.user}
-	- if (entry.likes.map{|like| like.user._id == session[:user]._id  }).include? true
+	- if (entry.likes.map{|like| like.user._id == session[:user_id]  }).include? true
 		%input{:type => "image" ,:src=>"/img/wakaruwa.png", :value => "わからないわ" , :onClick=>"del_like('#{entry._id}');"}
 	- else
 		%form{:method => "POST", :action => "/entry/#{entry._id}/like" ,:class => "inline"}

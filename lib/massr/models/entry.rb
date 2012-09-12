@@ -14,7 +14,7 @@ module Massr
 
 		belongs_to :user  , :class_name => 'Massr::User'
 		belongs_to :res   , :class_name => 'Massr::Entry'
-		many       :likes , :class_name => 'Massr::Like'  , :dependent => :destroy
+		many       :likes , :class_name => 'Massr::Like'  , :dependent => :delete_all
 		many       :refs  , :class_name => 'Massr::Entry' , :in => :ref_ids
 
 		def self.get_entries(page,options={})
@@ -24,7 +24,7 @@ module Massr
 			return self.paginate(options)
 		end
 
-		def update_entry(request,session)
+		def update_entry(request)
 			self[:body]  = request[:body]
 			self[:photo] = request[:photo] if request[:photo]
 
@@ -34,7 +34,7 @@ module Massr
 				self.res   = res_entry
 			end
 
-			user = session[:user]
+			user = request[:user]
 			self.user  = user
 			
 			if save!

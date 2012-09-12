@@ -1,9 +1,10 @@
 %aside
-	-if session[:user]
+	-if session[:user_id]
+		- user = Massr::User.find_by_id(session[:user_id])
 		%p
-			%a{:href => "/user/#{session[:user].massr_id}"}<
-				%img{:SRC => "#{session[:user].twitter_icon_url}",:class => "massr_id"}
-				#{session[:user].name}
+			%a{:href => "/user/#{user.massr_id}"}<
+				%img{:SRC => "#{user.twitter_icon_url}", :class => "massr_id"}
+				#{user.name}
 		%h2<メニュー
 		%ul
 			%li

@@ -65,7 +65,7 @@ module Massr
 			when '/user'
 				redirect '/login' unless session[:twitter_id]
 			else
-				redirect '/login' unless session[:user]
+				redirect '/login' unless session[:user_id]
 			end
 		end
 
@@ -94,7 +94,7 @@ module Massr
 			##登録済みチェック
 			user = User.find_by_twitter_id(session[:twitter_id])
 			if user
-				session[:user] = user
+				session[:user_id] = user._id
 				redirect '/'
 			else
 				redirect '/user'
@@ -116,20 +116,21 @@ module Massr
 		end
 
 		post '/user' do
-			user = session[:user]
+			user = User.find_by_id(session[:user_id])
 			request[:twitter_id] = session[:twitter_id]
 			request[:twitter_icon_url] = session[:twitter_icon_url]
 			if user
 				user.update_profile(request)
 			else
-				session[:user] = User.create_by_registration_form( request )
+				user = User.create_by_registration_form( request )
+				session[:user_id] = user._id
 			end
 
 			redirect '/'
 		end
 
 		delete '/user' do
-			user = session[:user]
+			user = User.find_by_id(session[:user_id])
 			user.destroy
 			session.clear
 			redirect '/'
@@ -137,7 +138,8 @@ module Massr
 
 		post '/entry' do
 			entry = Entry.new
-			entry.update_entry( request, session ) unless request[:body].size==0
+			request[:user] = User.find_by_id(session[:user_id])
+			entry.update_entry( request ) unless request[:body].size==0
 			redirect '/'
 		end
 		
@@ -151,7 +153,7 @@ module Massr
 		end
 
 		before '/entry/:id/like' do
-			@user = session[:user]
+			@user = User.find_by_id(session[:user_id])
 			@entry = Entry.find_by_id(params[:id])
 		end
 		
