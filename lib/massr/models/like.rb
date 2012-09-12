@@ -9,7 +9,7 @@ module Massr
 		timestamps!
 
 		embedded_in :entry
-		belongs_to :user  , :class_name => 'Massr::User'
+		belongs_to :user  , :class_name => 'Massr::User' 
 
 	end 
 end
