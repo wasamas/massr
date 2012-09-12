@@ -46,7 +46,8 @@ $ heroku addons:add mongohq:free # MongoHQの有効化
 $ heroku config:add \
   RACK_ENV=production \
   TWITTER_CONSUMER_ID=XXXXXXXXXXXXXXX \
-  TWITTER_CONSUMER_SECRET=XXXXXXXXXXXXXXX
+  TWITTER_CONSUMER_SECRET=XXXXXXXXXXXXXXX \
+  TZ=Asia/Tokyo
 
 # アプリケーションデプロイ
 $ git push heroku master
