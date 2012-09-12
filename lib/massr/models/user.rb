@@ -11,6 +11,7 @@ module Massr
 		key :twitter_icon_url, :type => String,  :required => true
 		key :name,             :type => String,  :required => true
 		key :email,            :type => String,  :required => true
+		key :admin,            :type => Boolean, :default => false 
 
 		timestamps!
 
