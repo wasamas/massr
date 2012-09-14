@@ -19,7 +19,7 @@
 					%p
 						%input{:type => "submit" , :value => "みつけるわ"}
 		%h2<メンバ
-		- Massr::User.where(:massr_id => {:$ne => session[:user].massr_id}).each do |user|
+		- Massr::User.where(:massr_id => {:$ne => user.massr_id}).each do |user|
 			%div.massr_user
 				%a{:href => "/user/#{user.massr_id}"}<
 					%img{:src => "#{user.twitter_icon_url}" ,:class => "massr_id", :alt=> "#{user.massr_id}"}
