@@ -37,3 +37,8 @@ function del_user(id) {
 function toggle_response(id) {
 	 $("#res"+id).toggle();
 }
+
+$(function(){
+	$('.entry-body').autolink();
+});
+
