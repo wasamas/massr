@@ -84,3 +84,9 @@ $ heroku ps:scale web=1
 $ heroku ps
 $ heroku logs -t
 ```
+
+## ライセンス
+Massrの著作権は「The wasam@s production」が保有しており、GPLのもとで改変・再配布が可能です。ただし、同梱する下記のプロダクトはその限りではありません。
+
+* Twitter Bootstrap (public/cs/bootstrap*, public/js/bootstrap*)
+* public/js/jquery.autolink.js

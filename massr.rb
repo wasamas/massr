@@ -2,7 +2,7 @@
 #
 # massr.rb : Massr - Mini Wassr
 #
-# Copyright (C) 2012 by wasam@s production
+# Copyright (C) 2012 by The wasam@s production
 # https://github.com/tdtds/massr
 #
 # Distributed under GPL
