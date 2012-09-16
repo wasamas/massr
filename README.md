@@ -11,6 +11,19 @@ Mini Wassr
 
 call back用のURLは『http://127.0.0.1:9393/auth/twitter/callback 』(開発用)、または、『http://XXXXXXXXX/auth/twitter/callback 』(heroku用)とする。
 
+* MongoDBをインストールしておく
+
+```sh
+$ brea insatall mongodb
+```
+
+起動は手動で。（常時稼働するサービスではないので）
+
+```sh
+$ mongod run --config /usr/local/etc/mongod.conf
+```
+
+
 ### 開発環境(development)で実行方法
 ```sh
 $ export RACK_ENV=development
