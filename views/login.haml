@@ -4,9 +4,11 @@
 		%title login - Massr
 		!= haml :head
 	%body
-		.container
+		.container-fluid
 			!= haml :header
 			.row-fluid
 				.span12
-					%a(href="/auth/twitter" title="Login")<Login
+					.main
+						%p Massrの利用には、ログインが必要です。
+						%a.btn{:href => "/auth/twitter", :title => "Login"}<TwitterでLogin &raquo;
 			!= haml :footer

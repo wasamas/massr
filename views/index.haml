@@ -4,17 +4,18 @@
 		%title Massr - Mini Wassr
 		!= haml :head
 	%body
-		!= haml :header
-		.container
+		.container-fluid
+			!= haml :header
 			.row-fluid
-				.span8
-					%p
-						%form{:method => "POST", :action => "/entry"}
-							%p
-								%textarea{:type => "text", :name => "body"}
-							%p
-								%input{:type => "submit" , :value => "投稿にょわー☆"}
-					!= haml :entries ,:locals => {:page=>page,:entries => entries}
-				.span4
+				.span9
+					.main
+						%p
+							%form{:method => "POST", :action => "/entry"}
+								%p
+									%textarea{:type => "text", :name => "body"}
+								%p
+									%input{:type => "submit" , :value => "投稿にょわー☆"}
+						!= haml :entries ,:locals => {:page=>page,:entries => entries}
+				.span3
 					!= haml :sidebar
-		!= haml :footer
+			!= haml :footer

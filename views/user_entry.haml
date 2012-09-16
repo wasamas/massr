@@ -4,14 +4,15 @@
 		%title Massr - Entry
 		!= haml :head
 	%body
-		!= haml :header
-		.container
+		.container-fluid
+			!= haml :header
 			.row-fluid
-				.span8
-					%p
-						!= haml :entry_head ,:locals => {:entry => entry}
-						!= haml :entry_body ,:locals => {:entry => entry}
-						!= haml :entry_foot ,:locals => {:entry => entry}
-				.span4
+				.span9
+					.main
+						%p
+							!= haml :entry_head ,:locals => {:entry => entry}
+							!= haml :entry_body ,:locals => {:entry => entry}
+							!= haml :entry_foot ,:locals => {:entry => entry}
+				.span3
 					!= haml :sidebar
-		!= haml :footer
+			!= haml :footer

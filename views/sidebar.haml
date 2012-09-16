@@ -1,27 +1,30 @@
 %aside
-	-if session[:user_id]
-		- user = Massr::User.find_by_id(session[:user_id])
-		%p
-			%a{:href => "/user/#{user.massr_id}"}<
-				%img{:SRC => "#{user.twitter_icon_url}", :class => "massr_id"}
-				#{user.name}
-		%h2<メニュー
-		%ul
-			%li
-				%a(href="/logout" title="Logout")<Logout
-			%li
-				%a(href="/user" title="setting")<Setting
-			%li
-				Search
-				%form{:method => "POST", :action => "/search"}
-					%p
-						%input{:type => "text", :name => "search"}
-					%p
-						%input{:type => "submit" , :value => "みつけるわ"}
-		%h2<メンバ
-		- Massr::User.where(:massr_id => {:$ne => user.massr_id}).each do |member|
-			%div.massr_user
-				%a{:href => "/user/#{member.massr_id}"}<
-					%img{:src => "#{member.twitter_icon_url}" ,:class => "massr_id", :alt=> "#{member.massr_id}"}
-					= member.name
+	.well.sidebar-nav
+		-if session[:user_id]
+			- user = Massr::User.find_by_id(session[:user_id])
+			%ul.user-list.sidebar-list
+				%li
+					%a{:href => "/user/#{user.massr_id}"}<
+						%img{:SRC => "#{user.twitter_icon_url}", :class => "massr_id"}
+						#{user.name}
+			%h2<メニュー
+			%ul.sidebar-menu.sidebar-list
+				%li
+					%a{:href => "/logout", :title => "Logout"}<Logout
+				%li
+					%a{:href => "/user", :title => "setting"}<Setting
+				%li
+					Search
+					%form{:method => "POST", :action => "/search"}
+						%div
+							%input{:id => "search-field", :type => "text", :name => "search"}
+						%div.search-button
+							%input.btn{:id => "search-button", :type => "submit" , :value => "みつけるわ"}
+			%h2<メンバ
+			- Massr::User.where(:massr_id => {:$ne => user.massr_id}).each do |member|
+				%ul.user-list.sidebar-list
+					%li
+						%a{:href => "/user/#{member.massr_id}"}<
+							%img{:src => "#{member.twitter_icon_url}" ,:class => "massr_id", :alt=> "#{member.massr_id}"}
+							= member.name
 

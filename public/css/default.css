@@ -15,37 +15,52 @@ body {
 	padding: 4px;
 }
 
-div.container {
+div.container-fluid {
 	max-width: 700px;
 	text-align: left;
 	margin: 0px auto;
 }
 
-div.row-fluid {
-}
-
-div.span8 {
+div.main {
 	background-color: #eee;
-}
-
-div.span4 {
-	background-color: #ccc;
-}
-
-h1 {
-	text-align: left;
-}
-
-aside {
 	padding: 4px;
+	border-radius: 4px;
+	margin-bottom: 4px;
+}
+
+div.sidebar-nav {
+	padding: 8px;
+	padding-top: 16px;
 }
 
 aside h2 {
+	line-height: 100%;
 	font-size: medium;
 	font-weight: bold;
+	margin-top: 16px;
+	margin-bottom: 4px;
+}
+
+ul.sidebar-list {
+	margin: 0px;
+	margin-left: 8px;
+}
+
+ul.sidebar-list li {
+	list-style: none;
+	margin-bottom: 2px;
+}
+
+#search-field {
+	width: 90%;
+}
+
+div.search-button {
+	text-align: right;
 }
 
 footer {
+	margin-top: 10px;
 	background-image: url('/img/masao_footer.jpg');
 	background-repeat: no-repeat;
 	background-position: right bottom;
@@ -56,7 +71,8 @@ footer {
 footer div {
 	position: absolute;
 	bottom: 0px;
-	text-align:right;
+	width: 100%;
+	text-align: right;
 }
 
 textarea {

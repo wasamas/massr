@@ -4,11 +4,12 @@
 		%title Massr - User Entries
 		!= haml :head
 	%body
-		!= haml :header
-		.container
+		.container-fluid
+			!= haml :header
 			.row-fluid
-				.span8
-					!= haml :entries ,:locals => {:page=>page,:entries => entries}
-				.span4
+				.span9
+					.main
+						!= haml :entries ,:locals => {:page=>page,:entries => entries}
+				.span3
 					!= haml :sidebar
-		!= haml :footer
+			!= haml :footer

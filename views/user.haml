@@ -4,49 +4,52 @@
 		%title Massr - Mini Wassr - User Registration.
 		!= haml :head
 	%body
-		.container
+		.container-fluid
 			!= haml :header
 			.row-fluid
-				.span8
-					%p
-						=session[:errors]
-					%form{:method => "POST", :action => '/user'}
-						- user = Massr::User.find_by_id(session[:user_id]) if session[:user_id]
-						%table
-							%tr
-								%td Massr ID
-								%td
-									%input{:type => "text", :name => "massr_id", :value => "#{session[:twitter_id]}"}
-								%td
-							%tr
-								%td Twitter ID
-								%td
-									=session[:twitter_id]
-									
-							%tr
-								%td 表示名
-								%td
-									- if !user
-										%input{:type => "text", :name => "name" ,:value => "#{session[:twitter_name]}"}
-									- else
-										%input{:type => "text", :name => "name" ,:value => "#{user.name}"}
-							%tr
-								%td E-Mail
-								%td
-									- if !user
-										%input{:type => "text", :name => "email" , :value => ""}
-									- else
-										%input{:type => "text", :name => "email" , :value => "#{user.email}"}
-							%tr
-								%td
-								%td
-									%input{:type => "submit" , :value => "登録"}
-							-if user
+				.span9
+					.main
+						%p
+							=session[:errors]
+						%form{:method => "POST", :action => '/user'}
+							- user = Massr::User.find_by_id(session[:user_id]) if session[:user_id]
+							%table
+								%tr
+									%td Massr ID
+									%td
+										%input{:type => "text", :name => "massr_id", :value => "#{session[:twitter_id]}"}
+									%td
+								%tr
+									%td Twitter ID
+									%td
+										=session[:twitter_id]
+								%tr
+									%td 表示名
+									%td
+										- if !user
+											%input{:type => "text", :name => "name" ,:value => "#{session[:twitter_name]}"}
+										- else
+											%input{:type => "text", :name => "name" ,:value => "#{user.name}"}
+								%tr
+									%td E-Mail
+									%td
+										- if !user
+											%input{:type => "text", :name => "email" , :value => ""}
+										- else
+											%input{:type => "text", :name => "email" , :value => "#{user.email}"}
 								%tr
 									%td
 									%td
-										%input{:type => "button" , :value => "削除" ,:onClick=>"del_user();"}
-				-if !user
-					.span4
+										%input{:type => "submit" , :value => "登録"}
+								-if user
+									%tr
+										%td
+										%td
+											%input{:type => "button" , :value => "削除" ,:onClick=>"del_user();"}
+				.span3
+					-if !user
 						!= haml :sidebar
+					-else
+						.well.sidebar-nav
+							%aside
 			!= haml :footer
