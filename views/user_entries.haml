@@ -1,7 +1,7 @@
 !!!
 %html
 	%head
-		%title Massr - User Entries
+		%title Massr - User Statements
 		!= haml :head
 	%body
 		.container-fluid
@@ -9,7 +9,7 @@
 			.row-fluid
 				.span9
 					.main
-						!= haml :entries ,:locals => {:page=>page,:entries => entries}
+						!= haml :statements ,:locals => {:page=>page,:statements => statements}
 				.span3
 					!= haml :sidebar
 			!= haml :footer

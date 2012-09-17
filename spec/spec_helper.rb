@@ -30,7 +30,7 @@ def prototype_user(no)
 	][no]
 end
 
-def prototype_entry(no,user)
+def prototype_statement(no,user)
 	[
 		{
 			# 元エントリ用

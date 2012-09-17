@@ -71,7 +71,7 @@ module Massr
 
 		get '/' do
 			page = params[:page]?params[:page]:1
-			haml :index , :locals => {:page => page , :entries => Entry.get_entries(page)}
+			haml :index , :locals => {:page => page , :statements => Statement.get_statements(page)}
 		end
 
 		get '/login' do
@@ -112,7 +112,7 @@ module Massr
 		get '/user/:massr_id' do
 			user = User.find_by_massr_id(params[:massr_id])
 			page = params[:page]?params[:page]:0
-			haml :user_entries , :locals => {:page=>page,:entries => Entry.get_entries(page,{:user_id => user.id}) }		   
+			haml :user_statements , :locals => {:page=>page,:statements => Statement.get_statements(page,{:user_id => user.id}) }		   
 		end
 
 		post '/user' do
@@ -136,41 +136,41 @@ module Massr
 			redirect '/'
 		end
 
-		post '/entry' do
-			entry = Entry.new
+		post '/statement' do
+			statement = Statement.new
 			request[:user] = User.find_by_id(session[:user_id])
-			entry.update_entry( request ) unless request[:body].size==0
+			statement.update_statement( request ) unless request[:body].size==0
 			redirect '/'
 		end
 		
-		get '/entry/:id' do
-			haml :user_entry, :locals => {:entry => Entry.find_by_id(params[:id])}
+		get '/statement/:id' do
+			haml :user_statement, :locals => {:statement => Statement.find_by_id(params[:id])}
 		end
 
-		delete '/entry/:id' do
-			Entry.destroy(params[:id])
+		delete '/statement/:id' do
+			Statement.destroy(params[:id])
 			redirect '/'
 		end
 
-		before '/entry/:id/like' do
+		before '/statement/:id/like' do
 			@user = User.find_by_id(session[:user_id])
-			@entry = Entry.find_by_id(params[:id])
+			@statement = Statement.find_by_id(params[:id])
 		end
 		
-		post '/entry/:id/like' do
-			@entry.likes.delete_if{ |like| !like.user}
-			unless ((@entry.likes.map{|like| like.user._id == @user._id  }).include? true)
+		post '/statement/:id/like' do
+			@statement.likes.delete_if{ |like| !like.user}
+			unless ((@statement.likes.map{|like| like.user._id == @user._id  }).include? true)
 				like = Like.new(:user => @user)
-				@entry.likes << like
+				@statement.likes << like
 			end
-			@entry.save!
+			@statement.save!
 			redirect '/'
 		end
 
-		delete '/entry/:id/like' do
-			@entry.likes.delete_if{ |like| !like.user}
-			@entry.likes.delete_if{ |like| like.user.id == @user._id}
-			@entry.save!
+		delete '/statement/:id/like' do
+			@statement.likes.delete_if{ |like| !like.user}
+			@statement.likes.delete_if{ |like| like.user.id == @user._id}
+			@statement.save!
 			redirect '/'
 		end
 		
@@ -178,7 +178,7 @@ module Massr
 			page = params[:page]?params[:page]:1
 			haml :index , :locals => {
 				:page => page , 
-				:entries => Entry.get_entries(page,{:body=>/.*#{params[:search]}.*/})}
+				:statements => Statement.get_statements(page,{:body=>/.*#{params[:search]}.*/})}
 		end
 
 	end

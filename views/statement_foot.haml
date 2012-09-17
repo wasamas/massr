@@ -1,0 +1,3 @@
+%p
+	- statement.refs.each do |res|
+		!= haml :statement_body , :locals => {:statement => res}

@@ -10,12 +10,12 @@
 				.span9
 					.main
 						%p
-							%form{:method => "POST", :action => "/entry"}
+							%form{:method => "POST", :action => "/statement"}
 								%p
 									%textarea{:type => "text", :name => "body"}
 								%p
 									%input{:type => "submit" , :value => "投稿にょわー☆"}
-						!= haml :entries ,:locals => {:page=>page,:entries => entries}
+						!= haml :statements ,:locals => {:page=>page,:statements => statements}
 				.span3
 					!= haml :sidebar
 			!= haml :footer

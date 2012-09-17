@@ -12,11 +12,11 @@ module Massr
 		key :name,             :type => String,  :required => true
 		key :email,            :type => String,  :required => true
 		key :admin,            :type => Boolean, :default  => false
-		key :entry_ids , Array
+		key :statement_ids , Array
 
 		timestamps!
 
-		many :entries , :class_name => 'Massr::Entry', :in => :entry_ids, :dependent => :delete_all
+		many :statements , :class_name => 'Massr::Statement', :in => :statement_ids, :dependent => :delete_all
 
 		def self.create_by_registration_form( request )
 			user = User.new( :massr_id => request[:massr_id] )

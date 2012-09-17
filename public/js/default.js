@@ -1,6 +1,6 @@
 function del_like(id) {
 	$.ajax({
-		url: '/entry/'+id+'/like',
+		url: '/statement/'+id+'/like',
 		type: 'DELETE',
 		success: function(result) {
 			location.href="/";
@@ -8,11 +8,11 @@ function del_like(id) {
 	});
 }
 
-function del_entry(id) {
+function del_statement(id) {
 	if(window.confirm('本当に削除してよろしいいですか？'))
 	{
 		$.ajax({
-			url: '/entry/'+id,
+			url: '/statement/'+id,
 			type: 'DELETE',
 			success: function(result) {
 				location.href="/";
@@ -39,6 +39,6 @@ function toggle_response(id) {
 }
 
 $(function(){
-	$('.entry-body').autolink();
+	$('.statement-body').autolink();
 });
 
