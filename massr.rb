@@ -60,12 +60,19 @@ module Massr
 
 		before do
 			case request.path
+			when '/unauthorized'
 			when '/login'
+			when '/logout'
 			when %r|^/auth/|
 			when '/user'
 				redirect '/login' unless session[:twitter_id]
 			else
-				redirect '/login' unless session[:user_id]
+				unless session[:user_id]
+					redirect '/login'
+				else
+					user =  User.find_by_id(session[:user_id])
+					redirect '/unauthorized' if user.status == 9
+				end
 			end
 		end
 
@@ -179,6 +186,10 @@ module Massr
 			haml :index , :locals => {
 				:page => page , 
 				:statements => Statement.get_statements(page,{:body=>/.*#{params[:search]}.*/})}
+		end
+
+		get '/unauthorized' do
+			haml :unauthorized
 		end
 
 	end
