@@ -40,6 +40,7 @@ $ mongod run --config /usr/local/etc/mongod.conf
 
 ### 開発環境(development)で実行方法
 ```sh
+$ export EDITOR=vim
 $ export RACK_ENV=development
 ```
 
