@@ -1,0 +1,47 @@
+%div{:id=>"st#{statement._id}"}
+
+	/ アイコン
+	%a{:href => "/user/#{statement.user.massr_id}"}<
+		%img{:SRC => "#{statement.user.twitter_icon_url}",:width => "45" ,:height => "45"}
+
+	/ レスポンス元発言
+	- if statement.res
+		%p
+			%a{:href => "/statement/#{statement.res._id}"}<
+				＞
+				= statement.res.user.name
+				：
+				= statement.res.body
+
+	/ 発言本文
+	.statement-body
+		= statement.body
+
+	/ 発言の付属情報
+	%p{:class=>"inline"}
+		%a{:href => "/user/#{statement.user.massr_id}"}<#{statement.user.name}
+		%a{:href => "/statement/#{statement._id}"}<#{statement.created_at.localtime}
+		- if statement.user._id == session[:user_id]
+			%a(href="#" onClick="del_statement('#{statement._id}');")
+				%i.icon-trash
+		- statement.likes.delete_if{|like| !like.user}
+		- if (statement.likes.map{|like| like.user._id == session[:user_id]  }).include? true
+			%input{:type => "image" ,:src=>"/img/wakaruwa.png", :value => "わからないわ" , :onClick=>"del_like('#{statement._id}');"}
+		- else
+			%form{:method => "POST", :action => "/statement/#{statement._id}/like" ,:class => "inline"}
+				%input{:type => "image" ,:src=>"/img/wakaranaiwa.png", :value => "わかるわ"}
+		%a{:onClick => "toggle_response('#{statement._id}');"}<
+			%i.icon-comment
+		.response{:id=>"res#{statement._id}"}
+			%form{:method => "POST", :action => "/statement"}
+				%textarea{:type => "text", :name => "body"}
+				%input{:type => "hidden", :name => "res_id", :value => "#{statement._id}" }
+				%input{:type => "submit" , :value => "レスるわ"}
+
+	/ わかるわ一覧
+	%p
+		- unless statement.likes.size == 0
+			わかるわ
+			- statement.likes.each do |like|
+				%a{:href => "/user/#{like.user.massr_id}"}<
+					%img{:SRC => "#{like.user.twitter_icon_url}", :class => "massr_icon_mini", :title => "#{like.user.name}", :alt => "#{like.user.name}"}

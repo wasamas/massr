@@ -1,8 +1,7 @@
 %p
 	- statements.each do |statement|
 		%hr
-		!= haml :statement_head , :locals => {:statement => statement}
-		!= haml :statement_body , :locals => {:statement => statement}
+		!= haml :statement , :locals => {:statement => statement}
 %p
 	- if page.to_i > 1
 		%a{:href => "#{request.path_info}?page=#{page.to_i-1}"}<prev
