@@ -28,7 +28,7 @@ call back用のURLは『http://127.0.0.1:9393/auth/twitter/callback 』(開発�
 * MongoDBをインストールしておく
 
 ```sh
-$ brea insatall mongodb
+$ brew insatall mongodb
 ```
 
 起動は手動で。（常時稼働するサービスではないので）
