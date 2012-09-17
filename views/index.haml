@@ -9,6 +9,12 @@
 			.row-fluid
 				.span9
 					.main
+						- user = Massr::User.find_by_id(session[:user_id])
+						- if user.status == 0
+							- unauth_count = Massr::User.where(:status => 9).count
+							- unless unauth_count == 0
+								%a{:href=>'/admin'}<
+									未認証ユーザが#{unauth_count}人います
 						%p
 							%form{:method => "POST", :action => "/statement"}
 								%p
