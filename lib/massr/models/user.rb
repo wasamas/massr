@@ -36,6 +36,11 @@ module Massr
 			self[:name] = request[:name]
 			self[:email] = request[:email]
 
+			# 最初期のユーザは管理者として登録
+			if User.all().count()==0
+				self[:status] = 0
+			end
+
 			save!
 			return self
 		end

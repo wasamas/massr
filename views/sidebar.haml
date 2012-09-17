@@ -13,6 +13,9 @@
 					%a{:href => "/logout", :title => "Logout"}<Logout
 				%li
 					%a{:href => "/user", :title => "setting"}<Setting
+				- if user.status = 0
+					%li
+						%a{:href => "/admin", :title => "setting"}<admin
 				%li
 					Search
 					%form{:method => "POST", :action => "/search"}
