@@ -1,0 +1,27 @@
+!!!
+%html
+	%head
+		%title Massr - Mini Wassr
+		!= haml :head
+	%body
+		.container-fluid
+			!= haml :header
+			.row-fluid
+				.span9
+					.main
+						%p
+							未認証ユーザ一覧
+						- users.each do |member|
+							%p{:class=>"inline"}
+								%li
+									%img{:src => "#{member.twitter_icon_url}" ,:class => "massr_id", :alt=> "#{member.massr_id}"}
+									= member.name
+									- case member.status
+									- when 0 then
+										%input{:type => "submit",:value => "Admin剥奪",:onClick=>"unprivilege_user(\"#{member._id}\");"}
+									- when 1 then
+										%input{:type => "submit",:value => "Admin付与",:onClick=>"privilege_user(\"#{member._id}\");"}
+										%input{:type => "submit",:value => "認可取消",:onClick=>"unauthorize_user(\"#{member._id}\");"}
+									- when 9 then
+										%input{:type => "submit",:value => "認可",:onClick=>"authorize_user(\"#{member._id}\");"}
+		!= haml :footer

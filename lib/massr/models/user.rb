@@ -24,6 +24,12 @@ module Massr
 			return user
 		end
 
+		def self.change_status(id,status)
+			user = User.find_by_id( id )
+			user[:status] = status
+			user.save!
+		end
+
 		def update_profile(request)
 			self[:twitter_id] = request[:twitter_id]
 			self[:twitter_icon_url] = request[:twitter_icon_url]
@@ -33,5 +39,7 @@ module Massr
 			save!
 			return self
 		end
+
+		
 	end
 end

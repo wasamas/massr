@@ -188,6 +188,31 @@ module Massr
 				:statements => Statement.get_statements(page,{:body=>/.*#{params[:search]}.*/})}
 		end
 
+		before '/admin*' do
+			user =  User.find_by_id(session[:user_id])
+			redirect '/' unless user.status == 0
+		end
+		
+		get '/admin' do
+			haml :admin, :locals => {:users => User.where(:_id => {:$ne => session[:user_id]}) }
+		end
+
+		put '/admin/auth/:id' do
+			User.change_status(params[:id],1)
+		end
+
+		delete '/admin/auth/:id' do
+			User.change_status(params[:id],9)
+		end
+
+		put '/admin/privilege/:id' do
+			User.change_status(params[:id],0)
+		end
+
+		delete '/admin/privilege/:id' do
+			User.change_status(params[:id],1)
+		end
+
 		get '/unauthorized' do
 			haml :unauthorized
 		end
