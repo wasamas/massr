@@ -6,12 +6,12 @@ module Massr
 		include MongoMapper::Document
 		safe
 		
-		key :massr_id,         :type => String,  :required => true ,:unique => true
-		key :twitter_id,       :type => String,  :required => true ,:unique => true
-		key :twitter_icon_url, :type => String,  :required => true
-		key :name,             :type => String,  :required => true
-		key :email,            :type => String,  :required => true
-		key :admin,            :type => Boolean, :default  => false
+		key :massr_id,         :type => String , :required => true ,:unique => true
+		key :twitter_id,       :type => String , :required => true ,:unique => true
+		key :twitter_icon_url, :type => String , :required => true
+		key :name,             :type => String , :required => true
+		key :email,            :type => String , :required => true
+		key :statys,           :type => Integer, :default  => 9
 		key :statement_ids , Array
 
 		timestamps!
