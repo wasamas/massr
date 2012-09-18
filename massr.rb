@@ -198,20 +198,10 @@ module Massr
 			haml :admin, :locals => {:users => User.where(:_id => {:$ne => session[:user_id]}) }
 		end
 
-		put '/admin/auth/:id' do
-			User.change_status(params[:id],1)
-		end
-
-		delete '/admin/auth/:id' do
-			User.change_status(params[:id],9)
-		end
-
-		put '/admin/privilege/:id' do
-			User.change_status(params[:id],0)
-		end
-
-		delete '/admin/privilege/:id' do
-			User.change_status(params[:id],1)
+		put '/user/:massr_id' do
+			user =  User.find_by_id(session[:user_id])
+			redirect '/' unless user.admin?
+			User.change_status(params[:massr_id],params[:status])
 		end
 
 		get '/unauthorized' do

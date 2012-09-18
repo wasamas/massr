@@ -30,8 +30,8 @@ module Massr
 		end
 
 		def self.change_status(id, status)
-			user = User.find_by_id(id)
-			user[:status] = status
+			user = User.find_by_massr_id(id)
+			user[:status] = status.to_i
 			user.save!
 		end
 

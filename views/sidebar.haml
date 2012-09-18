@@ -12,10 +12,10 @@
 				%li
 					%a{:href => "/logout", :title => "Logout"}<Logout
 				%li
-					%a{:href => "/user", :title => "setting"}<Setting
+					%a{:href => "/user", :title => "Setting"}<Setting
 				- if user.admin?
 					%li
-						%a{:href => "/admin", :title => "setting"}<admin
+						%a{:href => "/admin", :title => "Admin"}<Admin
 				%li
 					Search
 					%form{:method => "POST", :action => "/search"}
