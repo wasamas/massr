@@ -31,7 +31,17 @@ module Massr
 
 		def self.change_status(id, status)
 			user = User.find_by_massr_id(id)
-			user[:status] = status.to_i
+			case status
+
+			when ADMIN.to_s then
+				user[:status] = ADMIN
+			when AUTHORIZED.to_s then
+				user[:status] = AUTHORIZED
+			when UNAUTHORIZED.to_s then
+				user[:status] = UNAUTHORIZED
+			else
+				return
+			end
 			user.save!
 		end
 
