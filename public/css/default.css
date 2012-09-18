@@ -22,7 +22,7 @@ div.container-fluid {
 }
 
 div.main {
-	background-color: #eee;
+	background-color: #fff;
 	padding: 4px;
 	border-radius: 4px;
 	margin-bottom: 4px;
@@ -92,10 +92,61 @@ img.massr_icon_mini {
 	height: 20px;
 }
 
-div.response {
-	display: none;
+div.statement {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #fff;
+	margin: 4px 0px;
+	padding: 4px 0px;
 }
 
-.inline {
-	 display: inline;
+div.statement-icon {
+	float: left;
+}
+
+div.statement-body {
+	margin-left: 49px;
+	overflow: auto;
+	padding: 0px;
+}
+
+div.statement-res {
+	font-size: 83%;
+	height: 1.1em;
+	overflow: hidden;
+	line-height: 110%;
+	background-color: #eee;
+}
+
+div.statement-message {
+	margin-top: 2px;
+}
+
+div.statement-info {
+	font-size: 83%;
+	height: 1.1em;
+	overflow: hidden;
+	line-height: 110%;
+	background-color: #eee;
+	margin-top: 2px;
+}
+
+div.statement-action, form.statement-action {
+	display: inline;
+	text-align: right;
+}
+
+div.statement-action {
+	margin-top: 2px;
+}
+
+div.statement-like {
+	background-color: #eee;
+	font-size: 83%;
+	padding: 2px 0px;
+	margin-top: 2px;
+}
+
+div.response {
+	display: none;
 }

@@ -1,6 +1,5 @@
 %p
 	- statements.each do |statement|
-		%hr
 		!= haml :statement , :locals => {:statement => statement}
 %p
 	- if page.to_i > 1

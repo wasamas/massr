@@ -88,6 +88,6 @@ function toggle_response(id) {
 }
 
 $(function(){
-	$('.statement-body').autolink();
+	$('.statement-message').autolink();
 });
 
