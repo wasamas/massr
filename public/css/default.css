@@ -76,10 +76,14 @@ footer div {
 }
 
 textarea {
-	width: 90%;
+	width: 95%;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+div.new-post div.button {
+	text-align: center;
 }
 
 img.massr_icon {
@@ -106,6 +110,7 @@ div.statement-icon {
 
 div.statement-body {
 	margin-left: 49px;
+	margin-right: auto;
 	overflow: auto;
 	padding: 0px;
 }
@@ -131,13 +136,13 @@ div.statement-info {
 	margin-top: 2px;
 }
 
-div.statement-action, form.statement-action {
-	display: inline;
+div.statement-action {
+	margin-top: 2px;
 	text-align: right;
 }
 
-div.statement-action {
-	margin-top: 2px;
+form.statement-action {
+	display: inline;
 }
 
 div.statement-like {
@@ -149,4 +154,12 @@ div.statement-like {
 
 div.response {
 	display: none;
+	margin-top: 4px;
+}
+
+div.response input.btn {
+	display: block;
+	text-align: right;
+	margin-left: auto;
+	margin-right: 0px;
 }
