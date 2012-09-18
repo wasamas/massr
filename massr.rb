@@ -191,7 +191,7 @@ module Massr
 
 		before '/admin*' do
 			user =  User.find_by_id(session[:user_id])
-			redirect '/' unless user.status == 0
+			redirect '/' unless user.admin?
 		end
 		
 		get '/admin' do
