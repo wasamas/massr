@@ -43,9 +43,9 @@ describe 'Massr::User' do
 				Massr::User.collection.remove
 				Massr::User.create_by_registration_form( prototype_user(0) ) # admin
 				@user = Massr::User.create_by_registration_form( prototype_user(1) ) # unauthorized
-				id = @user._id.to_s
-				Massr::User.change_status(id, Massr::User::AUTHORIZED)
-				@user = Massr::User.find_by_id(id)
+				massr_id = @user.massr_id.to_s
+				Massr::User.change_status(massr_id, Massr::User::AUTHORIZED)
+				@user = Massr::User.find_by_massr_id(massr_id)
 			end
 			subject{ @user }
 
