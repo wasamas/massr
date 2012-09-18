@@ -33,6 +33,7 @@ describe 'Massr::User' do
 			its(:twitter_icon_url) { should eq(prototype_user(1)[:twitter_icon_url]) }
 			its(:name) { should eq(prototype_user(1)[:name]) }
 			its(:email) { should eq(prototype_user(1)[:email]) }
+			its(:status) { should eq(9) }
 		end
 	end
 
