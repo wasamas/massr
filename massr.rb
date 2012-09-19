@@ -32,8 +32,8 @@ module Massr
 			disable :protection
 
 			@auth_twitter = Pit::get( 'auth_twitter', :require => {
-					:id => 'your CUNSUMER KEY of Twitter APP.',
-					:secret => 'your CUNSUMER SECRET of Twitter APP.',
+					:id => 'your CONSUMER KEY of Twitter APP.',
+					:secret => 'your CONSUMER SECRET of Twitter APP.',
 				} )
 			
 			MongoMapper.connection = Mongo::Connection.new('localhost', 27017)
