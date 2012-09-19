@@ -3,7 +3,7 @@
 	/ アイコン
 	.statement-icon
 		%a{:href => "/user/#{statement.user.massr_id}"}
-			%img.massr_icon{:src => statement.user.twitter_icon_url}
+			%img.massr-icon{:src => statement.user.twitter_icon_url}
 
 	.statement-body
 		/ レスポンス元発言
@@ -43,7 +43,7 @@
 				わかるわ:
 				- statement.likes.each do |like|
 					%a{:href => "/user/#{like.user.massr_id}"}
-						%img.massr_icon_mini{:src => like.user.twitter_icon_url, :title => like.user.name, :alt => like.user.name}
+						%img.massr-icon-mini{:src => like.user.twitter_icon_url, :title => like.user.name, :alt => like.user.name}
 
 		/ レスフォーム
 		.response{:id=>"res#{statement._id}"}
