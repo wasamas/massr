@@ -110,7 +110,7 @@ div.new-post div.button {
 
 img.massr-icon {
 	width: 45px;
-	eight: 45px;
+	height: 45px;
 }
 
 img.massr-icon-mini {
@@ -131,7 +131,7 @@ div.statement-icon {
 }
 
 div.statement-body {
-	margin-left: 49px;
+	margin-left: 4px;
 	margin-right: auto;
 	overflow: auto;
 	padding: 0px;
