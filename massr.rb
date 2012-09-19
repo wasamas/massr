@@ -72,7 +72,7 @@ module Massr
 				else
 					user =  User.find_by_id(session[:user_id])
 					redirect '/logout' unless user
-					redirect '/unauthorized' if user.status == 9
+					redirect '/unauthorized' unless user.authorized?
 				end
 			end
 		end
