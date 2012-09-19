@@ -9,18 +9,23 @@
 			.row-fluid
 				.span9
 					.main
-						%p
-							ユーザ一覧
-						- users.each do |member|
-							%p{:class=>"inline"}
+						%h2<ユーザ一覧
+						%ul.user-list
+							- users.each do |member|
 								%li
+									- if member.admin?
+										%a{:href=>"#", :onClick=>"unprivilege_user(\"#{member.massr_id}\");"}
+											%i.icon-star{:title => '管理者権限を剥奪する'}
+										%i.icon-remove.icon-white
+									- elsif member.authorized?
+										%a{:href=>"#", :onClick=>"privilege_user(\"#{member.massr_id}\");"}
+											%i.icon-star.icon-white{:title => '管理者にする'}
+										%a{:href=>"#", :onClick=>"unauthorize_user(\"#{member.massr_id}\");"}
+											%i.icon-remove{:title => '認可を取り消す'}
+									- elsif !member.authorized?
+										%i.icon-star.icon-white
+										%a{:href=>"#", :onClick=>"authorize_user(\"#{member.massr_id}\");"}
+											%i.icon-ok{:title => '認可する'}
 									%img{:src => "#{member.twitter_icon_url}" ,:class => "massr_id", :alt=> "#{member.massr_id}"}
 									= member.name
-									- if member.admin?
-										%input{:type => "submit",:value => "Admin剥奪",:onClick=>"unprivilege_user(\"#{member.massr_id}\");"}
-									- elsif member.authorized?
-										%input{:type => "submit",:value => "Admin付与",:onClick=>"privilege_user(\"#{member.massr_id}\");"}
-										%input{:type => "submit",:value => "認可取消",:onClick=>"unauthorize_user(\"#{member.massr_id}\");"}
-									- elsif !member.authorized?
-										%input{:type => "submit",:value => "認可",:onClick=>"authorize_user(\"#{member.massr_id}\");"}
 		!= haml :footer
