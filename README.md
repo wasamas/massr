@@ -23,35 +23,39 @@ Massr - Mini Wassr
 * Twitter用開発者登録
 『https://dev.twitter.com/apps/ 』でアプリ登録
 
-call back用のURLは『http://127.0.0.1:9393/auth/twitter/callback 』(開発用)、または、『http://XXXXXXXXX/auth/twitter/callback 』(heroku用)とする。
+call back用のURLは『http://127.0.0.1:9393/auth/twitter/callback 』(開発用)、または、『http://HOGE-FUGA.herokuapp.com/auth/twitter/callback 』(heroku用)とする。
 
-* MongoDBをインストールしておく
+### 開発環境(development)で実行方法
+ストレージとしてMongoDB利用しています。あらかじめインストールしておいてください(2.xが必要)。http://www.mongodb.org/downloads が参考になります。MacOSの場合は以下:
 
 ```sh
 $ brew insatall mongodb
 ```
 
-起動は手動で。（常時稼働するサービスではないので）
+Debian/Ubuntu系では以下でインストールされますが、バージョンが古い場合もあります:
+
+```sh
+$ sudo apt-get install mongodb
+```
+
+自動起動しない場合、手動で起動しておきます。例:
 
 ```sh
 $ mongod run --config /usr/local/etc/mongod.conf
 ```
 
+Massr実行のための環境を設定して、実行します:
 
-### 開発環境(development)で実行方法
 ```sh
-$ export RACK_ENV=development
-```
-
-```sh 
 $ git clone git://github.com/tdtds/massr.git
 $ cd massr
 $ mkdir vendor
 $ bundle install --path vendor/bundle
+$ export RACK_ENV=development
 $ bundle exec rackup --port 9393
 ```
 
-http://127.0.0.1:9393 へ接続し、動作確認
+http://127.0.0.1:9393 へ接続し、動作確認します。
 
 ### Heroku環境(production)での実行方法
 ```sh 
