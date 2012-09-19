@@ -28,6 +28,11 @@ div.main {
 	margin-bottom: 4px;
 }
 
+div.info {
+	margin-bottom: 0.5em;
+	padding: 2px;
+}
+
 div.sidebar-nav {
 	padding: 8px;
 	padding-top: 16px;

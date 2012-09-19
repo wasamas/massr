@@ -13,7 +13,8 @@
 						- if user.status == 0
 							- unauth_count = Massr::User.where(:status => 9).count
 							- unless unauth_count == 0
-								%a{:href=>'/admin'}<未認証ユーザが#{unauth_count}人います
+								.info.alert-info
+									%a{:href=>'/admin'}<未認証ユーザが#{unauth_count}人います
 						.new-post
 							%form{:method => "POST", :action => "/statement"}
 								%div
