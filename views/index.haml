@@ -19,7 +19,7 @@
 								%div
 									%textarea{:type => "text", :name => "body"}
 								%div.button
-									%input.btn{:type => "submit" , :value => "投稿にょわー☆"}
+									%input.btn.btn-small{:type => "submit" , :value => "投稿にょわー☆"}
 						!= haml :statements ,:locals => {:page=>page,:statements => statements}
 				.span3
 					!= haml :sidebar
