@@ -28,9 +28,9 @@
 		.statement-action
 			- if statement.user._id == session[:user_id]
 				%a{:href => "#", :onClick => "del_statement('#{statement._id}');"}
-					%i.icon-trash
-			%a{:onClick => "toggle_response('#{statement._id}');"}
-				%i.icon-comment
+					%i.icon-trash{:title => '削除'}
+			%a{:href => '#', :onClick => "toggle_response('#{statement._id}');"}
+				%i.icon-comment{:title => 'レス'}
 			- if (statement.likes.map{|like| like.user._id == session[:user_id]  }).include? true
 				%input{:type => "image" ,:src => "/img/wakaruwa.png", :value => "わからないわ" , :onClick=>"del_like('#{statement._id}');"}
 			- else
