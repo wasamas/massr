@@ -13,11 +13,9 @@ require 'haml'
 require 'json'
 require 'omniauth'
 require 'omniauth-twitter'
-
 require 'mongo_mapper'
 
-$:.unshift './lib'
-require 'massr/models'
+require_relative 'models/init'
 
 module Massr
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
-require 'massr/models/user'
-require 'massr/models/statement'
+require 'models/user'
+require 'models/statement'
 
 describe 'Massr::User' do
 	describe '.create_by_registration_form' do

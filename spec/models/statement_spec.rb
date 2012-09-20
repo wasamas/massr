@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
-require 'massr/models/statement'
-require 'massr/models/user'
-require 'massr/models/like'
+require 'models/statement'
+require 'models/user'
+require 'models/like'
 
 describe 'Massr::Statement' do
 	before do

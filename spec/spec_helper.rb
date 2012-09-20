@@ -1,5 +1,14 @@
 # -*- coding: utf-8 -*-
-$:.unshift File.expand_path(File.join(File.dirname(__FILE__), '../lib')).untaint
+#
+# spec_helper.rb
+#
+# Copyright (C) 2012 by The wasam@s production
+# https://github.com/tdtds/massr
+#
+# Distributed under GPL
+#
+
+$:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..')).untaint
 Bundler.require :test if defined?(Bundler)
 
 RSpec.configure do |config|
