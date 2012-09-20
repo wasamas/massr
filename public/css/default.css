@@ -151,6 +151,7 @@ div.statement-res {
 	height: 1.1em;
 	overflow: hidden;
 	line-height: 110%;
+	padding-top: 2px;
 }
 
 div.statement-message {
@@ -163,12 +164,14 @@ div.statement-message {
 }
 
 div.statement-info {
-	font-size: 83%;
+	font-size: 70%;
 	height: 1.1em;
 	overflow: hidden;
 	line-height: 110%;
 	background-color: #eee;
-	margin-top: 6px;
+	margin-top: 4px;
+	padding-top: 2px;
+	padding-bottom: 2px;
 }
 
 div.statement-action {
