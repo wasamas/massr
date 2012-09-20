@@ -178,6 +178,7 @@ div.statement-action {
 	padding-right: 4px;
 	padding-bottom: 4px;
 	text-align: right;
+	letter-spacing: 0.5em;
 }
 
 form.statement-action {
