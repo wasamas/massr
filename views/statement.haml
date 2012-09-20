@@ -5,7 +5,7 @@
 		%a{:href => "/user/#{statement.user.massr_id}"}
 			%img.massr-icon{:src => statement.user.twitter_icon_url}
 
-	.statement-body
+	%div{:class => "#{session[:user_id] == statement.user._id ? "statement-body-me statement-body" : "statement-body"}"}
 		/ レスポンス元発言
 		- if statement.res
 			.statement-res

@@ -139,6 +139,11 @@ div.statement-body {
 	margin-right: auto;
 	overflow: auto;
 	padding: 0px;
+	padding-left: 2px;
+}
+
+div.statement-body-me {
+	background-color: #eee;
 }
 
 div.statement-res {
