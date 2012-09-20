@@ -32,10 +32,10 @@
 			%a{:href => '#', :onClick => "toggle_response('#{statement._id}');"}
 				%i.icon-comment{:title => 'レス'}
 			- if (statement.likes.map{|like| like.user._id == session[:user_id]  }).include? true
-				%input{:type => "image" ,:src => "/img/wakaruwa.png", :value => "わからないわ" , :onClick=>"del_like('#{statement._id}');"}
+				%input{:type => "image",:src => "/img/wakaruwa.png", :value => "わからないわ", :onClick=>"del_like('#{statement._id}');"}
 			- else
 				%form.statement-action{:method => "POST", :action => "/statement/#{statement._id}/like"}
-					%input{:type => "image" ,:src=>"/img/wakaranaiwa.png", :value => "わかるわ"}
+					%input{:type => "image", :src=>"/img/wakaranaiwa.png", :value => "わかるわ"}
 
 		/ わかるわ一覧
 		- unless statement.likes.size == 0
