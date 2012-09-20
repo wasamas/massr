@@ -123,7 +123,7 @@ div.statement {
 	border-width: 1px 0px 0px 0px;
 	border-color: #eee;
 	margin: 4px 0px;
-	padding: 4px 0px;
+	padding: 4px 2px;
 }
 
 div.statement-icon {
@@ -171,11 +171,12 @@ div.statement-info {
 	background-color: #eee;
 	margin-top: 4px;
 	padding-top: 2px;
-	padding-bottom: 2px;
 }
 
 div.statement-action {
 	margin-top: 2px;
+	padding-right: 4px;
+	padding-bottom: 4px;
 	text-align: right;
 }
 
