@@ -123,7 +123,7 @@ div.statement {
 	border-width: 1px 0px 0px 0px;
 	border-color: #eee;
 	margin: 4px 0px;
-	padding: 4px 2px;
+	padding: 4px 2px 0px 2px;
 }
 
 div.statement-icon {
@@ -139,11 +139,10 @@ div.statement-body {
 	margin-right: auto;
 	overflow: auto;
 	padding: 0px;
-	padding-left: 2px;
 }
 
 div.statement-body-me {
-	background-color: #eee;
+	background-color: #f8f8f8;
 }
 
 div.statement-res {
@@ -152,6 +151,7 @@ div.statement-res {
 	overflow: hidden;
 	line-height: 110%;
 	padding-top: 2px;
+	padding-left: 2px;
 }
 
 div.statement-message {
@@ -161,16 +161,20 @@ div.statement-message {
 	white-space: -o-pre-wrap;   /* Opera 7 */
 	word-wrap: break-word;      /* IE 5.5+ */
 	margin-top: 6px;
+	padding-left: 2px;
 }
 
 div.statement-info {
+	border-style: solid;
+	border-width: 1px 1px 1px 0px;
+	border-color: #eee;
 	font-size: 70%;
 	height: 1.1em;
 	overflow: hidden;
 	line-height: 110%;
-	background-color: #eee;
+	background-color: #f8f8f8;
 	margin-top: 4px;
-	padding-top: 2px;
+	padding: 2px;
 }
 
 div.statement-action {
@@ -186,9 +190,12 @@ form.statement-action {
 }
 
 div.statement-like {
-	background-color: #eee;
+	border-style: solid;
+	border-width: 1px 1px 1px 0px;
+	border-color: #eee;
+	background-color: #f8f8f8;
 	font-size: 83%;
-	padding: 2px 0px;
+	padding: 2px 0px 2px 2px;
 	margin-top: 2px;
 }
 
