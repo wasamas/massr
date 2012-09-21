@@ -92,8 +92,12 @@ function unprivilege_user(id) {
 }
 
 function toggle_response(id) {
-	 $("#res"+id).toggle();
-	 return false;
+	$("#res"+id).toggle().each(function(){
+		if($(this).css('display') == 'block'){
+			$('textarea', this).focus();
+		}
+	});
+	return false;
 }
 
 $(function(){
