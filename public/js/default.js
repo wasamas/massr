@@ -93,6 +93,7 @@ function unprivilege_user(id) {
 
 function toggle_response(id) {
 	 $("#res"+id).toggle();
+	 return false;
 }
 
 $(function(){
