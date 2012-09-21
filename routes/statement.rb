@@ -1,6 +1,6 @@
 # -*- coding: utf-8; -*-
 #
-# routes/main.rb
+# routes/statement.rb
 #
 # Copyright (C) 2012 by The wasam@s production
 # https://github.com/tdtds/massr
