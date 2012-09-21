@@ -13,7 +13,7 @@
 					> #{statement.res.body} by #{statement.res.user.name}
 
 		/ 発言本文
-		.statement-message<#{statement.body}
+		.statement-message<#{statement.body.gsub(/[\r\n]+/, ' ')}
 
 		/ 発言の付属情報
 		.statement-info
