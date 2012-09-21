@@ -96,6 +96,12 @@ function toggle_response(id) {
 }
 
 $(function(){
-	$('.statement-message').autolink();
+	/*
+	 * automatic link
+	 */
+	$('.statement-message').each( function(){
+		var re = /((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g;
+		$(this).html( $(this).html().replace(re, '<a href="$1" target="_blank">$1</a> ') );
+	});
 });
 
