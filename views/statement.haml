@@ -36,6 +36,7 @@
 			- else
 				%form.statement-action{:method => "POST", :action => "/statement/#{statement._id}/like"}
 					%input{:type => "image", :src=>"/img/wakaranaiwa.png", :value => "わかるわ"}
+					%input{csrf_input}
 
 		/ わかるわ一覧
 		- unless statement.likes.size == 0
@@ -50,4 +51,5 @@
 			%form{:method => "POST", :action => "/statement"}
 				%textarea{:type => "text", :name => "body"}
 				%input{:type => "hidden", :name => "res_id", :value => statement._id}
+				%input{csrf_input}
 				%input.btn{:type => "submit" , :value => "レスるわ"}

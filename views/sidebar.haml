@@ -21,6 +21,7 @@
 					%form{:method => "POST", :action => "/search"}
 						%div
 							%input{:id => "search-field", :type => "text", :name => "search"}
+							%input{csrf_input}
 						%div.search-button
 							%input.btn{:id => "search-button", :type => "submit" , :value => "みつけるわ"}
 			%h2<メンバ

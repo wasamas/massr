@@ -19,6 +19,7 @@
 							%form{:method => "POST", :action => "/statement"}
 								%div
 									%textarea{:type => "text", :name => "body"}
+									%input{csrf_input}
 								%div.button
 									%input.btn.btn-small{:type => "submit" , :value => "投稿にょわー☆"}
 						!= haml :statements ,:locals => {:page=>page,:statements => statements}

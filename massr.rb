@@ -13,6 +13,7 @@ require 'haml'
 require 'json'
 require 'omniauth'
 require 'omniauth-twitter'
+require 'rack/csrf'
 require 'mongo_mapper'
 
 module Massr
@@ -56,12 +57,15 @@ module Massr
 			:expire_after => 6 * 30 * 24 * 60 * 60,
 			:secret => ENV['SESSION_SECRET'])
 
+		use Rack::Csrf
+
 		#表示エントリ数
 		$limit = 20
 	end
 end
 
 require_relative 'models/init'
+require_relative 'helpers/init'
 require_relative 'routes/init'
 
 Massr::App::run! if __FILE__ == $0

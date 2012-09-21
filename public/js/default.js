@@ -97,6 +97,16 @@ function toggle_response(id) {
 
 $(function(){
 	/*
+	 * setup against CSRF
+	 */
+	jQuery.ajaxSetup({
+		beforeSend: function(xhr) {
+			var token = jQuery('meta[name="_csrf"]').attr('content');
+			xhr.setRequestHeader('X_CSRF_TOKEN', token);
+		}
+	});
+
+	/*
 	 * automatic link
 	 */
 	$('.statement-message').each( function(){
