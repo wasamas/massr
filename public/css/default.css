@@ -111,6 +111,10 @@ textarea {
 	margin-right: auto;
 }
 
+div.new-post textarea {
+	height: 4em;
+}
+
 div.new-post div.button {
 	text-align: center;
 }
