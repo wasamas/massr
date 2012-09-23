@@ -10,7 +10,7 @@
 
 module Massr
 	class App < Sinatra::Base
-		post '/search' do
+		get '/search' do
 			page = params[:page]?params[:page]:1
 			haml :index , :locals => {
 				:page => page , 
