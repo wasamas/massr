@@ -66,5 +66,22 @@ module Massr
 		def authorized?
 			status != UNAUTHORIZED
 		end
+
+		def to_json(stat = nil)
+			to_hash.to_json
+		end
+
+	private
+		def to_hash
+			{
+				'id' => id,
+				'massr_id' => massr_id,
+				'twitter_id' => twitter_id,
+				'twitter_icon_url' => twitter_icon_url,
+				'name' => name,
+				'email' => email,
+				'status' => status,
+			}
+		end
 	end
 end

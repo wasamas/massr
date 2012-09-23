@@ -114,4 +114,20 @@ describe 'Massr::User' do
 			its(:authorized?){ should_not be }
 		end
 	end
+
+	describe '#to_json' do
+		before :all do
+			@user = Massr::User.create_by_registration_form(prototype_user(0))
+		end
+		subject{ @user.to_json }
+
+		it {should be_a_kind_of(String)}
+		it {should match(/"id":"/)}
+		it {should match(/"massr_id":"wasamas"/)}
+		it {should match(/"twitter_id":"1234567"/)}
+		it {should match(/"twitter_icon_url":"/)}
+		it {should match(/"name":"/)}
+		it {should match(/"email":"wasamas@example\.com"/)}
+		it {should match(/"status":0/)}
+	end
 end

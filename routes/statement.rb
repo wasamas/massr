@@ -17,6 +17,10 @@ module Massr
 			redirect '/'
 		end
 		
+		get '/statement/:id.json' do
+			Statement.find_by_id(params[:id]).to_json
+		end
+
 		get '/statement/:id' do
 			haml :user_statement, :locals => {:statement => Statement.find_by_id(params[:id])}
 		end

@@ -47,6 +47,22 @@ describe 'Massr::Statement' do
 
 	end
 
+	describe '#to_json' do
+		before :all do
+			@user = Massr::User.create_by_registration_form(prototype_user(0))
+			@statement = Massr::Statement.new.update_statement(prototype_statement(0, @user))
+		end
+		subject{ @statement.to_json }
+
+		it {should be_a_kind_of(String)}
+		it {should match(/"id":"/)}
+		it {should match(/"body":"/)}
+		it {should match(/"user":{/)}
+		it {should match(/"likes":\[\]/)}
+		it {should match(/"ref_ids":\[\]/)}
+		it {should match(/"res_id":null/)}
+	end
+
 	after do
 	end
 end
