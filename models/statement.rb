@@ -17,6 +17,10 @@ module Massr
 		many       :likes , :class_name => 'Massr::Like'  , :dependent => :delete_all
 		many       :refs  , :class_name => 'Massr::Statement' , :in => :ref_ids
 
+		def self.count(options={})
+			return self.count(options)
+		end
+
 		def self.get_statements(page,options={})
 			options[:order]    = :created_at.desc
 			options[:per_page] = $limit

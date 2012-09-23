@@ -20,8 +20,15 @@ module Massr
 
 		get '/user/:massr_id' do
 			user = User.find_by_massr_id(params[:massr_id])
-			page = params[:page]?params[:page]:0
-			haml :user_statements , :locals => {:page=>page,:statements => Statement.get_statements(page,{:user_id => user.id}) }		   
+			total_page = [Statement.count({:user_id => user.id}) / $limit, 1].max
+			page = params[:page]
+			if page =~ /^\d+/
+				page = page.to_i
+			else
+				page = 1
+			end
+			page = [page, total_page].min
+			haml :user_statements , :locals => {:page=>page,:statements => Statement.get_statements(page,{:user_id => user.id}),:total_page => total_page }
 		end
 
 		post '/user' do
