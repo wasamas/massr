@@ -22,7 +22,7 @@
 									%input{csrf_input}
 								%div.button
 									%input.btn.btn-small{:type => "submit" , :value => "投稿にょわー☆"}
-						!= haml :statements ,:locals => {:page=>page,:statements => statements,:total_page => total_page}
+						!= haml :statements ,:locals => {:page=>page,:statements => statements,:q => q,:total_page => total_page}
 				.span3
-					!= haml :sidebar
+					!= haml :sidebar ,:locals => {:q => q}
 			!= haml :footer

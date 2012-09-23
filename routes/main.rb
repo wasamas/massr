@@ -19,7 +19,7 @@ module Massr
 				page = 1
 			end
 			page = [page, total_page].min
-			haml :index , :locals => {:page => page , :statements => Statement.get_statements(page) , :total_page => total_page }
+			haml :index , :locals => {:page => page , :statements => Statement.get_statements(page) , :q => '' , :total_page => total_page }
 		end
 	end
 end
