@@ -18,7 +18,7 @@
 						%a{:href => "/admin", :title => "Admin"}<Admin
 				%li
 					Search
-					%form{:method => "POST", :action => "/search"}
+					%form{:method => "GET", :action => "/search"}
 						%div
 							%input{:id => "search-field", :type => "text", :name => "search"}
 							%input{csrf_input}

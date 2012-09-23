@@ -10,11 +10,18 @@
 
 module Massr
 	class App < Sinatra::Base
-		post '/search' do
-			page = params[:page]?params[:page]:1
+		get '/search' do
+			total_page = [Statement.count({:body=>/.*#{params[:search]}.*/}) / $limit, 1].max
+			page = params[:page]
+			if page =~ /^\d+/
+				page = page.to_i
+			else
+				page = 1
+			end
 			haml :index , :locals => {
 				:page => page , 
-				:statements => Statement.get_statements(page,{:body=>/.*#{params[:search]}.*/})}
+				:statements => Statement.get_statements(page,{:body=>/.*#{params[:search]}.*/}),
+				:total_page => total_page}
 		end
 	end
 end

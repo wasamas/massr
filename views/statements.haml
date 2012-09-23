@@ -4,5 +4,6 @@
 %p
 	- if page.to_i > 1
 		%a{:href => "#{request.path_info}?page=#{page.to_i-1}"}<prev
-	%a{:href => "#{request.path_info}?page=#{page.to_i+1}"}<next
+	- if total_page > page.to_i
+		%a{:href => "#{request.path_info}?page=#{page.to_i+1}"}<next
 
