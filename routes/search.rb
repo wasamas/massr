@@ -11,10 +11,11 @@
 module Massr
 	class App < Sinatra::Base
 		get '/search' do
-			page = params[:page]?params[:page]:1
+			page = params[:page] ? params[:page] : 1
 			haml :index , :locals => {
-				:page => page , 
-				:statements => Statement.get_statements(page,{:body=>/.*#{params[:search]}.*/})}
+				:page => page,
+				:statements => Statement.get_statements(page, {:body => /#{params[:q]}/})
+			}
 		end
 	end
 end
