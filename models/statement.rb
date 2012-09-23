@@ -1,5 +1,6 @@
 # -*- coding: utf-8; -*-
 require 'mongo_mapper'
+require 'json'
 
 module Massr
 	class Statement
@@ -49,6 +50,21 @@ module Massr
 
 			return self
 		end
-		
+
+		def to_json(stat = nil)
+			to_hash.to_json(stat)
+		end
+
+	private
+		def to_hash
+			{
+				'id' => id,
+				'body' => body,
+				'user' => user.to_hash,
+				'likes' => likes,
+				'ref_ids' => ref_ids,
+				'res_id' => res_id,
+			}
+		end
 	end
 end
