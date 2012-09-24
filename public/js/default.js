@@ -150,12 +150,15 @@ $(function(){
 		var statement_id = getID($(this).attr('id'));
 		var method = $(this).hasClass('like') ? 'POST' : 'DELETE';
 
+		toggleLikeButton(statement_id);
 		$.ajax({
 			url: '/statement/' + statement_id + '/like',
 			type: method,
 			success: function(result) {
-				toggleLikeButton(statement_id);
 				refreshLike(statement_id);
+			},
+			error: function() {
+				toggleLikeButton(statement_id);
 			}
 		});
 		return false;
