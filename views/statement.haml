@@ -1,4 +1,4 @@
-.statement{:id => "st#{statement._id}"}
+.statement{:id => "st-#{statement._id}"}
 
 	/ アイコン
 	.statement-icon
@@ -31,17 +31,15 @@
 					%i.icon-trash{:title => '削除'}
 			%a{:href => '#', :onClick => "return toggle_response('#{statement._id}');"}
 				%i.icon-comment{:title => 'レス'}
-			- if (statement.likes.map{|like| like.user._id == session[:user_id]  }).include? true
-				%input{:type => "image",:src => "/img/wakaruwa.png", :value => "わからないわ", :onClick=>"del_like('#{statement._id}');"}
-			- else
-				%form.statement-action{:method => "POST", :action => "/statement/#{statement._id}/like"}
-					%input{:type => "image", :src=>"/img/wakaranaiwa.png", :value => "わかるわ"}
-					%input{csrf_input}
+			- like = (statement.likes.map{|like| like.user._id == session[:user_id]  }).include?(true) ? 'unlike' : 'like'
+			%a{:class => "like-button #{like}", :href => '#', :id => "like-#{statement._id}"}
+				%img.unlike{:src => "/img/wakaruwa.png", :alt => _unlike, :title => _unlike}
+				%img.like{:src => "/img/wakaranaiwa.png", :alt => _like, :title => _like}
 
 		/ わかるわ一覧
 		- unless statement.likes.size == 0
 			.statement-like
-				わかるわ:
+				#{_like}:
 				- statement.likes.each do |like|
 					%a{:href => "/user/#{like.user.massr_id}"}
 						%img.massr-icon-mini{:src => like.user.twitter_icon_url, :title => like.user.name, :alt => like.user.name}

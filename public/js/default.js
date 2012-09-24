@@ -2,16 +2,6 @@ var ADMIN        = 0;
 var AUTHORIZED   = 1;
 var UNAUTHORIZED = 9;
 
-function del_like(id) {
-	$.ajax({
-		url: '/statement/'+id+'/like',
-		type: 'DELETE',
-		success: function(result) {
-			location.href="/";
-		}
-	});
-}
-
 function del_statement(id) {
 	if(window.confirm('本当に削除してよろしいいですか？'))
 	{
@@ -109,6 +99,66 @@ $(function(){
 			var token = jQuery('meta[name="_csrf"]').attr('content');
 			xhr.setRequestHeader('X_CSRF_TOKEN', token);
 		}
+	});
+
+	/*
+	 * utilities
+	 */
+	// get ID from style "aaa-999999999"
+	function getID(label){
+		return label.split('-', 2)[1];
+	};
+
+	/*
+	 * action like / unlike
+	 */
+	function toggleLikeButton(statement_id){
+		$('#st-' + statement_id + ' a.like-button').
+			toggleClass('like').
+			toggleClass('unlike');
+	};
+
+	function refreshLike(statement_id){
+		$('#st-' + statement_id + ' .statement-like').remove();
+
+		$.getJSON('/statement/' + statement_id + '.json', {}, function(statement){
+			if(statement.likes.length == 0){
+				return;
+			}
+
+			$('#st-' + statement_id + ' .statement-action').
+				after('<div class="statement-like">').
+				next().
+				append('わかるわ:');
+
+			$.each(statement.likes, function(){
+				$('#st-' + statement_id + ' .statement-like').
+					append( $('<a>').
+						attr('href', '/user/' + this.user.massr_id).
+						append( $('<img>').
+							addClass('massr-icon-mini').
+							attr('src', this.user.twitter_icon_url).
+							attr('alt', this.user.name).
+							attr('title', this.user.name)
+						)
+					)
+			});
+		});
+	};
+
+	$('.statement-action').on('click', 'a.like-button', function(){
+		var statement_id = getID($(this).attr('id'));
+		var method = $(this).hasClass('like') ? 'POST' : 'DELETE';
+
+		$.ajax({
+			url: '/statement/' + statement_id + '/like',
+			type: method,
+			success: function(result) {
+				toggleLikeButton(statement_id);
+				refreshLike(statement_id);
+			}
+		});
+		return false;
 	});
 
 	/*

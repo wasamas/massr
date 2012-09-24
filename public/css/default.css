@@ -196,9 +196,10 @@ div.statement-action {
 	letter-spacing: 0.5em;
 }
 
-form.statement-action {
-	display: inline;
-}
+div.statement-action a.unlike img.unlike{ display: inline; }
+div.statement-action a.unlike img.like{ display: none; }
+div.statement-action a.like img.unlike{ display: none; }
+div.statement-action a.like img.like{ display: inline; }
 
 div.statement-like {
 	border-style: solid;
