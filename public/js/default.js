@@ -133,6 +133,7 @@ $(function(){
 
 			$.each(statement.likes, function(){
 				$('#st-' + statement_id + ' .statement-like').
+					append("&nbsp;").
 					append( $('<a>').
 						attr('href', '/user/' + this.user.massr_id).
 						append( $('<img>').
