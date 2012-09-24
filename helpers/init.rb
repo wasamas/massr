@@ -18,6 +18,10 @@ module Massr
 			def csrf_input
 				{:type => 'hidden', :name => '_csrf', :value => Rack::Csrf.token(env)}
 			end
+
+			def current_user
+				User.find_by_id(session[:user_id])
+			end
 		end
 	end
 end

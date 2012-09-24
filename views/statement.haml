@@ -31,7 +31,7 @@
 					%i.icon-trash{:title => _delete}
 			%a{:href => '#', :onClick => "return toggle_response('#{statement._id}');"}
 				%i.icon-comment{:title => _res}
-			- like = (statement.likes.map{|like| like.user._id == session[:user_id]  }).include?(true) ? 'unlike' : 'like'
+			- like = statement.like?(current_user) ? 'unlike' : 'like'
 			%a{:class => "like-button #{like}", :href => '#', :id => "like-#{statement._id}"}
 				%img.unlike{:src => "/img/wakaruwa.png", :alt => _unlike, :title => _unlike}
 				%img.like{:src => "/img/wakaranaiwa.png", :alt => _like, :title => _like}

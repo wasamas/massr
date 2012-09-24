@@ -37,7 +37,7 @@ module Massr
 		
 		post '/statement/:id/like' do
 			@statement.likes.delete_if{ |like| !like.user}
-			unless ((@statement.likes.map{|like| like.user._id == @user._id  }).include? true)
+			unless @statement.like?(@user)
 				like = Like.new(:user => @user)
 				@statement.likes << like
 			end

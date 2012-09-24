@@ -47,13 +47,32 @@ describe 'Massr::Statement' do
 
 	end
 
+	describe '#like?' do
+		before :all do
+			Massr::User.collection.remove
+			@user0 = Massr::User.create_by_registration_form(prototype_user(0))
+			@statement = Massr::Statement.new.update_statement(prototype_statement(0, @user0))
+			@statement.likes << Massr::Like::new(:user => @user0)
+
+			@user1 = Massr::User.create_by_registration_form(prototype_user(1))
+		end
+		subject{ @statement }
+
+		context 'イイネした' do
+			it {subject.like?(@user0).should be_true}
+		end
+		context 'イイネしてない' do
+			it {subject.like?(@user1).should_not be_true}
+		end
+	end
+
 	describe '#to_json' do
 		before :all do
+			Massr::User.collection.remove
 			@user = Massr::User.create_by_registration_form(prototype_user(0))
 			@statement = Massr::Statement.new.update_statement(prototype_statement(0, @user))
 			@like = Massr::Like::new(:user => @user)
 			@statement.likes << @like
-			puts @statement.to_json
 		end
 		subject{ @statement.to_json }
 

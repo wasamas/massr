@@ -47,6 +47,10 @@ module Massr
 			return self
 		end
 
+		def like?(user)
+			likes.map{|like| like.user._id == user._id}.include?(true)
+		end
+
 		def to_json(stat = nil)
 			to_hash.to_json(stat)
 		end
