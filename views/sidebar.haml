@@ -20,7 +20,7 @@
 					Search
 					%form{:method => "GET", :action => "/search"}
 						%div
-							%input{:id => "search-field", :type => "text", :name => "q", :value => q}
+							%input{:id => "search-field", :type => "text", :name => "q", :value => "#{q rescue ''}"}
 						%div.search-button
 							%input.btn{:id => "search-button", :type => "submit" , :value => "みつけるわ"}
 			%h2<メンバ
