@@ -1,5 +1,6 @@
 # -*- coding: utf-8; -*-
 require 'mongo_mapper'
+require_relative 'statement'
 
 module Massr
 	class User
@@ -71,7 +72,6 @@ module Massr
 			to_hash.to_json
 		end
 
-	private
 		def to_hash
 			{
 				'id' => id,

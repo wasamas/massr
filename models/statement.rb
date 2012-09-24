@@ -57,7 +57,7 @@ module Massr
 				'id' => id,
 				'body' => body,
 				'user' => user.to_hash,
-				'likes' => likes,
+				'likes' => likes.map{|l| l.to_hash},
 				'ref_ids' => ref_ids,
 				'res_id' => res_id,
 			}
