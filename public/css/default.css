@@ -111,7 +111,7 @@ textarea {
 	margin-right: auto;
 }
 
-div.new-post textarea {
+div.new-post textarea, div.response textarea {
 	height: 4em;
 }
 
