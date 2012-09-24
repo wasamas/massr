@@ -7,7 +7,7 @@
 					%a{:href => "/user/#{user.massr_id}"}<
 						%img{:SRC => "#{user.twitter_icon_url}", :class => "massr_id"}
 						#{user.name}
-			%h2<メニュー
+			%h2<#{_menu}
 			%ul.sidebar-menu.sidebar-list
 				%li
 					%a{:href => "/logout", :title => "Logout"}<Logout
@@ -22,8 +22,8 @@
 						%div
 							%input{:id => "search-field", :type => "text", :name => "q", :value => "#{q rescue ''}"}
 						%div.search-button
-							%input.btn{:id => "search-button", :type => "submit" , :value => "みつけるわ"}
-			%h2<メンバ
+							%input.btn{:id => "search-button", :type => "submit" , :value => _search}
+			%h2<#{_member}
 			%ul.user-list.sidebar-list
 				- Massr::User.where(:massr_id => {:$ne => user.massr_id}).sort(:updated_at.desc).each do |member|
 					%li

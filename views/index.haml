@@ -14,14 +14,14 @@
 							- unauth_count = Massr::User.where(:status => 9).count
 							- unless unauth_count == 0
 								.info.alert-info
-									%a{:href=>'/admin'}<未認証ユーザが#{unauth_count}人います
+									%a{:href=>'/admin'}<#{_unauth_count(unauth_count)}
 						.new-post
 							%form{:method => "POST", :action => "/statement"}
 								%div
 									%textarea{:type => "text", :name => "body"}
 									%input{csrf_input}
 								%div.button
-									%input.btn.btn-small{:type => "submit" , :value => "投稿にょわー☆"}
+									%input.btn.btn-small{:type => "submit" , :value => _post}
 						!= haml :statements ,:locals => {:page=>page,:statements => statements,:q => q,:total_page => total_page}
 				.span3
 					!= haml :sidebar ,:locals => {:q => q}

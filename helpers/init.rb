@@ -18,17 +18,8 @@ module Massr
 			def csrf_input
 				{:type => 'hidden', :name => '_csrf', :value => Rack::Csrf.token(env)}
 			end
-
-			#
-			# カスタマイズ可能な文字列
-			#
-			def _like
-				'わかるわ'
-			end
-
-			def _unlike
-				'わからないわ'
-			end
 		end
 	end
 end
+
+require_relative 'resource'

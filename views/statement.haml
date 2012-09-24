@@ -28,9 +28,9 @@
 		.statement-action
 			- if statement.user._id == session[:user_id]
 				%a{:href => "#", :onClick => "del_statement('#{statement._id}');"}
-					%i.icon-trash{:title => '削除'}
+					%i.icon-trash{:title => _delete}
 			%a{:href => '#', :onClick => "return toggle_response('#{statement._id}');"}
-				%i.icon-comment{:title => 'レス'}
+				%i.icon-comment{:title => _res}
 			- like = (statement.likes.map{|like| like.user._id == session[:user_id]  }).include?(true) ? 'unlike' : 'like'
 			%a{:class => "like-button #{like}", :href => '#', :id => "like-#{statement._id}"}
 				%img.unlike{:src => "/img/wakaruwa.png", :alt => _unlike, :title => _unlike}
@@ -50,4 +50,4 @@
 				%textarea{:type => "text", :name => "body"}
 				%input{:type => "hidden", :name => "res_id", :value => statement._id}
 				%input{csrf_input}
-				%input.btn{:type => "submit" , :value => "レスるわ"}
+				%input.btn{:type => "submit" , :value => _post_res}
