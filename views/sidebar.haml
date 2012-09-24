@@ -25,7 +25,7 @@
 							%input.btn{:id => "search-button", :type => "submit" , :value => "みつけるわ"}
 			%h2<メンバ
 			%ul.user-list.sidebar-list
-				- Massr::User.where(:massr_id => {:$ne => user.massr_id}).sort(:updated_at.desc).each do |member|
+				- Massr::User.where(:massr_id => {:$ne => user.massr_id}, :status => {:$ne =>  Massr::User::UNAUTHORIZED}).sort(:updated_at.desc).each do |member|
 					%li
 						%a{:href => "/user/#{member.massr_id}"}<
 							%img{:src => "#{member.twitter_icon_url}" ,:class => "massr_id", :alt=> "#{member.massr_id}"}
