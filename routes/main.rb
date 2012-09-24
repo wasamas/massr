@@ -11,7 +11,7 @@
 module Massr
 	class App < Sinatra::Base
 		get '/' do
-			total_page = [Statement.count / $limit, 1].max
+			total_page = [Statement.count / ($limit + 0.0), 1].max.ceil
 			page = params[:page]
 			if page =~ /^\d+/
 				page = page.to_i
