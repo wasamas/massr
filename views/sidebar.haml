@@ -1,19 +1,18 @@
 %aside
 	.well.sidebar-nav
-		-if session[:user_id]
-			- user = Massr::User.find_by_id(session[:user_id])
+		-if current_user
 			%ul.user-list.sidebar-list
 				%li
-					%a{:href => "/user/#{user.massr_id}"}<
-						%img{:SRC => "#{user.twitter_icon_url}", :class => "massr_id"}
-						#{user.name}
+					%a{:href => "/user/#{current_user.massr_id}"}<
+						%img{:SRC => "#{current_user.twitter_icon_url}", :class => "massr_id"}
+						#{current_user.name}
 			%h2<#{_menu}
 			%ul.sidebar-menu.sidebar-list
 				%li
 					%a{:href => "/logout", :title => "Logout"}<Logout
 				%li
 					%a{:href => "/user", :title => "Setting"}<Setting
-				- if user.admin?
+				- if current_user.admin?
 					%li
 						%a{:href => "/admin", :title => "Admin"}<Admin
 				%li
@@ -25,7 +24,7 @@
 							%input.btn{:id => "search-button", :type => "submit" , :value => _search}
 			%h2<#{_member}
 			%ul.user-list.sidebar-list
-				- Massr::User.where(:massr_id => {:$ne => user.massr_id}, :status => {:$ne =>  Massr::User::UNAUTHORIZED}).sort(:updated_at.desc).each do |member|
+				- Massr::User.each_authorized_user_without(current_user) do |member|
 					%li
 						%a{:href => "/user/#{member.massr_id}"}<
 							%img{:src => "#{member.twitter_icon_url}" ,:class => "massr_id", :alt=> "#{member.massr_id}"}

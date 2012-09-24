@@ -45,6 +45,14 @@ module Massr
 			user.save!
 		end
 
+		def self.each_authorized_user_without(me)
+			where( :massr_id => {:$ne => me.massr_id},
+					 :status => {:$ne => Massr::User::UNAUTHORIZED}).
+					 sort(:updated_at.desc).each do |member|
+				yield member
+			end
+		end
+
 		def update_profile(request)
 			self[:twitter_id] = request[:twitter_id]
 			self[:twitter_icon_url] = request[:twitter_icon_url]
