@@ -119,9 +119,9 @@ $(function(){
 	};
 
 	function refreshLike(statement_id){
-		$('#st-' + statement_id + ' .statement-like').remove();
-
 		$.getJSON('/statement/' + statement_id + '.json', {}, function(statement){
+			$('#st-' + statement_id + ' .statement-like').remove();
+
 			if(statement.likes.length == 0){
 				return;
 			}
