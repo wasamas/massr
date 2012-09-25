@@ -80,6 +80,10 @@ ul.sidebar-list li {
 	margin-bottom: 2px;
 }
 
+ul.sidebar-list li.user-list {
+	display: inline;
+}
+
 #search-field {
 	width: 90%;
 }

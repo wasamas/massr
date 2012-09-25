@@ -25,8 +25,6 @@
 			%h2<#{_member}
 			%ul.user-list.sidebar-list
 				- Massr::User.each_authorized_user_without(current_user) do |member|
-					%li
+					%li.user-list
 						%a{:href => "/user/#{member.massr_id}"}<
-							%img{:src => "#{member.twitter_icon_url}" ,:class => "massr_id", :alt=> "#{member.massr_id}"}
-							= member.name
-
+							%img.massr-icon-mini{:src => "#{member.twitter_icon_url}" ,:class => "massr_id", :alt=> member.name, :title => member.name}
