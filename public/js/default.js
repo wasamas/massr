@@ -81,15 +81,6 @@ function unprivilege_user(id) {
 	}
 }
 
-function toggle_response(id) {
-	$("#res"+id).toggle().each(function(){
-		if($(this).css('display') == 'block'){
-			$('textarea', this).focus();
-		}
-	});
-	return false;
-}
-
 $(function(){
 	/*
 	 * setup against CSRF
@@ -158,6 +149,19 @@ $(function(){
 			},
 			error: function() {
 				toggleLikeButton(statement_id);
+			}
+		});
+		return false;
+	});
+
+	/*
+	 * res form
+	 */
+	$('.statement-action').on('click', 'a.res', function(){
+		var statement = getID($(this).parent().parent().parent().attr('id'));
+		$("#res-" + statement).toggle().each(function(){
+			if($(this).css('display') == 'block'){
+				$('textarea', this).focus();
 			}
 		});
 		return false;

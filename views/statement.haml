@@ -29,7 +29,7 @@
 			- if statement.user._id == session[:user_id]
 				%a{:href => "#", :onClick => "del_statement('#{statement._id}');"}
 					%i.icon-trash{:title => _delete}
-			%a{:href => '#', :onClick => "return toggle_response('#{statement._id}');"}
+			%a.res{:href => '#'}
 				%i.icon-comment{:title => _res}
 			- like = statement.like?(current_user) ? 'unlike' : 'like'
 			%a{:class => "like-button #{like}", :href => '#', :id => "like-#{statement._id}"}
@@ -45,7 +45,7 @@
 						%img.massr-icon-mini{:src => like.user.twitter_icon_url, :title => like.user.name, :alt => like.user.name}
 
 		/ レスフォーム
-		.response{:id=>"res#{statement._id}"}
+		.response{:id=>"res-#{statement._id}"}
 			%form{:method => "POST", :action => "/statement"}
 				%textarea{:type => "text", :name => "body"}
 				%input{:type => "hidden", :name => "res_id", :value => statement._id}
