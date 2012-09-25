@@ -226,3 +226,22 @@ div.response input.btn {
 	margin-left: auto;
 	margin-right: 0px;
 }
+
+ul.admin {
+	padding: 8px;
+	background-color: #ddd;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #aaa;
+	border-radius: 4px;
+}
+
+ul.admin li.admin a.admin { display: inline; }
+ul.admin li.normal a.admin { display: none; }
+ul.admin li.admin a.normal { display: none; }
+ul.admin li.normal a.normal { display: inline; }
+
+ul.admin li.authorized a.authorized { display: inline; }
+ul.admin li.unauthorized a.authorized { display: none; }
+ul.admin li.authorized a.unauthorized { display: none; }
+ul.admin li.unauthorized a.unauthorized { display: inline; }

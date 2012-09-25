@@ -10,22 +10,19 @@
 				.span9
 					.main
 						%h2<#{_member}
-						%ul.user-list
+						%ul.user-list.admin
 							- users.each do |member|
-								%li
-									- if member.admin?
-										%a{:href=>"#", :onClick=>"unprivilege_user(\"#{member.massr_id}\");"}
-											%i.icon-star{:title => _unprivilege_user}
-										%i.icon-remove.icon-white
-									- elsif member.authorized?
-										%a{:href=>"#", :onClick=>"privilege_user(\"#{member.massr_id}\");"}
-											%i.icon-star.icon-white{:title => _privilege_user}
-										%a{:href=>"#", :onClick=>"unauthorize_user(\"#{member.massr_id}\");"}
-											%i.icon-remove{:title => _unauthorize_user}
-									- elsif !member.authorized?
-										%i.icon-star.icon-white
-										%a{:href=>"#", :onClick=>"authorize_user(\"#{member.massr_id}\");"}
-											%i.icon-ok{:title => _authorize_user}
-									%img{:src => "#{member.twitter_icon_url}" ,:class => "massr_id", :alt=> "#{member.massr_id}"}
+								%li{:class => "#{member.admin? ? 'admin' : 'normal'} #{member.authorized? ? 'authorized' : 'unauthorized'}", :id => member.massr_id}
+									%a.admin
+										%i.icon-star{:title => _unprivilege_user}
+									%a.normal
+										%i.icon-star.icon-white{:title => _privilege_user}
+									%a.authorized
+										%i.icon-remove{:title => _unauthorize_user}
+									%a.unauthorized
+										%i.icon-ok{:title => _authorize_user}
+									%img{:src => member.twitter_icon_url ,:class => "massr_id", :alt => member.massr_id}
 									= member.name
+				.span3
+					!= haml :sidebar
 		!= haml :footer

@@ -1,7 +1,3 @@
-var ADMIN        = 0;
-var AUTHORIZED   = 1;
-var UNAUTHORIZED = 9;
-
 function del_statement(id) {
 	if(window.confirm('本当に削除してよろしいいですか？'))
 	{
@@ -23,59 +19,6 @@ function del_user(id) {
 			type: 'DELETE',
 			success: function(result) {
 				location.href="/";
-			}
-		});
-	}
-}
-
-function authorize_user(id) {
-	{
-		$.ajax({
-			url: '/user/'+id,
-			type: 'PUT',
-			data: "status="+AUTHORIZED,
-			success: function(result) {
-				location.href="/admin";
-			}
-		});
-	}
-}
-function unauthorize_user(id) {
-	if(window.confirm('本当に認可を取り消していいですか？'))
-	{
-		$.ajax({
-			url: '/user/'+id,
-			type: 'PUT',
-			data: "status="+UNAUTHORIZED,
-			success: function(result) {
-				location.href="/admin";
-			}
-		});
-	}
-}
-
-function privilege_user(id) {
-	{
-		$.ajax({
-			url: '/user/'+id,
-			type: 'PUT',
-			data: "status="+ADMIN,
-			success: function(result) {
-				location.href="/admin";
-			}
-		});
-	}
-}
-
-function unprivilege_user(id) {
-	if(window.confirm('本当にAdmin権限を取り消していいですか？'))
-	{
-		$.ajax({
-			url: '/user/'+id,
-			type: 'PUT',
-			data: "status="+AUTHORIZED,
-			success: function(result) {
-				location.href="/admin";
 			}
 		});
 	}
@@ -166,6 +109,47 @@ $(function(){
 		});
 		return false;
 	});
+
+	/*
+	 * admin
+	 */
+	var ADMIN        = 0;
+	var AUTHORIZED   = 1;
+	var UNAUTHORIZED = 9;
+
+	function toggleStatus(massr_id, stat, on, off){
+		if($('#' + massr_id).hasClass('admin') && on == 'unauthorized'){
+			alert('管理者の認可は取り消せません')
+			return false;
+		}
+		if($('#' + massr_id).hasClass('unauthorized') && on == 'admin'){
+			alert('未認可メンバは管理者指名できません')
+			return false;
+		}
+		$.ajax({
+			url: '/user/' + massr_id,
+			type: 'PUT',
+			data: "status=" + stat,
+			success: function(result){
+				$('#' + massr_id).toggleClass(on).toggleClass(off);
+			}
+		});
+		return true;
+	};
+
+	$('ul.admin li').
+		on('click', 'a.admin', function(){ // Admin権限剥奪
+			toggleStatus($(this).parent().attr('id'), AUTHORIZED, 'normal', 'admin');
+			return false;}).
+		on('click', 'a.normal', function(){ // Admin権限付与
+			toggleStatus($(this).parent().attr('id'), ADMIN, 'admin', 'normal');
+			return false;}).
+		on('click', 'a.authorized', function(){ // 認可取り消し
+			toggleStatus($(this).parent().attr('id'), UNAUTHORIZED, 'unauthorized', 'authorized');
+			return false;}).
+		on('click', 'a.unauthorized', function(){ // 認可
+			toggleStatus($(this).parent().attr('id'), AUTHORIZED, 'authorized', 'unauthorized');
+			return false;});
 
 	/*
 	 * automatic link
