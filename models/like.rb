@@ -11,10 +11,6 @@ module Massr
 		embedded_in :statement
 		belongs_to :user  , :class_name => 'Massr::User'
 
-		def to_json(stat = nil)
-			to_hash.to_json(stat)
-		end
-
 		def to_hash
 			{
 				'id' => id,

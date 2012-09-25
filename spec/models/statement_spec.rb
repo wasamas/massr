@@ -66,7 +66,7 @@ describe 'Massr::Statement' do
 		end
 	end
 
-	describe '#to_json' do
+	describe '#to_hash' do
 		before :all do
 			Massr::User.collection.remove
 			@user = Massr::User.create_by_registration_form(prototype_user(0))
@@ -74,15 +74,15 @@ describe 'Massr::Statement' do
 			@like = Massr::Like::new(:user => @user)
 			@statement.likes << @like
 		end
-		subject{ @statement.to_json }
+		subject{ @statement.to_hash }
 
-		it {should be_a_kind_of(String)}
-		it {should match(/"id":"/)}
-		it {should match(/"body":"/)}
-		it {should match(/"user":{/)}
-		it {should match(/"likes":\[{/)}
-		it {should match(/"ref_ids":\[\]/)}
-		it {should match(/"res_id":null/)}
+		it {should be_a_kind_of(Hash)}
+		it {subject['id'].should be}
+		it {subject['body'].should be}
+		it {subject['user'].should be}
+		it {subject['likes'].should be_a_kind_of(Array)}
+		it {subject['re_ids'].should be_nil}
+		it {subject['res_id'].should be_nil}
 	end
 
 	after do

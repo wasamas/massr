@@ -118,32 +118,30 @@ $(function(){
 			toggleClass('unlike');
 	};
 
-	function refreshLike(statement_id){
-		$.getJSON('/statement/' + statement_id + '.json', {}, function(statement){
-			$('#st-' + statement_id + ' .statement-like').remove();
+	function refreshLike(statement){
+		$('#st-' + statement.id + ' .statement-like').remove();
 
-			if(statement.likes.length == 0){
-				return;
-			}
+		if(statement.likes.length == 0){
+			return;
+		}
 
-			$('#st-' + statement_id + ' .statement-action').
-				after('<div class="statement-like">').
-				next().
-				append('わかるわ:');
+		$('#st-' + statement.id + ' .statement-action').
+			after('<div class="statement-like">').
+			next().
+			append('わかるわ:');
 
-			$.each(statement.likes, function(){
-				$('#st-' + statement_id + ' .statement-like').
-					append("&nbsp;").
-					append( $('<a>').
-						attr('href', '/user/' + this.user.massr_id).
-						append( $('<img>').
-							addClass('massr-icon-mini').
-							attr('src', this.user.twitter_icon_url).
-							attr('alt', this.user.name).
-							attr('title', this.user.name)
-						)
+		$.each(statement.likes, function(){
+			$('#st-' + statement.id + ' .statement-like').
+				append("&nbsp;").
+				append( $('<a>').
+					attr('href', '/user/' + this.user.massr_id).
+					append( $('<img>').
+						addClass('massr-icon-mini').
+						attr('src', this.user.twitter_icon_url).
+						attr('alt', this.user.name).
+						attr('title', this.user.name)
 					)
-			});
+				)
 		});
 	};
 
@@ -152,11 +150,11 @@ $(function(){
 		var method = $(this).hasClass('like') ? 'POST' : 'DELETE';
 
 		toggleLikeButton(statement_id);
-		$.ajax({
-			url: '/statement/' + statement_id + '/like',
+		$.ajax('/statement/' + statement_id + '/like', {
 			type: method,
-			success: function(result) {
-				refreshLike(statement_id);
+			dataType: 'json',
+			success: function(statement) {
+				refreshLike(statement);
 			},
 			error: function() {
 				toggleLikeButton(statement_id);

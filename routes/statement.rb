@@ -18,7 +18,7 @@ module Massr
 		end
 		
 		get '/statement/:id.json' do
-			Statement.find_by_id(params[:id]).to_json
+			Statement.find_by_id(params[:id]).to_hash.to_json
 		end
 
 		get '/statement/:id' do
@@ -42,14 +42,14 @@ module Massr
 				@statement.likes << like
 			end
 			@statement.save!
-			redirect '/'
+			@statement.to_hash.to_json
 		end
 
 		delete '/statement/:id/like' do
 			@statement.likes.delete_if{ |like| !like.user}
 			@statement.likes.delete_if{ |like| like.user.id == @user._id}
 			@statement.save!
-			redirect '/'
+			@statement.to_hash.to_json
 		end
 	end
 end
