@@ -34,7 +34,7 @@ module Massr
 				Thread.start do
 					begin
 						Mail.deliver do
-							from 'no-replay@tdtds.jp'
+							from 'no-reply@tdtds.jp'
 							to  user.email
 							subject 'Message from Massr'
 							content_type 'text/plain; charset=UTF-8'
