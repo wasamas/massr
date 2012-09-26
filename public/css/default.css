@@ -165,8 +165,7 @@ div.statement-res {
 	height: 1.1em;
 	overflow: hidden;
 	line-height: 110%;
-	padding-top: 2px;
-	padding-left: 2px;
+	padding: 2px;
 }
 
 div.statement-message {
