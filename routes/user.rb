@@ -31,6 +31,38 @@ module Massr
 			haml :user_statements , :locals => {:page=>page,:statements => Statement.get_statements(page,{:user_id => user.id}),:total_page => total_page }
 		end
 
+		get '/user/:massr_id/liked' do
+			user = User.find_by_massr_id(params[:massr_id])
+			query = {:user_id => user.id, "likes.user_id" => {:$exists => true} }
+			total_page = [Statement.count(query) / ($limit + 0.0), 1].max.ceil
+			page = params[:page]
+			if page =~ /^\d+/
+				page = page.to_i
+			else
+				page = 1
+			end
+			page = [page, total_page].min
+			haml :user_statements, :locals => {:page => page, 
+																					:statements => Statement.get_statements(page, query), 
+																					:total_page => total_page}
+		end
+
+		get '/user/:massr_id/likes' do
+			user = User.find_by_massr_id(params[:massr_id])
+			query = {"likes.user_id" => user.id }
+			total_page = [Statement.count(query) / ($limit + 0.0), 1].max.ceil
+			page = params[:page]
+			if page =~ /^\d+/
+				page = page.to_i
+			else
+				page = 1
+			end
+			page = [page, total_page].min
+			haml :user_statements, :locals => {:page => page, 
+																					:statements => Statement.get_statements(page, query), 
+																					:total_page => total_page}
+		end
+
 		post '/user' do
 			user = User.find_by_id(session[:user_id])
 			request[:twitter_id] = session[:twitter_id]
