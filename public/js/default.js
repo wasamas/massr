@@ -79,7 +79,7 @@ $(function(){
 		});
 	};
 
-	$('.statement-action').on('click', 'a.like-button', function(){
+	$(document).on('click', '.statement-action a.like-button', function(){
 		var statement_id = getID($(this).attr('id'));
 		var method = $(this).hasClass('like') ? 'POST' : 'DELETE';
 
@@ -100,7 +100,7 @@ $(function(){
 	/*
 	 * res form
 	 */
-	$('.statement-action').on('click', 'a.res', function(){
+	$(document).on('click', '.statement-action a.res', function(){
 		var statement = getID($(this).parent().parent().parent().attr('id'));
 		$("#res-" + statement).toggle().each(function(){
 			if($(this).css('display') == 'block'){
