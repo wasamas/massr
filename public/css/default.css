@@ -196,7 +196,15 @@ div.statement-action {
 	padding-right: 4px;
 	padding-bottom: 4px;
 	text-align: right;
-	letter-spacing: 0.5em;
+}
+
+div.statement-action a {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
+
+div.statement-action a:hover {
+	text-decoration: none;
 }
 
 div.statement-action a.unlike img.unlike{ display: inline; }
