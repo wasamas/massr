@@ -9,6 +9,7 @@ gem 'omniauth-twitter'
 gem 'mongo_mapper'
 gem 'bson_ext'
 gem 'rack_csrf'
+gem 'mail'
 
 group :development, :test do
 	gem 'rake'

@@ -7,6 +7,7 @@
 #
 # Distributed under GPL
 #
+require 'mail'
 
 module Massr
 	class App < Sinatra::Base
@@ -21,6 +22,28 @@ module Massr
 
 			def current_user
 				@current_user || (@current_user = User.find_by_id(session[:user_id]))
+			end
+
+			def send_mail(user, statement)
+				msg = <<-MAIL
+					#{user.name}さんからレスがありました:
+
+					「#{statement.body}」
+				MAIL
+
+				Thread.start do
+					begin
+						Mail.deliver do
+							from 'no-replay@tdtds.jp'
+							to  user.email
+							subject 'Message from Massr'
+							content_type 'text/plain; charset=UTF-8'
+							body msg.gsub(/^\t+/, '')
+						end
+					rescue => e
+						p e
+					end
+				end
 			end
 		end
 	end
