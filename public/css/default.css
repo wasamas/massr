@@ -162,9 +162,9 @@ div.statement-body-me {
 
 div.statement-res {
 	font-size: 83%;
-	height: 1.1em;
+	height: 1.0em;
+	line-height: 120%;
 	overflow: hidden;
-	line-height: 110%;
 	padding: 2px;
 }
 
