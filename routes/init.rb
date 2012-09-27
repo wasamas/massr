@@ -28,6 +28,10 @@ module Massr
 				end
 			end
 		end
+
+		not_found do
+			haml :not_found
+		end
 	end
 end
 
