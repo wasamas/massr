@@ -236,6 +236,22 @@ div.response input.btn {
 	margin-right: 0px;
 }
 
+form.profile td {
+	padding-right: 20px;
+}
+
+form.profile .twitter {
+	height: 20px;
+	padding: 4px 6px;
+	margin-bottom: 9px;
+	line-height: 20px;
+	font-size: 14px;
+}
+
+form.profile .button {
+	text-align: center;
+}
+
 ul.admin {
 	padding: 8px;
 	background-color: #ddd;

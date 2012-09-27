@@ -11,46 +11,43 @@
 					.main
 						%p
 							=session[:errors]
-						%form{:method => "POST", :action => '/user'}
+						%form.profile{:method => "POST", :action => '/user'}
 							%input{csrf_input}
 							- user = Massr::User.find_by_id(session[:user_id]) if session[:user_id]
 							%table
 								%tr
+									- if user
+										%td.icon{:colspan => 2}
+											%img{:src => user.twitter_icon_url, :alt => user.twitter_id}
+									- else
+										%td
+											Twitter ID
+										%td.twitter
+											=session[:twitter_id]
+								%tr
 									%td Massr ID
 									%td
-										%input{:type => "text", :name => "massr_id", :value => "#{session[:twitter_id]}"}
+										%input{:type => "text", :name => "massr_id", :value => user ? user.massr_id : session[:twitter_id]}
 									%td
-								%tr
-									%td Twitter ID
-									%td
-										=session[:twitter_id]
 								%tr
 									%td 表示名
 									%td
-										- if !user
-											%input{:type => "text", :name => "name" ,:value => "#{session[:twitter_name]}"}
-										- else
-											%input{:type => "text", :name => "name" ,:value => "#{user.name}"}
+										%input{:type => "text", :name => "name" ,:value => user ? user.name : session[:twitter_name]}
 								%tr
 									%td E-Mail
 									%td
-										- if !user
-											%input{:type => "text", :name => "email" , :value => ""}
-										- else
-											%input{:type => "text", :name => "email" , :value => "#{user.email}"}
+										%input{:type => "text", :name => "email" , :value => user ? user.email : ''}
 								%tr
-									%td
-									%td
-										%input{:type => "submit" , :value => "登録"}
-								-if user
-									%tr
-										%td
-										%td
-											%input{:type => "button" , :value => "削除" ,:onClick=>"del_user();"}
+									%td.button{:colspan => 2}
+										- if user
+											%input.btn.btn-large{:type => "submit" , :value => "保存"}
+										- else
+											%input.btn.btn-primary.btn-large{:type => "submit" , :value => "登録"}
+						-if user
+							%hr
+							%input.btn.btn-danger.btn-small{:type => "button" , :value => "ユーザ削除" ,:onClick=>"del_user();"}
+							※データもすべて削除されます
 				.span3
-					-if !user
+					- if user
 						!= haml :sidebar
-					-else
-						.well.sidebar-nav
-							%aside
 			!= haml :footer
