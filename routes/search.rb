@@ -21,7 +21,7 @@ module Massr
 				return
 			end
 
-			total = total_page({:body=>/#{q}/})
+			total = total_page({:body => /#{q}/})
 			page = params[:page]
 			if page =~ /^\d+/
 				page = page.to_i
@@ -31,7 +31,7 @@ module Massr
 
 			haml :index , :locals => {
 				:page => page, 
-				:statements => Statement.get_statements(page,{:body=>/.*#{q}.*/}),
+				:statements => Statement.get_statements(page,{:body => /#{q}/}),
 				:q => q,
 				:total_page => total}
 		end
