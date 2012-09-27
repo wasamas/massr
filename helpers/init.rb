@@ -40,8 +40,9 @@ module Massr
 							content_type 'text/plain; charset=UTF-8'
 							body msg.gsub(/^\t+/, '')
 						end
+						puts "sending mail to #{user.massr_id} successfully."
 					rescue => e
-						p e
+						puts e.to_s
 					end
 				end
 			end
