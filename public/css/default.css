@@ -162,10 +162,12 @@ div.statement-body-me {
 
 div.statement-res {
 	font-size: 83%;
-	height: 1.0em;
+	height: 1.2em;
+	white-space: nowrap;
 	line-height: 120%;
 	overflow: hidden;
 	padding: 2px;
+	margin-right: 4px;
 }
 
 div.statement-message {
@@ -174,7 +176,7 @@ div.statement-message {
 	white-space: -pre-wrap;     /* Opera 4-6 */
 	white-space: -o-pre-wrap;   /* Opera 7 */
 	word-wrap: break-word;      /* IE 5.5+ */
-	margin-top: 6px;
+	margin-top: 2px;
 	padding-left: 2px;
 }
 
