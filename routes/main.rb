@@ -11,15 +11,19 @@
 module Massr
 	class App < Sinatra::Base
 		get '/' do
-			total_page = [Statement.count / ($limit + 0.0), 1].max.ceil
+			total = total_page
 			page = params[:page]
 			if page =~ /^\d+/
 				page = page.to_i
 			else
 				page = 1
 			end
-			page = [page, total_page].min
-			haml :index , :locals => {:page => page , :statements => Statement.get_statements(page) , :q => '' , :total_page => total_page }
+			page = [page, total].min
+			haml :index , :locals => {
+				:page => page,
+				:statements => Statement.get_statements(page),
+				:q => '',
+				:total_page => total}
 		end
 	end
 end

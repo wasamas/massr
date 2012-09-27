@@ -24,6 +24,10 @@ module Massr
 				@current_user || (@current_user = User.find_by_id(session[:user_id]))
 			end
 
+			def total_page( query = {} )
+				[Statement.count(query) / ($limit + 0.0), 1].max.ceil
+			end
+
 			def send_mail(user, statement)
 				msg = <<-MAIL
 					#{user.name}さんからレスがありました:

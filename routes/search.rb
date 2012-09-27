@@ -21,7 +21,7 @@ module Massr
 				return
 			end
 
-			total_page = [Statement.count({:body=>/.*#{q}.*/}) / $limit, 1].max
+			total = total_page({:body=>/#{q}/})
 			page = params[:page]
 			if page =~ /^\d+/
 				page = page.to_i
@@ -33,8 +33,7 @@ module Massr
 				:page => page, 
 				:statements => Statement.get_statements(page,{:body=>/.*#{q}.*/}),
 				:q => q,
-				:total_page => total_page
-			}
+				:total_page => total}
 		end
 	end
 end

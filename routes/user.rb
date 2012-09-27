@@ -20,47 +20,52 @@ module Massr
 
 		get '/user/:massr_id' do
 			user = User.find_by_massr_id(params[:massr_id])
-			total_page = [Statement.count({:user_id => user.id}) / $limit, 1].max
+			total = total_page({:user_id => user.id})
 			page = params[:page]
 			if page =~ /^\d+/
 				page = page.to_i
 			else
 				page = 1
 			end
-			page = [page, total_page].min
-			haml :user_statements , :locals => {:page=>page,:statements => Statement.get_statements(page,{:user_id => user.id}),:total_page => total_page }
+			page = [page, total].min
+			haml :user_statements , :locals => {
+				:page => page,
+				:statements => Statement.get_statements(page, {:user_id => user.id}),
+				:total_page => total}
 		end
 
 		get '/user/:massr_id/liked' do
 			user = User.find_by_massr_id(params[:massr_id])
 			query = {:user_id => user.id, "likes.user_id" => {:$exists => true} }
-			total_page = [Statement.count(query) / ($limit + 0.0), 1].max.ceil
+			total = total_page(query)
 			page = params[:page]
 			if page =~ /^\d+/
 				page = page.to_i
 			else
 				page = 1
 			end
-			page = [page, total_page].min
-			haml :user_statements, :locals => {:page => page, 
-																					:statements => Statement.get_statements(page, query), 
-																					:total_page => total_page}
+			page = [page, total].min
+			haml :user_statements, :locals => {
+				:page => page,
+				:statements => Statement.get_statements(page, query),
+				:total_page => total}
 		end
 
 		get '/user/:massr_id/likes' do
 			user = User.find_by_massr_id(params[:massr_id])
 			query = {"likes.user_id" => user.id }
-			total_page = [Statement.count(query) / ($limit + 0.0), 1].max.ceil
+			total = total_page(query)
 			page = params[:page]
 			if page =~ /^\d+/
 				page = page.to_i
 			else
 				page = 1
 			end
-			page = [page, total_page].min
-			haml :user_statements, :locals => {:page => page, 
-																					:statements => Statement.get_statements(page, query), 
-																					:total_page => total_page}
+			page = [page, total].min
+			haml :user_statements, :locals => {
+				:page => page,
+				:statements => Statement.get_statements(page, query),
+				:total_page => total}
 		end
 
 		post '/user' do
