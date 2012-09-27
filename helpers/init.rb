@@ -30,7 +30,7 @@ module Massr
 
 			def send_mail(user, statement)
 				msg = <<-MAIL
-					#{user.name}さんからレスがありました:
+					#{statement.user.name}さんからレスがありました:
 
 					「#{statement.body}」
 				MAIL
