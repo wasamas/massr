@@ -26,6 +26,11 @@ function del_user(id) {
 
 $(function(){
 	/*
+	 * setup pnotify plugin
+	 */
+	$.pnotify.defaults.history = false;
+
+	/*
 	 * setup against CSRF
 	 */
 	jQuery.ajaxSetup({
