@@ -15,6 +15,10 @@
 		/ 発言本文
 		.statement-message<#{statement.body.gsub(/[\r\n]+/, ' ')}
 
+		/ 画像表示
+		- statement.photos.each do |photo|
+			%img.statement-photo{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
+
 		/ 発言の付属情報
 		.statement-info
 			by
