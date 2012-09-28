@@ -31,6 +31,7 @@
 					%i.icon-trash{:title => _delete}
 			%a.res{:href => '#'}
 				%i.icon-comment{:title => _res}
+				= statement.refs.size > 0 ? "(#{statement.refs.size})" : ''
 			- like = statement.like?(current_user) ? 'unlike' : 'like'
 			%a{:class => "like-button #{like}", :href => '#', :id => "like-#{statement._id}"}
 				%img.unlike{:src => "/img/wakaruwa.png", :alt => _unlike, :title => _unlike}
