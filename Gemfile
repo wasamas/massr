@@ -3,6 +3,7 @@ source :rubygems
 ruby '1.9.3'
 
 gem 'sinatra'
+gem 'thin'
 gem 'haml'
 gem 'omniauth'
 gem 'omniauth-twitter'
@@ -16,6 +17,5 @@ group :development, :test do
 	gem 'rspec'
 	gem 'autotest'
 	gem 'sinatra-reloader', require: 'sinatra/reloader'
-	gem 'thin'
 	gem 'pit', require: 'pit'
 end
