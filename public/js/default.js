@@ -48,6 +48,29 @@ $(function(){
 		return label.split('-', 2)[1];
 	};
 
+	var message = new Object();
+
+	message.success = function(text){
+		$.pnotify({
+			text: text,
+			type: 'success'
+		});
+	};
+
+	message.info = function(text){
+		$.pnotify({
+			text: text,
+			type: 'info'
+		});
+	};
+
+	message.error = function(text){
+		$.pnotify({
+			text: text,
+			type: 'error'
+		});
+	};
+
 	/*
 	 * action like / unlike
 	 */
@@ -95,8 +118,9 @@ $(function(){
 			success: function(statement) {
 				refreshLike(statement);
 			},
-			error: function() {
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				toggleLikeButton(statement_id);
+				message.error('イイネに失敗しました(' + textStatus + ')');
 			}
 		});
 		return false;
@@ -124,11 +148,11 @@ $(function(){
 
 	function toggleStatus(massr_id, stat, on, off){
 		if($('#' + massr_id).hasClass('admin') && on == 'unauthorized'){
-			alert('管理者の認可は取り消せません')
+			message.info('管理者の認可は取り消せません')
 			return false;
 		}
 		if($('#' + massr_id).hasClass('unauthorized') && on == 'admin'){
-			alert('未認可メンバは管理者指名できません')
+			message.info('未認可メンバは管理者指名できません')
 			return false;
 		}
 		$.ajax({
@@ -136,7 +160,11 @@ $(function(){
 			type: 'PUT',
 			data: "status=" + stat,
 			success: function(result){
+				message.success(massr_id + 'のステータスを変更しました');
 				$('#' + massr_id).toggleClass(on).toggleClass(off);
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown){
+				message.error('ステータス変更に失敗しました(' + textStatus + ')');
 			}
 		});
 		return true;
