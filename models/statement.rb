@@ -1,6 +1,7 @@
 # -*- coding: utf-8; -*-
 require 'mongo_mapper'
 require 'json'
+require 'uri'
 
 module Massr
 	class Statement
@@ -8,7 +9,7 @@ module Massr
 		safe
 		
 		key :body,  :type => String, :required => true
-		key :photo, :type => String
+		key :photos, Array
 		key :ref_ids, Array
 
 		timestamps!
@@ -27,7 +28,14 @@ module Massr
 
 		def update_statement(request)
 			self[:body]  = request[:body]
-			self[:photo] = request[:photo] if request[:photo]
+			self[:photos] << request[:photo] if request[:photo]
+			
+			# body内の画像
+			re = URI.regexp(['http', 'https'])
+			self[:body].scan(re) do 
+				uri = URI.parse($&)
+				self[:photos] << uri.to_s if /\.(jpg|jpeg|gif|png|bmp)$/ =~ uri.path
+			end
 
 			if request[:res_id]
 				res_statement  = Statement.find_by_id(request[:res_id])
