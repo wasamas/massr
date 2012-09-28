@@ -73,7 +73,8 @@ $ sudo gem install heroku  # 上記以外
 # アプリ初回作成時
 $ heroku apps:create massr-XXX #アプリ作成
 $ heroku addons:add mongolab:starter # MongoLabの有効化
-## ※ MongoLab を有効にするには Herokuにてクレジットカード登録が必要です
+$ heroku addons:add sendgrid:starter # SendGridの有効化
+## ※ MongoLab・SendGrid を有効にするには Herokuにてクレジットカード登録が必要です
 $ heroku config:add \
   RACK_ENV=production \
   TWITTER_CONSUMER_ID=XXXXXXXXXXXXXXX \
