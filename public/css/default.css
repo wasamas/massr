@@ -80,6 +80,16 @@ ul.sidebar-list li {
 	margin-bottom: 2px;
 }
 
+ul.sidebar-list li.isolate {
+	border-style: solid;
+	border-color: #ddd;
+	border-width: 1px 0px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
 ul.sidebar-list li.user-list {
 	display: inline;
 }
