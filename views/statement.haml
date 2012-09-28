@@ -10,7 +10,7 @@
 		- if statement.res
 			.statement-res
 				%a{:href => "/statement/#{statement.res._id}"}
-					> #{statement.res.body} by #{statement.res.user.name}
+					&gt; #{statement.res.body} by #{statement.res.user.name}
 
 		/ 発言本文
 		.statement-message<#{statement.body.gsub(/[\r\n]+/, ' ')}
