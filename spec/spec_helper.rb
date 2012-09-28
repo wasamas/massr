@@ -45,12 +45,14 @@ def prototype_statement(no,user)
 			# 元エントリ用
 			:body  => 'ほんぶんだよ！',
 			:photo => 'http://example.com/foo.jpg',
+			:photos => ['http://example.com/foo.jpg'],
 			:user  =>  user
 		},
 		{
 			# レスエントリ用
 			:body  => 'ほんぶんだよ２！',
 			:photo => 'http://example.com/baa.jpg',
+			:photos => ['http://example.com/baa.jpg'],
 			:user  => user
 		}
 	][no]

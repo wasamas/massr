@@ -18,7 +18,7 @@ describe 'Massr::Statement' do
 		
 		context 'Statementが正常に登録できているか' do
 			its(:body)  {should eq(prototype_statement(0,@user)[:body]) }
-			its(:photo) {should eq(prototype_statement(0,@user)[:photo]) }
+			its(:photos) {should eq(prototype_statement(0,@user)[:photos]) }
 			its(:user)  {should eq(@user) }
 			its(:res)   {should raise_error(NoMethodError) }
 		end
@@ -40,7 +40,7 @@ describe 'Massr::Statement' do
 		subject {@statement2_2}
 		context 'レスポンスStatementが正常に登録できているか' do
 			its(:body)  {should eq(prototype_statement(1,@user)[:body]) }
-			its(:photo) {should eq(prototype_statement(1,@user)[:photo]) }
+			its(:photos) {should eq(prototype_statement(1,@user)[:photos]) }
 			its(:user)  {should eq(@user) }
 			its(:res)   {should eq(@statement2_1) }
 		end
