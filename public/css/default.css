@@ -240,6 +240,10 @@ form.profile td {
 	padding-right: 20px;
 }
 
+form.profile td.nowrap {
+	white-space: nowrap;
+}
+
 form.profile .twitter {
 	height: 20px;
 	padding: 4px 6px;

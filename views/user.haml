@@ -20,21 +20,20 @@
 										%td.icon{:colspan => 2}
 											%img{:src => user.twitter_icon_url, :alt => user.twitter_id}
 									- else
-										%td
-											Twitter ID
+										%td.nowrap<Twitter ID
 										%td.twitter
 											=session[:twitter_id]
 								%tr
-									%td Massr ID
+									%td.nowrap<Massr ID
 									%td
 										%input{:type => "text", :name => "massr_id", :value => user ? user.massr_id : session[:twitter_id]}
 									%td
 								%tr
-									%td 表示名
+									%td.nowrap<表示名
 									%td
 										%input{:type => "text", :name => "name" ,:value => user ? user.name : session[:twitter_name]}
 								%tr
-									%td E-Mail
+									%td.nowrap<E-Mail
 									%td
 										%input{:type => "text", :name => "email" , :value => user ? user.email : ''}
 								%tr
