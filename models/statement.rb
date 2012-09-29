@@ -2,6 +2,7 @@
 require 'mongo_mapper'
 require 'json'
 require 'uri'
+require 'net/http'
 
 module Massr
 	class Statement
@@ -34,7 +35,16 @@ module Massr
 			re = URI.regexp(['http', 'https'])
 			self[:body].scan(re) do 
 				uri = URI.parse($&)
-				self[:photos] << uri.to_s if /\.(jpg|jpeg|gif|png|bmp)$/ =~ uri.path
+				response = nil
+				begin
+					Net::HTTP.start( uri.host, uri.port ) do |http|
+						response = http.head( uri.request_uri )
+						p response["content-type"]
+						self[:photos] << uri.to_s if response["content-type"].to_s.include?('image')
+					end
+				rescue SocketError => e
+					#URLの先が存在しないなど。
+				end
 			end
 
 			if request[:res_id]
