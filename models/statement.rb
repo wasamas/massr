@@ -39,7 +39,6 @@ module Massr
 				begin
 					Net::HTTP.start( uri.host, uri.port ) do |http|
 						response = http.head( uri.request_uri )
-						p response["content-type"]
 						self[:photos] << uri.to_s if response["content-type"].to_s.include?('image')
 					end
 				rescue SocketError => e
