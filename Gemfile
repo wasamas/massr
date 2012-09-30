@@ -11,6 +11,7 @@ gem 'mongo_mapper'
 gem 'bson_ext'
 gem 'rack_csrf'
 gem 'mail'
+gem 'picasa'
 
 group :development, :test do
 	gem 'rake'

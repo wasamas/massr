@@ -12,7 +12,13 @@ module Massr
 	class App < Sinatra::Base
 		post '/statement' do
 			statement = Statement.new
+
 			request[:user] = User.find_by_id(session[:user_id])
+			if params[:photo]
+				request[:file_path] = params[:photo][:tempfile].to_path
+				request[:file_content_type] = params[:photo][:head].scan(/(image\/\w+)/)[0][0]
+			end
+
 			statement.update_statement( request ) unless request[:body].size==0
 			if statement.res
 				send_mail(statement.res.user, statement)

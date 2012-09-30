@@ -3,6 +3,7 @@ require 'mongo_mapper'
 require 'json'
 require 'uri'
 require 'net/http'
+require 'picasa'
 
 module Massr
 	class Statement
@@ -29,8 +30,25 @@ module Massr
 
 		def update_statement(request)
 			self[:body]  = request[:body]
-			self[:photos] << request[:photo] if request[:photo]
 			
+			#upload to picasa
+			if request[:file_path]
+				album_name = Time.now.strftime("Massr%Y%m")
+				album_list = $picasa_client.album.list(:fields => "entry[title eq \'#{album_name}\']")
+
+				if album_list.entries.size == 0
+					album = $picasa_client.album.create(:title => album_name)
+				else
+					album = album_list.entries[0]
+				end
+				photo = $picasa_client.photo.create(
+					album.id,
+					file_path: "#{request[:file_path]}",
+					content_type: "#{request[:file_content_type]}"
+					)
+				self[:photos] << photo.content.src
+			end
+
 			# body内の画像
 			re = URI.regexp(['http', 'https'])
 			self[:body].scan(re) do 

@@ -33,6 +33,7 @@ GEM
       activesupport (~> 3.0)
       plucky (~> 0.5.2)
     multi_json (1.3.6)
+    multi_xml (0.5.1)
     oauth (0.4.7)
     omniauth (1.1.1)
       hashie (~> 1.2)
@@ -43,6 +44,8 @@ GEM
     omniauth-twitter (0.0.13)
       multi_json (~> 1.3)
       omniauth-oauth (~> 1.0)
+    picasa (0.5.3)
+      multi_xml
     pit (0.0.6)
     plucky (0.5.2)
       mongo (~> 1.5)
@@ -96,6 +99,7 @@ DEPENDENCIES
   mongo_mapper
   omniauth
   omniauth-twitter
+  picasa
   pit
   rack_csrf
   rake
