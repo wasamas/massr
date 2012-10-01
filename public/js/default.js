@@ -44,11 +44,82 @@ $(function(){
 	 * setup auto reloading
 	 *   reloading each 60sec without focused in TEXTAREA
 	 */
+	function buildStatement(s){
+		return $('<div>').addClass('statement').attr('id', 'st-'+s.id).append(
+			$('<div>').addClass('statement-icon').append(
+				$('<a>').attr('href', '/user/'+s.user.massr_id).append(
+					$('<img>').addClass('massr-icon').attr('src', s.user.twitter_icon_url)
+				)
+			)
+		).append(
+			$('<div>').addClass('statement-body').each(function(){
+				if(s.res != null){
+					$(this).append(
+						$('<div>').addClass('statement-res').
+							append($('<a>').attr('href', '/statement/'+s.res.id).append('&gt; '+s.res.body))
+					)
+				}
+			}).append(
+				$('<div>').addClass('statement-message').append(s.body)
+			).append(
+				$('<div>').addClass('statement-info').
+					append('by ').
+					append($('<a>').attr('href', '/user/'+s.user.massr_id).append(s.user.name)).
+					append(' at ' ).
+					append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at))
+			).append(
+				$('<div>').addClass('statement-action').append(
+					$('<a>').attr('href', '#').attr('onClick', "del_statement('"+s.id+"');").
+						append($('<i>').addClass('icon-trash').attr('title', '削除'))
+				).append(
+					$('<a>').addClass('res').attr('href', '#').append(
+						$('<i>').addClass('icon-comment').attr('title', 'レス')
+					)
+				).append(
+					$('<a>').attr('href', '#').addClass('like-button').attr('id', 'res-'+s.id).
+						each(function(){
+							if(s.likes.length > 0){
+								$(this).addClass('unlike');
+							}else{
+								$(this).addClass('like');
+							}
+						}).
+						append($('<img>').addClass('unlike').attr('src', '/img/wakaruwa.png').attr('alt', 'わからないわ').attr('title', 'わからないわ')).
+						append($('<img>').addClass('like').attr('src', '/img/wakaranaiwa.png').attr('alt', 'わかるわ').attr('title', 'わかるわ'))
+				)
+			).append(
+				$('<div>').addClass('response').attr('id', 'res-'+s.id).append(
+					$('<form>').attr('method', 'POST').attr('action', '/statement').append(
+						$('<textarea>').attr('name', 'body').attr('type', 'text')
+					).append(
+						$('<input>').attr('name', 'res_id').attr('type', 'hidden').attr('value', s.id)
+					).append(
+						$('<input>').attr('name', '_csrf').attr('type', 'hidden').attr('value', $('meta[name="_csrf"]').attr('content'))
+					).append(
+						$('<input>').addClass('btn').attr('type', 'submit').attr('value', 'レスるわ')
+					)
+				)
+			)
+		);
+	}
+
 	var reload_interval = setInterval(function(){
-		if($('textarea:focus').size() == 0){
-			location.reload();
+		if(location.pathname == '/' && location.search == ''){
+			$.getJSON('/index.json', function(json){
+				$('#statements').each(function(){
+					var $div = $(this);
+					$.each(json.reverse(), function(){
+						if(!$('#st-'+this.id).length > 0){
+							$div.prepend(buildStatement(this));
+							if(this.likes.length > 0){
+								refreshLike(this);
+							}
+						}
+					});
+				});
+			});
 		}
-	}, 60000);
+	}, 6000);
 
 	/*
 	 * utilities

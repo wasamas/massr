@@ -54,11 +54,12 @@ module Massr
 		def to_hash
 			{
 				'id' => id,
+				'created_at' => created_at,
 				'body' => body,
 				'user' => user.to_hash,
 				'likes' => likes.map{|l| l.to_hash},
 				'ref_ids' => ref_ids,
-				'res_id' => res_id,
+				'res' => res_id ? Statement.find_by_id(res_id).to_hash : nil,
 			}
 		end
 	end
