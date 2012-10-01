@@ -41,6 +41,16 @@ $(function(){
 	});
 
 	/*
+	 * setup auto reloading
+	 *   reloading each 60sec without focused in TEXTAREA
+	 */
+	var reload_interval = setInterval(function(){
+		if($('textarea:focus').size() == 0){
+			location.reload();
+		}
+	}, 60000);
+
+	/*
 	 * utilities
 	 */
 	// get ID from style "aaa-999999999"
