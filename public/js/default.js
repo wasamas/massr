@@ -76,7 +76,7 @@ $(function(){
 						$('<i>').addClass('icon-comment').attr('title', 'レス')
 					)
 				).append(
-					$('<a>').attr('href', '#').addClass('like-button').attr('id', 'res-'+s.id).
+					$('<a>').attr('href', '#').addClass('like-button').attr('id', 'like-'+s.id).
 						each(function(){
 							if(s.likes.length > 0){
 								$(this).addClass('unlike');
