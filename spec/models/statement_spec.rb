@@ -77,6 +77,7 @@ describe 'Massr::Statement' do
 		subject{ @statement.to_hash }
 
 		it {should be_a_kind_of(Hash)}
+		it {subject['created_at'].should match(/^\d{4}-\d\d-\d\d \d\d:\d\d:\d\d$/)}
 		it {subject['id'].should be}
 		it {subject['body'].should be}
 		it {subject['user'].should be}
