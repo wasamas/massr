@@ -54,7 +54,7 @@ module Massr
 		def to_hash
 			{
 				'id' => id,
-				'created_at' => created_at,
+				'created_at' => created_at.strftime('%Y-%m-%d %H:%M:%S'),
 				'body' => body,
 				'user' => user.to_hash,
 				'likes' => likes.map{|l| l.to_hash},
