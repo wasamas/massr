@@ -128,10 +128,14 @@ $(function(){
 					append(' at ' ).
 					append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at))
 			).append(
-				$('<div>').addClass('statement-action').append(
-					$('<a>').addClass('trash').attr('href', '#').
-						append($('<i>').addClass('icon-trash').attr('title', '削除'))
-				).append(
+				$('<div>').addClass('statement-action').each(function(){
+					if($('#me').text() == s.massr_id){
+						$(this).append(
+							$('<a>').addClass('trash').attr('href', '#').
+								append($('<i>').addClass('icon-trash').attr('title', '削除'))
+						)
+					}
+				}).append(
 					$('<a>').addClass('res').attr('href', '#').append(
 						$('<i>').addClass('icon-comment').attr('title', 'レス')
 					)
