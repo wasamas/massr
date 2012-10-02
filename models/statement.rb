@@ -28,19 +28,25 @@ module Massr
 			return self.paginate(options)
 		end
 
+		def get_album(album_name)
+			album_list = $picasa_client.album.list(:fields => "entry[title eq \'#{album_name}\']")
+			if album_list.entries.size == 0
+				album = $picasa_client.album.create(:title => album_name)
+			else
+				album = album_list.entries[0]
+			end
+
+			return album.numphotos < 1000 ? album : get_album(album_name.succ)
+		end
+
+
 		def update_statement(request)
 			self[:body]  = request[:body]
 			
 			#upload to picasa
 			if request[:file_path]
-				album_name = Time.now.strftime("Massr%Y%m")
-				album_list = $picasa_client.album.list(:fields => "entry[title eq \'#{album_name}\']")
-
-				if album_list.entries.size == 0
-					album = $picasa_client.album.create(:title => album_name)
-				else
-					album = album_list.entries[0]
-				end
+				album_name = Time.now.strftime("Massr%Y%m") + "001"
+				album = get_album(album_name)
 				photo = $picasa_client.photo.create(
 					album.id,
 					file_path: "#{request[:file_path]}",
