@@ -6,6 +6,7 @@
 					%a{:href => "/user/#{current_user.massr_id}"}<
 						%img{:SRC => "#{current_user.twitter_icon_url}", :class => "massr_id"}
 						#{current_user.name}
+						%span#me<#{current_user.massr_id}
 			%h2<#{_menu}
 			%ul.sidebar-menu.sidebar-list
 				%li
