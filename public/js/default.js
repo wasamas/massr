@@ -31,7 +31,56 @@ $(function(){
 	 * setup auto reloading
 	 *   reloading each 60sec without focused in TEXTAREA
 	 */
-	function buildStatement(s){
+	var reload_interval = setInterval(function(){
+		if(location.pathname == '/' && location.search == ''){
+			$.getJSON('/index.json', function(json){
+				$('#statements').each(function(){
+					var $div = $(this);
+					$.each(json.reverse(), function(){
+						if(!$('#st-'+this.id).length > 0){
+							$div.prepend(buildStatement(this));
+							if(this.likes.length > 0){
+								refreshLike(this);
+							}
+						}
+					});
+				});
+			});
+		}
+	}, 6000);
+
+	/*
+	 * utilities
+	 */
+	// get ID from style "aaa-999999999"
+	function getID(label){
+		return label.split('-', 2)[1];
+	};
+
+	var message = new Object();
+
+	message.success = function(text){
+		$.pnotify({
+			text: text,
+			type: 'success'
+		});
+	};
+
+	message.info = function(text){
+		$.pnotify({
+			text: text,
+			type: 'info'
+		});
+	};
+
+	message.error = function(text){
+		$.pnotify({
+			text: text,
+			type: 'error'
+		});
+	};
+
+	function buildStatement(s){ // s is json object of a statement
 		return $('<div>').addClass('statement').attr('id', 'st-'+s.id).append(
 			$('<div>').addClass('statement-icon').append(
 				$('<a>').attr('href', '/user/'+s.user.massr_id).append(
@@ -88,55 +137,6 @@ $(function(){
 				)
 			)
 		);
-	}
-
-	var reload_interval = setInterval(function(){
-		if(location.pathname == '/' && location.search == ''){
-			$.getJSON('/index.json', function(json){
-				$('#statements').each(function(){
-					var $div = $(this);
-					$.each(json.reverse(), function(){
-						if(!$('#st-'+this.id).length > 0){
-							$div.prepend(buildStatement(this));
-							if(this.likes.length > 0){
-								refreshLike(this);
-							}
-						}
-					});
-				});
-			});
-		}
-	}, 6000);
-
-	/*
-	 * utilities
-	 */
-	// get ID from style "aaa-999999999"
-	function getID(label){
-		return label.split('-', 2)[1];
-	};
-
-	var message = new Object();
-
-	message.success = function(text){
-		$.pnotify({
-			text: text,
-			type: 'success'
-		});
-	};
-
-	message.info = function(text){
-		$.pnotify({
-			text: text,
-			type: 'info'
-		});
-	};
-
-	message.error = function(text){
-		$.pnotify({
-			text: text,
-			type: 'error'
-		});
 	};
 
 	/*
