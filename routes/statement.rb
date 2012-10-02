@@ -20,8 +20,8 @@ module Massr
 			end
 
 			statement.update_statement( request ) unless request[:body].size==0
-			if statement.res
-				send_mail(statement.res.user, statement)
+			if (statement.res)
+				send_mail(statement.res.user, statement)  unless statement.res.user.email.length == 0
 			end
 			redirect '/'
 		end
