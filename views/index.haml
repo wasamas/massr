@@ -19,7 +19,7 @@
 							%form{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
 								%div
 									%textarea{:type => "text", :name => "body"}
-									- unless $picasa_client
+									- if $picasa_client
 										%input{:type => "file", :name => "photo"}
 									%input{csrf_input}
 								%div.button
