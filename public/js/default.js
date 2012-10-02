@@ -34,14 +34,15 @@ $(function(){
 	var reload_interval = setInterval(function(){
 		if(location.pathname == '/' && location.search == ''){
 			$.getJSON('/index.json', function(json){
+				var newest = $($('#statements .statement .statement-info a').get(1)).text().replace(/^\s*(.*?)\s*$/, "$1");
 				$('#statements').each(function(){
 					var $div = $(this);
 					$.each(json.reverse(), function(){
-						if(!$('#st-'+this.id).length > 0){
+						if(this.created_at > newest){
 							$div.prepend(buildStatement(this));
-							if(this.likes.length > 0){
-								refreshLike(this);
-							}
+							refreshLike(this);
+						}else if($('#st-'+this.id).length > 0){
+							refreshLike(this);
 						}
 					});
 				});
