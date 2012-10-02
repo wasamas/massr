@@ -29,7 +29,7 @@ $(function(){
 
 	/*
 	 * setup auto reloading
-	 *   reloading each 60sec without focused in TEXTAREA
+	 *   reloading each 30sec without focused in TEXTAREA
 	 */
 	var reload_interval = setInterval(function(){
 		if(location.pathname == '/' && location.search == ''){
@@ -57,7 +57,7 @@ $(function(){
 				}
 			});
 		}
-	}, 6000);
+	}, 30000);
 
 	/*
 	 * utilities
