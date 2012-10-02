@@ -27,7 +27,7 @@
 		/ アクション
 		.statement-action
 			- if statement.user._id == session[:user_id]
-				%a{:href => "#", :onClick => "del_statement('#{statement._id}');"}
+				%a.trash{:href => "#"}
 					%i.icon-trash{:title => _delete}
 			%a.res{:href => '#'}
 				%i.icon-comment{:title => _res}

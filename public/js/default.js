@@ -1,16 +1,3 @@
-function del_statement(id) {
-	if(window.confirm('本当に削除してよろしいいですか？'))
-	{
-		$.ajax({
-			url: '/statement/'+id,
-			type: 'DELETE',
-			success: function(result) {
-				location.href="/";
-			}
-		});
-	}
-}
-
 function del_user(id) {
 	if(window.confirm('本当に削除してよろしいいですか？'))
 	{
@@ -69,7 +56,7 @@ $(function(){
 					append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at))
 			).append(
 				$('<div>').addClass('statement-action').append(
-					$('<a>').attr('href', '#').attr('onClick', "del_statement('"+s.id+"');").
+					$('<a>').addClass('trash').attr('href', '#').
 						append($('<i>').addClass('icon-trash').attr('title', '削除'))
 				).append(
 					$('<a>').addClass('res').attr('href', '#').append(
@@ -218,6 +205,27 @@ $(function(){
 			}
 		});
 		return false;
+	});
+
+	/*
+	 * delete statement
+	 */
+	$(document).on('click', '.statement-action a.trash', function(){
+		var statement = getID($(this).parent().parent().parent().attr('id'));
+		var owner = $('#st-' + statement + ' .statement-icon a').attr('href').match(/[^/]+$/);
+		if(owner != $('#me').text()){
+			message.error('削除は発言者本人にしかできません');
+			return false;
+		}
+		if(window.confirm('本当に削除してよろしいいですか?')){
+			$.ajax({
+				url: '/statement/'+statement,
+				type: 'DELETE',
+				success: function(result) {
+					location.href = "/";
+				}
+			});
+		}
 	});
 
 	/*
