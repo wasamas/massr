@@ -31,33 +31,7 @@ $(function(){
 	 * setup auto reloading
 	 *   reloading each 30sec without focused in TEXTAREA
 	 */
-	var reload_interval = setInterval(function(){
-		if(location.pathname == '/' && location.search == ''){
-			$.ajax({
-				url: '/index.json',
-				type: 'GET',
-				dataType: 'json',
-				cache: false,
-				success: function(json) {
-					var newest = $($('#statements .statement .statement-info a').get(1)).text().replace(/^\s*(.*?)\s*$/, "$1");
-					$('#statements').each(function(){
-						var $div = $(this);
-						$.each(json.reverse(), function(){
-							if(this.created_at > newest){
-								$div.prepend(buildStatement(this));
-								refreshLike(this);
-							}else if($('#st-'+this.id).length > 0){
-								refreshLike(this);
-							}
-						});
-					});
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					message.error('最新情報の取得に失敗しました(' + textStatus + ')');
-				}
-			});
-		}
-	}, 30000);
+	var reload_interval = setInterval(function(){reloadDiff();}, 30000);
 
 	/*
 	 * utilities
@@ -100,6 +74,34 @@ $(function(){
 
 	function shrinkText(text){
 		return text.replace(/[\r\n]+/g, ' ');
+	};
+
+	function reloadDiff(){
+		if(location.pathname == '/' && location.search == ''){
+			$.ajax({
+				url: '/index.json',
+				type: 'GET',
+				dataType: 'json',
+				cache: false,
+				success: function(json) {
+					var newest = $($('#statements .statement .statement-info a').get(1)).text().replace(/^\s*(.*?)\s*$/, "$1");
+					$('#statements').each(function(){
+						var $div = $(this);
+						$.each(json.reverse(), function(){
+							if(this.created_at > newest){
+								$div.prepend(buildStatement(this));
+								refreshLike(this);
+							}else if($('#st-'+this.id).length > 0){
+								refreshLike(this);
+							}
+						});
+					});
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					message.error('最新情報の取得に失敗しました(' + textStatus + ')');
+				}
+			});
+		};
 	};
 
 	function buildStatement(s){ // s is json object of a statement
