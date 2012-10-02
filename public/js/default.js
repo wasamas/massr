@@ -80,6 +80,18 @@ $(function(){
 		});
 	};
 
+	function escapeText(text){
+		return text.
+			replace(/&/g, '&amp;').
+			replace(/</g, '&lt;').
+			replace(/>/g, '&gt;').
+			replace(/"/g, '&quot;');
+	};
+
+	function shrinkText(text){
+		return text.replace(/[\r\n]+/g, ' ');
+	};
+
 	function buildStatement(s){ // s is json object of a statement
 		return $('<div>').addClass('statement').attr('id', 'st-'+s.id).append(
 			$('<div>').addClass('statement-icon').append(
@@ -92,11 +104,13 @@ $(function(){
 				if(s.res != null){
 					$(this).append(
 						$('<div>').addClass('statement-res').
-							append($('<a>').attr('href', '/statement/'+s.res.id).append('&gt; '+s.res.body))
+							append($('<a>').attr('href', '/statement/'+s.res.id).
+								append('&gt; '+escapeText(shrinkText(s.res.body))))
 					)
 				}
 			}).append(
-				$('<div>').addClass('statement-message').append(s.body)
+				$('<div>').addClass('statement-message').
+					append(escapeText(shrinkText(s.body)))
 			).append(
 				$('<div>').addClass('statement-info').
 					append('by ').
