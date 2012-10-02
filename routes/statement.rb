@@ -29,7 +29,9 @@ module Massr
 		end
 
 		delete '/statement/:id' do
-			Statement.destroy(params[:id])
+			if current_user == Statement.find_by_id(params[:id]).user
+				Statement.destroy(params[:id])
+			end
 			redirect '/'
 		end
 
