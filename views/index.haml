@@ -19,11 +19,11 @@
 							%form{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
 								%div
 									%textarea{:type => "text", :name => "body"}
-									- if $picasa_client
-										%input{:type => "file", :name => "photo"}
 									%input{csrf_input}
 								%div.button
 									%input.btn.btn-small{:type => "submit" , :value => _post}
+									- if $picasa_client
+										%input{:type => "file", :name => "photo"}
 						!= haml :statements ,:locals => {:page=>page,:statements => statements,:q => q,:total_page => total_page}
 				.span3
 					!= haml :sidebar ,:locals => {:q => q}
