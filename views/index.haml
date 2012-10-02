@@ -19,7 +19,8 @@
 							%form{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
 								%div
 									%textarea{:type => "text", :name => "body"}
-									%input{:type => "file", :name => "photo"}
+									- unless $picasa_client
+										%input{:type => "file", :name => "photo"}
 									%input{csrf_input}
 								%div.button
 									%input.btn.btn-small{:type => "submit" , :value => _post}

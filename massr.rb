@@ -47,7 +47,7 @@ module Massr
 			$picasa_client = Picasa::Client.new(
 				user_id: ENV['PICASA_ID'],
 				password: ENV['PICASA_PASS']
-				)
+				) if ENV['PICASA_ID']
 
 		end
 
