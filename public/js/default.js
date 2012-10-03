@@ -36,6 +36,16 @@ $(function(){
 		return label.split('-', 2)[1];
 	};
 
+	$('textarea').keydown(function(e){
+		if(e.keyCode == 13){
+			 if(e.ctrlKey){
+				  e.preventDefault();
+				  this.form.submit();
+				  return;
+			 }
+		}
+	});
+
 	var message = new Object();
 
 	message.success = function(text){
