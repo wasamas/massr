@@ -90,6 +90,21 @@ $ heroku ps
 $ heroku logs -t
 ```
 
+### 画像投稿を有効化する方法
+
+Massrでは画像投稿にPicasaウェブアルバムを利用しております。
+
+以下の設定をすることで、画像投稿機能が有効になります。
+
+```sh
+$ heroku config:add \
+  PICASA_ID=XXXXXXXXXXXXXXX \
+  PUCASA_PASS=XXXXXXXXXXXXXXX
+```
+
+有効にすることで、Picasaウェブアルバム上に『MassrYYMMNNN』というアルバムを作成し、
+そこに投稿された画像を登録します。
+
 ## ライセンス
 Massrの著作権は「The wasam@s production」が保有しており、GPLのもとで改変・再配布が可能です。ただし、同梱する下記のプロダクトはその限りではありません。
 
