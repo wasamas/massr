@@ -1,3 +1,11 @@
+/*
+ * default.js : common javascript file of massr
+ *
+ * Copyright (C) 2012 by The wasam@s production
+ *
+ * Distributed under GPL
+ */
+
 function del_user(id) {
 	if(window.confirm('本当に削除してよろしいいですか？'))
 	{
