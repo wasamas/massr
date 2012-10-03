@@ -194,6 +194,12 @@ div.statement-message {
 	padding-left: 2px;
 }
 
+img.statement-photo {
+	min-height: 100px;
+	height: 100px;
+	width: auto;
+}
+
 /*
  * for lightbox js
  */
@@ -250,12 +256,6 @@ div.statement-action a.unlike img.unlike{ display: inline; }
 div.statement-action a.unlike img.like{ display: none; }
 div.statement-action a.like img.unlike{ display: none; }
 div.statement-action a.like img.like{ display: inline; }
-
-img.statement-photo{
-	min-height:100px;
-	height:100px;
-	width:auto;
-}
 
 div.statement-like {
 	border-style: solid;
