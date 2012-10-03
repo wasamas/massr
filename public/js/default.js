@@ -37,12 +37,10 @@ $(function(){
 	};
 
 	$('textarea').keydown(function(e){
-		if(e.keyCode == 13){
-			 if(e.ctrlKey){
-				  e.preventDefault();
-				  this.form.submit();
-				  return;
-			 }
+		if(e.keyCode == 13 && e.ctrlKey){
+		  e.preventDefault();
+		  this.form.submit();
+		  return;
 		}
 	});
 
