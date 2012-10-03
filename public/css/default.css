@@ -66,9 +66,9 @@ div.sidebar-nav {
 	padding-top: 16px;
 }
 
-aside h2 {
+div.sidebar-nav h2 {
 	line-height: 100%;
-	font-size: medium;
+	font-size: small;
 	font-weight: bold;
 	margin-top: 16px;
 	margin-bottom: 4px;
