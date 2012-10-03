@@ -6,19 +6,6 @@
  * Distributed under GPL
  */
 
-function del_user(id) {
-	if(window.confirm('本当に削除してよろしいいですか？'))
-	{
-		$.ajax({
-			url: '/user',
-			type: 'DELETE',
-			success: function(result) {
-				location.href="/";
-			}
-		});
-	}
-}
-
 $(function(){
 	/*
 	 * setup pnotify plugin
@@ -258,6 +245,21 @@ $(function(){
 		if(window.confirm('本当に削除してよろしいいですか?')){
 			$.ajax({
 				url: '/statement/'+statement,
+				type: 'DELETE',
+				success: function(result) {
+					location.href = "/";
+				}
+			});
+		}
+	});
+
+	/*
+	 * delete user by myself
+	 */
+	$(document).on('click', '#delete-user', function(){
+		if(window.confirm('本当に削除してよろしいいですか?')){
+			$.ajax({
+				url: '/user',
 				type: 'DELETE',
 				success: function(result) {
 					location.href = "/";

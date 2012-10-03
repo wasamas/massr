@@ -44,7 +44,7 @@
 											%input.btn.btn-primary.btn-large{:type => "submit" , :value => "登録"}
 						-if user
 							%hr
-							%input.btn.btn-danger.btn-small{:type => "button" , :value => "ユーザ削除" ,:onClick=>"del_user();"}
+							%input.btn.btn-danger.btn-small{:id => 'delete-user', :type => "button" , :value => "ユーザ削除"}
 							※データもすべて削除されます
 				.span3
 					- if user
