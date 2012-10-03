@@ -194,6 +194,25 @@ div.statement-message {
 	padding-left: 2px;
 }
 
+/*
+ * for lightbox js
+ */
+#lightbox {
+	background-color:#eee;
+	padding: 10px;
+	border-bottom: 2px solid #666;
+	border-right: 2px solid #666;
+	}
+#lightboxDetails {
+	font-size: 0.8em;
+	padding-top: 0.4em;
+	}
+#lightboxCaption { float: left; }
+#keyboardMsg { float: right; }
+
+#lightbox img { border: none; }
+#overlay img { border: none; }
+
 div.statement-info {
 	border-style: solid;
 	border-width: 1px 1px 1px 0px;
@@ -233,26 +252,6 @@ img.statement-photo{
 	height:100px;
 	width:auto;
 }
-
-/*
-	for lightbox js
-*/
-#lightbox{
-	background-color:#eee;
-	padding: 10px;
-	border-bottom: 2px solid #666;
-	border-right: 2px solid #666;
-	}
-#lightboxDetails{
-	font-size: 0.8em;
-	padding-top: 0.4em;
-	}
-#lightboxCaption{ float: left; }
-#keyboardMsg{ float: right; }
-
-#lightbox img{ border: none; }
-#overlay img{ border: none; }
-
 
 div.statement-like {
 	border-style: solid;
