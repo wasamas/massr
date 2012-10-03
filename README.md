@@ -99,7 +99,7 @@ Massrでは画像投稿にPicasaウェブアルバムを利用しております
 ```sh
 $ heroku config:add \
   PICASA_ID=XXXXXXXXXXXXXXX \
-  PUCASA_PASS=XXXXXXXXXXXXXXX
+  PICASA_PASS=XXXXXXXXXXXXXXX
 ```
 
 有効にすることで、Picasaウェブアルバム上に『MassrYYMMNNN』というアルバムを作成し、
