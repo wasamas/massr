@@ -173,6 +173,20 @@ $(function(){
 	};
 
 	/*
+	 * photo upload
+	 */
+	$(document).on('change', '#photo-shadow', function(){
+		var fileName = $(this).attr('value').replace(/\\/g, '/').replace(/.*\//, '');
+		$('#photo-name').empty().append(fileName);
+		return false;
+	});
+
+	$(document).on('click', '#photo-button', function(){
+		$('#photo-shadow').trigger('click');
+		return false;
+	});
+
+	/*
 	 * action like / unlike
 	 */
 	function toggleLikeButton(statement_id){

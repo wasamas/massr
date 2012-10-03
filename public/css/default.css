@@ -133,8 +133,23 @@ div.new-post textarea, div.response textarea {
 	height: 4em;
 }
 
-div.new-post div.button {
-	text-align: center;
+#submit-new {
+	margin-right: 2em;
+	margin-left: 2em;
+	text-align: right;
+	float: right;
+}
+
+#photo-shadow {
+	display: none;
+}
+
+#photo-items {
+	text-align: right;
+}
+
+#photo-button {
+	margin: 0px 4px;
 }
 
 img.massr-icon {
