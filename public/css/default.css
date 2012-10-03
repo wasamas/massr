@@ -51,16 +51,6 @@ div.info {
 	display: none;
 }
 
-ul.user-list {
-	margin: 0px;
-	margin-left: 8px;
-}
-
-ul.user-list li {
-	list-style: none;
-	margin-bottom: 2px;
-}
-
 div.sidebar-nav {
 	padding: 8px;
 	padding-top: 16px;
@@ -94,7 +84,17 @@ ul.sidebar-list li.isolate {
 	padding-bottom: 8px;
 }
 
-ul.sidebar-list li.user-list {
+ul.user-list {
+	margin: 0px auto;
+	line-height: 180%;
+}
+
+ul.user-list li {
+	list-style: none;
+	margin-bottom: 2px;
+}
+
+ul.user-list li.user-list {
 	display: inline;
 }
 
