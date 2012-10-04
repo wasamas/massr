@@ -36,7 +36,7 @@ $(function(){
 		return label.split('-', 2)[1];
 	};
 
-	$('textarea').keydown(function(e){
+	$(document).on('keydown', 'textarea', function(e){
 		if(e.keyCode == 13 && e.ctrlKey){
 		  e.preventDefault();
 		  this.form.submit();
@@ -79,34 +79,6 @@ $(function(){
 		return text.replace(/[\r\n]+/g, ' ');
 	};
 
-	function reloadDiff(){
-		if(location.pathname == '/' && location.search == ''){
-			$.ajax({
-				url: '/index.json',
-				type: 'GET',
-				dataType: 'json',
-				cache: false,
-				success: function(json) {
-					var newest = $($('#statements .statement .statement-info a').get(1)).text().replace(/^\s*(.*?)\s*$/, "$1");
-					$('#statements').each(function(){
-						var $div = $(this);
-						$.each(json.reverse(), function(){
-							if(this.created_at > newest){
-								$div.prepend(buildStatement(this));
-								refreshLike(this);
-							}else if($('#st-'+this.id).length > 0){
-								refreshLike(this);
-							}
-						});
-					});
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					message.error('最新情報の取得に失敗しました(' + textStatus + ')');
-				}
-			});
-		};
-	};
-
 	function buildStatement(s){ // s is json object of a statement
 		return $('<div>').addClass('statement').attr('id', 'st-'+s.id).append(
 			$('<div>').addClass('statement-icon').append(
@@ -120,13 +92,19 @@ $(function(){
 					$(this).append(
 						$('<div>').addClass('statement-res').
 							append($('<a>').attr('href', '/statement/'+s.res.id).
-								append('&gt; '+escapeText(shrinkText(s.res.body))))
+								append('&gt; '+escapeText(shrinkText(s.res.body + ' by ' + s.res.user.name))))
 					)
 				}
 			}).append(
 				$('<div>').addClass('statement-message').
 					append(escapeText(shrinkText(s.body)))
-			).append(
+			).append( $('<div'>).addClass('statement-photos').each(function(){
+				var $parent = $(this);
+				$.each(s.photos, function(){
+					$('<a>').attr('href', this).attr('rel', 'lightbox').
+						append($('<img>').addClass('statement-photo').attr('src', this));
+				});
+			}).append(
 				$('<div>').addClass('statement-info').
 					append('by ').
 					append($('<a>').attr('href', '/user/'+s.user.massr_id).append(s.user.name)).
@@ -172,13 +150,42 @@ $(function(){
 		);
 	};
 
+	function reloadDiff(){
+		if(location.pathname == '/' && location.search == ''){
+			$.ajax({
+				url: '/index.json',
+				type: 'GET',
+				dataType: 'json',
+				cache: false,
+				success: function(json) {
+					var newest = $($('#statements .statement .statement-info a').get(1)).text().replace(/^\s*(.*?)\s*$/, "$1");
+					$('#statements').each(function(){
+						var $div = $(this);
+						$.each(json.reverse(), function(){
+							if(this.created_at > newest){
+								$div.prepend(buildStatement(this));
+								refreshLike(this);
+							}else if($('#st-'+this.id).length > 0){
+								refreshLike(this);
+							}
+						});
+					});
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					if($('textarea:focus').size() == 0){
+						location.reload();
+					}
+				}
+			});
+		};
+	};
+
 	/*
 	 * photo upload
 	 */
 	$('#photo-shadow').on('change', function(){
 		var fileName = $(this).attr('value').replace(/\\/g, '/').replace(/.*\//, '');
-		console.info('changed: '+fileName);
-		$('#photo-name').empty().append(fileName);
+		$('#photo-name').empty().append(escapeText(fileName));
 		return false;
 	});
 

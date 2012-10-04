@@ -101,6 +101,7 @@ module Massr
 				'likes' => likes.map{|l| l.to_hash},
 				'ref_ids' => ref_ids,
 				'res' => res_id ? Statement.find_by_id(res_id).to_hash : nil,
+				'photos' => photos
 			}
 		end
 	end
