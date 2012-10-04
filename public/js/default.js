@@ -177,7 +177,7 @@ $(function(){
 	 */
 	$(document).on('change', '#photo-shadow', function(){
 		var fileName = $(this).attr('value').replace(/\\/g, '/').replace(/.*\//, '');
-		$('#photo-name').empty().append(fileName);
+		$('#photo-name').empty().append(escapeText(fileName));
 		return false;
 	});
 
