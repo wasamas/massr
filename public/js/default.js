@@ -39,7 +39,7 @@ $(function(){
 	$(document).on('keydown', 'textarea', function(e){
 		if(e.keyCode == 13 && e.ctrlKey){
 		  e.preventDefault();
-		  this.form.submit();
+		  $(this).parent().parent().submit();
 		  return;
 		}
 	});
@@ -96,15 +96,16 @@ $(function(){
 					)
 				}
 			}).append(
-				$('<div>').addClass('statement-message').
-					append(escapeText(shrinkText(s.body)))
-			).append( $('<div'>).addClass('statement-photos').each(function(){
-				var $parent = $(this);
-				$.each(s.photos, function(){
-					$('<a>').attr('href', this).attr('rel', 'lightbox').
-						append($('<img>').addClass('statement-photo').attr('src', this));
-				});
-			}).append(
+				$('<div>').addClass('statement-message').append(escapeText(shrinkText(s.body)))
+			).append(
+				$('<div>').addClass('statement-photos').each(function(){
+					var $parent = $(this);
+					$.each(s.photos, function(){
+						$('<a>').attr('href', this).attr('rel', 'lightbox').
+							append($('<img>').addClass('statement-photo').attr('src', this));
+					});
+				})
+			).append(
 				$('<div>').addClass('statement-info').
 					append('by ').
 					append($('<a>').attr('href', '/user/'+s.user.massr_id).append(s.user.name)).
@@ -184,12 +185,17 @@ $(function(){
 	 * photo upload
 	 */
 	$('#photo-shadow').on('change', function(){
+		console.info('changed');
 		var fileName = $(this).attr('value').replace(/\\/g, '/').replace(/.*\//, '');
 		$('#photo-name').empty().append(escapeText(fileName));
-		return false;
+		$(this).hide();
+		console.info('changed');
+		return true;
 	});
 
 	$('#photo-button').on('click', function(){
+		console.info('clicked');
+		$('#photo-shadow').show();
 		$('#photo-shadow').trigger('click');
 		return false;
 	});

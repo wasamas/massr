@@ -54,7 +54,8 @@
 		/ レスフォーム
 		.response{:id=>"res-#{statement._id}"}
 			%form{:method => "POST", :action => "/statement"}
-				%textarea{:type => "text", :name => "body"}
-				%input{:type => "hidden", :name => "res_id", :value => statement._id}
-				%input{csrf_input}
-				%input.btn{:type => "submit" , :value => _post_res}
+				%div
+					%textarea{:type => "text", :name => "body"}
+					%input{:type => "hidden", :name => "res_id", :value => statement._id}
+					%input{csrf_input}
+					%input.btn{:type => "submit" , :value => _post_res}
