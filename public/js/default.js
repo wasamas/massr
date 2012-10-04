@@ -36,7 +36,7 @@ $(function(){
 		return label.split('-', 2)[1];
 	};
 
-	$('textarea').keydown(function(e){
+	$(document).on('keydown', 'textarea', function(e){
 		if(e.keyCode == 13 && e.ctrlKey){
 		  e.preventDefault();
 		  this.form.submit();
