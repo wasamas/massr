@@ -185,16 +185,13 @@ $(function(){
 	 * photo upload
 	 */
 	$('#photo-shadow').on('change', function(){
-		console.info('changed');
 		var fileName = $(this).attr('value').replace(/\\/g, '/').replace(/.*\//, '');
 		$('#photo-name').empty().append(escapeText(fileName));
 		$(this).hide();
-		console.info('changed');
 		return true;
 	});
 
 	$('#photo-button').on('click', function(){
-		console.info('clicked');
 		$('#photo-shadow').show();
 		$('#photo-shadow').trigger('click');
 		return false;
