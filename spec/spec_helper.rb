@@ -54,7 +54,10 @@ def prototype_statement(no,user)
 			:photo => 'http://example.com/baa.jpg',
 			:photos => ['http://example.com/baa.jpg'],
 			:user  => user
-		}
+		},
+		def url
+			"http://localhost/statement"
+		end
 	][no]
 end
 
