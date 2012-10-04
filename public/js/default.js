@@ -166,7 +166,9 @@ $(function(){
 					});
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					message.error('最新情報の取得に失敗しました(' + textStatus + ')');
+					if($('textarea:focus').size() == 0){
+						location.reload();
+					}
 				}
 			});
 		};
