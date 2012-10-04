@@ -58,8 +58,10 @@ module Massr
 
 			# body内の画像
 			re = URI.regexp(['http', 'https'])
+			request_uri = URI.parse(request.url)
 			self[:body].scan(re) do 
 				uri = URI.parse($&)
+				next if uri.host == request_uri.host
 				response = nil
 				begin
 					nethttp = Net::HTTP.new( uri.host, uri.port )
