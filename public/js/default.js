@@ -98,7 +98,13 @@ $(function(){
 			}).append(
 				$('<div>').addClass('statement-message').
 					append(escapeText(shrinkText(s.body)))
-			).append(
+			).append( $('<div'>).addClass('statement-photos').each(function(){
+				var $parent = $(this);
+				$.each(s.photos, function(){
+					$('<a>').attr('href', this).attr('rel', 'lightbox').
+						append($('<img>').addClass('statement-photo').attr('src', this));
+				});
+			}).append(
 				$('<div>').addClass('statement-info').
 					append('by ').
 					append($('<a>').attr('href', '/user/'+s.user.massr_id).append(s.user.name)).
