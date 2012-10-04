@@ -175,13 +175,14 @@ $(function(){
 	/*
 	 * photo upload
 	 */
-	$(document).on('change', '#photo-shadow', function(){
+	$('#photo-shadow').on('change', function(){
 		var fileName = $(this).attr('value').replace(/\\/g, '/').replace(/.*\//, '');
+		console.info('changed: '+fileName);
 		$('#photo-name').empty().append(fileName);
 		return false;
 	});
 
-	$(document).on('click', '#photo-button', function(){
+	$('#photo-button').on('click', function(){
 		$('#photo-shadow').trigger('click');
 		return false;
 	});

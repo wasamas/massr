@@ -142,9 +142,12 @@ div.new-post textarea, div.response textarea {
 
 #photo-shadow {
 	position: absolute;
-	left: -9999px;
+	right: 0;
+	bottom: 0;
+	width: 10px;
+	overflow: hidden;
 	opacity: 0;
-	display: inline;
+	filter: alpha(opacity=0);
 }
 
 #photo-items {
