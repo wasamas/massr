@@ -3,6 +3,7 @@ require 'mongo_mapper'
 require 'json'
 require 'uri'
 require 'net/http'
+require 'net/https'
 require 'picasa'
 
 module Massr
@@ -61,7 +62,9 @@ module Massr
 				uri = URI.parse($&)
 				response = nil
 				begin
-					Net::HTTP.start( uri.host, uri.port ) do |http|
+					nethttp = Net::HTTP.new( uri.host, uri.port )
+					nethttp.use_ssl = true if uri.port == 443
+					nethttp.start do |http|
 						response = http.head( uri.request_uri )
 						self[:photos] << uri.to_s if response["content-type"].to_s.include?('image')
 					end
