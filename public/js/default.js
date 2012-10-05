@@ -92,7 +92,8 @@ $(function(){
 					)
 				}
 			}).append(
-				$('<div>').addClass('statement-message').append(escapeText(shrinkText(s.body)))
+				$('<div>').addClass('statement-message').
+					append(escapeText(shrinkText(s.body))).autoLink()
 			).append(
 				$('<div>').addClass('statement-photos').each(function(){
 					var $parent = $(this);
