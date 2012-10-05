@@ -64,8 +64,13 @@ module Massr
 				next if uri.host == request_uri.host
 				response = nil
 				begin
-					nethttp = Net::HTTP.new( uri.host, uri.port )
-					nethttp.use_ssl = true if uri.port == 443
+					proxy = if uri.scheme == 'https'
+						URI(ENV['https_proxy'] || '')
+					else
+						URI(ENV['http_proxy'] || '')
+					end
+					nethttp = Net::HTTP::Proxy(proxy.host, proxy.port).new( uri.host, uri.port )
+					nethttp.use_ssl = true if uri.scheme == 'https'
 					nethttp.start do |http|
 						response = http.head( uri.request_uri )
 						self[:photos] << uri.to_s if response["content-type"].to_s.include?('image')
