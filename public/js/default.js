@@ -60,15 +60,6 @@ $(function(){
 		});
 	};
 
-	// html escape
-	function escapeText(text){
-		return text.
-			replace(/&/g, '&amp;').
-			replace(/</g, '&lt;').
-			replace(/>/g, '&gt;').
-			replace(/"/g, '&quot;');
-	};
-
 	// replace CR/LF to single space
 	function shrinkText(text){
 		return text.replace(/[\r\n]+/g, ' ');
@@ -86,14 +77,13 @@ $(function(){
 			$('<div>').addClass('statement-body').each(function(){
 				if(s.res != null){
 					$(this).append(
-						$('<div>').addClass('statement-res').
-							append($('<a>').attr('href', '/statement/'+s.res.id).
-								append('&gt; '+escapeText(shrinkText(s.res.body + ' by ' + s.res.user.name))))
+						$('<div>').addClass('statement-res').append(
+							$('<a>').attr('href', '/statement/'+s.res.id).
+								text('> '+shrinkText(s.res.body + ' by ' + s.res.user.name)))
 					)
 				}
 			}).append(
-				$('<div>').addClass('statement-message').
-					append(escapeText(shrinkText(s.body))).autoLink()
+				$('<div>').addClass('statement-message').text(shrinkText(s.body)).autoLink()
 			).append(
 				$('<div>').addClass('statement-photos').each(function(){
 					var $parent = $(this);
@@ -209,7 +199,7 @@ $(function(){
 	 */
 	$('#photo-shadow').on('change', function(){
 		var fileName = $(this).attr('value').replace(/\\/g, '/').replace(/.*\//, '');
-		$('#photo-name').empty().append(escapeText(fileName));
+		$('#photo-name').empty().text(fileName);
 		$(this).hide();
 		return true;
 	});
