@@ -178,6 +178,15 @@ $(function(){
 		};
 	};
 
+	// automatic link plugin
+	$.fn.autoLink = function(config){
+		this.each(function(){
+			var re = /((http|https|ftp):\/\/[\w?=&.\/-;#~%+,-]+(?![\w\s?&.\/;#~%"=-]*>))/g;
+			$(this).html( $(this).html().replace(re, '<a href="$1" target="_blank">$1</a>') );
+		});
+		return this;
+	};
+
 	/*
 	 * post by Ctrl+Enter key
 	 */
@@ -357,9 +366,6 @@ $(function(){
 	/*
 	 * automatic link
 	 */
-	$('.statement-message').each( function(){
-		var re = /((http|https|ftp):\/\/[\w?=&.\/-;#~%+,-]+(?![\w\s?&.\/;#~%"=-]*>))/g;
-		$(this).html( $(this).html().replace(re, '<a href="$1" target="_blank">$1</a>') );
-	});
+	$('.statement-message').autoLink();
 });
 
