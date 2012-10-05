@@ -38,6 +38,7 @@ $(function(){
 
 	var message = new Object();
 
+	// popup notification message
 	message.success = function(text){
 		$.pnotify({
 			text: text,
@@ -59,6 +60,7 @@ $(function(){
 		});
 	};
 
+	// html escape
 	function escapeText(text){
 		return text.
 			replace(/&/g, '&amp;').
@@ -67,10 +69,12 @@ $(function(){
 			replace(/"/g, '&quot;');
 	};
 
+	// replace CR/LF to single space
 	function shrinkText(text){
 		return text.replace(/[\r\n]+/g, ' ');
 	};
 
+	// template of a statement
 	function buildStatement(s){ // s is json object of a statement
 		return $('<div>').addClass('statement').attr('id', 'st-'+s.id).append(
 			$('<div>').addClass('statement-icon').append(
@@ -143,6 +147,7 @@ $(function(){
 		);
 	};
 
+	// reload diff of recent statements
 	function reloadDiff(){
 		if(location.pathname == '/' && location.search == ''){
 			$.ajax({
@@ -174,7 +179,7 @@ $(function(){
 	};
 
 	/*
-	 * post by Ctrl+Enter ket
+	 * post by Ctrl+Enter key
 	 */
 	$(document).on('keydown', 'textarea', function(e){
 		if(e.keyCode == 13 && e.ctrlKey){
