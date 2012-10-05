@@ -183,7 +183,12 @@ $(function(){
 	$.fn.autoLink = function(config){
 		this.each(function(){
 			var re = /((http|https|ftp):\/\/[\w?=&.\/-;#~%+,-]+(?![\w\s?&.\/;#~%"=-]*>))/g;
-			$(this).html( $(this).html().replace(re, '<a href="$1" target="_blank">$1</a>') );
+			$(this).html(
+				$(this).html().replace(re, function(u){
+					var url = $.url(u);
+					return '[<a href="'+url.attr('source')+'" target="_brank">'+url.attr('host')+'</a>]';
+				})
+			);
 		});
 		return this;
 	};
