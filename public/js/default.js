@@ -101,8 +101,8 @@ $(function(){
 				$('<div>').addClass('statement-photos').each(function(){
 					var $parent = $(this);
 					$.each(s.photos, function(){
-						$('<a>').attr('href', this).attr('rel', 'lightbox').
-							append($('<img>').addClass('statement-photo').attr('src', this));
+						$parent.append($('<a>').attr('href', this).attr('rel', 'lightbox').
+							append($('<img>').addClass('statement-photo').attr('src', this)));
 					});
 				})
 			).append(
