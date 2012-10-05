@@ -125,13 +125,26 @@ $(function(){
 			).append(
 				$('<div>').addClass('response').attr('id', 'res-'+s.id).append(
 					$('<form>').attr('method', 'POST').attr('action', '/statement').append(
-						$('<textarea>').attr('name', 'body').attr('type', 'text')
-					).append(
-						$('<input>').attr('name', 'res_id').attr('type', 'hidden').attr('value', s.id)
-					).append(
-						$('<input>').attr('name', '_csrf').attr('type', 'hidden').attr('value', $('meta[name="_csrf"]').attr('content'))
-					).append(
-						$('<input>').addClass('btn').attr('type', 'submit').attr('value', 'レスるわ')
+						$('<div>').append(
+							$('<textarea>').
+								attr('name', 'body').
+								attr('type', 'text')
+						).append(
+							$('<input>').
+								attr('name', 'res_id').
+								attr('type', 'hidden').
+								attr('value', s.id)
+						).append(
+							$('<input>').
+								attr('name', '_csrf').
+								attr('type', 'hidden').
+								attr('value', $('meta[name="_csrf"]').attr('content'))
+						).append(
+							$('<input>').
+								addClass('btn').
+								attr('type', 'submit').
+								attr('value', 'レスるわ')
+						)
 					)
 				)
 			)
