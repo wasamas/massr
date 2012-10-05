@@ -36,14 +36,6 @@ $(function(){
 		return label.split('-', 2)[1];
 	};
 
-	$(document).on('keydown', 'textarea', function(e){
-		if(e.keyCode == 13 && e.ctrlKey){
-		  e.preventDefault();
-		  $(this).parent().parent().submit();
-		  return;
-		}
-	});
-
 	var message = new Object();
 
 	message.success = function(text){
@@ -180,6 +172,17 @@ $(function(){
 			});
 		};
 	};
+
+	/*
+	 * post by Ctrl+Enter ket
+	 */
+	$(document).on('keydown', 'textarea', function(e){
+		if(e.keyCode == 13 && e.ctrlKey){
+		  e.preventDefault();
+		  $(this).parent().parent().submit();
+		  return;
+		}
+	});
 
 	/*
 	 * photo upload
