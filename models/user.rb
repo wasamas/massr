@@ -16,7 +16,7 @@ module Massr
 		key :twitter_id,       :type => String , :required => true ,:unique => true
 		key :twitter_icon_url, :type => String , :required => true
 		key :name,             :type => String , :required => true
-		key :email,            :type => String , :required => true
+		key :email,            :type => String
 		key :status,           :type => Integer, :default  => UNAUTHORIZED
 		key :statement_ids,    Array
 

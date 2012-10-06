@@ -34,6 +34,28 @@ module Massr
 				:total_page => total}
 		end
 
+		get '/user/:massr_id/res' do
+			user = User.find_by_massr_id(params[:massr_id])
+			statements = Statement.where(:user_id => user.id)
+			received_id = Array.new
+			statements.each do |statement|
+				received_id |= (statement.ref_ids) unless statement.ref_ids.nil?
+			end
+			query = {:_id => { :$in => received_id.uniq }}
+			total = total_page(query)
+			page = params[:page]
+			if page =~ /^\d+/
+				page = page.to_i
+			else
+				page = 1
+			end
+			page = [page, total].min
+			haml :user_statements, :locals => {
+				:page => page,
+				:statements => Statement.get_statements(page, query),
+				:total_page => total}
+		end
+
 		get '/user/:massr_id/liked' do
 			user = User.find_by_massr_id(params[:massr_id])
 			query = {:user_id => user.id, "likes.user_id" => {:$exists => true} }

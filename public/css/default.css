@@ -47,14 +47,8 @@ div.info {
 	padding: 2px;
 }
 
-ul.user-list {
-	margin: 0px;
-	margin-left: 8px;
-}
-
-ul.user-list li {
-	list-style: none;
-	margin-bottom: 2px;
+#me {
+	display: none;
 }
 
 div.sidebar-nav {
@@ -62,9 +56,9 @@ div.sidebar-nav {
 	padding-top: 16px;
 }
 
-aside h2 {
+div.sidebar-nav h2 {
 	line-height: 100%;
-	font-size: medium;
+	font-size: small;
 	font-weight: bold;
 	margin-top: 16px;
 	margin-bottom: 4px;
@@ -80,7 +74,27 @@ ul.sidebar-list li {
 	margin-bottom: 2px;
 }
 
-ul.sidebar-list li.user-list {
+ul.sidebar-list li.isolate {
+	border-style: solid;
+	border-color: #ddd;
+	border-width: 1px 0px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+ul.user-list {
+	margin: 0px auto;
+	line-height: 180%;
+}
+
+ul.user-list li {
+	list-style: none;
+	margin-bottom: 2px;
+}
+
+ul.user-list li.user-list {
 	display: inline;
 }
 
@@ -119,8 +133,30 @@ div.new-post textarea, div.response textarea {
 	height: 4em;
 }
 
-div.new-post div.button {
-	text-align: center;
+#submit-new {
+	margin-right: 2em;
+	margin-left: 2em;
+	text-align: right;
+	float: right;
+}
+
+#photo-shadow {
+	display: none;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 10px;
+	overflow: hidden;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+
+#photo-items {
+	text-align: right;
+}
+
+#photo-button {
+	margin: 0px 4px;
 }
 
 img.massr-icon {
@@ -180,6 +216,31 @@ div.statement-message {
 	padding-left: 2px;
 }
 
+img.statement-photo {
+	min-height: 100px;
+	height: 100px;
+	width: auto;
+}
+
+/*
+ * for lightbox js
+ */
+#lightbox {
+	background-color:#eee;
+	padding: 10px;
+	border-bottom: 2px solid #666;
+	border-right: 2px solid #666;
+	}
+#lightboxDetails {
+	font-size: 0.8em;
+	padding-top: 0.4em;
+	}
+#lightboxCaption { float: left; }
+#keyboardMsg { float: right; }
+
+#lightbox img { border: none; }
+#overlay img { border: none; }
+
 div.statement-info {
 	border-style: solid;
 	border-width: 1px 1px 1px 0px;
@@ -198,6 +259,10 @@ div.statement-action {
 	padding-right: 4px;
 	padding-bottom: 4px;
 	text-align: right;
+	float: right;
+	border-style: solid;
+	border-width: 0px 0px 0px 1px;
+	border-color: #ccc;
 }
 
 div.statement-action a {
@@ -222,9 +287,11 @@ div.statement-like {
 	font-size: 83%;
 	padding: 2px 0px 2px 2px;
 	margin-top: 2px;
+	line-height: 200%;
 }
 
 div.response {
+	clear: both;
 	display: none;
 	margin-top: 4px;
 }
@@ -234,6 +301,26 @@ div.response input.btn {
 	text-align: right;
 	margin-left: auto;
 	margin-right: 0px;
+}
+
+form.profile td {
+	padding-right: 20px;
+}
+
+form.profile td.nowrap {
+	white-space: nowrap;
+}
+
+form.profile .twitter {
+	height: 20px;
+	padding: 4px 6px;
+	margin-bottom: 9px;
+	line-height: 20px;
+	font-size: 14px;
+}
+
+form.profile .button {
+	text-align: center;
 }
 
 ul.admin {
@@ -254,3 +341,7 @@ ul.admin li.authorized a.authorized { display: inline; }
 ul.admin li.unauthorized a.authorized { display: none; }
 ul.admin li.authorized a.unauthorized { display: none; }
 ul.admin li.unauthorized a.unauthorized { display: inline; }
+
+.ui-pnotify-container {
+	text-align: left;
+}

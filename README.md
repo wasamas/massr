@@ -73,7 +73,8 @@ $ sudo gem install heroku  # 上記以外
 # アプリ初回作成時
 $ heroku apps:create massr-XXX #アプリ作成
 $ heroku addons:add mongolab:starter # MongoLabの有効化
-## ※ MongoLab を有効にするには Herokuにてクレジットカード登録が必要です
+$ heroku addons:add sendgrid:starter # SendGridの有効化
+## ※ MongoLab・SendGrid を有効にするには Herokuにてクレジットカード登録が必要です
 $ heroku config:add \
   RACK_ENV=production \
   TWITTER_CONSUMER_ID=XXXXXXXXXXXXXXX \
@@ -89,7 +90,24 @@ $ heroku ps
 $ heroku logs -t
 ```
 
+### 画像投稿を有効化する方法
+
+Massrでは画像投稿にPicasaウェブアルバムを利用しております。
+
+以下の設定をすることで、画像投稿機能が有効になります。
+
+```sh
+$ heroku config:add \
+  PICASA_ID=XXXXXXXXXXXXXXX \
+  PICASA_PASS=XXXXXXXXXXXXXXX
+```
+
+有効にすることで、Picasaウェブアルバム上に『MassrYYMMNNN』というアルバムを作成し、
+そこに投稿された画像を登録します。
+
 ## ライセンス
 Massrの著作権は「The wasam@s production」が保有しており、GPLのもとで改変・再配布が可能です。ただし、同梱する下記のプロダクトはその限りではありません。
 
 * Twitter Bootstrap (public/cs/bootstrap*, public/js/bootstrap*)
+* Lightbox JS (public/js/lightbox.js)
+* jQuery URL Parser plugin (public/js/jquery.purl.js)

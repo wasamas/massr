@@ -1,6 +1,10 @@
 # -*- coding: utf-8; -*-
 require 'mongo_mapper'
 require 'json'
+require 'uri'
+require 'net/http'
+require 'net/https'
+require 'picasa'
 
 module Massr
 	class Statement
@@ -8,7 +12,7 @@ module Massr
 		safe
 		
 		key :body,  :type => String, :required => true
-		key :photo, :type => String
+		key :photos, Array
 		key :ref_ids, Array
 
 		timestamps!
@@ -25,9 +29,56 @@ module Massr
 			return self.paginate(options)
 		end
 
+		def get_album(album_name)
+			album_list = $picasa_client.album.list(:fields => "entry[title eq \'#{album_name}\']")
+			if album_list.entries.size == 0
+				album = $picasa_client.album.create(:title => album_name)
+			else
+				album = album_list.entries[0]
+			end
+
+			return album.numphotos < 1000 ? album : get_album(album_name.succ)
+		end
+
+
 		def update_statement(request)
 			self[:body]  = request[:body]
-			self[:photo] = request[:photo] if request[:photo]
+			
+			#upload to picasa
+			if request[:file_path]
+				album_name = Time.now.strftime("Massr%Y%m") + "001"
+				album = get_album(album_name)
+				photo = $picasa_client.photo.create(
+					album.id,
+					file_path: "#{request[:file_path]}",
+					content_type: "#{request[:file_content_type]}"
+					)
+				self[:photos] << photo.content.src
+			end
+
+			# body内の画像
+			re = URI.regexp(['http', 'https'])
+			request_uri = URI.parse(request.url)
+			self[:body].scan(re) do 
+				uri = URI.parse($&)
+				next if uri.host == request_uri.host
+				response = nil
+				begin
+					proxy = if uri.scheme == 'https'
+						URI(ENV['https_proxy'] || '')
+					else
+						URI(ENV['http_proxy'] || '')
+					end
+					nethttp = Net::HTTP::Proxy(proxy.host, proxy.port).new( uri.host, uri.port )
+					nethttp.use_ssl = true if uri.scheme == 'https'
+					nethttp.start do |http|
+						response = http.head( uri.request_uri )
+						self[:photos] << uri.to_s if response["content-type"].to_s.include?('image')
+					end
+				rescue SocketError => e
+					#URLの先が存在しないなど。
+				end
+			end
 
 			if request[:res_id]
 				res_statement  = Statement.find_by_id(request[:res_id])
@@ -54,11 +105,13 @@ module Massr
 		def to_hash
 			{
 				'id' => id,
+				'created_at' => created_at.localtime.strftime('%Y-%m-%d %H:%M:%S'),
 				'body' => body,
 				'user' => user.to_hash,
 				'likes' => likes.map{|l| l.to_hash},
 				'ref_ids' => ref_ids,
-				'res_id' => res_id,
+				'res' => res_id ? Statement.find_by_id(res_id).to_hash : nil,
+				'photos' => photos
 			}
 		end
 	end

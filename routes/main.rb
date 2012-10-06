@@ -25,6 +25,14 @@ module Massr
 				:q => '',
 				:total_page => total}
 		end
+
+		get '/index.json' do
+			[].tap {|a|
+				Statement.get_statements(1).each do |statement|
+					a << statement.to_hash
+				end
+			}.to_json
+		end
 	end
 end
 

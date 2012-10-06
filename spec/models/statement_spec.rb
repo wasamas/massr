@@ -18,7 +18,7 @@ describe 'Massr::Statement' do
 		
 		context 'Statementが正常に登録できているか' do
 			its(:body)  {should eq(prototype_statement(0,@user)[:body]) }
-			its(:photo) {should eq(prototype_statement(0,@user)[:photo]) }
+			its(:photos) {pending do ;should eq(prototype_statement(0,@user)[:photos]) ;end}
 			its(:user)  {should eq(@user) }
 			its(:res)   {should raise_error(NoMethodError) }
 		end
@@ -40,7 +40,7 @@ describe 'Massr::Statement' do
 		subject {@statement2_2}
 		context 'レスポンスStatementが正常に登録できているか' do
 			its(:body)  {should eq(prototype_statement(1,@user)[:body]) }
-			its(:photo) {should eq(prototype_statement(1,@user)[:photo]) }
+			its(:photos) {pending do ; should eq(prototype_statement(1,@user)[:photos]);end }
 			its(:user)  {should eq(@user) }
 			its(:res)   {should eq(@statement2_1) }
 		end
@@ -77,6 +77,7 @@ describe 'Massr::Statement' do
 		subject{ @statement.to_hash }
 
 		it {should be_a_kind_of(Hash)}
+		it {subject['created_at'].should match(/^\d{4}-\d\d-\d\d \d\d:\d\d:\d\d$/)}
 		it {subject['id'].should be}
 		it {subject['body'].should be}
 		it {subject['user'].should be}

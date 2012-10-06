@@ -6,19 +6,22 @@
 					%a{:href => "/user/#{current_user.massr_id}"}<
 						%img{:SRC => "#{current_user.twitter_icon_url}", :class => "massr_id"}
 						#{current_user.name}
+						%span#me<#{current_user.massr_id}
 			%h2<#{_menu}
 			%ul.sidebar-menu.sidebar-list
+				%li
+					%a{:href => "/user/#{current_user.massr_id}/res", :title => "Res"}<Res
 				%li
 					%a{:href => "/user/#{current_user.massr_id}/liked", :title => "Liked"}<Liked
 				%li
 					%a{:href => "/user/#{current_user.massr_id}/likes", :title => "Likes"}<Likes
 				%li
-					%a{:href => "/logout", :title => "Logout"}<Logout
-				%li
 					%a{:href => "/user", :title => "Setting"}<Setting
 				- if current_user.admin?
 					%li
 						%a{:href => "/admin", :title => "Admin"}<Admin
+				%li.isolate
+					%a{:href => "/logout", :title => "Logout"}<Logout
 				%li
 					Search
 					%form{:method => "GET", :action => "/search"}

@@ -1,9 +1,9 @@
-%p
+#statements
 	- statements.each do |statement|
 		!= haml :statement , :locals => {:statement => statement}
-%p
+.pagenation
 	- if page.to_i > 1
-		%a{:href => "#{request.path_info}?page=#{page.to_i-1}#{q ? %Q|&q=#{q}| : ''}"}<prev
+		%a{:href => "#{request.path_info}?page=#{page.to_i-1}#{q ? %Q|&q=#{q}| : '' rescue ''}"}<prev
 	- if total_page > page.to_i
-		%a{:href => "#{request.path_info}?page=#{page.to_i+1}#{q ? %Q|&q=#{q}| : ''}"}<next
+		%a{:href => "#{request.path_info}?page=#{page.to_i+1}#{q ? %Q|&q=#{q}| : '' rescue ''}"}<next
 

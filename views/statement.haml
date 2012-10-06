@@ -10,10 +10,16 @@
 		- if statement.res
 			.statement-res
 				%a{:href => "/statement/#{statement.res._id}"}
-					> #{statement.res.body} by #{statement.res.user.name}
+					&gt; #{statement.res.body} by #{statement.res.user.name}
 
 		/ 発言本文
 		.statement-message<#{statement.body.gsub(/[\r\n]+/, ' ')}
+
+		/ 画像表示
+		.statement-photos
+			- statement.photos.each do |photo|
+				%a{:href => "#{photo}" ,:rel=>"lightbox"}<
+					%img.statement-photo{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
 
 		/ 発言の付属情報
 		.statement-info
@@ -27,10 +33,11 @@
 		/ アクション
 		.statement-action
 			- if statement.user._id == session[:user_id]
-				%a{:href => "#", :onClick => "del_statement('#{statement._id}');"}
+				%a.trash{:href => "#"}
 					%i.icon-trash{:title => _delete}
 			%a.res{:href => '#'}
 				%i.icon-comment{:title => _res}
+				= statement.refs.size > 0 ? "(#{statement.refs.size})" : ''
 			- like = statement.like?(current_user) ? 'unlike' : 'like'
 			%a{:class => "like-button #{like}", :href => '#', :id => "like-#{statement._id}"}
 				%img.unlike{:src => "/img/wakaruwa.png", :alt => _unlike, :title => _unlike}
@@ -47,7 +54,8 @@
 		/ レスフォーム
 		.response{:id=>"res-#{statement._id}"}
 			%form{:method => "POST", :action => "/statement"}
-				%textarea{:type => "text", :name => "body"}
-				%input{:type => "hidden", :name => "res_id", :value => statement._id}
-				%input{csrf_input}
-				%input.btn{:type => "submit" , :value => _post_res}
+				%div
+					%textarea{:type => "text", :name => "body"}
+					%input{:type => "hidden", :name => "res_id", :value => statement._id}
+					%input{csrf_input}
+					%input.btn{:type => "submit" , :value => _post_res}
