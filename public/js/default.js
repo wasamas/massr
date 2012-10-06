@@ -77,6 +77,9 @@ $(function(){
 			)
 		).append(
 			$('<div>').addClass('statement-body').each(function(){
+				if(s.user.massr_id == me){
+					$(this).addClass('statement-body-me');
+				}
 				if(s.res != null){
 					$(this).append(
 						$('<div>').addClass('statement-res').append(
