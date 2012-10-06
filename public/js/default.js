@@ -7,6 +7,8 @@
  */
 
 $(function(){
+	var me = $('#me').text();
+
 	/*
 	 * setup pnotify plugin
 	 */
@@ -100,7 +102,7 @@ $(function(){
 					append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at))
 			).append(
 				$('<div>').addClass('statement-action').each(function(){
-					if($('#me').text() == s.massr_id){
+					if(s.massr_id = me){
 						$(this).append(
 							$('<a>').addClass('trash').attr('href', '#').
 								append($('<i>').addClass('icon-trash').attr('title', '削除'))
@@ -297,7 +299,7 @@ $(function(){
 	$(document).on('click', '.statement-action a.trash', function(){
 		var statement = getID($(this).parent().parent().parent().attr('id'));
 		var owner = $('#st-' + statement + ' .statement-icon a').attr('href').match(/[^/]+$/);
-		if(owner != $('#me').text()){
+		if(owner != me){
 			message.error('削除は発言者本人にしかできません');
 			return false;
 		}
