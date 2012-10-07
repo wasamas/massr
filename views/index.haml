@@ -22,7 +22,7 @@
 									%input{csrf_input}
 								%div.button
 									%input.btn.btn-small#submit-new{:type => "submit" , :value => _post}
-									- if $picasa_client
+									- if picasa_client
 										#photo-items
 											%input#photo-shadow{:type => "file", :name => "photo", :accept => 'image/*', :tabindex => '-1'}
 											%a#photo-button{:href => '#'}

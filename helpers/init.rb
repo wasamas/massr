@@ -55,3 +55,4 @@ module Massr
 end
 
 require_relative 'resource'
+require_relative 'picasa'
