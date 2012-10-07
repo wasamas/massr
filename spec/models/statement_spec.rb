@@ -18,7 +18,7 @@ describe 'Massr::Statement' do
 		
 		context 'Statementが正常に登録できているか' do
 			its(:body)  {should eq(prototype_statement(0,@user)[:body]) }
-			its(:photos) {pending do ;should eq(prototype_statement(0,@user)[:photos]) ;end}
+			its(:photos) {should eq(prototype_statement(0,@user)[:photos])}
 			its(:user)  {should eq(@user) }
 			its(:res)   {should raise_error(NoMethodError) }
 		end
