@@ -196,6 +196,17 @@ div.statement-body-me {
 	background-color: #f8f8f8;
 }
 
+div.statement-res-icon {
+	float: left;
+	margin-right: 0px;
+	height: 1.2em;
+}
+
+div.statement-res-icon img {
+	height: 1.1em;
+	width: 1.1em;
+}
+
 div.statement-res {
 	font-size: 83%;
 	height: 1.2em;

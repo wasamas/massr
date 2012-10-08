@@ -8,6 +8,9 @@
 	%div{:class => "#{session[:user_id] == statement.user._id ? "statement-body-me statement-body" : "statement-body"}"}
 		/ レスポンス元発言
 		- if statement.res
+			.statement-res-icon
+				%a{:href => "/user/#{statement.res.user.massr_id}"}
+					%img.massr-icon-mini{:src => statement.res.user.twitter_icon_url}
 			.statement-res
 				%a{:href => "/statement/#{statement.res._id}"}
 					&gt; #{statement.res.body} by #{statement.res.user.name}
