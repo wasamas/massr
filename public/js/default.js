@@ -90,7 +90,7 @@ $(function(){
 					).append(
 						$('<div>').addClass('statement-res').append(
 							$('<a>').attr('href', '/statement/'+s.res.id).
-								text('> '+shrinkText(s.res.body + ' by ' + s.res.user.name)))
+								text('< '+shrinkText(s.res.body + ' by ' + s.res.user.name)))
 					)
 				}
 			}).append(
