@@ -84,7 +84,10 @@ $(function(){
 					$(this).append(
 						$('<div>').addClass('statement-res-icon').append(
 							$('<a>').attr('href', '/user/'+s.res.user.massr_id).append(
-								$('<img>').addClass('massr-icon-mini').attr('src', s.res.user.twitter_icon_url)
+								$('<img>').addClass('massr-icon-mini').
+									attr('src', s.res.user.twitter_icon_url).
+									attr('alt', s.res.user.name).
+									attr('title', s.res.user.name)
 							)
 						)
 					).append(

@@ -10,7 +10,7 @@
 		- if statement.res
 			.statement-res-icon
 				%a{:href => "/user/#{statement.res.user.massr_id}"}
-					%img.massr-icon-mini{:src => statement.res.user.twitter_icon_url}
+					%img.massr-icon-mini{:src => statement.res.user.twitter_icon_url, :alt => statement.res.user.name, :title => statement.res.user.name}
 			.statement-res
 				%a{:href => "/statement/#{statement.res._id}"}
 					&lt; #{statement.res.body}
