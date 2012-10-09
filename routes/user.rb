@@ -54,7 +54,8 @@ module Massr
 			haml :user_statements, :locals => {
 				:page => page,
 				:statements => Statement.get_statements(page, query),
-				:total_page => total}
+				:total_page => total,
+				:q => nil}
 		end
 
 		get '/user/:massr_id/liked' do
@@ -71,7 +72,8 @@ module Massr
 			haml :user_statements, :locals => {
 				:page => page,
 				:statements => Statement.get_statements(page, query),
-				:total_page => total}
+				:total_page => total,
+				:q => nil}
 		end
 
 		get '/user/:massr_id/likes' do
@@ -88,7 +90,8 @@ module Massr
 			haml :user_statements, :locals => {
 				:page => page,
 				:statements => Statement.get_statements(page, query),
-				:total_page => total}
+				:total_page => total,
+				:q => nil}
 		end
 
 		post '/user' do
