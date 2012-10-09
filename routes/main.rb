@@ -22,7 +22,7 @@ module Massr
 			haml :index , :locals => {
 				:page => page,
 				:statements => Statement.get_statements(page),
-				:q => '',
+				:q => nil,
 				:total_page => total}
 		end
 

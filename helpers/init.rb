@@ -30,9 +30,9 @@ module Massr
 
 			def page_query_param(page, query)
 				param = {
-					:page => page > 1 ? "page=#{page}" : nil,
-					:q => q
-				}.map{|k, v| v ? "#{k}=#{v}" : nul}.compact.join('&')
+					:page => page > 1 ? page : nil,
+					:q => query
+				}.map{|k, v| v ? "#{k}=#{v}" : nil}.compact.join('&')
 
 				param.prepend('?') unless param.empty?
 
