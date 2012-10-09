@@ -1,14 +1,11 @@
 !!!
 %html
 	%head
-		%title Massr - Mini Wassr
+		%title Unauthorized - Massr
 		!= haml :head
 	%body
-		.container-fluid
-			!= haml :header
-			.row-fluid
-				.span9
-					.main
-						%p
-							認証されるまでしばらくお待ち下さい
-			!= haml :footer
+		%h1<認証されるまでしばらくお待ち下さい
+		.special-info
+			%img#masao{:src => random_masao}
+		.special-info
+			%a{:href => '/'}<Return to Top

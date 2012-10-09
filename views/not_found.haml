@@ -1,10 +1,11 @@
 !!!
 %html
 	%head
-		%title Massr - Masao Not Found
+		%title Masao Not Found - Massr
 		!= haml :head
 	%body
 		%h1<404 Masao Not Found
-		%img{:src => "/img/masao#{['', '2', '3'].sample}.jpg"}
-		%div
+		.special-info
+			%img#masao{:src => random_masao}
+		.special-info
 			%a{:href => '/'}<Return to Top

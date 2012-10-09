@@ -353,6 +353,10 @@ ul.admin li.unauthorized a.authorized { display: none; }
 ul.admin li.authorized a.unauthorized { display: none; }
 ul.admin li.unauthorized a.unauthorized { display: inline; }
 
+.special-info {
+	text-align: center;
+}
+
 .ui-pnotify-container {
 	text-align: left;
 }

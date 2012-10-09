@@ -61,6 +61,10 @@ module Massr
 					end
 				end
 			end
+
+			def random_masao
+				"/img/masao#{['', '2', '3'].sample}.jpg"
+			end
 		end
 	end
 end
