@@ -28,6 +28,17 @@ module Massr
 				[Statement.count(query) / ($limit + 0.0), 1].max.ceil
 			end
 
+			def page_query_param(page, query)
+				param = {
+					:page => page > 1 ? "page=#{page}" : nil,
+					:q => q
+				}.map{|k, v| v ? "#{k}=#{v}" : nul}.compact.join('&')
+
+				param.prepend('?') unless param.empty?
+
+				return param
+			end
+
 			def send_mail(user, statement)
 				msg = <<-MAIL
 					#{statement.user.name}さんからレスがありました:

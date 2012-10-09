@@ -31,7 +31,8 @@ module Massr
 			haml :user_statements , :locals => {
 				:page => page,
 				:statements => Statement.get_statements(page, {:user_id => user.id}),
-				:total_page => total}
+				:total_page => total,
+				:q => nil}
 		end
 
 		get '/user/:massr_id/res' do
