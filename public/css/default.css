@@ -51,6 +51,10 @@ div.info {
 	display: none;
 }
 
+div.variable {
+	display: none;
+}
+
 div.sidebar-nav {
 	padding: 8px;
 	padding-top: 16px;
