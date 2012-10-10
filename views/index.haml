@@ -10,9 +10,6 @@
 				.span9
 					.main
 						- user = Massr::User.find_by_id(session[:user_id])
-						.variable
-							%form{:method => "POST", :action => "/"}
-								%input#user_id{:type => "hidden", :value => user.massr_id}
 						- if user.status == 0
 							- unauth_count = Massr::User.where(:status => 9).count
 							- unless unauth_count == 0

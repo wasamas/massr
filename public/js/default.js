@@ -129,15 +129,15 @@ $(function(){
 				).append(
 					$('<a>').attr('href', '#').addClass('like-button').attr('id', 'like-'+s.id).
 						each(function(){
-							var userId = $('#user_id').val();
-							var myLike = false;
-							for (var i = 0; i < s.likes.length; i++) {
-								if (s.likes[i].user.massr_id == userId) {
-									myLike = true;
-									break;
+							var classLike = 'like';
+							$.each(s.likes, function(){
+								if(this.user.massr_id == me){
+									classLike = 'unlike';
+									return false;
 								}
-							}
-							$(this).addClass((myLike?'unlike':'like'));
+								return true;
+							});
+							$(this).addClass(classLike);
 						}).
 						append($('<img>').addClass('unlike').attr('src', '/img/wakaruwa.png').attr('alt', 'わからないわ').attr('title', 'わからないわ')).
 						append($('<img>').addClass('like').attr('src', '/img/wakaranaiwa.png').attr('alt', 'わかるわ').attr('title', 'わかるわ'))
