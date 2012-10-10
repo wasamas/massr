@@ -186,10 +186,8 @@ $(function(){
 						$.each(json.reverse(), function(){
 							if(this.created_at > newest){
 								$div.prepend(buildStatement(this));
-								refreshLike(this);
-							}else if($('#st-'+this.id).length > 0){
-								refreshLike(this);
 							}
+							refreshLike(this);
 						});
 					});
 				},
@@ -253,30 +251,34 @@ $(function(){
 	};
 
 	function refreshLike(statement){
+		var likeClasses = ['unlike', 'like'];
+
 		$('#st-' + statement.id + ' .statement-like').remove();
-
-		if(statement.likes.length == 0){
-			return;
+		if(statement.likes.length > 0){
+			$('#st-' + statement.id + ' .statement-action').
+				after('<div class="statement-like">').
+				next().
+				append('わかるわ:');
+	
+	
+			$.each(statement.likes, function(){
+				$('#st-' + statement.id + ' .statement-like').
+					append("&nbsp;").
+					append( $('<a>').
+						attr('href', '/user/' + this.user.massr_id).
+						append( $('<img>').
+							addClass('massr-icon-mini').
+							attr('src', this.user.twitter_icon_url).
+							attr('alt', this.user.name).
+							attr('title', this.user.name)
+						)
+					);
+				if(this.user.massr_id == me){
+					likeClasses = ['like', 'unlike'];
+				}
+			});
 		}
-
-		$('#st-' + statement.id + ' .statement-action').
-			after('<div class="statement-like">').
-			next().
-			append('わかるわ:');
-
-		$.each(statement.likes, function(){
-			$('#st-' + statement.id + ' .statement-like').
-				append("&nbsp;").
-				append( $('<a>').
-					attr('href', '/user/' + this.user.massr_id).
-					append( $('<img>').
-						addClass('massr-icon-mini').
-						attr('src', this.user.twitter_icon_url).
-						attr('alt', this.user.name).
-						attr('title', this.user.name)
-					)
-				)
-		});
+		$('#like-' + statement.id).removeClass(likeClasses[0]).addClass(likeClasses[1]);
 	};
 
 	$(document).on('click', '.statement-action a.like-button', function(){
