@@ -116,7 +116,7 @@ $(function(){
 					append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at))
 			).append(
 				$('<div>').addClass('statement-action').each(function(){
-					if(s.massr_id = me){
+					if(s.massr_id == me){
 						$(this).append(
 							$('<a>').addClass('trash').attr('href', '#').
 								append($('<i>').addClass('icon-trash').attr('title', '削除'))
