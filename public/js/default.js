@@ -259,8 +259,8 @@ $(function(){
 				after('<div class="statement-like">').
 				next().
 				append('わかるわ:');
-	
-	
+
+
 			$.each(statement.likes, function(){
 				$('#st-' + statement.id + ' .statement-like').
 					append("&nbsp;").
