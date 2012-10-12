@@ -185,7 +185,9 @@ $(function(){
 						var $div = $(this);
 						$.each(json.reverse(), function(){
 							if(this.created_at > newest){
-								$div.prepend(buildStatement(this));
+								var $statement = buildStatement(this).hide();
+								$div.prepend($statement);
+								$statement.slideDown('slow');
 							}
 							refreshLike(this);
 						});
