@@ -203,7 +203,7 @@ $(function(){
 	// automatic link plugin
 	$.fn.autoLink = function(config){
 		this.each(function(){
-			var re = /((http|https|ftp):\/\/[\w?=&.\/-;#~%+,-]+(?![\w\s?&.\/;#~%"=-]*>))/g;
+			var re = /(https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+/g;
 			$(this).html(
 				$(this).html().replace(re, function(u){
 					var url = $.url(u);
