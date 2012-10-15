@@ -108,14 +108,6 @@ module Massr
 			redirect '/'
 		end
 
-# ユーザ削除機能一時停止
-#		delete '/user' do
-#			user = User.find_by_id(session[:user_id])
-#			user.destroy
-#			session.clear
-#			redirect '/'
-#		end
-
 		put '/user/:massr_id' do
 			user =  User.find_by_id(session[:user_id])
 			redirect '/' unless user.admin?
