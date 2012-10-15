@@ -66,7 +66,6 @@ module Massr
 			self.user  = user
 
 			if save!
-				user.statements << self
 				user.save!
 				res_statement.save! if request[:res_id]
 			end
