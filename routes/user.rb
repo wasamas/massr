@@ -18,6 +18,17 @@ module Massr
 			haml :user
 		end
 
+		get '/user/:massr_id.json' do
+			user = User.find_by_massr_id(params[:massr_id])
+			total = total_page({:user_id => user.id})
+			page = [current_page, total].min
+			[].tap {|a|
+				Statement.get_statements(page, {:user_id => user.id}).each do |statement|
+					a << statement.to_hash
+				end
+			}.to_json
+		end
+
 		get '/user/:massr_id' do
 			user = User.find_by_massr_id(params[:massr_id])
 			total = total_page({:user_id => user.id})
@@ -29,43 +40,82 @@ module Massr
 				:q => nil}
 		end
 
-		get '/user/:massr_id/res' do
+		before '/user/:massr_id/res*' do
 			user = User.find_by_massr_id(params[:massr_id])
 			statements = Statement.where(:user_id => user.id)
 			received_id = Array.new
 			statements.each do |statement|
 				received_id |= (statement.ref_ids) unless statement.ref_ids.nil?
 			end
-			query = {:_id => { :$in => received_id.uniq }}
-			total = total_page(query)
+			@query = {:_id => { :$in => received_id.uniq }}
+		end
+
+		get '/user/:massr_id/res.json' do
+			total = total_page(@query)
+			page = [current_page, total].min
+			[].tap { |a|
+				Statement.get_statements(page, @query).each do |statement|
+					a << statement.to_hash
+				end
+			}.to_json
+		end
+
+		get '/user/:massr_id/res' do
+			total = total_page(@query)
 			page = [current_page, total].min
 			haml :user_statements, :locals => {
 				:page => page,
-				:statements => Statement.get_statements(page, query),
+				:statements => Statement.get_statements(page, @query),
 				:total_page => total,
 				:q => nil}
+		end
+
+		before '/user/:massr_id/liked*' do
+			user = User.find_by_massr_id(params[:massr_id])
+			@query = {:user_id => user.id, "likes.user_id" => {:$exists => true} }
+		end
+
+		get '/user/:massr_id/liked.json' do
+			total = total_page(@query)
+			page = [current_page, total].min
+			[].tap {|a|
+				Statement.get_statements(page, @query).each do |statement|
+					a << statement.to_hash
+				end
+			}.to_json
 		end
 
 		get '/user/:massr_id/liked' do
-			user = User.find_by_massr_id(params[:massr_id])
-			query = {:user_id => user.id, "likes.user_id" => {:$exists => true} }
-			total = total_page(query)
+			total = total_page(@query)
 			page = [current_page, total].min
 			haml :user_statements, :locals => {
 				:page => page,
-				:statements => Statement.get_statements(page, query),
+				:statements => Statement.get_statements(page, @query),
 				:total_page => total,
 				:q => nil}
 		end
 
-		get '/user/:massr_id/likes' do
+		before '/user/:massr_id/likes*' do
 			user = User.find_by_massr_id(params[:massr_id])
-			query = {"likes.user_id" => user.id }
-			total = total_page(query)
+			@query = {"likes.user_id" => user.id }
+		end
+
+		get '/user/:massr_id/likes.json' do
+			total = total_page(@query)
+			page = [current_page, total].min
+			[].tap {|a|
+				Statement.get_statements(page, @query).each do |statement|
+					a << statement.to_hash
+				end
+			}.to_json
+		end
+
+		get '/user/:massr_id/likes' do
+			total = total_page(@query)
 			page = [current_page, total].min
 			haml :user_statements, :locals => {
 				:page => page,
-				:statements => Statement.get_statements(page, query),
+				:statements => Statement.get_statements(page, @query),
 				:total_page => total,
 				:q => nil}
 		end
