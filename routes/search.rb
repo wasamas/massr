@@ -22,12 +22,7 @@ module Massr
 			end
 
 			total = total_page({:body => /#{q}/})
-			page = params[:page]
-			if page =~ /^\d+/
-				page = page.to_i
-			else
-				page = 1
-			end
+			page = current_page
 
 			haml :index , :locals => {
 				:page => page, 

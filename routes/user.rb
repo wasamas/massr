@@ -21,13 +21,7 @@ module Massr
 		get '/user/:massr_id' do
 			user = User.find_by_massr_id(params[:massr_id])
 			total = total_page({:user_id => user.id})
-			page = params[:page]
-			if page =~ /^\d+/
-				page = page.to_i
-			else
-				page = 1
-			end
-			page = [page, total].min
+			page = [current_page, total].min
 			haml :user_statements , :locals => {
 				:page => page,
 				:statements => Statement.get_statements(page, {:user_id => user.id}),
@@ -44,13 +38,7 @@ module Massr
 			end
 			query = {:_id => { :$in => received_id.uniq }}
 			total = total_page(query)
-			page = params[:page]
-			if page =~ /^\d+/
-				page = page.to_i
-			else
-				page = 1
-			end
-			page = [page, total].min
+			page = [current_page, total].min
 			haml :user_statements, :locals => {
 				:page => page,
 				:statements => Statement.get_statements(page, query),
@@ -62,13 +50,7 @@ module Massr
 			user = User.find_by_massr_id(params[:massr_id])
 			query = {:user_id => user.id, "likes.user_id" => {:$exists => true} }
 			total = total_page(query)
-			page = params[:page]
-			if page =~ /^\d+/
-				page = page.to_i
-			else
-				page = 1
-			end
-			page = [page, total].min
+			page = [current_page, total].min
 			haml :user_statements, :locals => {
 				:page => page,
 				:statements => Statement.get_statements(page, query),
@@ -80,13 +62,7 @@ module Massr
 			user = User.find_by_massr_id(params[:massr_id])
 			query = {"likes.user_id" => user.id }
 			total = total_page(query)
-			page = params[:page]
-			if page =~ /^\d+/
-				page = page.to_i
-			else
-				page = 1
-			end
-			page = [page, total].min
+			page = [current_page, total].min
 			haml :user_statements, :locals => {
 				:page => page,
 				:statements => Statement.get_statements(page, query),

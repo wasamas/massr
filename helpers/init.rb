@@ -12,6 +12,7 @@ require 'mail'
 module Massr
 	class App < Sinatra::Base
 		helpers do
+
 			def csrf_meta
 				{:name => "_csrf", :content => Rack::Csrf.token(env)}
 			end
@@ -22,6 +23,16 @@ module Massr
 
 			def current_user
 				@current_user ||= User.find_by_id(session[:user_id])
+			end
+
+			def current_page
+				page = params[:page]
+				if page =~ /^\d+/
+					page = page.to_i
+				else
+					page = 1
+				end
+				return page
 			end
 
 			def total_page( query = {} )
