@@ -336,20 +336,21 @@ $(function(){
 		}
 	});
 
-	/*
-	 * delete user by myself
-	 */
-	$(document).on('click', '#delete-user', function(){
-		if(window.confirm('本当に削除してよろしいいですか?')){
-			$.ajax({
-				url: '/user',
-				type: 'DELETE',
-				success: function(result) {
-					location.href = "/";
-				}
-			});
-		}
-	});
+// ユーザ削除一時停止
+//	/*
+//	 * delete user by myself
+//	 */
+//	$(document).on('click', '#delete-user', function(){
+//		if(window.confirm('本当に削除してよろしいいですか?')){
+//			$.ajax({
+//				url: '/user',
+//				type: 'DELETE',
+//				success: function(result) {
+//					location.href = "/";
+//				}
+//			});
+//		}
+//	});
 
 	/*
 	 * admin

@@ -42,10 +42,11 @@
 											%input.btn.btn-large{:type => "submit" , :value => "保存"}
 										- else
 											%input.btn.btn-primary.btn-large{:type => "submit" , :value => "登録"}
-						-if user
-							%hr
-							%input.btn.btn-danger.btn-small{:id => 'delete-user', :type => "button" , :value => "ユーザ削除"}
-							※データもすべて削除されます
+						/ ユーザ削除機能一時停止
+						/ -if user
+						/	%hr
+						/	%input.btn.btn-danger.btn-small{:id => 'delete-user', :type => "button" , :value => "ユーザ削除"}
+						/	※データもすべて削除されます
 				.span3
 					- if user
 						!= haml :sidebar
