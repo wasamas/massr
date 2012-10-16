@@ -18,9 +18,9 @@ module Massr
 			haml :user
 		end
 
-		before '/user/:massr_id.json' do
-			@user = User.find_by_massr_id(params[:massr_id])
-			@total = total_page({:user_id => user.id})
+		before "/user/:massr_id*" do
+			@user = User.find_by_massr_id(params[:massr_id].sub(/\.json$/,""))
+			@total = total_page({:user_id => @user.id})
 			@page = [current_page, @total].min
 		end
 
@@ -35,7 +35,7 @@ module Massr
 		get '/user/:massr_id' do
 			haml :user_statements , :locals => {
 				:page => @page,
-				:statements => Statement.get_statements(page, {:user_id => @user.id}),
+				:statements => Statement.get_statements(@page, {:user_id => @user.id}),
 				:total_page => @total,
 				:q => nil}
 		end
