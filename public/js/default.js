@@ -336,6 +336,38 @@ $(function(){
 		}
 	});
 
+	// Subjoin the next page
+	$('#autopager').on('click', function(str){
+		var link=$(this).attr('path') + "?page=" + $(this).attr('page')
+		var $button = $(this)
+		if ($(this).attr('query')!=""){
+			link = link + "&q=" + $(this).attr('query')
+		}
+		$.ajax({
+			url: link,
+			type: 'GET',
+			dataType: 'json',
+			cache: false,
+			success: function(json) {
+				$('#statements').each(function(){
+					var $div = $(this);
+					$.each(json, function(){
+						var $statement = buildStatement(this).hide();
+						$div.append($statement);
+						$statement.slideDown('slow');
+						refreshLike(this);
+					});
+				});
+				$button.attr('page',parseInt($button.attr('page')) + 1);
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				if($('textarea:focus').size() == 0){
+					location.reload();
+				}
+			}
+		});
+	});
+
 	/*
 	 * admin
 	 */
