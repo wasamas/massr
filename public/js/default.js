@@ -337,7 +337,7 @@ $(function(){
 	});
 
 	// Subjoin the next page
-	$('#autopager').on('click', function(str){
+	$('#subjoinpage').on('click', function(str){
 		var link=$(this).attr('path') + "?page=" + $(this).attr('page')
 		var $button = $(this)
 		if ($(this).attr('query')!=""){
