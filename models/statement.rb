@@ -22,14 +22,7 @@ module Massr
 		many       :likes , :class_name => 'Massr::Like'  , :dependent => :delete_all
 		many       :refs  , :class_name => 'Massr::Statement' , :in => :ref_ids
 
-		def self.get_statements_by_page(page,options={})
-			options[:order]    = :created_at.desc
-			options[:per_page] = $limit
-			options[:page]     = page
-			return self.paginate(options)
-		end
-
-		def self.get_statements_by_date(date,options={})
+		def self.get_statements(date,options={})
 			options[:created_at.lt] = Time.parse(date)
 			options[:order]         = :created_at.desc
 			options[:limit]         = $limit

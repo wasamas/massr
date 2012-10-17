@@ -339,7 +339,7 @@ $(function(){
 	// Subjoin the next page
 	$('#subjoinpage').on('click', function(str){
 		var oldest = $($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/(:|-| )/g,'');
-		var link=$(this).attr('path') + "?page=" + $(this).attr('page') + "&date=" + oldest
+		var link=$(this).attr('path') + "?date=" + oldest
 		var $button = $(this)
 
 		if ($(this).attr('query')!=""){
@@ -360,7 +360,6 @@ $(function(){
 						refreshLike(this);
 					});
 				});
-				$button.attr('page',parseInt($button.attr('page')) + 1);
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				if($('textarea:focus').size() == 0){

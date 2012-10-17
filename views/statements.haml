@@ -3,7 +3,7 @@
 		!= haml :statement , :locals => {:statement => statement}
 .pagenation
 	- if request.path_info == '/'
-		%input.btn.btn-large{:id => 'subjoinpage', :type => "button" , :value => "next" , :path => "#{request.path_info}index.json", :query => "#{q}" ,:page => "#{page.to_i+1}"}
+		%input.btn.btn-large{:id => 'subjoinpage', :type => "button" , :value => "next" , :path => "#{request.path_info}index.json", :query => "#{q}"}
 	- else
-		%input.btn.btn-large{:id => 'subjoinpage', :type => "button" , :value => "next" , :path => "#{request.path_info}.json", :query => "#{q}" ,:page => "#{page.to_i+1}"}
+		%input.btn.btn-large{:id => 'subjoinpage', :type => "button" , :value => "next" , :path => "#{request.path_info}.json", :query => "#{q}"}
 

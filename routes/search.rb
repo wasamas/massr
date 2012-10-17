@@ -12,14 +12,11 @@ module Massr
 	class App < Sinatra::Base
 		before '/search*' do
 			@q = params[:q].strip
-			@total = total_page({:body => /#{@q}/})
-			@page = current_page
 		end
 
 		get '/search.json' do
-			date = params[:date] ? params[:date] : Time.now.strftime("%Y%m%d%H%M%S")
 			[].tap {|a|
-				Statement.get_statements_by_date(date,{:body => /#{@q}/}).each do |statement|
+				Statement.get_statements(param_date,{:body => /#{@q}/}).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json
@@ -36,10 +33,8 @@ module Massr
 			end
 
 			haml :index , :locals => {
-				:page => @page, 
-				:statements => Statement.get_statements_by_page(@page,{:body => /#{@q}/}),
-				:q => @q,
-				:total_page => @total}
+				:statements => Statement.get_statements(param_date,{:body => /#{@q}/}),
+				:q => @q}
 		end
 	end
 end

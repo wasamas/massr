@@ -20,14 +20,11 @@ module Massr
 
 		before "/user/:massr_id*" do
 			@user = User.find_by_massr_id(params[:massr_id].sub(/\.json$/,""))
-			@total = total_page({:user_id => @user.id})
-			@page = [current_page, @total].min
 		end
 
 		get '/user/:massr_id.json' do
-			date = params[:date] ? params[:date] : Time.now.strftime("%Y%m%d%H%M%S")
 			[].tap {|a|
-				Statement.get_statements_by_date(date, {:user_id => @user.id}).each do |statement|
+				Statement.get_statements(param_date, {:user_id => @user.id}).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json
@@ -35,9 +32,7 @@ module Massr
 
 		get '/user/:massr_id' do
 			haml :user_statements , :locals => {
-				:page => @page,
-				:statements => Statement.get_statements_by_page(@page, {:user_id => @user.id}),
-				:total_page => @total,
+				:statements => Statement.get_statements(param_date, {:user_id => @user.id}),
 				:q => nil}
 		end
 
@@ -49,14 +44,11 @@ module Massr
 				received_id |= (statement.ref_ids) unless statement.ref_ids.nil?
 			end
 			@query = {:_id => { :$in => received_id.uniq }}
-			@total = total_page(@query)
-			@page = [current_page, @total].min
 		end
 
 		get '/user/:massr_id/res.json' do
-			date = params[:date] ? params[:date] : Time.now.strftime("%Y%m%d%H%M%S")
 			[].tap { |a|
-				Statement.get_statements_by_date(date, @query).each do |statement|
+				Statement.get_statements(param_date, @query).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json
@@ -64,23 +56,18 @@ module Massr
 
 		get '/user/:massr_id/res' do
 			haml :user_statements, :locals => {
-				:page => @page,
-				:statements => Statement.get_statements_by_page(@page, @query),
-				:total_page => @total,
+				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
 		end
 
 		before '/user/:massr_id/liked*' do
 			user = User.find_by_massr_id(params[:massr_id])
 			@query = {:user_id => user.id, "likes.user_id" => {:$exists => true} }
-			@total = total_page(@query)
-			@page = [current_page, @total].min
 		end
 
 		get '/user/:massr_id/liked.json' do
-			date = params[:date] ? params[:date] : Time.now.strftime("%Y%m%d%H%M%S")
 			[].tap {|a|
-				Statement.get_statements_by_date(date, @query).each do |statement|
+				Statement.get_statements(param_date, @query).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json
@@ -88,23 +75,18 @@ module Massr
 
 		get '/user/:massr_id/liked' do
 			haml :user_statements, :locals => {
-				:page => @page,
-				:statements => Statement.get_statements_by_page(@page, @query),
-				:total_page => @total,
+				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
 		end
 
 		before '/user/:massr_id/likes*' do
 			user = User.find_by_massr_id(params[:massr_id])
 			@query = {"likes.user_id" => user.id }
-			@total = total_page(@query)
-			@page = [current_page, @total].min
 		end
 
 		get '/user/:massr_id/likes.json' do
-			date = params[:date] ? params[:date] : Time.now.strftime("%Y%m%d%H%M%S")
 			[].tap {|a|
-				Statement.get_statements_by_date(date, @query).each do |statement|
+				Statement.get_statements(param_date, @query).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json
@@ -112,9 +94,7 @@ module Massr
 
 		get '/user/:massr_id/likes' do
 			haml :user_statements, :locals => {
-				:page => @page,
-				:statements => Statement.get_statements_by_page(@page, @query),
-				:total_page => @total,
+				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
 		end
 
