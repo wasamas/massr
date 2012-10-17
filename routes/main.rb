@@ -15,16 +15,15 @@ module Massr
 			page = [current_page, total].min
 			haml :index , :locals => {
 				:page => page,
-				:statements => Statement.get_statements(page),
+				:statements => Statement.get_statements_by_page(page),
 				:q => nil,
 				:total_page => total}
 		end
 
 		get '/index.json' do
-			total = total_page
-			page = [current_page, total].min
+			date = params[:date] ? params[:date] : Time.now.strftime("%Y%m%d%H%M%S")
 			[].tap {|a|
-				Statement.get_statements(page).each do |statement|
+				Statement.get_statements_by_date(date).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json

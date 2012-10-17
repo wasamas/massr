@@ -25,8 +25,9 @@ module Massr
 		end
 
 		get '/user/:massr_id.json' do
+			date = params[:date] ? params[:date] : Time.now.strftime("%Y%m%d%H%M%S")
 			[].tap {|a|
-				Statement.get_statements(@page, {:user_id => @user.id}).each do |statement|
+				Statement.get_statements_by_date(date, {:user_id => @user.id}).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json
@@ -35,7 +36,7 @@ module Massr
 		get '/user/:massr_id' do
 			haml :user_statements , :locals => {
 				:page => @page,
-				:statements => Statement.get_statements(@page, {:user_id => @user.id}),
+				:statements => Statement.get_statements_by_page(@page, {:user_id => @user.id}),
 				:total_page => @total,
 				:q => nil}
 		end
@@ -53,8 +54,9 @@ module Massr
 		end
 
 		get '/user/:massr_id/res.json' do
+			date = params[:date] ? params[:date] : Time.now.strftime("%Y%m%d%H%M%S")
 			[].tap { |a|
-				Statement.get_statements(@page, @query).each do |statement|
+				Statement.get_statements_by_date(date, @query).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json
@@ -63,7 +65,7 @@ module Massr
 		get '/user/:massr_id/res' do
 			haml :user_statements, :locals => {
 				:page => @page,
-				:statements => Statement.get_statements(@page, @query),
+				:statements => Statement.get_statements_by_page(@page, @query),
 				:total_page => @total,
 				:q => nil}
 		end
@@ -76,8 +78,9 @@ module Massr
 		end
 
 		get '/user/:massr_id/liked.json' do
+			date = params[:date] ? params[:date] : Time.now.strftime("%Y%m%d%H%M%S")
 			[].tap {|a|
-				Statement.get_statements(@page, @query).each do |statement|
+				Statement.get_statements_by_date(date, @query).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json
@@ -86,7 +89,7 @@ module Massr
 		get '/user/:massr_id/liked' do
 			haml :user_statements, :locals => {
 				:page => @page,
-				:statements => Statement.get_statements(@page, @query),
+				:statements => Statement.get_statements_by_page(@page, @query),
 				:total_page => @total,
 				:q => nil}
 		end
@@ -99,8 +102,9 @@ module Massr
 		end
 
 		get '/user/:massr_id/likes.json' do
+			date = params[:date] ? params[:date] : Time.now.strftime("%Y%m%d%H%M%S")
 			[].tap {|a|
-				Statement.get_statements(@page, @query).each do |statement|
+				Statement.get_statements_by_date(date, @query).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json
@@ -109,7 +113,7 @@ module Massr
 		get '/user/:massr_id/likes' do
 			haml :user_statements, :locals => {
 				:page => @page,
-				:statements => Statement.get_statements(@page, @query),
+				:statements => Statement.get_statements_by_page(@page, @query),
 				:total_page => @total,
 				:q => nil}
 		end

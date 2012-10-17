@@ -338,8 +338,10 @@ $(function(){
 
 	// Subjoin the next page
 	$('#subjoinpage').on('click', function(str){
-		var link=$(this).attr('path') + "?page=" + $(this).attr('page')
+		var oldest = $($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/(:|-| )/g,'');
+		var link=$(this).attr('path') + "?page=" + $(this).attr('page') + "&date=" + oldest
 		var $button = $(this)
+
 		if ($(this).attr('query')!=""){
 			link = link + "&q=" + $(this).attr('query')
 		}

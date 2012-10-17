@@ -17,8 +17,9 @@ module Massr
 		end
 
 		get '/search.json' do
+			date = params[:date] ? params[:date] : Time.now.strftime("%Y%m%d%H%M%S")
 			[].tap {|a|
-				Statement.get_statements(@page,{:body => /#{@q}/}).each do |statement|
+				Statement.get_statements_by_date(date,{:body => /#{@q}/}).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json
@@ -36,7 +37,7 @@ module Massr
 
 			haml :index , :locals => {
 				:page => @page, 
-				:statements => Statement.get_statements(@page,{:body => /#{@q}/}),
+				:statements => Statement.get_statements_by_page(@page,{:body => /#{@q}/}),
 				:q => @q,
 				:total_page => @total}
 		end
