@@ -18,79 +18,83 @@ module Massr
 			haml :user
 		end
 
+		before "/user/:massr_id*" do
+			@user = User.find_by_massr_id(params[:massr_id].sub(/\.json$/,""))
+		end
+
+		get '/user/:massr_id.json' do
+			[].tap {|a|
+				Statement.get_statements(param_date, {:user_id => @user.id}).each do |statement|
+					a << statement.to_hash
+				end
+			}.to_json
+		end
+
 		get '/user/:massr_id' do
-			user = User.find_by_massr_id(params[:massr_id])
-			total = total_page({:user_id => user.id})
-			page = params[:page]
-			if page =~ /^\d+/
-				page = page.to_i
-			else
-				page = 1
-			end
-			page = [page, total].min
 			haml :user_statements , :locals => {
-				:page => page,
-				:statements => Statement.get_statements(page, {:user_id => user.id}),
-				:total_page => total,
+				:statements => Statement.get_statements(param_date, {:user_id => @user.id}),
 				:q => nil}
 		end
 
-		get '/user/:massr_id/res' do
+		before '/user/:massr_id/res*' do
 			user = User.find_by_massr_id(params[:massr_id])
 			statements = Statement.where(:user_id => user.id)
 			received_id = Array.new
 			statements.each do |statement|
 				received_id |= (statement.ref_ids) unless statement.ref_ids.nil?
 			end
-			query = {:_id => { :$in => received_id.uniq }}
-			total = total_page(query)
-			page = params[:page]
-			if page =~ /^\d+/
-				page = page.to_i
-			else
-				page = 1
-			end
-			page = [page, total].min
+			@query = {:_id => { :$in => received_id.uniq }}
+		end
+
+		get '/user/:massr_id/res.json' do
+			[].tap { |a|
+				Statement.get_statements(param_date, @query).each do |statement|
+					a << statement.to_hash
+				end
+			}.to_json
+		end
+
+		get '/user/:massr_id/res' do
 			haml :user_statements, :locals => {
-				:page => page,
-				:statements => Statement.get_statements(page, query),
-				:total_page => total,
+				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
+		end
+
+		before '/user/:massr_id/liked*' do
+			user = User.find_by_massr_id(params[:massr_id])
+			@query = {:user_id => user.id, "likes.user_id" => {:$exists => true} }
+		end
+
+		get '/user/:massr_id/liked.json' do
+			[].tap {|a|
+				Statement.get_statements(param_date, @query).each do |statement|
+					a << statement.to_hash
+				end
+			}.to_json
 		end
 
 		get '/user/:massr_id/liked' do
-			user = User.find_by_massr_id(params[:massr_id])
-			query = {:user_id => user.id, "likes.user_id" => {:$exists => true} }
-			total = total_page(query)
-			page = params[:page]
-			if page =~ /^\d+/
-				page = page.to_i
-			else
-				page = 1
-			end
-			page = [page, total].min
 			haml :user_statements, :locals => {
-				:page => page,
-				:statements => Statement.get_statements(page, query),
-				:total_page => total,
+				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
 		end
 
-		get '/user/:massr_id/likes' do
+		before '/user/:massr_id/likes*' do
 			user = User.find_by_massr_id(params[:massr_id])
-			query = {"likes.user_id" => user.id }
-			total = total_page(query)
-			page = params[:page]
-			if page =~ /^\d+/
-				page = page.to_i
-			else
-				page = 1
-			end
-			page = [page, total].min
+			@query = {"likes.user_id" => user.id }
+		end
+
+		get '/user/:massr_id/likes.json' do
+			[].tap {|a|
+				Statement.get_statements(param_date, @query).each do |statement|
+					a << statement.to_hash
+				end
+			}.to_json
+		end
+
+		get '/user/:massr_id/likes' do
 			haml :user_statements, :locals => {
-				:page => page,
-				:statements => Statement.get_statements(page, query),
-				:total_page => total,
+				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
 		end
 

@@ -2,8 +2,6 @@
 	- statements.each do |statement|
 		!= haml :statement , :locals => {:statement => statement}
 .pagenation
-	- if page.to_i > 1
-		%a{:href => "#{request.path_info}#{page_query_param(page.to_i-1, q)}"}<prev
-	- if total_page > page.to_i
-		%a{:href => "#{request.path_info}#{page_query_param(page.to_i+1, q)}"}<next
+	%input.btn.btn-large{:id => 'subjoinpage', :type => "button" , :value => "next" , :path => "#{request.path_info}#{request.path_info == '/' ? 'index' : ''}.json", :query => "#{q}"}
+	%img{:id => 'subjoinpage-loading', :src => '/img/masao_loading.gif', :alt => 'Loading...'}
 

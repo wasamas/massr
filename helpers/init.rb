@@ -12,6 +12,7 @@ require 'mail'
 module Massr
 	class App < Sinatra::Base
 		helpers do
+
 			def csrf_meta
 				{:name => "_csrf", :content => Rack::Csrf.token(env)}
 			end
@@ -22,21 +23,6 @@ module Massr
 
 			def current_user
 				@current_user ||= User.find_by_id(session[:user_id])
-			end
-
-			def total_page( query = {} )
-				[Statement.count(query) / ($limit + 0.0), 1].max.ceil
-			end
-
-			def page_query_param(page, query)
-				param = {
-					:page => page > 1 ? page : nil,
-					:q => query
-				}.map{|k, v| v ? "#{k}=#{v}" : nil}.compact.join('&')
-
-				param.prepend('?') unless param.empty?
-
-				return param
 			end
 
 			def send_mail(user, statement)
@@ -64,6 +50,10 @@ module Massr
 
 			def random_masao
 				"/img/masao#{['', '2', '3'].sample}.jpg"
+			end
+
+			def param_date
+				date = params[:date] ? params[:date] : (Time.now + 1).strftime("%Y%m%d%H%M%S")
 			end
 		end
 	end

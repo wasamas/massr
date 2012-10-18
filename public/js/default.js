@@ -336,6 +336,43 @@ $(function(){
 		}
 	});
 
+	// Subjoin the next page
+	$('#subjoinpage').on('click', function(str){
+		$(this).hide();
+		$('#subjoinpage-loading').show();
+		var oldest = $($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
+		var link=$(this).attr('path') + "?date=" + oldest
+		var $button = $(this)
+
+		if ($(this).attr('query')!=""){
+			link = link + "&q=" + $(this).attr('query')
+		}
+		$.ajax({
+			url: link,
+			type: 'GET',
+			dataType: 'json',
+			cache: false,
+			success: function(json) {
+				$('#statements').each(function(){
+					var $div = $(this);
+					$.each(json, function(){
+						var $statement = buildStatement(this).hide();
+						$div.append($statement);
+						$statement.slideDown('slow');
+						refreshLike(this);
+					});
+				});
+				$('#subjoinpage-loading').hide();
+				$('#subjoinpage').show();
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				if($('textarea:focus').size() == 0){
+					location.reload();
+				}
+			}
+		});
+	});
+
 	/*
 	 * admin
 	 */
