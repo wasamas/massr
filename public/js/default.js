@@ -338,6 +338,8 @@ $(function(){
 
 	// Subjoin the next page
 	$('#subjoinpage').on('click', function(str){
+		$(this).hide();
+		$('#subjoinpage-loading').show();
 		var oldest = $($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
 		var link=$(this).attr('path') + "?date=" + oldest
 		var $button = $(this)
@@ -360,6 +362,8 @@ $(function(){
 						refreshLike(this);
 					});
 				});
+				$('#subjoinpage-loading').hide();
+				$('#subjoinpage').show();
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				if($('textarea:focus').size() == 0){
