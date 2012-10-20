@@ -7,6 +7,8 @@
  */
 
 $(function(){
+	var me = $('#me').text();
+
 	/*
 	 * setup pnotify plugin
 	 */
@@ -75,11 +77,23 @@ $(function(){
 			)
 		).append(
 			$('<div>').addClass('statement-body').each(function(){
+				if(s.user.massr_id == me){
+					$(this).addClass('statement-body-me');
+				}
 				if(s.res != null){
 					$(this).append(
+						$('<div>').addClass('statement-res-icon').append(
+							$('<a>').attr('href', '/user/'+s.res.user.massr_id).append(
+								$('<img>').addClass('massr-icon-mini').
+									attr('src', s.res.user.twitter_icon_url).
+									attr('alt', s.res.user.name).
+									attr('title', s.res.user.name)
+							)
+						)
+					).append(
 						$('<div>').addClass('statement-res').append(
 							$('<a>').attr('href', '/statement/'+s.res.id).
-								text('> '+shrinkText(s.res.body + ' by ' + s.res.user.name)))
+								text('< '+shrinkText(s.res.body)))
 					)
 				}
 			}).append(
@@ -88,7 +102,9 @@ $(function(){
 				$('<div>').addClass('statement-photos').each(function(){
 					var $parent = $(this);
 					$.each(s.photos, function(){
-						$parent.append($('<a>').attr('href', this).attr('rel', 'lightbox').
+						$parent.append($('<a>').attr('href', this).
+							attr('rel', 'lightbox').
+							on('click', function(){showLightbox(this); return false;}).
 							append($('<img>').addClass('statement-photo').attr('src', this)));
 					});
 				})
@@ -100,7 +116,7 @@ $(function(){
 					append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at))
 			).append(
 				$('<div>').addClass('statement-action').each(function(){
-					if($('#me').text() == s.massr_id){
+					if(s.user.massr_id == me){
 						$(this).append(
 							$('<a>').addClass('trash').attr('href', '#').
 								append($('<i>').addClass('icon-trash').attr('title', '削除'))
@@ -113,11 +129,15 @@ $(function(){
 				).append(
 					$('<a>').attr('href', '#').addClass('like-button').attr('id', 'like-'+s.id).
 						each(function(){
-							if(s.likes.length > 0){
-								$(this).addClass('unlike');
-							}else{
-								$(this).addClass('like');
-							}
+							var classLike = 'like';
+							$.each(s.likes, function(){
+								if(this.user.massr_id == me){
+									classLike = 'unlike';
+									return false;
+								}
+								return true;
+							});
+							$(this).addClass(classLike);
 						}).
 						append($('<img>').addClass('unlike').attr('src', '/img/wakaruwa.png').attr('alt', 'わからないわ').attr('title', 'わからないわ')).
 						append($('<img>').addClass('like').attr('src', '/img/wakaranaiwa.png').attr('alt', 'わかるわ').attr('title', 'わかるわ'))
@@ -165,11 +185,11 @@ $(function(){
 						var $div = $(this);
 						$.each(json.reverse(), function(){
 							if(this.created_at > newest){
-								$div.prepend(buildStatement(this));
-								refreshLike(this);
-							}else if($('#st-'+this.id).length > 0){
-								refreshLike(this);
+								var $statement = buildStatement(this).hide();
+								$div.prepend($statement);
+								$statement.slideDown('slow');
 							}
+							refreshLike(this);
 						});
 					});
 				},
@@ -185,7 +205,7 @@ $(function(){
 	// automatic link plugin
 	$.fn.autoLink = function(config){
 		this.each(function(){
-			var re = /((http|https|ftp):\/\/[\w?=&.\/-;#~%+,-]+(?![\w\s?&.\/;#~%"=-]*>))/g;
+			var re = /(https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+/g;
 			$(this).html(
 				$(this).html().replace(re, function(u){
 					var url = $.url(u);
@@ -233,30 +253,34 @@ $(function(){
 	};
 
 	function refreshLike(statement){
+		var likeClasses = ['unlike', 'like'];
+
 		$('#st-' + statement.id + ' .statement-like').remove();
+		if(statement.likes.length > 0){
+			$('#st-' + statement.id + ' .statement-action').
+				after('<div class="statement-like">').
+				next().
+				append('わかるわ:');
 
-		if(statement.likes.length == 0){
-			return;
+
+			$.each(statement.likes, function(){
+				$('#st-' + statement.id + ' .statement-like').
+					append("&nbsp;").
+					append( $('<a>').
+						attr('href', '/user/' + this.user.massr_id).
+						append( $('<img>').
+							addClass('massr-icon-mini').
+							attr('src', this.user.twitter_icon_url).
+							attr('alt', this.user.name).
+							attr('title', this.user.name)
+						)
+					);
+				if(this.user.massr_id == me){
+					likeClasses = ['like', 'unlike'];
+				}
+			});
 		}
-
-		$('#st-' + statement.id + ' .statement-action').
-			after('<div class="statement-like">').
-			next().
-			append('わかるわ:');
-
-		$.each(statement.likes, function(){
-			$('#st-' + statement.id + ' .statement-like').
-				append("&nbsp;").
-				append( $('<a>').
-					attr('href', '/user/' + this.user.massr_id).
-					append( $('<img>').
-						addClass('massr-icon-mini').
-						attr('src', this.user.twitter_icon_url).
-						attr('alt', this.user.name).
-						attr('title', this.user.name)
-					)
-				)
-		});
+		$('#like-' + statement.id).removeClass(likeClasses[0]).addClass(likeClasses[1]);
 	};
 
 	$(document).on('click', '.statement-action a.like-button', function(){
@@ -297,7 +321,7 @@ $(function(){
 	$(document).on('click', '.statement-action a.trash', function(){
 		var statement = getID($(this).parent().parent().parent().attr('id'));
 		var owner = $('#st-' + statement + ' .statement-icon a').attr('href').match(/[^/]+$/);
-		if(owner != $('#me').text()){
+		if(owner != me){
 			message.error('削除は発言者本人にしかできません');
 			return false;
 		}
@@ -312,19 +336,41 @@ $(function(){
 		}
 	});
 
-	/*
-	 * delete user by myself
-	 */
-	$(document).on('click', '#delete-user', function(){
-		if(window.confirm('本当に削除してよろしいいですか?')){
-			$.ajax({
-				url: '/user',
-				type: 'DELETE',
-				success: function(result) {
-					location.href = "/";
-				}
-			});
+	// Subjoin the next page
+	$('#subjoinpage').on('click', function(str){
+		$(this).hide();
+		$('#subjoinpage-loading').show();
+		var oldest = $($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
+		var link=$(this).attr('path') + "?date=" + oldest
+		var $button = $(this)
+
+		if ($(this).attr('query')!=""){
+			link = link + "&q=" + $(this).attr('query')
 		}
+		$.ajax({
+			url: link,
+			type: 'GET',
+			dataType: 'json',
+			cache: false,
+			success: function(json) {
+				$('#statements').each(function(){
+					var $div = $(this);
+					$.each(json, function(){
+						var $statement = buildStatement(this).hide();
+						$div.append($statement);
+						$statement.slideDown('slow');
+						refreshLike(this);
+					});
+				});
+				$('#subjoinpage-loading').hide();
+				$('#subjoinpage').show();
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				if($('textarea:focus').size() == 0){
+					location.reload();
+				}
+			}
+		});
 	});
 
 	/*

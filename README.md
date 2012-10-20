@@ -105,6 +105,21 @@ $ heroku config:add \
 有効にすることで、Picasaウェブアルバム上に『MassrYYMMNNN』というアルバムを作成し、
 そこに投稿された画像を登録します。
 
+### mongodbデータへの修正適用方法
+commit b5151ea7より、modeles/userに関して、User.statement_idsを廃止しました。
+データベースへの修正を適用しなくても動作に問題有りませんが、以下のコマンドを適用し、
+データベースの修正を実施することを推奨します。
+データベースへの接続方法に関しては各環境をご確認ください。
+（herokuの場合 heroku configコマンドで確認可能です）
+
+```sh
+$ mongo ${HOST}:${PORT}/${DBNAME} -u ${MONGO_USER} -p ${MONGO_PASS}
+
+> db.massr.users.update({},{$unset: {statement_ids:1}},false,true)
+```
+
+
+
 ## ライセンス
 Massrの著作権は「The wasam@s production」が保有しており、GPLのもとで改変・再配布が可能です。ただし、同梱する下記のプロダクトはその限りではありません。
 

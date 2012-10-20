@@ -16,8 +16,13 @@ require 'omniauth-twitter'
 require 'rack/csrf'
 require 'mongo_mapper'
 require 'mail'
-require 'picasa'
+
+require_relative 'plugins/picasa'
+
 module Massr
+	module Plugin
+	end
+
 	class App < Sinatra::Base
 		enable :sessions
 		set :haml, { format: :html5, escape_html: true }
@@ -44,11 +49,7 @@ module Massr
 				}
 			end
 
-			$picasa_client = Picasa::Client.new(
-				user_id: ENV['PICASA_ID'],
-				password: ENV['PICASA_PASS']
-				) if ENV['PICASA_ID']
-
+			Massr::Plugin::Picasa.auth(ENV['PICASA_ID'], ENV['PICASA_PASS']) if ENV['PICASA_ID']
 		end
 
 		configure :development, :test do
@@ -80,11 +81,7 @@ module Massr
 				}
 			end
 
-			$picasa_client = Picasa::Client.new(
-				user_id: auth_gmail['mail'],
-				password: auth_gmail['pass']
-				)
-
+			Massr::Plugin::Picasa.auth(auth_gmail['mail'], auth_gmail['pass'])
 		end
 
 		use(

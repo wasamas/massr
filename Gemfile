@@ -19,4 +19,5 @@ group :development, :test do
 	gem 'autotest'
 	gem 'sinatra-reloader', require: 'sinatra/reloader'
 	gem 'pit', require: 'pit'
+	gem 'pry'
 end

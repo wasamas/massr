@@ -22,40 +22,16 @@ module Massr
 		many       :likes , :class_name => 'Massr::Like'  , :dependent => :delete_all
 		many       :refs  , :class_name => 'Massr::Statement' , :in => :ref_ids
 
-		def self.get_statements(page,options={})
-			options[:order]    = :created_at.desc
-			options[:per_page] = $limit
-			options[:page]     = page
-			return self.paginate(options)
+		def self.get_statements(date,options={})
+			options[:created_at.lt] = Time.parse(date)
+			options[:order]         = :created_at.desc
+			options[:limit]         = $limit
+			return self.all(options)
 		end
-
-		def get_album(album_name)
-			album_list = $picasa_client.album.list(:fields => "entry[title eq \'#{album_name}\']")
-			if album_list.entries.size == 0
-				album = $picasa_client.album.create(:title => album_name)
-			else
-				album = album_list.entries[0]
-			end
-
-			return album.numphotos < 1000 ? album : get_album(album_name.succ)
-		end
-
 
 		def update_statement(request)
-			self[:body]  = request[:body]
+			self[:body], self[:photos] = request[:body], request[:photos]
 			
-			#upload to picasa
-			if request[:file_path]
-				album_name = Time.now.strftime("Massr%Y%m") + "001"
-				album = get_album(album_name)
-				photo = $picasa_client.photo.create(
-					album.id,
-					file_path: "#{request[:file_path]}",
-					content_type: "#{request[:file_content_type]}"
-					)
-				self[:photos] << photo.content.src
-			end
-
 			# body内の画像
 			re = URI.regexp(['http', 'https'])
 			request_uri = URI.parse(request.url)
@@ -90,8 +66,6 @@ module Massr
 			self.user  = user
 
 			if save!
-				user.statements << self
-				user.save!
 				res_statement.save! if request[:res_id]
 			end
 

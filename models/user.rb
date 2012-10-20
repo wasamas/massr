@@ -18,11 +18,8 @@ module Massr
 		key :name,             :type => String , :required => true
 		key :email,            :type => String
 		key :status,           :type => Integer, :default  => UNAUTHORIZED
-		key :statement_ids,    Array
 
 		timestamps!
-
-		many :statements , :class_name => 'Massr::Statement', :in => :statement_ids, :dependent => :delete_all
 
 		def self.create_by_registration_form(request)
 			user = User.new(:massr_id => request[:massr_id])
