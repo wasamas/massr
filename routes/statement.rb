@@ -22,6 +22,24 @@ module Massr
 			redirect '/'
 		end
 		
+		before '/statement/photos*' do
+			@query = {"photos" => {:$ne => [] } }
+		end
+
+		get '/statement/photos' do
+			haml :user_statements, :locals => {
+				:statements => Statement.get_statements(param_date, @query),
+				:q => nil}
+		end
+
+		get '/statement/photos.json' do
+			[].tap {|a|
+				Statement.get_statements(param_date, @query).each do |statement|
+					a << statement.to_hash
+				end
+			}.to_json
+		end
+
 		get '/statement/:id.json' do
 			Statement.find_by_id(params[:id]).to_hash.to_json
 		end
