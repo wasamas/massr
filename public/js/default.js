@@ -365,7 +365,9 @@ $(function(){
 	$('#subjoinpage').on('click', function(str){
 		$(this).hide();
 		$('#subjoinpage-loading').show();
-		var oldest = $($('#statements .item .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
+		var oldest = (/.*photos$/.test(location.pathname))?
+			$($('#statements .item .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, ''):
+			$($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
 		var link=$(this).attr('path') + "?date=" + oldest
 		var $button = $(this)
 
