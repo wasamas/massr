@@ -155,12 +155,6 @@ div.new-post textarea, div.response textarea {
 	text-align: right;
 }
 
-.item {
-  margin: 10px;
-  float: left;
-}
-
-
 #photo-button {
 	margin: 0px 4px;
 }
@@ -181,6 +175,16 @@ div.statement {
 	border-color: #eee;
 	margin: 4px 0px;
 	padding: 4px 2px 0px 2px;
+}
+
+div.item {
+	border-style: solid;
+	border-width: 1px 0px 0px 0px;
+	border-color: #eee;
+	margin: 4px 0px;
+	padding: 4px 2px 0px 2px;
+	margin: 10px;
+	float: left;
 }
 
 div.statement-icon {
@@ -324,6 +328,7 @@ div.pagenation {
 	height: 64px;
 	text-align: center;
 	margin-top: 1em;
+	clear: left;
 }
 
 #subjoinpage {
