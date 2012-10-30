@@ -27,7 +27,7 @@ module Massr
 		end
 
 		get '/statement/photos' do
-			haml :user_statements, :locals => {
+			haml :user_photos, :locals => {
 				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
 		end

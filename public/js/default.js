@@ -171,6 +171,31 @@ $(function(){
 		);
 	};
 
+	// template of a photo
+	function buildPhoto(s){ // s is json object of a photo
+		return $('<div>').addClass('item').attr('id', 'st-'+s.id).append(
+			$('<div>').addClass('statement-body').each(function(){}).append(
+				$('<div>').addClass('statement-photos').each(function(){
+					var $parent = $(this);
+					$.each(s.photos, function(){
+						$parent.append($('<a>').attr('href', this).
+							attr('rel', 'lightbox').
+							on('click', function(){showLightbox(this); return false;}).
+							append($('<img>').addClass('statement-photo').attr('src', this)));
+					});
+				})
+			).append(
+				$('<div>').addClass('statement-info').
+					append($('<p>').
+						append('by ').
+						append($('<a>').attr('href', '/user/'+s.user.massr_id).append(s.user.name))).
+					append($('<p>').
+						append(' at ' ).
+						append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at)))
+			)
+		);
+	};
+
 	// reload diff of recent statements
 	function reloadDiff(){
 		if(location.pathname == '/' && location.search == ''){
@@ -265,7 +290,6 @@ $(function(){
 				next().
 				append('わかるわ:');
 
-
 			$.each(statement.likes, function(){
 				$('#st-' + statement.id + ' .statement-like').
 					append("&nbsp;").
@@ -341,7 +365,7 @@ $(function(){
 	$('#subjoinpage').on('click', function(str){
 		$(this).hide();
 		$('#subjoinpage-loading').show();
-		var oldest = $($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
+		var oldest = $($('#statements .item .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
 		var link=$(this).attr('path') + "?date=" + oldest
 		var $button = $(this)
 
@@ -357,7 +381,7 @@ $(function(){
 				$('#statements').each(function(){
 					var $div = $(this);
 					$.each(json, function(){
-						var $statement = buildStatement(this).hide();
+						var $statement = (/.*photos$/.test(location.pathname))? buildPhoto(this).hide():buildStatement(this).hide();
 						$div.append($statement);
 						$statement.slideDown('slow');
 						refreshLike(this);

@@ -155,6 +155,12 @@ div.new-post textarea, div.response textarea {
 	text-align: right;
 }
 
+.item {
+  margin: 10px;
+  float: left;
+}
+
+
 #photo-button {
 	margin: 0px 4px;
 }

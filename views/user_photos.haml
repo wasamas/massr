@@ -1,0 +1,15 @@
+!!!
+%html
+	%head
+		%title Massr - User Photos
+		!= haml :head
+	%body
+		.container-fluid
+			!= haml :header
+			.row-fluid
+				.span9
+					.main
+						!= haml :photos ,:locals => {:statements => statements, :q => q}
+				.span3
+					!= haml :sidebar
+			!= haml :footer
