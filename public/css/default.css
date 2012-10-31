@@ -178,14 +178,17 @@ div.statement {
 }
 
 div.item {
-	border-style: solid;
-	border-width: 1px 0px 0px 0px;
-	border-color: #eee;
-	margin: 4px 0px;
-	padding: 4px 2px 0px 2px;
-	margin: 10px;
+	margin: 1px;
 	float: left;
 }
+
+img.item-photo {
+	/* min-height: 100px;*/
+	/* height: 100px;*/
+	/* width: auto; */
+	zoom: .3;
+}
+
 
 div.statement-icon {
 	float: left;

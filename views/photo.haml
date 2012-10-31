@@ -4,7 +4,7 @@
 		.statement-photos
 			- statement.photos.each do |photo|
 				%a{:href => "#{photo}" ,:rel=>"lightbox"}<
-					%img.statement-photo{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
+					%img.item-photo{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
 
 		/ 発言の付属情報
 		.statement-info
