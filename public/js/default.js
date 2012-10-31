@@ -208,8 +208,12 @@ $(function(){
 			var re = /(https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+/g;
 			$(this).html(
 				$(this).html().replace(re, function(u){
-					var url = $.url(u);
-					return '[<a href="'+url.attr('source')+'" target="_brank">'+url.attr('host')+'</a>]';
+					try {
+						var url = $.url(u);
+						return '[<a href="'+url.attr('source')+'" target="_brank">'+url.attr('host')+'</a>]';
+					}catch(e){
+						return u;
+					}
 				})
 			);
 		});
