@@ -382,7 +382,11 @@ $(function(){
 					$.each(json, function(){
 						var $statement = (/.*photos$/.test(location.pathname))? buildPhoto(this).hide():buildStatement(this).hide();
 						if (/.*photos$/.test(location.pathname)){
-							$div.append( $statement ).masonry( 'appended', $statement );
+							$div.append( $statement )
+							$div.imagesLoaded(function(){
+								 $container.masonry( 'appended', $statement );
+								 $container.masonry( 'reload' );
+							});
 						}
 						else {
 							$div.append($statement);
