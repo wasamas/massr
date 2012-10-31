@@ -174,24 +174,20 @@ $(function(){
 	// template of a photo
 	function buildPhoto(s){ // s is json object of a photo
 		return $('<div>').addClass('item').attr('id', 'st-'+s.id).append(
-			$('<div>').addClass('statement-body').each(function(){}).append(
-				$('<div>').addClass('statement-photos').each(function(){
+			$('<div>').addClass('item-body').each(function(){}).append(
+				$('<div>').addClass('item-photos').each(function(){
 					var $parent = $(this);
 					$.each(s.photos, function(){
 						$parent.append($('<a>').attr('href', this).
 							attr('rel', 'lightbox').
 							on('click', function(){showLightbox(this); return false;}).
-							append($('<img>').addClass('statement-photo').attr('src', this)));
+							append($('<img>').addClass('item-photo').attr('src', this)));
 					});
 				})
 			).append(
-				$('<div>').addClass('statement-info').
-					append($('<p>').
-						append('by ').
-						append($('<a>').attr('href', '/user/'+s.user.massr_id).append(s.user.name))).
-					append($('<p>').
-						append(' at ' ).
-						append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at)))
+				$('<div>').addClass('item-info').
+					append(' at ' ).
+					append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at))
 			)
 		);
 	};
@@ -366,7 +362,7 @@ $(function(){
 		$(this).hide();
 		$('#subjoinpage-loading').show();
 		var oldest = (/.*photos$/.test(location.pathname))?
-			$($('#statements .item .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, ''):
+			$($('#items .item .item-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, ''):
 			$($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
 		var link=$(this).attr('path') + "?date=" + oldest
 		var $button = $(this)
@@ -380,11 +376,17 @@ $(function(){
 			dataType: 'json',
 			cache: false}).
 		done(function(json) {
-				$('#statements').each(function(){
+				var idname = (/.*photos$/.test(location.pathname))? '#items':'#statements'
+				$(idname).each(function(){
 					var $div = $(this);
 					$.each(json, function(){
 						var $statement = (/.*photos$/.test(location.pathname))? buildPhoto(this).hide():buildStatement(this).hide();
-						$div.append($statement);
+						if (/.*photos$/.test(location.pathname)){
+							$div.append( $statement ).masonry( 'appended', $statement );
+						}
+						else {
+							$div.append($statement);
+						}
 						$statement.slideDown('slow');
 						refreshLike(this);
 					});
@@ -447,5 +449,15 @@ $(function(){
 	 * automatic link
 	 */
 	$('.statement-message').autoLink();
+	var $container = $('#items');
+	$container.imagesLoaded(function(){
+		$container.masonry({
+			itemSelector : '.item',
+			columnWidth : 110
+		});
+	});
+
+
+
 });
 

@@ -178,12 +178,23 @@ div.statement {
 }
 
 div.item {
-	margin: 1px;
+	width: 100px;
+	margin: 3px;
 	float: left;
 }
 
 img.item-photo {
 	zoom: .3;
+}
+
+div.item-info {
+	display: none;
+}
+
+div.item-body {
+}
+
+div.item-body-me {
 }
 
 
