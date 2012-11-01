@@ -178,8 +178,8 @@ $(function(){
 				url: '/index.json',
 				type: 'GET',
 				dataType: 'json',
-				cache: false,
-				success: function(json) {
+				cache: false}).
+			done(function(json) {
 					var newest = $($('#statements .statement .statement-info a').get(1)).text().replace(/^\s*(.*?)\s*$/, "$1");
 					$('#statements').each(function(){
 						var $div = $(this);
@@ -192,13 +192,12 @@ $(function(){
 							refreshLike(this);
 						});
 					});
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
+				}).
+			fail(function(XMLHttpRequest, textStatus, errorThrown) {
 					if($('textarea:focus').length == 0){
 						location.reload();
 					}
-				}
-			});
+				});
 		};
 	};
 
@@ -294,15 +293,14 @@ $(function(){
 		toggleLikeButton(statement_id);
 		$.ajax('/statement/' + statement_id + '/like', {
 			type: method,
-			dataType: 'json',
-			success: function(statement) {
+			dataType: 'json'}).
+		done(function(statement) {
 				refreshLike(statement);
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
+			}).
+		fail(function(XMLHttpRequest, textStatus, errorThrown) {
 				toggleLikeButton(statement_id);
 				message.error('イイネに失敗しました(' + textStatus + ')');
-			}
-		});
+			});
 		return false;
 	});
 
@@ -332,11 +330,10 @@ $(function(){
 		if(window.confirm('本当に削除してよろしいいですか?')){
 			$.ajax({
 				url: '/statement/'+statement,
-				type: 'DELETE',
-				success: function(result) {
+				type: 'DELETE'}).
+			done(function(result) {
 					location.href = "/";
-				}
-			});
+				});
 		}
 	});
 
@@ -355,8 +352,8 @@ $(function(){
 			url: link,
 			type: 'GET',
 			dataType: 'json',
-			cache: false,
-			success: function(json) {
+			cache: false}).
+		done(function(json) {
 				$('#statements').each(function(){
 					var $div = $(this);
 					$.each(json, function(){
@@ -368,13 +365,12 @@ $(function(){
 				});
 				$('#subjoinpage-loading').hide();
 				$('#subjoinpage').show();
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
+			}).
+		fail(function(XMLHttpRequest, textStatus, errorThrown) {
 				if($('textarea:focus').length == 0){
 					location.reload();
 				}
-			}
-		});
+			});
 	});
 
 	/*
@@ -396,15 +392,14 @@ $(function(){
 		$.ajax({
 			url: '/user/' + massr_id,
 			type: 'PUT',
-			data: "status=" + stat,
-			success: function(result){
+			data: "status=" + stat}).
+		done(function(result){
 				message.success(massr_id + 'のステータスを変更しました');
 				$('#' + massr_id).toggleClass(on).toggleClass(off);
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown){
+			}).
+		fail(function(XMLHttpRequest, textStatus, errorThrown){
 				message.error('ステータス変更に失敗しました(' + textStatus + ')');
-			}
-		});
+			});
 		return true;
 	};
 
