@@ -194,7 +194,7 @@ $(function(){
 					});
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					if($('textarea:focus').size() == 0){
+					if($('textarea:focus').length == 0){
 						location.reload();
 					}
 				}
@@ -370,7 +370,7 @@ $(function(){
 				$('#subjoinpage').show();
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
-				if($('textarea:focus').size() == 0){
+				if($('textarea:focus').length == 0){
 					location.reload();
 				}
 			}
