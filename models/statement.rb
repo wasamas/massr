@@ -77,6 +77,7 @@ module Massr
 		end
 
 		def to_hash
+			res = Statement.find_by_id(res_id)
 			{
 				'id' => id,
 				'created_at' => created_at.localtime.strftime('%Y-%m-%d %H:%M:%S'),
@@ -84,7 +85,7 @@ module Massr
 				'user' => user.to_hash,
 				'likes' => likes.map{|l| l.to_hash},
 				'ref_ids' => ref_ids,
-				'res' => res_id ? Statement.find_by_id(res_id).to_hash : nil,
+				'res' => res ? res.to_hash : nil,
 				'photos' => photos
 			}
 		end

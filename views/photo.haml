@@ -1,0 +1,13 @@
+.item{:id => "st-#{statement._id}"}
+	%div{:class => "#{session[:user_id] == statement.user._id ? "item-body-me item-body" : "item-body"}"}
+		/ 画像表示
+		.item-photos
+			- statement.photos.each do |photo|
+				%a{:href => "#{photo}" ,:rel=>"lightbox"}<
+					%img.item-photo{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
+
+		/ 発言の付属情報
+		.item-info
+			at
+			%a{:href => "/statement/#{statement._id}"}
+				= statement.created_at.localtime.strftime('%Y-%m-%d %H:%M:%S')

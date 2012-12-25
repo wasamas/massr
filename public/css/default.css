@@ -177,6 +177,27 @@ div.statement {
 	padding: 4px 2px 0px 2px;
 }
 
+div.item {
+	width: 100px;
+	margin: 3px;
+	float: left;
+}
+
+img.item-photo {
+	zoom: .3;
+}
+
+div.item-info {
+	display: none;
+}
+
+div.item-body {
+}
+
+div.item-body-me {
+}
+
+
 div.statement-icon {
 	float: left;
 	margin-right: 2px;
@@ -318,6 +339,7 @@ div.pagenation {
 	height: 64px;
 	text-align: center;
 	margin-top: 1em;
+	clear: left;
 }
 
 #subjoinpage {

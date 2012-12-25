@@ -171,6 +171,27 @@ $(function(){
 		);
 	};
 
+	// template of a photo
+	function buildPhoto(s){ // s is json object of a photo
+		return $('<div>').addClass('item').attr('id', 'st-'+s.id).append(
+			$('<div>').addClass('item-body').each(function(){}).append(
+				$('<div>').addClass('item-photos').each(function(){
+					var $parent = $(this);
+					$.each(s.photos, function(){
+						$parent.append($('<a>').attr('href', this).
+							attr('rel', 'lightbox').
+							on('click', function(){showLightbox(this); return false;}).
+							append($('<img>').addClass('item-photo').attr('src', this)));
+					});
+				})
+			).append(
+				$('<div>').addClass('item-info').
+					append(' at ' ).
+					append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at))
+			)
+		);
+	};
+
 	// reload diff of recent statements
 	function reloadDiff(){
 		if(location.pathname == '/' && location.search == ''){
@@ -178,8 +199,8 @@ $(function(){
 				url: '/index.json',
 				type: 'GET',
 				dataType: 'json',
-				cache: false,
-				success: function(json) {
+				cache: false}).
+			done(function(json) {
 					var newest = $($('#statements .statement .statement-info a').get(1)).text().replace(/^\s*(.*?)\s*$/, "$1");
 					$('#statements').each(function(){
 						var $div = $(this);
@@ -192,13 +213,12 @@ $(function(){
 							refreshLike(this);
 						});
 					});
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					if($('textarea:focus').size() == 0){
+				}).
+			fail(function(XMLHttpRequest, textStatus, errorThrown) {
+					if($('textarea:focus').length == 0){
 						location.reload();
 					}
-				}
-			});
+				});
 		};
 	};
 
@@ -208,8 +228,12 @@ $(function(){
 			var re = /(https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+/g;
 			$(this).html(
 				$(this).html().replace(re, function(u){
-					var url = $.url(u);
-					return '[<a href="'+url.attr('source')+'" target="_brank">'+url.attr('host')+'</a>]';
+					try {
+						var url = $.url(u);
+						return '[<a href="'+url.attr('source')+'" target="_brank">'+url.attr('host')+'</a>]';
+					}catch(e){
+						return u;
+					}
 				})
 			);
 		});
@@ -262,7 +286,6 @@ $(function(){
 				next().
 				append('わかるわ:');
 
-
 			$.each(statement.likes, function(){
 				$('#st-' + statement.id + ' .statement-like').
 					append("&nbsp;").
@@ -290,15 +313,14 @@ $(function(){
 		toggleLikeButton(statement_id);
 		$.ajax('/statement/' + statement_id + '/like', {
 			type: method,
-			dataType: 'json',
-			success: function(statement) {
+			dataType: 'json'}).
+		done(function(statement) {
 				refreshLike(statement);
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
+			}).
+		fail(function(XMLHttpRequest, textStatus, errorThrown) {
 				toggleLikeButton(statement_id);
 				message.error('イイネに失敗しました(' + textStatus + ')');
-			}
-		});
+			});
 		return false;
 	});
 
@@ -328,11 +350,10 @@ $(function(){
 		if(window.confirm('本当に削除してよろしいいですか?')){
 			$.ajax({
 				url: '/statement/'+statement,
-				type: 'DELETE',
-				success: function(result) {
+				type: 'DELETE'}).
+			done(function(result) {
 					location.href = "/";
-				}
-			});
+				});
 		}
 	});
 
@@ -340,7 +361,9 @@ $(function(){
 	$('#subjoinpage').on('click', function(str){
 		$(this).hide();
 		$('#subjoinpage-loading').show();
-		var oldest = $($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
+		var oldest = (/.*photos$/.test(location.pathname))?
+			$($('#items .item .item-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, ''):
+			$($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
 		var link=$(this).attr('path') + "?date=" + oldest
 		var $button = $(this)
 
@@ -351,26 +374,35 @@ $(function(){
 			url: link,
 			type: 'GET',
 			dataType: 'json',
-			cache: false,
-			success: function(json) {
-				$('#statements').each(function(){
+			cache: false}).
+		done(function(json) {
+				var idname = (/.*photos$/.test(location.pathname))? '#items':'#statements'
+				$(idname).each(function(){
 					var $div = $(this);
 					$.each(json, function(){
-						var $statement = buildStatement(this).hide();
-						$div.append($statement);
+						var $statement = (/.*photos$/.test(location.pathname))? buildPhoto(this).hide():buildStatement(this).hide();
+						if (/.*photos$/.test(location.pathname)){
+							$div.append( $statement )
+							$div.imagesLoaded(function(){
+								 $container.masonry( 'appended', $statement );
+								 $container.masonry( 'reload' );
+							});
+						}
+						else {
+							$div.append($statement);
+						}
 						$statement.slideDown('slow');
 						refreshLike(this);
 					});
 				});
 				$('#subjoinpage-loading').hide();
 				$('#subjoinpage').show();
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
-				if($('textarea:focus').size() == 0){
+			}).
+		fail(function(XMLHttpRequest, textStatus, errorThrown) {
+				if($('textarea:focus').length == 0){
 					location.reload();
 				}
-			}
-		});
+			});
 	});
 
 	/*
@@ -392,15 +424,14 @@ $(function(){
 		$.ajax({
 			url: '/user/' + massr_id,
 			type: 'PUT',
-			data: "status=" + stat,
-			success: function(result){
+			data: "status=" + stat}).
+		done(function(result){
 				message.success(massr_id + 'のステータスを変更しました');
 				$('#' + massr_id).toggleClass(on).toggleClass(off);
-			},
-			error: function(XMLHttpRequest, textStatus, errorThrown){
+			}).
+		fail(function(XMLHttpRequest, textStatus, errorThrown){
 				message.error('ステータス変更に失敗しました(' + textStatus + ')');
-			}
-		});
+			});
 		return true;
 	};
 
@@ -422,5 +453,15 @@ $(function(){
 	 * automatic link
 	 */
 	$('.statement-message').autoLink();
+	var $container = $('#items');
+	$container.imagesLoaded(function(){
+		$container.masonry({
+			itemSelector : '.item',
+			columnWidth : 110
+		});
+	});
+
+
+
 });
 

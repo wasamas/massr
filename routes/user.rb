@@ -36,6 +36,25 @@ module Massr
 				:q => nil}
 		end
 
+		before '/user/:massr_id/photos*' do
+			user = User.find_by_massr_id(params[:massr_id])
+			@query = {:user_id => user.id, "photos" => {:$ne => [] } }
+		end
+
+		get '/user/:massr_id/photos.json' do
+			[].tap {|a|
+				Statement.get_statements(param_date, @query).each do |statement|
+					a << statement.to_hash
+				end
+			}.to_json
+		end
+
+		get '/user/:massr_id/photos' do
+			haml :user_photos, :locals => {
+				:statements => Statement.get_statements(param_date, @query),
+				:q => nil}
+		end
+
 		before '/user/:massr_id/res*' do
 			user = User.find_by_massr_id(params[:massr_id])
 			statements = Statement.where(:user_id => user.id)
