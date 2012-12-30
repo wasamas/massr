@@ -18,6 +18,7 @@ require 'mongo_mapper'
 require 'mail'
 
 require_relative 'plugins/picasa'
+require_relative 'plugins/logging'
 
 module Massr
 	module Plugin
@@ -50,6 +51,7 @@ module Massr
 			end
 
 			Massr::Plugin::Picasa.auth(ENV['PICASA_ID'], ENV['PICASA_PASS']) if ENV['PICASA_ID']
+			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::WARN)
 		end
 
 		configure :development, :test do
@@ -82,6 +84,7 @@ module Massr
 			end
 
 			Massr::Plugin::Picasa.auth(auth_gmail['mail'], auth_gmail['pass'])
+			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::DEBUG)
 		end
 
 		use(
@@ -98,6 +101,7 @@ module Massr
 
 		#表示エントリ数
 		$limit = 20
+
 	end
 end
 
