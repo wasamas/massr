@@ -42,6 +42,9 @@ module Massr
 
 			def initialize
 				@logger ||= Logger.new(STDOUT)
+				@logger.formatter = proc { |severity, datetime, progname, msg|
+					"#{datetime}: #{severity} #{msg}\n"
+				}
 			end
 		end
 	end
