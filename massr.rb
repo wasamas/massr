@@ -15,6 +15,7 @@ require 'omniauth'
 require 'omniauth-twitter'
 require 'rack/csrf'
 require 'mongo_mapper'
+require 'rack-session-mongo'
 require 'mail'
 
 require_relative 'plugins/picasa'
@@ -24,7 +25,6 @@ module Massr
 	end
 
 	class App < Sinatra::Base
-		enable :sessions
 		set :haml, { format: :html5, escape_html: true }
 
 		configure :production do
@@ -85,14 +85,17 @@ module Massr
 		end
 
 		use(
+			Rack::Session::Mongo,{
+				:host => MongoMapper.connection.host,
+				:db_name => MongoMapper.database.name,
+				:expire_after => 6 * 30 * 24 * 60 * 60,
+				:secret => ENV['SESSION_SECRET']
+			})
+
+		use(
 			OmniAuth::Strategies::Twitter,
 			@auth_twitter[:id],
 			@auth_twitter[:secret])
-
-		use(
-			Rack::Session::Cookie,
-			:expire_after => 6 * 30 * 24 * 60 * 60,
-			:secret => ENV['SESSION_SECRET'])
 
 		use Rack::Csrf
 
