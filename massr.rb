@@ -87,6 +87,7 @@ module Massr
 		use(
 			Rack::Session::Mongo,{
 				:host => MongoMapper.connection.host,
+				:port => MongoMapper.connection.port,
 				:db_name => MongoMapper.database.name,
 				:expire_after => 6 * 30 * 24 * 60 * 60,
 				:secret => ENV['SESSION_SECRET']
