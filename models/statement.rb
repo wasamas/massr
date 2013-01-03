@@ -63,15 +63,15 @@ module Massr
 				res_statement  = Statement.find_by_id(request[:res_id])
 				res_statement.refs << self
 				self.res   = res_statement
-
-				user.ress << self
+				
+				res_statement.user.ress << self
 			end
 
 
 			if save!
 				if request[:res_id]
 					res_statement.save!
-					user.save!
+					res_statement.user.save!
 				end
 			end
 
