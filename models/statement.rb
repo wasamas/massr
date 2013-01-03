@@ -56,17 +56,23 @@ module Massr
 				end
 			end
 
+			user = request[:user]
+			self.user  = user
+
 			if request[:res_id]
 				res_statement  = Statement.find_by_id(request[:res_id])
 				res_statement.refs << self
 				self.res   = res_statement
+
+				user.reps << self
 			end
 
-			user = request[:user]
-			self.user  = user
 
 			if save!
-				res_statement.save! if request[:res_id]
+				if request[:res_id]
+					res_statement.save!
+					user.save!
+				end
 			end
 
 			return self
