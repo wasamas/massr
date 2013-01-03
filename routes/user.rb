@@ -32,6 +32,7 @@ module Massr
 
 		get '/user/:massr_id' do
 			haml :user_statements , :locals => {
+				:res_ids    => nil,
 				:statements => Statement.get_statements(param_date, {:user_id => @user.id}),
 				:q => nil}
 		end
@@ -74,9 +75,14 @@ module Massr
 		end
 
 		get '/user/:massr_id/res' do
+			user = User.find_by_massr_id(params[:massr_id])
+			res_ids = user.res_ids
+			user.clear_res_ids
 			haml :user_statements, :locals => {
+				:res_ids    => res_ids,
 				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
+			
 		end
 
 		before '/user/:massr_id/liked*' do
@@ -94,6 +100,7 @@ module Massr
 
 		get '/user/:massr_id/liked' do
 			haml :user_statements, :locals => {
+				:res_ids    => nil,
 				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
 		end
@@ -113,6 +120,7 @@ module Massr
 
 		get '/user/:massr_id/likes' do
 			haml :user_statements, :locals => {
+				:res_ids    => nil,
 				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
 		end

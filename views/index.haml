@@ -28,7 +28,7 @@
 											%a#photo-button{:href => '#'}
 												%i.icon-camera#photo-button{:title => '写真を添付'}
 											%span#photo-name
-						!= haml :statements ,:locals => {:statements => statements,:q => q}
+						!= haml :statements ,:locals => {:res_ids => nil , :statements => statements,:q => q}
 				.span3
 					!= haml :sidebar ,:locals => {:q => q}
 			!= haml :footer

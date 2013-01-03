@@ -169,6 +169,12 @@ img.massr-icon-mini {
 	height: 20px;
 }
 
+div.statement-new {
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+	border-color: #f00;
+}
+
 div.statement {
 	border-style: solid;
 	border-width: 1px 0px 0px 0px;

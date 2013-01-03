@@ -18,11 +18,11 @@ module Massr
 		key :name,             :type => String , :required => true
 		key :email,            :type => String
 		key :status,           :type => Integer, :default  => UNAUTHORIZED
-		key :rep_ids,          Array
+		key :res_ids,          Array
 
 		timestamps!
 
-		many :reps ,            :class_name => 'Massr::Statement' , :in => :rep_ids
+		many :ress ,            :class_name => 'Massr::Statement' , :in => :res_ids
 
 		def self.create_by_registration_form(request)
 			user = User.new(:massr_id => request[:massr_id])
@@ -69,8 +69,8 @@ module Massr
 			return self
 		end
 
-		def clear_rep_ids(request)
-			self[:rep_ids] = nil
+		def clear_res_ids
+			self[:res_ids] = nil
 			save!
 			return self
 		end

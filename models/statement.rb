@@ -64,7 +64,7 @@ module Massr
 				res_statement.refs << self
 				self.res   = res_statement
 
-				user.reps << self
+				user.ress << self
 			end
 
 
