@@ -15,6 +15,7 @@ require 'omniauth'
 require 'omniauth-twitter'
 require 'rack/csrf'
 require 'mongo_mapper'
+require 'rack-session-mongo'
 require 'mail'
 
 require_relative 'plugins/picasa'
@@ -25,7 +26,6 @@ module Massr
 	end
 
 	class App < Sinatra::Base
-		enable :sessions
 		set :haml, { format: :html5, escape_html: true }
 
 		configure :production do
@@ -36,7 +36,9 @@ module Massr
 
 			uri = URI.parse(ENV['MONGOLAB_URI'])
 			MongoMapper.connection = Mongo::Connection.from_uri(ENV['MONGOLAB_URI'])
-			MongoMapper.database = uri.path.gsub(/^\//, '')
+			db_name = uri.path.gsub(/^\//, '')
+			MongoMapper.database = db_name
+			DB   = MongoMapper.connection.db(db_name)
 
 			Mail.defaults do # using sendgrid plugin
 				delivery_method :smtp, {
@@ -66,7 +68,9 @@ module Massr
 				} )
 			
 			MongoMapper.connection = Mongo::Connection.new('localhost', 27017)
-			MongoMapper.database = 'massr'
+			db_name = 'massr'
+			MongoMapper.database = db_name
+			DB   = MongoMapper.connection.db(db_name)
 
 			auth_gmail = Pit::get( 'Gmail', :require => {
 				'mail' => 'Your Gmail address',
@@ -88,14 +92,16 @@ module Massr
 		end
 
 		use(
+			Rack::Session::Mongo,{
+				:db => DB,
+				:expire_after => 6 * 30 * 24 * 60 * 60,
+				:secret => ENV['SESSION_SECRET']
+			})
+
+		use(
 			OmniAuth::Strategies::Twitter,
 			@auth_twitter[:id],
 			@auth_twitter[:secret])
-
-		use(
-			Rack::Session::Cookie,
-			:expire_after => 6 * 30 * 24 * 60 * 60,
-			:secret => ENV['SESSION_SECRET'])
 
 		use Rack::Csrf
 

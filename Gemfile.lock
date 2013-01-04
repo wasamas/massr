@@ -59,6 +59,9 @@ GEM
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
+    rack-session-mongo (0.0.1)
+      mongo
+      rack
     rack-test (0.6.2)
       rack (>= 1.0)
     rack_csrf (2.4.0)
@@ -109,6 +112,7 @@ DEPENDENCIES
   picasa
   pit
   pry
+  rack-session-mongo
   rack_csrf
   rake
   rspec

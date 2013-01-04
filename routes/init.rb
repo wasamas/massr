@@ -11,6 +11,7 @@
 module Massr
 	class App < Sinatra::Base
 		before do
+
 			case request.path
 			when '/unauthorized'
 			when '/login'
