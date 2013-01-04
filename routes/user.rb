@@ -75,9 +75,9 @@ module Massr
 		end
 
 		get '/user/:massr_id/res' do
-			user = User.find_by_massr_id(params[:massr_id])
-			res_ids = user.res_ids
-			user.clear_res_ids
+			access_user = User.find_by_id(session[:user_id])
+			res_ids = access_user.res_ids
+			access_user.clear_res_ids
 			haml :user_statements, :locals => {
 				:res_ids    => res_ids,
 				:statements => Statement.get_statements(param_date, @query),
