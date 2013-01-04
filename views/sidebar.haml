@@ -10,7 +10,7 @@
 			%h2<#{_menu}
 			%ul.sidebar-menu.sidebar-list
 				%li
-					%a{:href => "/user/#{current_user.massr_id}/res", :title => "Res"}<Res
+					%a{:href => "/user/#{current_user.massr_id}/res", :title => "Res"}<Res (#{current_user.res_ids.size})
 				%li
 					%a{:href => "/user/#{current_user.massr_id}/photos", :title => "#{current_user.massr_id}'s Photos"}<#{current_user.massr_id}'s Photos
 				%li

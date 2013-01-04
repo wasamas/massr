@@ -15,6 +15,10 @@
 							- unless unauth_count == 0
 								.info.alert-info
 									%a{:href=>'/admin'}<#{_unauth_count(unauth_count)}
+							- response_count = user.ress.size
+							- if response_count > 0
+								.info.alert-info
+									%a{:href=>"/user/#{current_user.massr_id}/res"}<#{_response_count(response_count)}
 						.new-post
 							%form{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
 								%div
@@ -28,7 +32,7 @@
 											%a#photo-button{:href => '#'}
 												%i.icon-camera#photo-button{:title => '写真を添付'}
 											%span#photo-name
-						!= haml :statements ,:locals => {:statements => statements,:q => q}
+						!= haml :statements ,:locals => {:res_ids => nil , :statements => statements,:q => q}
 				.span3
 					!= haml :sidebar ,:locals => {:q => q}
 			!= haml :footer

@@ -69,6 +69,10 @@ module Massr
 			def _unauth_count(num)
 				"未認証ユーザが#{num}人います"
 			end
+
+			def _response_count(num)
+				"新着レスが#{num}個あります"
+			end
 		end
 	end
 end
