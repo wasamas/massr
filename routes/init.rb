@@ -11,6 +11,7 @@
 module Massr
 	class App < Sinatra::Base
 		before do
+			clear_cache unless request.get?
 
 			case request.path
 			when '/unauthorized'
