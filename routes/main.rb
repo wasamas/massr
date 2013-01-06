@@ -18,7 +18,7 @@ module Massr
 
 		get '/index.json' do
 			cache = settings.cache.get(cache_keys[:index_json])
-			if(cache)
+			if(cache && !params[:date])
 				cache
 			else
 				json = [].tap {|a|
