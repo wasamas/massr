@@ -58,7 +58,12 @@ module Massr
 
 		before '/user/:massr_id/res*' do
 			user = User.find_by_massr_id(params[:massr_id])
-			statements = Statement.where(:user_id => user.id , :ref_ids => {:$ne => []}).sort(:created_at.desc).limit($limit)
+			statements = Statement.where(
+				:user_id => user.id , 
+				:ref_ids => {:$ne => []}, 
+				:created_at => {:$lt => Time.parse(param_date)}).
+				sort(:created_at.desc).limit($limit)
+
 			received_id = Array.new
 			statements.each do |statement|
 				received_id |= (statement.ref_ids) unless statement.ref_ids.nil?
