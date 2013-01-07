@@ -230,7 +230,7 @@ $(function(){
 				$(this).html().replace(re, function(u){
 					try {
 						var url = $.url(u);
-						return '[<a href="'+url.attr('source')+'" target="_brank">'+url.attr('host')+'</a>]';
+						return '[<a href="'+u+'" target="_brank">'+url.attr('host')+'</a>]';
 					}catch(e){
 						return u;
 					}
