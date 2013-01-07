@@ -17,11 +17,18 @@ module Massr
 		end
 
 		get '/index.json' do
-			[].tap {|a|
-				Statement.get_statements(param_date).each do |statement|
-					a << statement.to_hash
-				end
-			}.to_json
+			cache = settings.cache.get(cache_keys[:index_json])
+			if(cache && !params[:date])
+				cache
+			else
+				json = [].tap {|a|
+					Statement.get_statements(param_date).each do |statement|
+						a << statement.to_hash
+					end
+				}.to_json
+				settings.cache.set(cache_keys[:index_json],json)
+				json
+			end
 		end
 	end
 end

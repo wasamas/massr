@@ -55,6 +55,21 @@ module Massr
 			def param_date
 				date = params[:date] ? params[:date] : (Time.now + 1).strftime("%Y%m%d%H%M%S")
 			end
+
+			#for mamcached
+			CACHE_KEYS = {
+				:index_json => 'index_json',
+			}
+
+			def cache_keys
+				CACHE_KEYS
+			end
+
+			def clear_cache
+				CACHE_KEYS.each do |key,value|
+					settings.cache.delete(value)
+				end
+			end
 		end
 	end
 end

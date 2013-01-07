@@ -17,6 +17,7 @@ require 'rack/csrf'
 require 'mongo_mapper'
 require 'rack-session-mongo'
 require 'mail'
+require 'dalli'
 
 require_relative 'plugins/picasa'
 require_relative 'plugins/logging'
@@ -52,6 +53,12 @@ module Massr
 				}
 			end
 
+			set :cache,Dalli::Client.new(
+				ENV['MEMCACHE_SERVERS'],
+				:username => ENV['MEMCACHE_USERNAME'],
+				:password => ENV['MEMCACHE_PASSWORD'],
+				:expires_in => 24 * 60 * 60)
+
 			Massr::Plugin::Picasa.auth(ENV['PICASA_ID'], ENV['PICASA_PASS']) if ENV['PICASA_ID']
 			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::WARN)
 		end
@@ -86,6 +93,10 @@ module Massr
 					:enable_starttls_auto => true
 				}
 			end
+
+			set :cache,Dalli::Client.new(
+				nil,
+				:expires_in => 24 * 60 * 60)
 
 			Massr::Plugin::Picasa.auth(auth_gmail['mail'], auth_gmail['pass'])
 			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::DEBUG)
