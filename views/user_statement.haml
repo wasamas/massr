@@ -10,8 +10,8 @@
 				.span9
 					.main
 						%p
-							!= haml :statement ,:locals => {:statement => statement}
-							!= haml :responses ,:locals => {:statement => statement}
+							!= haml :statement, :locals => {:statement => statement, :is_new => false}
+							!= haml :responses, :locals => {:statement => statement}
 				.span3
 					!= haml :sidebar
 			!= haml :footer

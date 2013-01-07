@@ -169,18 +169,17 @@ img.massr-icon-mini {
 	height: 20px;
 }
 
-div.statement-new {
-	border-style: solid;
-	border-width: 0px 0px 0px 5px;
-	border-color: #06f;
-}
-
 div.statement {
 	border-style: solid;
-	border-width: 1px 0px 0px 0px;
-	border-color: #eee;
+	border-width: 1px 0px 0px 3px;
+	border-color: #eee transparent;
 	margin: 4px 0px;
 	padding: 4px 2px 0px 2px;
+}
+
+div.statement-new {
+	border-width: 1px 0px 0px 3px;
+	border-color: #eee #06f;
 }
 
 div.item {
