@@ -195,6 +195,7 @@ $(function(){
 	// reload diff of recent statements
 	function reloadDiff(){
 		if(location.pathname == '/' && location.search == ''){
+			// new statements
 			$.ajax({
 				url: '/index.json',
 				type: 'GET',
@@ -214,6 +215,48 @@ $(function(){
 						});
 					});
 				}).
+			fail(function(XMLHttpRequest, textStatus, errorThrown) {
+					if($('textarea:focus').length == 0){
+						location.reload();
+					}
+				});
+			// new res.size
+			$.ajax({
+				url: '/ressize.json',
+				type: 'GET',
+				dataType: 'json',
+				cache: false}).
+			done(function(json) {
+				var $div_main = $('#new-res-size-main');
+				var $div_side = $('#new-res-size-side');
+
+				var $div_main_cur = $('a',$('div',$div_main));
+
+				var msg_main = '新着レスが' + json.size + '個あります'
+				var msg_side = 'Res(' + json.size + ')'
+
+				// sidebar
+				$div_side.text(msg_side);
+
+				// main
+				if (json.size == 0){
+					$div_main.empty();
+				}else{
+					if ($div_main.children().size() == 0){
+						$div_main.
+							append(
+								 $('<div>').addClass('info alert-info').
+									append(
+										$('<a>').attr('href', '/user/' + json.user + '/res').text(msg_main)
+									)
+							)
+					} else {
+						old = $div_main_cur.text();
+						if (old != msg_main){
+							$div_main_cur.text(msg_main);
+						}
+					}
+				}}).
 			fail(function(XMLHttpRequest, textStatus, errorThrown) {
 					if($('textarea:focus').length == 0){
 						location.reload();

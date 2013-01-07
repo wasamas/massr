@@ -30,6 +30,15 @@ module Massr
 				json
 			end
 		end
+
+		get '/ressize.json' do
+			access_user = User.find_by_id(session[:user_id])
+			ressize = {
+				:user => access_user.massr_id,
+				:size => access_user.res_ids.size
+			}.to_json
+		end
+
 	end
 end
 
