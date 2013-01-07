@@ -17,7 +17,7 @@ module Massr
 		end
 
 		get '/index.json' do
-			cache = settings.cache.get(cache_keys[:index_json])
+			cache = settings.cache.get(request.path)
 			if(cache && !params[:date])
 				cache
 			else
@@ -26,7 +26,7 @@ module Massr
 						a << statement.to_hash
 					end
 				}.to_json
-				settings.cache.set(cache_keys[:index_json],json)
+				settings.cache.set(request.path,json)
 				json
 			end
 		end
