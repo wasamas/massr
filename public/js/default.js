@@ -252,6 +252,18 @@ $(function(){
 	});
 
 	/*
+	 * empty post changes to reload
+	 */
+	$('#form-new').on('submit', function(e){
+		if($('textarea', this).val().length == 0){
+			location.reload();
+			return false;
+		}else{
+			return true;
+		}
+	});
+
+	/*
 	 * photo upload
 	 */
 	$('#photo-shadow').on('change', function(){

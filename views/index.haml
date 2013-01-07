@@ -20,7 +20,7 @@
 							.info.alert-info
 								%a{:href=>"/user/#{current_user.massr_id}/res"}<#{_response_count(response_count)}
 						.new-post
-							%form{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
+							%form#form-new{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
 								%div
 									%textarea{:type => "text", :name => "body"}
 									%input{csrf_input}
