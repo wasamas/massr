@@ -81,6 +81,10 @@ module Massr
 			def _delete_button
 				'×'
 			end
+
+			def _user_info_update
+				"アプリケーション更新に伴い、ユーザ情報の再登録をします"
+			end
 		end
 	end
 end

@@ -23,12 +23,13 @@ module Massr
 			info = request.env['omniauth.auth']
 			session[:twitter_name] = info['extra']['raw_info']['name']
 			session[:twitter_id]   = info['extra']['raw_info']['screen_name']
+			session[:twitter_user_id]   = info['extra']['raw_info']['id']
 			session[:twitter_icon_url] = info['extra']['raw_info']['profile_image_url']
 		end
 
 		after '/auth/twitter/callback' do
 			##登録済みチェック
-			user = User.find_by_twitter_id(session[:twitter_id])
+			user = User.find_by_twitter_user_id(session[:twitter_user_id])
 			if user
 				session[:user_id] = user._id
 				redirect '/'

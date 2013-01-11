@@ -13,6 +13,7 @@ module Massr
 		UNAUTHORIZED = 9
 
 		key :massr_id,         :type => String , :required => true ,:unique => true
+		key :twitter_user_id,  :type => String , :required => true ,:unique => true
 		key :twitter_id,       :type => String , :required => true ,:unique => true
 		key :twitter_icon_url, :type => String , :required => true
 		key :name,             :type => String , :required => true
@@ -54,6 +55,7 @@ module Massr
 		end
 
 		def update_profile(request)
+			self[:twitter_user_id] = request[:twitter_user_id]
 			self[:twitter_id] = request[:twitter_id]
 			self[:twitter_icon_url] = request[:twitter_icon_url]
 			self[:name] = request[:name]
@@ -91,6 +93,7 @@ module Massr
 			{
 				'id' => id,
 				'massr_id' => massr_id,
+				'twitter_user_id' => twitter_user_id,
 				'twitter_id' => twitter_id,
 				'twitter_icon_url' => twitter_icon_url,
 				'name' => name,

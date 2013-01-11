@@ -15,7 +15,7 @@ module Massr
 		end
 
 		get '/user' do
-			haml :user
+			haml :user , :locals => {:update => params[:update]}
 		end
 
 		before "/user/:massr_id*" do
@@ -132,6 +132,7 @@ module Massr
 
 		post '/user' do
 			user = User.find_by_id(session[:user_id])
+			request[:twitter_user_id] = session[:twitter_user_id]
 			request[:twitter_id] = session[:twitter_id]
 			request[:twitter_icon_url] = session[:twitter_icon_url]
 			if user
