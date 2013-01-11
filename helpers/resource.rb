@@ -26,6 +26,10 @@ module Massr
 				'削除'
 			end
 
+			def _clearres
+				'新着レスクリア'
+			end
+
 			def _res
 				'レス'
 			end

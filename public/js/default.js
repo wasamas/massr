@@ -239,7 +239,7 @@ $(function(){
 			var $div_main = $('#new-res-size-main');
 			var $div_side = $('#new-res-size-side');
 
-			var $div_main_cur = $('a',$('div',$div_main));
+			var $div_main_cur = $('a',$('div.new-res-notif-left',$('div',$div_main)));
 
 			var msg_main = '新着レスが' + json.size + '個あります'
 			var msg_side = 'Res(' + json.size + ')'
@@ -256,7 +256,20 @@ $(function(){
 						append(
 							 $('<div>').addClass('info alert-info').
 								append(
-									$('<a>').attr('href', '/user/' + json.user + '/res').text(msg_main)
+									$('<div>').addClass('new-res-notif-left').
+										append(
+											$('<a>').attr('href', '/user/' + json.user + '/res').text(msg_main)
+										)
+								).
+								append(
+									$('<div>').addClass('new-res-notif-right').
+										append("[").
+										append(
+											$('<a>').attr('href', '#')
+												.addClass("clearres")
+												.append($('<i>').addClass('icon-remove').attr('title', '新着レスクリア'))
+										).
+										append("]")
 								)
 						)
 				} else {
