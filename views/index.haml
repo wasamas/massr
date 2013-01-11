@@ -22,10 +22,7 @@
 									.new-res-notif-left
 										%a{:href=>"/user/#{current_user.massr_id}/res"}<#{_response_count(response_count)}
 									.new-res-notif-right
-										[
-										%a.clearres{:href => "#"}
-											%i.icon-remove{:title => _clearres}
-										]
+										%a.clearres{:href => "#", :title => _clearres}<×
 						.new-post
 							%form#form-new{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
 								%div

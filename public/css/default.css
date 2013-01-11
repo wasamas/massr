@@ -327,10 +327,23 @@ div.statement-like {
 	line-height: 200%;
 }
 
-div.new-res-notif-left{ display: inline;}
+div.new-res-notif-left{
+	display: inline;
+}
 div.new-res-notif-right{
 	display: inline;
 	float: right;
+	text-align: center;
+}
+
+a.clearres {
+	border-style: solid;
+	border-width: 1px 1px 1px 0px;
+	border-color: #bce8f1;
+	border-radius: 8px;
+	color: #3a87ad;
+	background-color: #acd8e1;
+	padding: 0px 4px;
 }
 
 div.response {
