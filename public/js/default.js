@@ -421,6 +421,18 @@ $(function(){
 		}
 	});
 
+	/*
+	 * delete new responce-count
+	 */
+	$(document).on('click', '.new-res-notif-right a.clearres', function(){
+		$.ajax({
+			url: '/newres',
+			type: 'DELETE'}).
+		done(function(result) {
+			 location.href = "/";
+		});
+	});
+
 	// Subjoin the next page
 	$('#subjoinpage').on('click', function(str){
 		$(this).hide();

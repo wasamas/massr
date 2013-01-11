@@ -327,6 +327,12 @@ div.statement-like {
 	line-height: 200%;
 }
 
+div.new-res-notif-left{ display: inline;}
+div.new-res-notif-right{
+	display: inline;
+	float: right;
+}
+
 div.response {
 	clear: both;
 	display: none;
