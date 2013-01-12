@@ -229,61 +229,29 @@ $(function(){
 		}
 	};
 
+	function updateResCount(count){
+		$('.new-res-count').text(count);
+		if(count == 0){
+			$('#new-res-size-main').hide();
+		}else{
+			$('#new-res-size-main').show();
+		}
+	};
+
 	function newResCheck(){
 		$.ajax({
 			url: '/ressize.json',
 			type: 'GET',
 			dataType: 'json',
-			cache: false}).
-		done(function(json) {
-			var $div_main = $('#new-res-size-main');
-			var $div_side = $('#new-res-size-side');
-
-			var $div_main_cur = $('a', $('div.new-res-notif-left',$('div', $div_main)));
-
-			var msg_main = '新着レスが' + json.size + '個あります'
-			var msg_side = 'Res(' + json.size + ')'
-
-			// sidebar
-			$div_side.text(msg_side);
-
-			// main
-			if (json.size == 0){
-				$div_main.empty();
-			}else{
-				if ($div_main.children().size() == 0){
-					$div_main.
-						append(
-							 $('<div>').addClass('info alert-info').
-								append(
-									$('<div>').addClass('new-res-notif-left').
-										append(
-											$('<a>').attr('href', '/user/' + json.user + '/res').text(msg_main)
-										)
-								).
-								append(
-									$('<div>').addClass('new-res-notif-right').
-										append(
-											$('<a>').attr('href', '#')
-												.addClass("clearres").attr('title', '新着レスクリア')
-												.append('×')
-										)
-								)
-						)
-				} else {
-					old = $div_main_cur.text();
-					if (old != msg_main){
-						$div_main_cur.text(msg_main);
-					}
-				}
-			}}).
-		fail(function(XMLHttpRequest, textStatus, errorThrown) {
-				if($('textarea:focus').length == 0){
-					location.reload();
-				}
-			});
+			cache: false}
+		).done(function(json) {
+			updateResCount(json.size);
+		}).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+			if($('textarea:focus').length == 0){
+				location.reload();
+			}
+		});
 	};
-
 
 	// automatic link plugin
 	$.fn.autoLink = function(config){
@@ -433,14 +401,26 @@ $(function(){
 	});
 
 	/*
-	 * delete new responce-count
+	 * show response-count when over zero, and wrap span.new-res-count
 	 */
-	$(document).on('click', '.new-res-notif-right a.clearres', function(){
+	$('#new-res-notice-text').each(function(){
+		var notice = $(this);
+		var notice_count = notice.text().match(/\d+/);
+		notice.html(notice.html().replace(notice_count, '<span class="new-res-count">'+notice_count+'</span>'));
+		if(notice_count != '0'){
+			$('#new-res-size-main').show();
+		}
+	});
+
+	/*
+	 * delete new response-count
+	 */
+	$(document).on('click', '#new-res-notice-delete-button a.clearres', function(){
 		$.ajax({
 			url: '/newres',
 			type: 'DELETE'}).
 		done(function(result) {
-			 location.href = "/";
+			updateResCount(0);
 		});
 	});
 

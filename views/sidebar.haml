@@ -12,7 +12,9 @@
 				%li
 					%a{:href => "/user/#{current_user.massr_id}/res", :title => "Res"}<
 						#new-res-size-side
-							Res (#{current_user.res_ids.size})
+							Res (
+							%span.new-res-count<#{current_user.res_ids.size}
+							)
 				%li
 					%a{:href => "/user/#{current_user.massr_id}/photos", :title => "#{current_user.massr_id}'s Photos"}<#{current_user.massr_id}'s Photos
 				%li

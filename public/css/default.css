@@ -327,10 +327,15 @@ div.statement-like {
 	line-height: 200%;
 }
 
-div.new-res-notif-left{
+#new-res-size-main{
+	display: none;
+}
+
+#new-res-notice-text{
 	display: inline;
 }
-div.new-res-notif-right{
+
+#new-res-notice-delete-button{
 	display: inline;
 	float: right;
 	text-align: center;

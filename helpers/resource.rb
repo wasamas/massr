@@ -77,6 +77,10 @@ module Massr
 			def _response_count(num)
 				"新着レスが#{num}個あります"
 			end
+
+			def _delete_button
+				'×'
+			end
 		end
 	end
 end
