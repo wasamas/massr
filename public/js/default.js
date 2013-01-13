@@ -410,7 +410,8 @@ $(function(){
 	$('#new-res-notice-text').each(function(){
 		var notice = $(this);
 		var notice_count = notice.text().match(/\d+/);
-		notice.html(notice.html().replace(notice_count, '<span class="new-res-count">'+notice_count+'</span>'));
+		var notice_text = notice.text();
+		notice.empty().append(notice_text.replace(notice_count, '<span class="new-res-count">'+notice_count+'</span>'));
 		if(notice_count != '0'){
 			$('#new-res-size-main').show();
 		}
