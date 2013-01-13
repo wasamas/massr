@@ -256,12 +256,16 @@ $(function(){
 	// automatic link plugin
 	$.fn.autoLink = function(config){
 		this.each(function(){
-			var re = /(https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+/g;
+			var re = /((https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+|#\S+)/g;
 			$(this).html(
 				$(this).html().replace(re, function(u){
 					try {
-						var url = $.url(u);
-						return '[<a href="'+u+'" target="_brank">'+url.attr('host')+'</a>]';
+						if (u.match(/^#/)) {
+							return '<a href="/search?q='+encodeURIComponent(u)+'">'+u+'</a>';
+						} else {
+							var url = $.url(u);
+							return '[<a href="'+u+'" target="_brank">'+url.attr('host')+'</a>]';
+						}
 					}catch(e){
 						return u;
 					}
