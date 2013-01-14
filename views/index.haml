@@ -16,12 +16,9 @@
 								.info.alert-info
 									%a{:href=>'/admin'}<#{_unauth_count(unauth_count)}
 						- response_count = user.ress.size
-						#new-res-size-main
-							.info.alert-info
-								#new-res-notice-text
-									%a{:href=>"/user/#{current_user.massr_id}/res"}<#{_response_count(response_count)}
-								#new-res-notice-delete-button
-									%a.clearres{:href => "#", :title => _clearres}<#{_delete_button}
+						.info.alert-info#new-res-size-main
+							%a#new-res-notice-text{:href=>"/user/#{current_user.massr_id}/res"}<#{_response_count(response_count)}
+							%a#new-res-notice-delete-button{:href => "#", :title => _clearres}<#{_delete_button}
 						.new-post
 							%form#form-new{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
 								%div

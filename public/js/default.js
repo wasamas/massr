@@ -420,7 +420,7 @@ $(function(){
 	/*
 	 * delete new response-count
 	 */
-	$(document).on('click', '#new-res-notice-delete-button a.clearres', function(){
+	$(document).on('click', '#new-res-notice-delete-button', function(){
 		$.ajax({
 			url: '/newres',
 			type: 'DELETE'}).
