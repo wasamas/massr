@@ -427,6 +427,7 @@ $(function(){
 		done(function(result) {
 			updateResCount(0);
 		});
+		return false;
 	});
 
 	// Subjoin the next page
