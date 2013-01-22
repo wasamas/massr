@@ -204,34 +204,33 @@ $(function(){
 				url: '/index.json',
 				type: 'GET',
 				dataType: 'json',
-				cache: false}).
-			done(function(json) {
-					retry_count_of_reload = 0;
-					var newest = getNewestTime()
-					$('#statements').each(function(){
-						var $div = $(this);
-						$.each(json.reverse(), function(){
-							if(this.created_at > newest){
-								var $statement = buildStatement(this).hide();
-								$div.prepend($statement);
-								$statement.slideDown('slow');
-							}
-							refreshLike(this);
-						});
-					});
-					if (newest != getNewestTime()){
-						newResCheck();
-					}
-				}).
-			fail(function(XMLHttpRequest, textStatus, errorThrown) {
-					if($('textarea:focus').length == 0){
-						if(retry_count_of_reload > 30){ // over 15min
-							location.reload();
-						}else if(retry_count_of_reload > 10){ // over 5min
-							message.error('access error, ' + retry_count_of_reload + 'th retrying...');
+				cache: false
+			}).done(function(json){
+				retry_count_of_reload = 0;
+				var newest = getNewestTime()
+				$('#statements').each(function(){
+					var $div = $(this);
+					$.each(json.reverse(), function(){
+						if(this.created_at > newest){
+							var $statement = buildStatement(this).hide();
+							$div.prepend($statement);
+							$statement.slideDown('slow');
 						}
-						++retry_count_of_reload;
+						refreshLike(this);
+					});
+				});
+				if (newest != getNewestTime()){
+					newResCheck();
+				}
+			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
+				if($('textarea:focus').length == 0){
+					if(retry_count_of_reload > 30){ // over 15min
+						location.reload();
+					}else if(retry_count_of_reload > 10){ // over 5min
+						message.error('access error, ' + retry_count_of_reload + 'th retrying...');
 					}
+					++retry_count_of_reload;
+				}
 			});
 		}
 	};
