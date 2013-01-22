@@ -28,6 +28,7 @@ $(function(){
 	 * setup auto reloading
 	 *   reloading each 30sec without focused in TEXTAREA
 	 */
+	var retry_count_of_reload = 0;
 	var reload_interval = setInterval(function(){reloadDiff();}, 30000);
 
 	/*
@@ -205,6 +206,7 @@ $(function(){
 				dataType: 'json',
 				cache: false}).
 			done(function(json) {
+					retry_count_of_reload = 0;
 					var newest = getNewestTime()
 					$('#statements').each(function(){
 						var $div = $(this);
@@ -223,7 +225,12 @@ $(function(){
 				}).
 			fail(function(XMLHttpRequest, textStatus, errorThrown) {
 					if($('textarea:focus').length == 0){
-						location.reload();
+						if(retry_count_of_reload > 30){ // over 15min
+							location.reload();
+						}else if(retry_count_of_reload > 10){ // over 5min
+							message.error('access error, ' + retry_count_of_reload + 'th retrying...');
+						}
+						++retry_count_of_reload;
 					}
 			});
 		}
