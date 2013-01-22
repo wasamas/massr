@@ -62,7 +62,8 @@ module Massr
 				:user_id => user.id , 
 				:ref_ids => {:$ne => []}, 
 				:created_at => {:$lt => Time.parse(param_date)}).
-				sort(:created_at.desc).limit($limit)
+				sort(:created_at.desc)
+			statements.limit($limit)
 
 			received_id = Array.new
 			statements.each do |statement|
