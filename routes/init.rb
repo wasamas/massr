@@ -28,6 +28,7 @@ module Massr
 					redirect '/logout' unless user
 					redirect '/logout' if user.twitter_user_id == nil && user.twitter_id != session[:twitter_id]
 					redirect '/user?update=true' unless user.twitter_user_id
+					redirect '/user?update=true' unless user.twitter_icon_url_https
 					redirect '/unauthorized' unless user.authorized?
 				end
 			end
