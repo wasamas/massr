@@ -5,7 +5,6 @@ require_relative 'statement'
 module Massr
 	class User
 		include MongoMapper::Document
-		safe
 
 		# user status code
 		ADMIN        = 0

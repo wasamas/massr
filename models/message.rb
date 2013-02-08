@@ -9,8 +9,6 @@ module Massr
 		key :message,      :type => String,   :required => true
 		timestamps!
 
-		safe
-		
 		belongs_to :user, :class_name => 'User',  :in=> :from_user_id
 		belongs_to :user, :class_name => 'User',  :in=> :to_user_id
 	end
