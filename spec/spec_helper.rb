@@ -16,7 +16,7 @@ RSpec.configure do |config|
 	MongoMapper.connection = Mongo::Connection.new('localhost', 27017)
 	MongoMapper.database = 'massr_test'
 	config.before(:each) do
-		MongoMapper.database.collections.each {|collection| collection.remove}
+		MongoMapper.database.collections.each {|collection| collection.remove rescue nil}
 	end
 end
 
