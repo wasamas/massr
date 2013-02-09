@@ -9,7 +9,6 @@ require 'picasa'
 module Massr
 	class Statement
 		include MongoMapper::Document
-		safe
 		
 		key :body,  :type => String, :required => true
 		key :photos, Array
