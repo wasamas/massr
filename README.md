@@ -26,7 +26,9 @@ Massr - Mini Wassr
 call back用のURLは『http://127.0.0.1:9393/auth/twitter/callback 』(開発用)、または、『http://HOGE-FUGA.herokuapp.com/auth/twitter/callback 』(heroku用)とする。
 
 ### 開発環境(development)で実行方法
-ストレージとしてMongoDB利用しています。あらかじめインストールしておいてください(2.xが必要)。http://www.mongodb.org/downloads が参考になります。MacOSの場合は以下:
+
+#### MongoDBを起動する
+ストレージとしてMongoDB利用しています。あらかじめインストールしておいてください(2.xが必要)。http://www.mongodb.org/downloads が参考になります。MacOSでhomebrewを使用している場合は以下:
 
 ```sh
 $ brew insatall mongodb
@@ -44,6 +46,20 @@ $ sudo apt-get install mongodb
 $ mongod run --config /usr/local/etc/mongod.conf
 ```
 
+#### memcachedを起動する
+処理速度のためmemcachedを利用しています。あらかじめインストールしておいてください。http://memcached.org/ からダウンロードできます。MacOSでhomebrewを使用している場合は以下:
+
+```sh
+$ brew insatall memcached
+```
+
+自動起動しない場合、手動で起動しておきます。例:
+
+```sh
+$ memcached -p 11211 -m 64m
+```
+
+#### Massrを起動する
 Massr実行のための環境を設定して、実行します:
 
 ```sh
