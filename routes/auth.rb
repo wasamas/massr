@@ -26,6 +26,7 @@ module Massr
 			session[:twitter_id]   = info['extra']['raw_info']['screen_name']
 			session[:twitter_user_id]   = info['extra']['raw_info']['id']
 			session[:twitter_icon_url] = info['extra']['raw_info']['profile_image_url']
+			session[:twitter_icon_url_https] = info['extra']['raw_info']['profile_image_url_https']
 		end
 
 		after '/auth/twitter/callback' do

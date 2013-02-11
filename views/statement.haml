@@ -3,14 +3,14 @@
 	/ アイコン
 	.statement-icon
 		%a{:href => "/user/#{statement.user.massr_id}"}
-			%img.massr-icon{:src => statement.user.twitter_icon_url}
+			%img.massr-icon{:src => get_icon_url(statement.user)}
 
 	%div{:class => "#{session[:user_id] == statement.user._id ? "statement-body-me statement-body" : "statement-body"}"}
 		/ レスポンス元発言
 		- if statement.res
 			.statement-res-icon
 				%a{:href => "/user/#{statement.res.user.massr_id}"}
-					%img.massr-icon-mini{:src => statement.res.user.twitter_icon_url, :alt => statement.res.user.name, :title => statement.res.user.name}
+					%img.massr-icon-mini{:src => get_icon_url(statement.res.user), :alt => statement.res.user.name, :title => statement.res.user.name}
 			.statement-res
 				%a{:href => "/statement/#{statement.res._id}"}
 					&lt; #{statement.res.body}
@@ -52,7 +52,7 @@
 				#{_like}:
 				- statement.likes.each do |like|
 					%a{:href => "/user/#{like.user.massr_id}"}
-						%img.massr-icon-mini{:src => like.user.twitter_icon_url, :title => like.user.name, :alt => like.user.name}
+						%img.massr-icon-mini{:src => get_icon_url(like.user), :title => like.user.name, :alt => like.user.name}
 
 		/ レスフォーム
 		.response{:id=>"res-#{statement._id}"}

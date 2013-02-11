@@ -136,6 +136,7 @@ module Massr
 			request[:twitter_user_id] = session[:twitter_user_id]
 			request[:twitter_id] = session[:twitter_id]
 			request[:twitter_icon_url] = session[:twitter_icon_url]
+			request[:twitter_icon_url_https] = session[:twitter_icon_url_https]
 			if user
 				user.update_profile(request)
 			else

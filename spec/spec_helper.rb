@@ -27,6 +27,7 @@ def prototype_user(no)
 			:twitter_user_id => '00000000',
 			:twitter_id => '1234567',
 			:twitter_icon_url => 'http://example.com/foo1.png',
+			:twitter_icon_url_https => 'https://example.com/foo1.png',
 			:name => 'わさます',
 			:email => 'wasamas@example.com',
 		},
@@ -35,6 +36,7 @@ def prototype_user(no)
 			:twitter_user_id => '11111111',
 			:twitter_id => '7654321',
 			:twitter_icon_url => 'http://example.com/foo2.png',
+			:twitter_icon_url_https => 'https://example.com/foo2.png',
 			:name => 'わさます2',
 			:email => 'wasamas2@example.com',
 		}

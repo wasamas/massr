@@ -16,6 +16,7 @@ describe 'Massr::User' do
 			its(:twitter_user_id) { should eq(prototype_user(0)[:twitter_user_id]) }
 			its(:twitter_id) { should eq(prototype_user(0)[:twitter_id]) }
 			its(:twitter_icon_url) { should eq(prototype_user(0)[:twitter_icon_url]) }
+			its(:twitter_icon_url_https) { should eq(prototype_user(0)[:twitter_icon_url_https]) }
 			its(:name) { should eq(prototype_user(0)[:name]) }
 			its(:email) { should eq(prototype_user(0)[:email]) }
 			its(:status) { should eq(Massr::User::ADMIN) }
@@ -33,6 +34,7 @@ describe 'Massr::User' do
 			its(:twitter_user_id) { should eq(prototype_user(1)[:twitter_user_id]) }
 			its(:twitter_id) { should eq(prototype_user(1)[:twitter_id]) }
 			its(:twitter_icon_url) { should eq(prototype_user(1)[:twitter_icon_url]) }
+			its(:twitter_icon_url_https) { should eq(prototype_user(1)[:twitter_icon_url_https]) }
 			its(:name) { should eq(prototype_user(1)[:name]) }
 			its(:email) { should eq(prototype_user(1)[:email]) }
 			its(:status) { should eq(Massr::User::UNAUTHORIZED) }
@@ -68,6 +70,7 @@ describe 'Massr::User' do
 			its(:twitter_user_id) { should eq(prototype_user(1)[:twitter_user_id]) }
 			its(:twitter_id) { should eq(prototype_user(1)[:twitter_id]) }
 			its(:twitter_icon_url) { should eq(prototype_user(1)[:twitter_icon_url]) }
+			its(:twitter_icon_url_https) { should eq(prototype_user(1)[:twitter_icon_url_https]) }
 			its(:name) { should eq(prototype_user(1)[:name]) }
 			its(:email) { should eq(prototype_user(1)[:email]) }
 

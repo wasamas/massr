@@ -60,6 +60,10 @@ module Massr
 			def clear_cache
 				settings.cache.flush_all
 			end
+
+			def get_icon_url(user)
+				request.scheme == 'https' ? user.twitter_icon_url_https : user.twitter_icon_url
+			end
 		end
 	end
 end
