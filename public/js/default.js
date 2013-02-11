@@ -63,6 +63,18 @@ $(function(){
 		});
 	};
 
+	function isHttps(){
+		return location.href.match(/^https/);
+	};
+
+	function	get_icon_url(user){
+		if (isHttps()) {
+			return user.twitter_icon_url_https
+		} else {
+			return user.twitter_icon_url
+		}
+	};
+
 	// replace CR/LF to single space
 	function shrinkText(text){
 		return text.replace(/[\r\n]+/g, ' ');
@@ -73,7 +85,7 @@ $(function(){
 		return $('<div>').addClass('statement').attr('id', 'st-'+s.id).append(
 			$('<div>').addClass('statement-icon').append(
 				$('<a>').attr('href', '/user/'+s.user.massr_id).append(
-					$('<img>').addClass('massr-icon').attr('src', s.user.twitter_icon_url)
+					$('<img>').addClass('massr-icon').attr('src', get_icon_url(s.user))
 				)
 			)
 		).append(
@@ -86,7 +98,7 @@ $(function(){
 						$('<div>').addClass('statement-res-icon').append(
 							$('<a>').attr('href', '/user/'+s.res.user.massr_id).append(
 								$('<img>').addClass('massr-icon-mini').
-									attr('src', s.res.user.twitter_icon_url).
+									attr('src', get_icon_url(s.res.user)).
 									attr('alt', s.res.user.name).
 									attr('title', s.res.user.name)
 							)
@@ -346,7 +358,7 @@ $(function(){
 						attr('href', '/user/' + this.user.massr_id).
 						append( $('<img>').
 							addClass('massr-icon-mini').
-							attr('src', this.user.twitter_icon_url).
+							attr('src', get_icon_url(this.user)).
 							attr('alt', this.user.name).
 							attr('title', this.user.name)
 						)
