@@ -21,7 +21,7 @@
 								%tr
 									- if user
 										%td.icon{:colspan => 2}
-											%img{:src => user.twitter_icon_url, :alt => user.twitter_id}
+											%img{:src => get_icon_url(user), :alt => user.twitter_id}
 									- else
 										%td.nowrap<Twitter ID
 										%td.twitter

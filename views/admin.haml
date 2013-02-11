@@ -21,7 +21,7 @@
 										%i.icon-remove{:title => _unauthorize_user}
 									%a.unauthorized
 										%i.icon-ok{:title => _authorize_user}
-									%img{:src => member.twitter_icon_url ,:class => "massr_id", :alt => member.massr_id}
+									%img{:src => get_icon_url(member) ,:class => "massr_id", :alt => member.massr_id}
 									= member.name
 				.span3
 					!= haml :sidebar
