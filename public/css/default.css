@@ -255,7 +255,8 @@ div.statement-message {
 
 img.statement-photo {
 	min-height: 100px;
-	height: 100px;
+	min-width: 32px;
+	max-height: 100px;
 	width: auto;
 }
 
