@@ -455,45 +455,52 @@ $(function(){
 		var oldest = (/.*photos$/.test(location.pathname))?
 			$($('#items .item .item-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, ''):
 			$($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
-		var link=$(this).attr('path') + "?date=" + oldest
-		var $button = $(this)
 
-		if ($(this).attr('query')!=""){
-			link = link + "&q=" + encodeURIComponent($(this).attr('query'))
-		}
-		$.ajax({
-			url: link,
-			type: 'GET',
-			dataType: 'json',
-			cache: false}).
-		done(function(json) {
-				var idname = (/.*photos$/.test(location.pathname))? '#items':'#statements'
-				$(idname).each(function(){
-					var $div = $(this);
-					$.each(json, function(){
-						var $statement = (/.*photos$/.test(location.pathname))? buildPhoto(this).hide():buildStatement(this).hide();
-						if (/.*photos$/.test(location.pathname)){
-							$div.append( $statement )
-							$div.imagesLoaded(function(){
-								 $container.masonry( 'appended', $statement );
-								 $container.masonry( 'reload' );
-							});
-						}
-						else {
-							$div.append($statement);
-						}
-						$statement.slideDown('slow');
-						refreshLike(this);
+		if (oldest == null|| oldest == ''){
+			 $('#subjoinpage-loading').hide();
+			 $('#subjoinpage').show();
+		}else{
+
+			var link=$(this).attr('path') + "?date=" + oldest
+			var $button = $(this)
+
+			if ($(this).attr('query')!=""){
+				link = link + "&q=" + encodeURIComponent($(this).attr('query'))
+			}
+			$.ajax({
+				url: link,
+				type: 'GET',
+				dataType: 'json',
+				cache: false}).
+			done(function(json) {
+					var idname = (/.*photos$/.test(location.pathname))? '#items':'#statements'
+					$(idname).each(function(){
+						var $div = $(this);
+						$.each(json, function(){
+							var $statement = (/.*photos$/.test(location.pathname))? buildPhoto(this).hide():buildStatement(this).hide();
+							if (/.*photos$/.test(location.pathname)){
+								$div.append( $statement )
+								$div.imagesLoaded(function(){
+									 $container.masonry( 'appended', $statement );
+									 $container.masonry( 'reload' );
+								});
+							}
+							else {
+								$div.append($statement);
+							}
+							$statement.slideDown('slow');
+							refreshLike(this);
+						});
 					});
+					$('#subjoinpage-loading').hide();
+					$('#subjoinpage').show();
+				}).
+			fail(function(XMLHttpRequest, textStatus, errorThrown) {
+					if($('textarea:focus').length == 0){
+						location.reload();
+					}
 				});
-				$('#subjoinpage-loading').hide();
-				$('#subjoinpage').show();
-			}).
-		fail(function(XMLHttpRequest, textStatus, errorThrown) {
-				if($('textarea:focus').length == 0){
-					location.reload();
-				}
-			});
+		}
 	});
 
 	/*
