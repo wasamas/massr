@@ -459,7 +459,7 @@ $(function(){
 		var $button = $(this)
 
 		if ($(this).attr('query')!=""){
-			link = link + "&q=" + $(this).attr('query')
+			link = link + "&q=" + encodeURIComponent($(this).attr('query'))
 		}
 		$.ajax({
 			url: link,
