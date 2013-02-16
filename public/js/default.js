@@ -75,6 +75,16 @@ $(function(){
 		}
 	};
 
+
+	// notification popup on the desktop
+	function desktopNotification(statement, timeout){
+		var n = window.webkitNotifications.createNotification(get_icon_url(statement.user), "Massr", statement.body);
+		n.show();
+		if(timeout > 0){
+			setTimeout(function(){n.close()}, timeout);
+		}
+	};
+
 	// replace CR/LF to single space
 	function shrinkText(text){
 		return text.replace(/[\r\n]+/g, ' ');
@@ -224,9 +234,13 @@ $(function(){
 					var $div = $(this);
 					$.each(json.reverse(), function(){
 						if(this.created_at > newest){
-							var $statement = buildStatement(this).hide();
+							var statement = this;
+							var $statement = buildStatement(statement).hide();
 							$div.prepend($statement);
 							$statement.slideDown('slow');
+							if(statement.res && statement.res.user.massr_id == me){
+								desktopNotification(statement, 10000);
+							}
 						}
 						refreshLike(this);
 					});
@@ -559,7 +573,33 @@ $(function(){
 		});
 	});
 
+	/*
+	 * local setting
+	 */
+	if(window.webkitNotifications && window.localStorage){
+		if(window.localStorage.getItem('popupNotification')){
+			if(window.webkitNotifications.checkPermission() == 0){
+				$('#popup-notification').attr('checked', 'checked');
+			}else{
+				window.webkitNotifications.requestPermission();
+			}
+		}
+	}else{
+		$('#popup-notification').attr('disabled', 'disabled');
+	}
 
-
+	$('#popup-notification').on('click', function(){
+		if($(this).attr('checked') == 'checked'){
+			if(window.webkitNotifications.checkPermission() == 0){
+				window.localStorage.setItem('popupNotification', true);
+			}else{
+				window.webkitNotifications.requestPermission(function(){
+					window.localStorage.setItem('popupNotification', true);
+				});
+			}
+		}else{
+			window.localStorage.setItem('popupNotification', false);
+		}
+	});
 });
 

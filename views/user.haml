@@ -14,6 +14,7 @@
 						- if update
 							.info.alert-info
 								#{_user_info_update}
+						%h2<基本設定
 						%form.profile{:method => "POST", :action => '/user'}
 							%input{csrf_input}
 							- user = Massr::User.find_by_id(session[:user_id]) if session[:user_id]
@@ -45,6 +46,14 @@
 											%input.btn.btn-large{:type => "submit" , :value => "保存"}
 										- else
 											%input.btn.btn-primary.btn-large{:type => "submit" , :value => "登録"}
+						%hr
+						%h2<ローカル設定
+						%table
+							%tr
+								%td
+									%label
+										%input{type: 'checkbox', id: 'popup-notification'}
+										デスクトップ通知
 				.span3
 					- if user
 						!= haml :sidebar
