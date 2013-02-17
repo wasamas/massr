@@ -78,6 +78,10 @@ $(function(){
 
 	// notification popup on the desktop
 	function desktopNotification(statement, timeout){
+		if(window.localStorage.getItem('popupNotification') != 'true'){
+			return false;
+		}
+
 		var n = window.webkitNotifications.createNotification(get_icon_url(statement.user), "Massr", statement.body);
 		n.show();
 		if(timeout > 0){
