@@ -577,7 +577,7 @@ $(function(){
 	 * local setting
 	 */
 	if(window.webkitNotifications && window.localStorage){
-		if(window.localStorage.getItem('popupNotification')){
+		if(window.localStorage.getItem('popupNotification') == 'true'){
 			if(window.webkitNotifications.checkPermission() == 0){
 				$('#popup-notification').attr('checked', 'checked');
 			}else{
@@ -591,14 +591,14 @@ $(function(){
 	$('#popup-notification').on('click', function(){
 		if($(this).attr('checked') == 'checked'){
 			if(window.webkitNotifications.checkPermission() == 0){
-				window.localStorage.setItem('popupNotification', true);
+				window.localStorage.setItem('popupNotification', 'true');
 			}else{
 				window.webkitNotifications.requestPermission(function(){
-					window.localStorage.setItem('popupNotification', true);
+					window.localStorage.setItem('popupNotification', 'true');
 				});
 			}
 		}else{
-			window.localStorage.setItem('popupNotification', false);
+			window.localStorage.setItem('popupNotification', 'false');
 		}
 	});
 });
