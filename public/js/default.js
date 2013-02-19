@@ -402,7 +402,7 @@ $(function(){
 			}).
 		fail(function(XMLHttpRequest, textStatus, errorThrown) {
 				toggleLikeButton(statement_id);
-				message.error('イイネに失敗しました(' + textStatus + ')');
+				message.error('わかるわに失敗しました(' + textStatus + ')');
 			});
 		return false;
 	});
