@@ -239,6 +239,8 @@ div.statement-res {
 	white-space: nowrap;
 	line-height: 120%;
 	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
 	padding: 2px;
 	margin-right: 4px;
 }
