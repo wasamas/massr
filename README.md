@@ -74,17 +74,13 @@ $ bundle exec rackup --port 9393
 http://127.0.0.1:9393 へ接続し、動作確認します。
 
 ### Heroku環境(production)での実行方法
+まず https://toolbelt.heroku.com/ から自分の環境に合った heroku toolbelt をインストールし、ログインまで済ませておきます。
+
 ```sh 
 $ git clone git://github.com/tdtds/massr.git
 $ cd massr
 $ mkdir vendor
 $ bundle install --path vendor/bundle
-
-# heroku コマンドのインストール（未実施のみ）
-$ gem install heroku       # rvmとかrbenvな環境の人用
-# or
-$ sudo gem install heroku  # 上記以外
-# ここまでheroku未実施のみ
 
 # アプリ初回作成時
 $ heroku apps:create massr-XXX #アプリ作成
