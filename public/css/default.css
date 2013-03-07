@@ -42,11 +42,6 @@ div.main h2 {
 	margin: 16px 0px;
 }
 
-div.info {
-	margin-bottom: 0.5em;
-	padding: 2px;
-}
-
 #me {
 	display: none;
 }
@@ -336,29 +331,15 @@ div.statement-like {
 	display: none;
 }
 
-#new-res-notice-text{
-	display: inline;
-}
-
-#new-res-notice-delete-button{
-	display: inline;
-	float: right;
-	text-align: center;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #bce8f1;
-	border-radius: 8px;
-	color: #3a87ad;
-	background-color: #acd8e1;
-	margin: 1px 0px;
-	padding: 0px 4px;
-	line-height: 120%;
-}
-
 div.response {
 	clear: both;
 	display: none;
 	margin-top: 4px;
+}
+
+.close {
+	padding-left: 4px;
+	padding-right: 4px;
 }
 
 div.response input.btn {
