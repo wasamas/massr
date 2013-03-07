@@ -27,9 +27,9 @@ module Massr
 
 			def send_mail(user, statement)
 				msg = <<-MAIL
-					#{statement.user.name}さんからレスがありました:
+					#{_res_from(statement.user.name)}:
 
-					「#{statement.body}」
+					#{_res_body(statement.body.strip)}
 				MAIL
 
 				Thread.start do
