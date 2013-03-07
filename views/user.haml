@@ -15,43 +15,44 @@
 							.info.alert-info
 								#{_user_info_update}
 						%h2<#{_basic_setting}
-						%form.profile{:method => "POST", :action => '/user'}
+						%form.form-horizontal{:method => "POST", :action => '/user'}
 							%input{csrf_input}
 							- user = Massr::User.find_by_id(session[:user_id]) if session[:user_id]
-							%table
-								%tr
+							.control-group
+								.control-label
 									- if user
-										%td.icon{:colspan => 2}
-											%img{:src => get_icon_url(user), :alt => user.twitter_id}
+										#{_icon}
 									- else
-										%td.nowrap<Twitter ID
-										%td.twitter
-											=session[:twitter_id]
-								%tr
-									%td.nowrap<Massr ID
-									%td
-										%input{:type => "text", :name => "massr_id", :value => user ? user.massr_id : session[:twitter_id]}
-									%td
-								%tr
-									%td.nowrap<#{_display_name}
-									%td
-										%input{:type => "text", :name => "name" ,:value => user ? user.name : session[:twitter_name]}
-								%tr
-									%td.nowrap<E-Mail
-									%td
-										%input{:type => "text", :name => "email" , :value => user ? user.email : ''}
-								%tr
-									%td.button{:colspan => 2}
-										- if user
-											%input.btn.btn-large{:type => "submit" , :value => _save}
-										- else
-											%input.btn.btn-primary.btn-large{:type => "submit" , :value => _registration}
+										Twitter ID
+								.controls
+									- if user
+										%img{:src => get_icon_url(user), :alt => user.twitter_id}
+									- else
+										=session[:twitter_id]
+							.control-group
+								%label.control-label{:for => 'input-massr_id'}<Massr ID
+								.controls
+									%input{:type => "text", :id => "input-massr_id", :name => "massr_id", :value => user ? user.massr_id : session[:twitter_id]}
+							.control-group
+								%label.control-label{:for => 'input-name'}<#{_display_name}
+								.controls
+									%input{:type => "text", :id => 'input-name', :name => "name" ,:value => user ? user.name : session[:twitter_name]}
+							.control-group
+								%label.control-label{:for => 'input-email'}<E-mail
+								.controls
+									%input{:type => "text", :id => 'input-email', :name => "email" , :value => user ? user.email : ''}
+							.control-group
+								.controls
+									- if user
+										%button.btn.btn-large{:type => "submit"}<#{_save}
+									- else
+										%button.btn.btn-primary.btn-large{:type => "submit"}<#{_registration}
 						%hr
 						%h2<#{_local_setting}
-						%table
-							%tr
-								%td
-									%label
+						%form.form-horizontal
+							.control-group
+								.controls
+									%label.checkbox
 										%input{type: 'checkbox', id: 'popup-notification'}
 										#{_desktop_notice}
 				.span3
