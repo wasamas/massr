@@ -1,0 +1,26 @@
+{
+	"resource": {
+	},
+	"setting": {
+	},
+	"local": {
+		"like": "わかるわ",
+		"unlike": "わからないわ",
+		"delete": "削除",
+		"res": "レス",
+		"post": "投稿にょわー",
+		"post_res": "レスるわ",
+		"search": "探すわ",
+		"menu": "メニュー",
+		"member": "メンバ",
+		"unprivilege_user": "管理者権限を剥奪する",
+		"privilege_user": "管理者にする",
+		"unauthorize_user": "認可を取り消す",
+		"authorize_user": "認可する",
+		"unauth_count": "未認証ユーザが%1人います",
+		"response_count": "新着レスが%1個あります",
+		"delete_button": "×",
+		"user_info_update": "アプリケーション更新に伴い、ユーザ情報の再登録をします",
+		"clearres": "新着レスクリア"
+	}
+}
