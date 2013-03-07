@@ -38,6 +38,13 @@
 		"save": "保存",
 		"registration": "登録",
 		"display_name": "表示名",
-		"desktop_notice": "デスクトップ通知"
+		"desktop_notice": "デスクトップ通知",
+		"fail_like": "わかるわに失敗しました",
+		"deny_delete": "削除は発言者本人にしかできません",
+		"confirm_delete": "本当に削除してよろしいいですか?",
+		"deny_cancel_admin": "管理者の認可は取り消せません",
+		"deny_nominate_admin": "未認可メンバは管理者指名できません",
+		"success_change_status": "のステータスを変更しました",
+		"fail_change_status": "ステータス変更に失敗しました"
 	}
 }

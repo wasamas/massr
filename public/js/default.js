@@ -8,6 +8,11 @@
 
 $(function(){
 	var me = $('#me').text();
+	var settings = {}, _ = {};
+	$.getJSON('/settings.json', function(json){
+		settings = json;
+		_ = settings['local'];
+	});
 
 	/*
 	 * setup pnotify plugin
@@ -82,7 +87,7 @@ $(function(){
 			return false;
 		}
 
-		var n = window.webkitNotifications.createNotification(get_icon_url(statement.user), "Massr", statement.body);
+		var n = window.webkitNotifications.createNotification(get_icon_url(statement.user), _['site_title'], statement.body);
 		n.show();
 		if(timeout > 0){
 			setTimeout(function(){n.close()}, timeout);
@@ -146,12 +151,12 @@ $(function(){
 					if(s.user.massr_id == me){
 						$(this).append(
 							$('<a>').addClass('trash').attr('href', '#').
-								append($('<i>').addClass('icon-trash').attr('title', '削除'))
+								append($('<i>').addClass('icon-trash').attr('title', _['delete']))
 						)
 					}
 				}).append(
 					$('<a>').addClass('res').attr('href', '#').append(
-						$('<i>').addClass('icon-comment').attr('title', 'レス')
+						$('<i>').addClass('icon-comment').attr('title', _['res'])
 					)
 				).append(
 					$('<a>').attr('href', '#').addClass('like-button').attr('id', 'like-'+s.id).
@@ -166,8 +171,8 @@ $(function(){
 							});
 							$(this).addClass(classLike);
 						}).
-						append($('<img>').addClass('unlike').attr('src', '/img/wakaruwa.png').attr('alt', 'わからないわ').attr('title', 'わからないわ')).
-						append($('<img>').addClass('like').attr('src', '/img/wakaranaiwa.png').attr('alt', 'わかるわ').attr('title', 'わかるわ'))
+						append($('<img>').addClass('unlike').attr('src', '/img/wakaruwa.png').attr('alt', _['unlike']).attr('title', _['unlike'])).
+						append($('<img>').addClass('like').attr('src', '/img/wakaranaiwa.png').attr('alt', _['like']).attr('title', _['like']))
 				)
 			).append(
 				$('<div>').addClass('response').attr('id', 'res-'+s.id).append(
@@ -190,7 +195,7 @@ $(function(){
 							$('<input>').
 								addClass('btn').
 								attr('type', 'submit').
-								attr('value', 'レスるわ')
+								attr('value', _['post_res'])
 						)
 					)
 				)
@@ -367,7 +372,7 @@ $(function(){
 			$('#st-' + statement.id + ' .statement-action').
 				after('<div class="statement-like">').
 				next().
-				append('わかるわ:');
+				append(_['like'] + ':');
 
 			$.each(statement.likes, function(){
 				$('#st-' + statement.id + ' .statement-like').
@@ -402,7 +407,7 @@ $(function(){
 			}).
 		fail(function(XMLHttpRequest, textStatus, errorThrown) {
 				toggleLikeButton(statement_id);
-				message.error('わかるわに失敗しました(' + textStatus + ')');
+				message.error(_['fail_like'] + '(' + textStatus + ')');
 			});
 		return false;
 	});
@@ -427,10 +432,10 @@ $(function(){
 		var statement = getID($(this).parent().parent().parent().attr('id'));
 		var owner = $('#st-' + statement + ' .statement-icon a').attr('href').match(/[^/]+$/);
 		if(owner != me){
-			message.error('削除は発言者本人にしかできません');
+			message.error(_['deny_delete']);
 			return false;
 		}
-		if(window.confirm('本当に削除してよろしいいですか?')){
+		if(window.confirm(_['confirm_delete'])){
 			$.ajax({
 				url: '/statement/'+statement,
 				type: 'DELETE'}).
@@ -530,11 +535,11 @@ $(function(){
 
 	function toggleStatus(massr_id, stat, on, off){
 		if($('#' + massr_id).hasClass('admin') && on == 'unauthorized'){
-			message.info('管理者の認可は取り消せません')
+			message.info(_['deny_cancel_admin'])
 			return false;
 		}
 		if($('#' + massr_id).hasClass('unauthorized') && on == 'admin'){
-			message.info('未認可メンバは管理者指名できません')
+			message.info(_['deny_nominate_admin'])
 			return false;
 		}
 		$.ajax({
@@ -542,11 +547,11 @@ $(function(){
 			type: 'PUT',
 			data: "status=" + stat}).
 		done(function(result){
-				message.success(massr_id + 'のステータスを変更しました');
+				message.success(massr_id + _['success_change_status']);
 				$('#' + massr_id).toggleClass(on).toggleClass(off);
 			}).
 		fail(function(XMLHttpRequest, textStatus, errorThrown){
-				message.error('ステータス変更に失敗しました(' + textStatus + ')');
+				message.error('(' + textStatus + ')');
 			});
 		return true;
 	};
