@@ -99,11 +99,13 @@ ul.user-list li.user-list {
 }
 
 #search-field {
-	width: 90%;
+	width: 65%;
+	margin: 0px;
 }
 
-div.search-button {
-	text-align: right;
+#search-button {
+	margin: 0px;
+	padding: 4px;
 }
 
 footer {

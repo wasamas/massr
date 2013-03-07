@@ -10,33 +10,31 @@
 			%h2<#{_menu}
 			%ul.sidebar-menu.sidebar-list
 				%li
-					%a{:href => "/user/#{current_user.massr_id}/res", :title => "Res"}<
+					%a{:href => "/user/#{current_user.massr_id}/res", :title => _res}<
 						#new-res-size-side
-							Res (
+							#{_res} (
 							%span.new-res-count<#{current_user.res_ids.size}
 							)
 				%li
-					%a{:href => "/user/#{current_user.massr_id}/photos", :title => "#{current_user.massr_id}'s Photos"}<#{current_user.massr_id}'s Photos
+					%a{:href => "/user/#{current_user.massr_id}/photos", :title => _user_photos(current_user.massr_id)}<#{_user_photos current_user.massr_id}
 				%li
-					%a{:href => "/statement/photos", :title => "All Photos"}<All Photos
+					%a{:href => "/statement/photos", :title => _all_photos}<#{_all_photos}
 				%li
-					%a{:href => "/user/#{current_user.massr_id}/liked", :title => "Liked"}<Liked
+					%a{:href => "/user/#{current_user.massr_id}/liked", :title => _liked}<#{_liked}
 				%li
-					%a{:href => "/user/#{current_user.massr_id}/likes", :title => "Likes"}<Likes
+					%a{:href => "/user/#{current_user.massr_id}/likes", :title => _likes}<#{_likes}
 				%li
-					%a{:href => "/user", :title => "Setting"}<Setting
+					%a{:href => "/user", :title => _settings}<#{_settings}
 				- if current_user.admin?
 					%li
-						%a{:href => "/admin", :title => "Admin"}<Admin
+						%a{:href => "/admin", :title => _admin_menu}<#{_admin_menu}
 				%li.isolate
-					%a{:href => "/logout", :title => "Logout"}<Logout
+					%a{:href => "/logout", :title => _logout}<#{_logout}
 				%li
-					Search
-					%form{:method => "GET", :action => "/search"}
-						%div
-							%input{:id => "search-field", :type => "text", :name => "q", :value => "#{q rescue ''}"}
-						%div.search-button
-							%input.btn{:id => "search-button", :type => "submit" , :value => _search}
+					%form.search-box.form-inline{:method => "GET", :action => "/search"}
+						%input.input-small{:id => "search-field", :type => "text", :name => "q", :placeholder => _search, :value => "#{q rescue ''}"}
+						%button.btn{:id => "search-button", :type => "submit"}
+							%i.icon-search
 			%h2<#{_member}
 			%ul.user-list.sidebar-list
 				- Massr::User.each_authorized_user_without(current_user) do |member|

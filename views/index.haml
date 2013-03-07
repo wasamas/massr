@@ -1,7 +1,7 @@
 !!!
 %html
 	%head
-		%title Massr - Mini Wassr
+		%title<#{_site_name}
 		!= haml :head
 	%body
 		.container-fluid
@@ -31,7 +31,7 @@
 										#photo-items
 											%input#photo-shadow{:type => "file", :name => "photo", :accept => 'image/*', :tabindex => '-1'}
 											%a#photo-button{:href => '#'}
-												%i.icon-camera#photo-button{:title => '写真を添付'}
+												%i.icon-camera#photo-button{:title => _attach_photo}
 											%span#photo-name
 						!= haml :statements ,:locals => {:res_ids => nil , :statements => statements,:q => q}
 				.span3

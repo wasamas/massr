@@ -9,6 +9,6 @@
 			.row-fluid
 				.span12
 					.main
-						%p Massrの利用には、ログインが必要です。
+						%p<#{_need_login}
 						%a.btn.btn-large.btn-primary{:href => "/auth/twitter", :title => "Login"}<TwitterでLogin &raquo;
 			!= haml :footer

@@ -5,7 +5,7 @@
 		!= haml :head
 		%script{src: '/js/watch_authorize.js'}
 	%body
-		%h1<認証されるまでしばらくお待ち下さい
+		%h1<#{_unauthorized}
 		.special-info
 			%img#masao{:src => random_masao}
 		.special-info

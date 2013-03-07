@@ -14,7 +14,7 @@
 						- if update
 							.info.alert-info
 								#{_user_info_update}
-						%h2<基本設定
+						%h2<#{_basic_setting}
 						%form.profile{:method => "POST", :action => '/user'}
 							%input{csrf_input}
 							- user = Massr::User.find_by_id(session[:user_id]) if session[:user_id]
@@ -33,7 +33,7 @@
 										%input{:type => "text", :name => "massr_id", :value => user ? user.massr_id : session[:twitter_id]}
 									%td
 								%tr
-									%td.nowrap<表示名
+									%td.nowrap<#{_display_name}
 									%td
 										%input{:type => "text", :name => "name" ,:value => user ? user.name : session[:twitter_name]}
 								%tr
@@ -43,17 +43,17 @@
 								%tr
 									%td.button{:colspan => 2}
 										- if user
-											%input.btn.btn-large{:type => "submit" , :value => "保存"}
+											%input.btn.btn-large{:type => "submit" , :value => _save}
 										- else
-											%input.btn.btn-primary.btn-large{:type => "submit" , :value => "登録"}
+											%input.btn.btn-primary.btn-large{:type => "submit" , :value => _registration}
 						%hr
-						%h2<ローカル設定
+						%h2<#{_local_setting}
 						%table
 							%tr
 								%td
 									%label
 										%input{type: 'checkbox', id: 'popup-notification'}
-										デスクトップ通知
+										#{_desktop_notice}
 				.span3
 					- if user
 						!= haml :sidebar
