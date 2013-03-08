@@ -6,10 +6,19 @@
  * Distributed under GPL
  */
 
+/*
+ * name space and defaults
+ */
+$Massr = new Object();
+$Massr.settings = '/settings.json';
+
+/*
+ * massr main
+ */
 $(function(){
 	var me = $('#me').text();
 	var settings = {}, _ = {};
-	$.getJSON('/settings.json', function(json){
+	$.getJSON($Massr.settings, function(json){
 		settings = json;
 		_ = settings['local'];
 	});

@@ -132,6 +132,15 @@ $ mongo ${HOST}:${PORT}/${DBNAME} -u ${MONGO_USER} -p ${MONGO_PASS}
 > db.massr.users.update({},{$unset: {statement_ids:1}},false,true)
 ```
 
+### カスタマイズする方法
+
+public/settings.json (JSONフォーマット)に、カスタマイズ可能な項目が書かれています。これを直接書き換えても良いですし、環境変数MASSR_SETTINGSにURLを指定することでそのファイルを使うことも可能です。MASSR_SETTINGSに指定したファイルはサーバサイドから参照可能なURLである必要があります(クライアントサイドではMassr側で指定したファイルのコピーして使います)。
+
+```sh
+$ heroku congis:add MASSR_SETTINGS=http://exapmle.com/massr_settings.json
+```
+
+なお、MASSR_SETTINGSで指定したファイルを書き換えても、massrを再起動するまでその内容は反映されません。
 
 
 ## ライセンス
