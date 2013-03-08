@@ -12,6 +12,7 @@ test/tmp
 test/version_tmp
 tmp
 vendor
+public/custom.json
 
 # YARD artifacts
 .yardoc
