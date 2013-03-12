@@ -434,6 +434,31 @@ $(function(){
 		return false;
 	});
 
+// -----------------------
+	$(document).on('submit', 'form.res-form', function(){
+		var form = this;
+		var body = $(form.body).attr("value");
+		var statement_id = $(form.res_id).attr("value");
+		var method = $(form).attr('method');
+		if (body) {
+		$.ajax('/statement', {
+			type: method,
+			data: "csrf_input=" + $(form._csrf).attr("value") +
+				'&body=' + body + 
+				'&res_id=' + statement_id,// TODO escape
+			dataType: 'text'}).
+		done(function(statement) {
+				reloadDiff();
+				$(form.body).attr("value", "");
+			}).
+		fail(function(XMLHttpRequest, textStatus, errorThrown) {
+				// TODO
+				message.error('(' + textStatus + ')');
+			});
+		}
+		return false;
+	});
+
 	/*
 	 * delete statement
 	 */
