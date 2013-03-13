@@ -56,9 +56,16 @@
 
 		/ レスフォーム
 		.response{:id=>"res-#{statement._id}"}
-			%form{:method => "POST", :action => "/statement"}
+			%form{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
 				%div
 					%textarea{:type => "text", :name => "body"}
 					%input{:type => "hidden", :name => "res_id", :value => statement._id}
 					%input{csrf_input}
-					%input.btn{:type => "submit" , :value => _post_res}
+				%div.button
+					%input.btn.btn-small.submit{:type => "submit" , :value => _post_res}
+					- if picasa_client
+						.photo-items
+							%input.photo-shadow{:type => "file", :name => "photo", :accept => 'image/*', :tabindex => '-1'}
+							%a.photo-button{:href => '#'}
+								%i.icon-camera.photo-button{:title => _attach_photo}
+							%span.photo-name

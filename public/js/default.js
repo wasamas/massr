@@ -351,16 +351,16 @@ $(function(){
 	/*
 	 * photo upload
 	 */
-	$('#photo-shadow').on('change', function(){
+	$('.photo-shadow').on('change', function(){
 		var fileName = $(this).attr('value').replace(/\\/g, '/').replace(/.*\//, '');
-		$('#photo-name').empty().text(fileName);
+		$(this).parent().find('.photo-name').first().empty().text(fileName);
 		$(this).hide();
 		return true;
 	});
 
-	$('#photo-button').on('click', function(){
-		$('#photo-shadow').show();
-		$('#photo-shadow').trigger('click');
+	$('.photo-button').on('click', function(){
+		$(this).parents('form').find('.photo-shadow').show();
+		$(this).parents('form').find('.photo-shadow').trigger('click');
 		return false;
 	});
 

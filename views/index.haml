@@ -26,13 +26,13 @@
 									%textarea{:type => "text", :name => "body"}
 									%input{csrf_input}
 								%div.button
-									%input.btn.btn-small#submit-new{:type => "submit" , :value => _post}
+									%input.btn.btn-small.submit{:type => "submit" , :value => _post}
 									- if picasa_client
-										#photo-items
-											%input#photo-shadow{:type => "file", :name => "photo", :accept => 'image/*', :tabindex => '-1'}
-											%a#photo-button{:href => '#'}
-												%i.icon-camera#photo-button{:title => _attach_photo}
-											%span#photo-name
+										.photo-items
+											%input.photo-shadow{:type => "file", :name => "photo", :accept => 'image/*', :tabindex => '-1'}
+											%a.photo-button{:href => '#'}
+												%i.icon-camera.photo-button{:title => _attach_photo}
+											%span.photo-name
 						!= haml :statements ,:locals => {:res_ids => nil , :statements => statements,:q => q}
 				.span3
 					!= haml :sidebar ,:locals => {:q => q}

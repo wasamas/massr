@@ -130,14 +130,14 @@ div.new-post textarea, div.response textarea {
 	height: 4em;
 }
 
-#submit-new {
+.submit {
 	margin-right: 2em;
 	margin-left: 2em;
 	text-align: right;
 	float: right;
 }
 
-#photo-shadow {
+.photo-shadow {
 	display: none;
 	position: absolute;
 	right: 0;
@@ -148,11 +148,11 @@ div.new-post textarea, div.response textarea {
 	filter: alpha(opacity=0);
 }
 
-#photo-items {
+.photo-items {
 	text-align: right;
 }
 
-#photo-button {
+.photo-button {
 	margin: 0px 4px;
 }
 
