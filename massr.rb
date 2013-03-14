@@ -23,7 +23,10 @@ require_relative 'plugins/picasa'
 require_relative 'plugins/logging'
 
 module Massr
+	# definition of module of plugins
 	module Plugin
+		module Notify
+		end
 	end
 
 	class App < Sinatra::Base

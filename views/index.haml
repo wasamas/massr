@@ -16,6 +16,7 @@
 							- unless unauth_count == 0
 								.alert.alert-info
 									%a{:href=>'/admin'}<#{_unauth_count(unauth_count)}
+						!= haml :notify
 						- response_count = user.ress.size
 						.alert.alert-info#new-res-size-main
 							%a#new-res-notice-text{:href=>"/user/#{current_user.massr_id}/res"}<#{_response_count(response_count)}

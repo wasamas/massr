@@ -1,6 +1,6 @@
 # -*- coding: utf-8; -*-
 #
-# helpers/resource.rb : language resource
+# helpers/resource.rb : settings and resources
 #
 # Copyright (C) 2012 by The wasam@s production
 # https://github.com/tdtds/massr
@@ -33,6 +33,27 @@ module Massr
 
 		define_method(:massr_settings) do
 			massr_settings_url
+		end
+
+		PLUGINS = []
+		SETTINGS['plugin'].each do |plugin_name, opts|
+			begin
+				require_relative "../plugins/#{plugin_name}"
+				genre, klass = plugin_name.split(/\//)
+				PLUGINS << (Massr::Plugin.const_get(genre.capitalize)).const_get(klass.capitalize).new(opts)
+			rescue LoadError
+				puts "cannot load plugin: #{plugin_name}."
+			rescue NameError
+				puts "load plugin module not found: #{plugin_name}"
+			end
+		end
+
+		helpers do
+			def notify_plugins
+				PLUGINS.select do |plugin|
+					/^Massr::Plugin::Notify::/ =~ plugin.class.to_s
+				end
+			end
 		end
 
 		SETTINGS['local'].each do |key, value|
