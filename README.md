@@ -134,13 +134,19 @@ $ mongo ${HOST}:${PORT}/${DBNAME} -u ${MONGO_USER} -p ${MONGO_PASS}
 
 ### カスタマイズする方法
 
-public/settings.json (JSONフォーマット)に、カスタマイズ可能な項目が書かれています。これを直接書き換えても良いですし、環境変数MASSR_SETTINGSにURLを指定することでそのファイルを使うことも可能です。MASSR_SETTINGSに指定したファイルはサーバサイドから参照可能なURLである必要があります(クライアントサイドではMassr側で指定したファイルのコピーして使います)。
+public/settings.json (JSONフォーマット)に、カスタマイズ可能な項目が書かれています。これを直接書き換えても良いですし、環境変数MASSR_SETTINGSにファイル名やURLを指定することでそのファイルを使うことも可能です。MASSR_SETTINGSに指定したファイルはpublicの下に置くか、サーバサイドから参照可能なURLである必要があります(URLの場合クライアントサイドではMassr側で作成したコピーを使います)。
 
 ```sh
+# ファイル(public/custom_settings.json)の場合
+$ heroku congis:add MASSR_SETTINGS=custom_settings.json
+```
+
+```sh
+# URLの場合
 $ heroku congis:add MASSR_SETTINGS=http://exapmle.com/massr_settings.json
 ```
 
-なお、MASSR_SETTINGSで指定したファイルを書き換えても、massrを再起動するまでその内容は反映されません。
+なお、MASSR_SETTINGSはMassr起動時に読み込まれるので、で指定したファイルを書き換えてもMassrを再起動するまでその内容は反映されません。
 
 
 ## ライセンス

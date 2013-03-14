@@ -14,24 +14,22 @@ module Massr
 	class App < Sinatra::Base
 		massr_settings_url = '/settings.json'
 
-		SETTINGS = JSON.parse(
-			if ENV['MASSR_SETTINGS']
-				tmp = ENV['MASSR_SETTINGS']
-				if %r|\A/| =~ tmp
-					puts "MASSR_SETTINGS cannot start with '/'."
-					exit
-				elsif %r|\.\.| =~ tmp
+		env = ENV['MASSR_SETTINGS']
+		if env # online
+			if %r|\Ahttps?://|
+				# saving copy to cache
+				massr_settings_url = '/settings_cache.json'
+				open("public#{massr_settings_url}", 'w'){|o|o.write(open(env, &:read))}
+			else # local
+				if %r|\.\.| =~ env
 					puts "MASSR_SETTINGS cannot contains '..'."
 					exit
 				end
-				massr_settings_url = '/custom.json'
-				file = open(tmp, &:read)
-				open("public#{massr_settings_url}", 'w'){|o|o.write file}
-				file
-			else
-				open("public#{massr_settings_url}", &:read)
+				massr_settings_url = env
+				massr_settings_url = '/' + massr_settings_url if %r|\A/| !~ massr_settings_url
 			end
-		)
+		end
+		SETTINGS = JSON.parse(open("public#{massr_settings_url}", &:read))
 
 		define_method(:massr_settings) do
 			massr_settings_url
