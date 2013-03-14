@@ -38,13 +38,13 @@ module Massr
 		PLUGINS = []
 		SETTINGS['plugin'].each do |plugin_name, opts|
 			begin
-				require_relative "../plugins/#{plugin_name}"
-				genre, klass = plugin_name.split(/\//)
-				PLUGINS << (Massr::Plugin.const_get(genre.capitalize)).const_get(klass.capitalize).new(opts)
+				genre, klass, label = plugin_name.split(/[\/ ]/)
+				require_relative "../plugins/#{genre}/#{klass}"
+				PLUGINS << (Massr::Plugin.const_get(genre.capitalize)).const_get(klass.capitalize).new(label, opts)
 			rescue LoadError
 				puts "cannot load plugin: #{plugin_name}."
 			rescue NameError
-				puts "load plugin module not found: #{plugin_name}"
+				puts "load plugin module not found: #{genre}/#{klass}"
 			end
 		end
 

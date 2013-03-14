@@ -9,7 +9,7 @@
 #
 # Usage:
 #    "plugin": {
-#       "notify/information": {
+#       "notify/information ID": {
 #          "message": "message text here"
 #       }
 #    }
@@ -17,7 +17,7 @@
 module Massr
 	module Plugin::Notify
 		class Information
-			def initialize(opts)
+			def initialize(plugin_id, opts)
 				@message = opts['message'] || nil
 			end
 
