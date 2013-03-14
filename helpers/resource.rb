@@ -16,7 +16,7 @@ module Massr
 
 		env = ENV['MASSR_SETTINGS']
 		if env # online
-			if %r|\Ahttps?://|
+			if %r|\Ahttps?://| =~ env
 				# saving copy to cache
 				massr_settings_url = '/settings_cache.json'
 				open("public#{massr_settings_url}", 'w'){|o|o.write(open(env, &:read))}
