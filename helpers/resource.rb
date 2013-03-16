@@ -1,6 +1,6 @@
 # -*- coding: utf-8; -*-
 #
-# helpers/resource.rb : language resource
+# helpers/resource.rb : settings and resources
 #
 # Copyright (C) 2012 by The wasam@s production
 # https://github.com/tdtds/massr
@@ -8,67 +8,58 @@
 # Distributed under GPL
 #
 
+require 'open-uri'
+
 module Massr
 	class App < Sinatra::Base
+		massr_settings_url = '/settings.json'
+
+		env = ENV['MASSR_SETTINGS']
+		if env # online
+			if %r|\Ahttps?://| =~ env
+				# saving copy to cache
+				massr_settings_url = '/settings_cache.json'
+				open("public#{massr_settings_url}", 'w'){|o|o.write(open(env, &:read))}
+			else # local
+				if %r|\.\.| =~ env
+					puts "MASSR_SETTINGS cannot contains '..'."
+					exit
+				end
+				massr_settings_url = env
+				massr_settings_url = '/' + massr_settings_url if %r|\A/| !~ massr_settings_url
+			end
+		end
+		SETTINGS = JSON.parse(open("public#{massr_settings_url}", &:read))
+
+		define_method(:massr_settings) do
+			massr_settings_url
+		end
+
+		PLUGINS = []
+		SETTINGS['plugin'].each do |plugin_name, opts|
+			begin
+				require_relative "../plugins/#{plugin_name}"
+				genre, klass = plugin_name.split(/\//)
+				PLUGINS << (Massr::Plugin.const_get(genre.capitalize)).const_get(klass.capitalize).new(opts)
+			rescue LoadError
+				puts "cannot load plugin: #{plugin_name}."
+			rescue NameError
+				puts "load plugin module not found: #{plugin_name}"
+			end
+		end
+
 		helpers do
-			#
-			# カスタマイズ可能な文字列
-			#
-			def _like
-				'わかるわ'
+			def notify_plugins
+				PLUGINS.select do |plugin|
+					/^Massr::Plugin::Notify::/ =~ plugin.class.to_s
+				end
 			end
+		end
 
-			def _unlike
-				'わからないわ'
-			end
-
-			def _delete
-				'削除'
-			end
-
-			def _res
-				'レス'
-			end
-
-			def _post
-				'投稿にょわー☆'
-			end
-
-			def _post_res
-				'レスるわ'
-			end
-
-			def _search
-				'みつけるわ'
-			end
-
-			def _menu
-				'メニュー'
-			end
-
-			def _member
-				'メンバ'
-			end
-
-			def _unprivilege_user
-				'管理者権限を剥奪する'
-			end
-
-			def _privilege_user
-				'管理者にする'
-			end
-
-			def _unauthorize_user
-				'認可を取り消す'
-			end
-
-			def _authorize_user
-				'認可する'
-			end
-
-			def _unauth_count(num)
-				"未認証ユーザが#{num}人います"
-			end
+		SETTINGS['local'].each do |key, value|
+			define_method("_#{key}"){|*args|
+				value.gsub(/%(\d+)/){args[$1.to_i - 1]}
+			}
 		end
 	end
 end

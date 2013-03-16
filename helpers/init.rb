@@ -27,9 +27,9 @@ module Massr
 
 			def send_mail(user, statement)
 				msg = <<-MAIL
-					#{statement.user.name}さんからレスがありました:
+					#{_res_from(statement.user.name)}:
 
-					「#{statement.body}」
+					#{_res_body(statement.body.strip)}
 				MAIL
 
 				Thread.start do
@@ -54,6 +54,15 @@ module Massr
 
 			def param_date
 				date = params[:date] ? params[:date] : (Time.now + 1).strftime("%Y%m%d%H%M%S")
+			end
+
+			#for mamcached
+			def clear_cache
+				settings.cache.flush_all
+			end
+
+			def get_icon_url(user)
+				request.scheme == 'https' ? user.twitter_icon_url_https : user.twitter_icon_url
 			end
 		end
 	end

@@ -26,7 +26,9 @@ Massr - Mini Wassr
 call back用のURLは『http://127.0.0.1:9393/auth/twitter/callback 』(開発用)、または、『http://HOGE-FUGA.herokuapp.com/auth/twitter/callback 』(heroku用)とする。
 
 ### 開発環境(development)で実行方法
-ストレージとしてMongoDB利用しています。あらかじめインストールしておいてください(2.xが必要)。http://www.mongodb.org/downloads が参考になります。MacOSの場合は以下:
+
+#### MongoDBを起動する
+ストレージとしてMongoDB利用しています。あらかじめインストールしておいてください(2.xが必要)。http://www.mongodb.org/downloads が参考になります。MacOSでhomebrewを使用している場合は以下:
 
 ```sh
 $ brew insatall mongodb
@@ -44,6 +46,20 @@ $ sudo apt-get install mongodb
 $ mongod run --config /usr/local/etc/mongod.conf
 ```
 
+#### memcachedを起動する
+処理速度のためmemcachedを利用しています。あらかじめインストールしておいてください。http://memcached.org/ からダウンロードできます。MacOSでhomebrewを使用している場合は以下:
+
+```sh
+$ brew insatall memcached
+```
+
+自動起動しない場合、手動で起動しておきます。例:
+
+```sh
+$ memcached -p 11211 -m 64m
+```
+
+#### Massrを起動する
 Massr実行のための環境を設定して、実行します:
 
 ```sh
@@ -58,22 +74,20 @@ $ bundle exec rackup --port 9393
 http://127.0.0.1:9393 へ接続し、動作確認します。
 
 ### Heroku環境(production)での実行方法
+まず https://toolbelt.heroku.com/ から自分の環境に合った heroku toolbelt をインストールし、ログインまで済ませておきます。
+
 ```sh 
 $ git clone git://github.com/tdtds/massr.git
 $ cd massr
 $ mkdir vendor
 $ bundle install --path vendor/bundle
 
-# heroku コマンドのインストール（未実施のみ）
-$ gem install heroku       # rvmとかrbenvな環境の人用
-# or
-$ sudo gem install heroku  # 上記以外
-# ここまでheroku未実施のみ
-
 # アプリ初回作成時
 $ heroku apps:create massr-XXX #アプリ作成
 $ heroku addons:add mongolab:starter # MongoLabの有効化
 $ heroku addons:add sendgrid:starter # SendGridの有効化
+$ heroku addons:add memcache         # memcachedの有効化
+
 ## ※ MongoLab・SendGrid を有効にするには Herokuにてクレジットカード登録が必要です
 $ heroku config:add \
   RACK_ENV=production \
@@ -118,6 +132,21 @@ $ mongo ${HOST}:${PORT}/${DBNAME} -u ${MONGO_USER} -p ${MONGO_PASS}
 > db.massr.users.update({},{$unset: {statement_ids:1}},false,true)
 ```
 
+### カスタマイズする方法
+
+public/settings.json (JSONフォーマット)に、カスタマイズ可能な項目が書かれています。これを直接書き換えても良いですし、環境変数MASSR_SETTINGSにファイル名やURLを指定することでそのファイルを使うことも可能です。MASSR_SETTINGSに指定したファイルはpublicの下に置くか、サーバサイドから参照可能なURLである必要があります(URLの場合クライアントサイドではMassr側で作成したコピーを使います)。
+
+```sh
+# ファイル(public/custom_settings.json)の場合
+$ heroku congis:add MASSR_SETTINGS=custom_settings.json
+```
+
+```sh
+# URLの場合
+$ heroku congis:add MASSR_SETTINGS=http://exapmle.com/massr_settings.json
+```
+
+なお、MASSR_SETTINGSはMassr起動時に読み込まれるので、で指定したファイルを書き換えてもMassrを再起動するまでその内容は反映されません。
 
 
 ## ライセンス

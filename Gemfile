@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 ruby '1.9.3'
 
@@ -12,11 +12,12 @@ gem 'bson_ext'
 gem 'rack_csrf'
 gem 'mail'
 gem 'picasa'
+gem 'rack-session-mongo'
+gem 'dalli'
 
 group :development, :test do
 	gem 'rake'
 	gem 'rspec'
-	gem 'autotest'
 	gem 'sinatra-reloader', require: 'sinatra/reloader'
 	gem 'pit', require: 'pit'
 	gem 'pry'

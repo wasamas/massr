@@ -1,7 +1,7 @@
 !!!
 %html
 	%head
-		%title Massr - Mini Wassr
+		%title<#{_site_name}
 		!= haml :head
 	%body
 		.container-fluid
@@ -10,13 +10,19 @@
 				.span9
 					.main
 						- user = Massr::User.find_by_id(session[:user_id])
+						- get_icon_url(user)
 						- if user.status == 0
 							- unauth_count = Massr::User.where(:status => 9).count
 							- unless unauth_count == 0
-								.info.alert-info
+								.alert.alert-info
 									%a{:href=>'/admin'}<#{_unauth_count(unauth_count)}
+						!= haml :notify
+						- response_count = user.ress.size
+						.alert.alert-info#new-res-size-main
+							%a#new-res-notice-text{:href=>"/user/#{current_user.massr_id}/res"}<#{_response_count(response_count)}
+							%a#new-res-notice-delete-button.close{:href => "#", :title => _clearres}<!&times;
 						.new-post
-							%form{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
+							%form#form-new{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
 								%div
 									%textarea{:type => "text", :name => "body"}
 									%input{csrf_input}
@@ -26,9 +32,9 @@
 										#photo-items
 											%input#photo-shadow{:type => "file", :name => "photo", :accept => 'image/*', :tabindex => '-1'}
 											%a#photo-button{:href => '#'}
-												%i.icon-camera#photo-button{:title => '写真を添付'}
+												%i.icon-camera#photo-button{:title => _attach_photo}
 											%span#photo-name
-						!= haml :statements ,:locals => {:statements => statements,:q => q}
+						!= haml :statements ,:locals => {:res_ids => nil , :statements => statements,:q => q}
 				.span3
 					!= haml :sidebar ,:locals => {:q => q}
 			!= haml :footer

@@ -17,12 +17,34 @@ module Massr
 		end
 
 		get '/index.json' do
-			[].tap {|a|
-				Statement.get_statements(param_date).each do |statement|
-					a << statement.to_hash
-				end
+			cache = settings.cache.get(request.path)
+			if(cache && !params[:date])
+				cache
+			else
+				json = [].tap {|a|
+					Statement.get_statements(param_date).each do |statement|
+						a << statement.to_hash
+					end
+				}.to_json
+				settings.cache.set(request.path,json)
+				json
+			end
+		end
+
+		delete '/newres' do
+			access_user = User.find_by_id(session[:user_id])
+			res_ids = access_user.res_ids
+			access_user.clear_res_ids
+		end
+
+		get '/ressize.json' do
+			access_user = User.find_by_id(session[:user_id])
+			ressize = {
+				:user => access_user.massr_id,
+				:size => access_user.res_ids.size
 			}.to_json
 		end
+
 	end
 end
 

@@ -42,11 +42,6 @@ div.main h2 {
 	margin: 16px 0px;
 }
 
-div.info {
-	margin-bottom: 0.5em;
-	padding: 2px;
-}
-
 #me {
 	display: none;
 }
@@ -99,11 +94,13 @@ ul.user-list li.user-list {
 }
 
 #search-field {
-	width: 90%;
+	width: 65%;
+	margin: 0px;
 }
 
-div.search-button {
-	text-align: right;
+#search-button {
+	margin: 0px;
+	padding: 4px;
 }
 
 footer {
@@ -171,10 +168,15 @@ img.massr-icon-mini {
 
 div.statement {
 	border-style: solid;
-	border-width: 1px 0px 0px 0px;
-	border-color: #eee;
+	border-width: 1px 0px 0px 3px;
+	border-color: #eee transparent;
 	margin: 4px 0px;
 	padding: 4px 2px 0px 2px;
+}
+
+div.statement-new {
+	border-width: 1px 0px 0px 3px;
+	border-color: #eee #06f;
 }
 
 div.item {
@@ -234,6 +236,8 @@ div.statement-res {
 	white-space: nowrap;
 	line-height: 120%;
 	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
 	padding: 2px;
 	margin-right: 4px;
 }
@@ -249,8 +253,9 @@ div.statement-message {
 }
 
 img.statement-photo {
-	min-height: 100px;
-	height: 100px;
+	min-height: 32px;
+	min-width: 32px;
+	max-height: 100px;
 	width: auto;
 }
 
@@ -322,10 +327,19 @@ div.statement-like {
 	line-height: 200%;
 }
 
+#new-res-size-main{
+	display: none;
+}
+
 div.response {
 	clear: both;
 	display: none;
 	margin-top: 4px;
+}
+
+.close {
+	padding-left: 4px;
+	padding-right: 4px;
 }
 
 div.response input.btn {

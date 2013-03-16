@@ -6,8 +6,22 @@
  * Distributed under GPL
  */
 
+/*
+ * name space and defaults
+ */
+$Massr = new Object();
+$Massr.settings = '/settings.json';
+
+/*
+ * massr main
+ */
 $(function(){
 	var me = $('#me').text();
+	var settings = {}, _ = {};
+	$.getJSON($Massr.settings, function(json){
+		settings = json;
+		_ = settings['local'];
+	});
 
 	/*
 	 * setup pnotify plugin
@@ -28,6 +42,7 @@ $(function(){
 	 * setup auto reloading
 	 *   reloading each 30sec without focused in TEXTAREA
 	 */
+	var retry_count_of_reload = 0;
 	var reload_interval = setInterval(function(){reloadDiff();}, 30000);
 
 	/*
@@ -62,6 +77,32 @@ $(function(){
 		});
 	};
 
+	function isHttps(){
+		return location.href.match(/^https/);
+	};
+
+	function	get_icon_url(user){
+		if (isHttps()) {
+			return user.twitter_icon_url_https
+		} else {
+			return user.twitter_icon_url
+		}
+	};
+
+
+	// notification popup on the desktop
+	function desktopNotification(statement, timeout){
+		if(window.localStorage.getItem('popupNotification') != 'true'){
+			return false;
+		}
+
+		var n = window.webkitNotifications.createNotification(get_icon_url(statement.user), _['site_title'], statement.body);
+		n.show();
+		if(timeout > 0){
+			setTimeout(function(){n.close()}, timeout);
+		}
+	};
+
 	// replace CR/LF to single space
 	function shrinkText(text){
 		return text.replace(/[\r\n]+/g, ' ');
@@ -72,7 +113,7 @@ $(function(){
 		return $('<div>').addClass('statement').attr('id', 'st-'+s.id).append(
 			$('<div>').addClass('statement-icon').append(
 				$('<a>').attr('href', '/user/'+s.user.massr_id).append(
-					$('<img>').addClass('massr-icon').attr('src', s.user.twitter_icon_url)
+					$('<img>').addClass('massr-icon').attr('src', get_icon_url(s.user))
 				)
 			)
 		).append(
@@ -85,7 +126,7 @@ $(function(){
 						$('<div>').addClass('statement-res-icon').append(
 							$('<a>').attr('href', '/user/'+s.res.user.massr_id).append(
 								$('<img>').addClass('massr-icon-mini').
-									attr('src', s.res.user.twitter_icon_url).
+									attr('src', get_icon_url(s.res.user)).
 									attr('alt', s.res.user.name).
 									attr('title', s.res.user.name)
 							)
@@ -119,12 +160,12 @@ $(function(){
 					if(s.user.massr_id == me){
 						$(this).append(
 							$('<a>').addClass('trash').attr('href', '#').
-								append($('<i>').addClass('icon-trash').attr('title', '削除'))
+								append($('<i>').addClass('icon-trash').attr('title', _['delete']))
 						)
 					}
 				}).append(
 					$('<a>').addClass('res').attr('href', '#').append(
-						$('<i>').addClass('icon-comment').attr('title', 'レス')
+						$('<i>').addClass('icon-comment').attr('title', _['res'])
 					)
 				).append(
 					$('<a>').attr('href', '#').addClass('like-button').attr('id', 'like-'+s.id).
@@ -139,8 +180,8 @@ $(function(){
 							});
 							$(this).addClass(classLike);
 						}).
-						append($('<img>').addClass('unlike').attr('src', '/img/wakaruwa.png').attr('alt', 'わからないわ').attr('title', 'わからないわ')).
-						append($('<img>').addClass('like').attr('src', '/img/wakaranaiwa.png').attr('alt', 'わかるわ').attr('title', 'わかるわ'))
+						append($('<img>').addClass('unlike').attr('src', '/img/wakaruwa.png').attr('alt', _['unlike']).attr('title', _['unlike'])).
+						append($('<img>').addClass('like').attr('src', '/img/wakaranaiwa.png').attr('alt', _['like']).attr('title', _['like']))
 				)
 			).append(
 				$('<div>').addClass('response').attr('id', 'res-'+s.id).append(
@@ -163,7 +204,7 @@ $(function(){
 							$('<input>').
 								addClass('btn').
 								attr('type', 'submit').
-								attr('value', 'レスるわ')
+								attr('value', _['post_res'])
 						)
 					)
 				)
@@ -192,6 +233,10 @@ $(function(){
 		);
 	};
 
+	function getNewestTime(){
+		return $($('#statements .statement .statement-info a').get(1)).text().replace(/^\s*(.*?)\s*$/, "$1");
+	}
+
 	// reload diff of recent statements
 	function reloadDiff(){
 		if(location.pathname == '/' && location.search == ''){
@@ -199,38 +244,78 @@ $(function(){
 				url: '/index.json',
 				type: 'GET',
 				dataType: 'json',
-				cache: false}).
-			done(function(json) {
-					var newest = $($('#statements .statement .statement-info a').get(1)).text().replace(/^\s*(.*?)\s*$/, "$1");
-					$('#statements').each(function(){
-						var $div = $(this);
-						$.each(json.reverse(), function(){
-							if(this.created_at > newest){
-								var $statement = buildStatement(this).hide();
-								$div.prepend($statement);
-								$statement.slideDown('slow');
+				cache: false
+			}).done(function(json){
+				retry_count_of_reload = 0;
+				var newest = getNewestTime()
+				$('#statements').each(function(){
+					var $div = $(this);
+					$.each(json.reverse(), function(){
+						if(this.created_at > newest){
+							var statement = this;
+							var $statement = buildStatement(statement).hide();
+							$div.prepend($statement);
+							$statement.slideDown('slow');
+							if(statement.res && statement.res.user.massr_id == me){
+								desktopNotification(statement, 10000);
 							}
-							refreshLike(this);
-						});
+						}
+						refreshLike(this);
 					});
-				}).
-			fail(function(XMLHttpRequest, textStatus, errorThrown) {
-					if($('textarea:focus').length == 0){
-						location.reload();
-					}
 				});
-		};
+				if (newest != getNewestTime()){
+					newResCheck();
+				}
+			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
+				if($('textarea:focus').length == 0){
+					if(retry_count_of_reload > 30){ // over 15min
+						location.reload();
+					}else if(retry_count_of_reload > 10){ // over 5min
+						message.error('access error, ' + retry_count_of_reload + 'th retrying...');
+					}
+					++retry_count_of_reload;
+				}
+			});
+		}
+	};
+
+	function updateResCount(count){
+		$('.new-res-count').text(count);
+		if(count == 0){
+			$('#new-res-size-main').hide();
+		}else{
+			$('#new-res-size-main').show();
+		}
+	};
+
+	function newResCheck(){
+		$.ajax({
+			url: '/ressize.json',
+			type: 'GET',
+			dataType: 'json',
+			cache: false}
+		).done(function(json) {
+			updateResCount(json.size);
+		}).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+			if($('textarea:focus').length == 0){
+				location.reload();
+			}
+		});
 	};
 
 	// automatic link plugin
 	$.fn.autoLink = function(config){
 		this.each(function(){
-			var re = /(https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+/g;
+			var re = /((https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+|#\S+)/g;
 			$(this).html(
 				$(this).html().replace(re, function(u){
 					try {
-						var url = $.url(u);
-						return '[<a href="'+url.attr('source')+'" target="_brank">'+url.attr('host')+'</a>]';
+						if (u.match(/^#/)) {
+							return '<a href="/search?q='+encodeURIComponent(u)+'">'+u+'</a>';
+						} else {
+							var url = $.url(u);
+							return '[<a href="'+u+'" target="_brank">'+url.attr('host')+'</a>]';
+						}
 					}catch(e){
 						return u;
 					}
@@ -248,6 +333,18 @@ $(function(){
 		  e.preventDefault();
 		  $(this).parent().parent().submit();
 		  return;
+		}
+	});
+
+	/*
+	 * empty post changes to reload
+	 */
+	$('#form-new').on('submit', function(e){
+		if($('textarea', this).val().length == 0){
+			location.reload();
+			return false;
+		}else{
+			return true;
 		}
 	});
 
@@ -284,7 +381,7 @@ $(function(){
 			$('#st-' + statement.id + ' .statement-action').
 				after('<div class="statement-like">').
 				next().
-				append('わかるわ:');
+				append(_['like'] + ':');
 
 			$.each(statement.likes, function(){
 				$('#st-' + statement.id + ' .statement-like').
@@ -293,7 +390,7 @@ $(function(){
 						attr('href', '/user/' + this.user.massr_id).
 						append( $('<img>').
 							addClass('massr-icon-mini').
-							attr('src', this.user.twitter_icon_url).
+							attr('src', get_icon_url(this.user)).
 							attr('alt', this.user.name).
 							attr('title', this.user.name)
 						)
@@ -319,7 +416,7 @@ $(function(){
 			}).
 		fail(function(XMLHttpRequest, textStatus, errorThrown) {
 				toggleLikeButton(statement_id);
-				message.error('イイネに失敗しました(' + textStatus + ')');
+				message.error(_['fail_like'] + '(' + textStatus + ')');
 			});
 		return false;
 	});
@@ -344,10 +441,10 @@ $(function(){
 		var statement = getID($(this).parent().parent().parent().attr('id'));
 		var owner = $('#st-' + statement + ' .statement-icon a').attr('href').match(/[^/]+$/);
 		if(owner != me){
-			message.error('削除は発言者本人にしかできません');
+			message.error(_['deny_delete']);
 			return false;
 		}
-		if(window.confirm('本当に削除してよろしいいですか?')){
+		if(window.confirm(_['confirm_delete'])){
 			$.ajax({
 				url: '/statement/'+statement,
 				type: 'DELETE'}).
@@ -357,6 +454,32 @@ $(function(){
 		}
 	});
 
+	/*
+	 * show response-count when over zero, and wrap span.new-res-count
+	 */
+	$('#new-res-notice-text').each(function(){
+		var notice = $(this);
+		var notice_count = notice.text().match(/\d+/);
+		var notice_text = notice.text();
+		notice.empty().append(notice_text.replace(notice_count, '<span class="new-res-count">'+notice_count+'</span>'));
+		if(notice_count != '0'){
+			$('#new-res-size-main').show();
+		}
+	});
+
+	/*
+	 * delete new response-count
+	 */
+	$(document).on('click', '#new-res-notice-delete-button', function(){
+		$.ajax({
+			url: '/newres',
+			type: 'DELETE'}).
+		done(function(result) {
+			updateResCount(0);
+		});
+		return false;
+	});
+
 	// Subjoin the next page
 	$('#subjoinpage').on('click', function(str){
 		$(this).hide();
@@ -364,45 +487,52 @@ $(function(){
 		var oldest = (/.*photos$/.test(location.pathname))?
 			$($('#items .item .item-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, ''):
 			$($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
-		var link=$(this).attr('path') + "?date=" + oldest
-		var $button = $(this)
 
-		if ($(this).attr('query')!=""){
-			link = link + "&q=" + $(this).attr('query')
-		}
-		$.ajax({
-			url: link,
-			type: 'GET',
-			dataType: 'json',
-			cache: false}).
-		done(function(json) {
-				var idname = (/.*photos$/.test(location.pathname))? '#items':'#statements'
-				$(idname).each(function(){
-					var $div = $(this);
-					$.each(json, function(){
-						var $statement = (/.*photos$/.test(location.pathname))? buildPhoto(this).hide():buildStatement(this).hide();
-						if (/.*photos$/.test(location.pathname)){
-							$div.append( $statement )
-							$div.imagesLoaded(function(){
-								 $container.masonry( 'appended', $statement );
-								 $container.masonry( 'reload' );
-							});
-						}
-						else {
-							$div.append($statement);
-						}
-						$statement.slideDown('slow');
-						refreshLike(this);
+		if (oldest == null|| oldest == ''){
+			 $('#subjoinpage-loading').hide();
+			 $('#subjoinpage').show();
+		}else{
+
+			var link=$(this).attr('path') + "?date=" + oldest
+			var $button = $(this)
+
+			if ($(this).attr('query')!=""){
+				link = link + "&q=" + encodeURIComponent($(this).attr('query'))
+			}
+			$.ajax({
+				url: link,
+				type: 'GET',
+				dataType: 'json',
+				cache: false}).
+			done(function(json) {
+					var idname = (/.*photos$/.test(location.pathname))? '#items':'#statements'
+					$(idname).each(function(){
+						var $div = $(this);
+						$.each(json, function(){
+							var $statement = (/.*photos$/.test(location.pathname))? buildPhoto(this).hide():buildStatement(this).hide();
+							if (/.*photos$/.test(location.pathname)){
+								$div.append( $statement )
+								$div.imagesLoaded(function(){
+									 $container.masonry( 'appended', $statement );
+									 $container.masonry( 'reload' );
+								});
+							}
+							else {
+								$div.append($statement);
+							}
+							$statement.slideDown('slow');
+							refreshLike(this);
+						});
 					});
+					$('#subjoinpage-loading').hide();
+					$('#subjoinpage').show();
+				}).
+			fail(function(XMLHttpRequest, textStatus, errorThrown) {
+					if($('textarea:focus').length == 0){
+						location.reload();
+					}
 				});
-				$('#subjoinpage-loading').hide();
-				$('#subjoinpage').show();
-			}).
-		fail(function(XMLHttpRequest, textStatus, errorThrown) {
-				if($('textarea:focus').length == 0){
-					location.reload();
-				}
-			});
+		}
 	});
 
 	/*
@@ -414,11 +544,11 @@ $(function(){
 
 	function toggleStatus(massr_id, stat, on, off){
 		if($('#' + massr_id).hasClass('admin') && on == 'unauthorized'){
-			message.info('管理者の認可は取り消せません')
+			message.info(_['deny_cancel_admin'])
 			return false;
 		}
 		if($('#' + massr_id).hasClass('unauthorized') && on == 'admin'){
-			message.info('未認可メンバは管理者指名できません')
+			message.info(_['deny_nominate_admin'])
 			return false;
 		}
 		$.ajax({
@@ -426,11 +556,11 @@ $(function(){
 			type: 'PUT',
 			data: "status=" + stat}).
 		done(function(result){
-				message.success(massr_id + 'のステータスを変更しました');
+				message.success(massr_id + _['success_change_status']);
 				$('#' + massr_id).toggleClass(on).toggleClass(off);
 			}).
 		fail(function(XMLHttpRequest, textStatus, errorThrown){
-				message.error('ステータス変更に失敗しました(' + textStatus + ')');
+				message.error('(' + textStatus + ')');
 			});
 		return true;
 	};
@@ -461,7 +591,33 @@ $(function(){
 		});
 	});
 
+	/*
+	 * local setting
+	 */
+	if(window.webkitNotifications && window.localStorage){
+		if(window.localStorage.getItem('popupNotification') == 'true'){
+			if(window.webkitNotifications.checkPermission() == 0){
+				$('#popup-notification').attr('checked', 'checked');
+			}else{
+				window.webkitNotifications.requestPermission();
+			}
+		}
+	}else{
+		$('#popup-notification').attr('disabled', 'disabled');
+	}
 
-
+	$('#popup-notification').on('click', function(){
+		if($(this).attr('checked') == 'checked'){
+			if(window.webkitNotifications.checkPermission() == 0){
+				window.localStorage.setItem('popupNotification', 'true');
+			}else{
+				window.webkitNotifications.requestPermission(function(){
+					window.localStorage.setItem('popupNotification', 'true');
+				});
+			}
+		}else{
+			window.localStorage.setItem('popupNotification', 'false');
+		}
+	});
 });
 

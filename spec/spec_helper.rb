@@ -16,7 +16,7 @@ RSpec.configure do |config|
 	MongoMapper.connection = Mongo::Connection.new('localhost', 27017)
 	MongoMapper.database = 'massr_test'
 	config.before(:each) do
-		MongoMapper.database.collections.each {|collection| collection.remove}
+		MongoMapper.database.collections.each {|collection| collection.remove rescue nil}
 	end
 end
 
@@ -24,15 +24,19 @@ def prototype_user(no)
 	[
 		{
 			:massr_id => 'wasamas',
+			:twitter_user_id => '00000000',
 			:twitter_id => '1234567',
 			:twitter_icon_url => 'http://example.com/foo1.png',
+			:twitter_icon_url_https => 'https://example.com/foo1.png',
 			:name => 'わさます',
 			:email => 'wasamas@example.com',
 		},
 		{
 			:massr_id => 'wasamas2',
+			:twitter_user_id => '11111111',
 			:twitter_id => '7654321',
 			:twitter_icon_url => 'http://example.com/foo2.png',
+			:twitter_icon_url_https => 'https://example.com/foo2.png',
 			:name => 'わさます2',
 			:email => 'wasamas2@example.com',
 		}

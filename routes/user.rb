@@ -15,7 +15,7 @@ module Massr
 		end
 
 		get '/user' do
-			haml :user
+			haml :user , :locals => {:update => params[:update]}
 		end
 
 		before "/user/:massr_id*" do
@@ -32,6 +32,7 @@ module Massr
 
 		get '/user/:massr_id' do
 			haml :user_statements , :locals => {
+				:res_ids    => nil,
 				:statements => Statement.get_statements(param_date, {:user_id => @user.id}),
 				:q => nil}
 		end
@@ -57,7 +58,13 @@ module Massr
 
 		before '/user/:massr_id/res*' do
 			user = User.find_by_massr_id(params[:massr_id])
-			statements = Statement.where(:user_id => user.id)
+			statements = Statement.where(
+				:user_id => user.id , 
+				:ref_ids => {:$ne => []}, 
+				:created_at => {:$lt => Time.parse(param_date)}).
+				sort(:created_at.desc)
+			statements.limit($limit)
+
 			received_id = Array.new
 			statements.each do |statement|
 				received_id |= (statement.ref_ids) unless statement.ref_ids.nil?
@@ -74,9 +81,14 @@ module Massr
 		end
 
 		get '/user/:massr_id/res' do
+			access_user = User.find_by_id(session[:user_id])
+			res_ids = access_user.res_ids
+			access_user.clear_res_ids
 			haml :user_statements, :locals => {
+				:res_ids    => res_ids,
 				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
+			
 		end
 
 		before '/user/:massr_id/liked*' do
@@ -94,6 +106,7 @@ module Massr
 
 		get '/user/:massr_id/liked' do
 			haml :user_statements, :locals => {
+				:res_ids    => nil,
 				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
 		end
@@ -113,14 +126,17 @@ module Massr
 
 		get '/user/:massr_id/likes' do
 			haml :user_statements, :locals => {
+				:res_ids    => nil,
 				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
 		end
 
 		post '/user' do
 			user = User.find_by_id(session[:user_id])
+			request[:twitter_user_id] = session[:twitter_user_id]
 			request[:twitter_id] = session[:twitter_id]
 			request[:twitter_icon_url] = session[:twitter_icon_url]
+			request[:twitter_icon_url_https] = session[:twitter_icon_url_https]
 			if user
 				user.update_profile(request)
 			else

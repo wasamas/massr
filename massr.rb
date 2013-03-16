@@ -15,16 +15,21 @@ require 'omniauth'
 require 'omniauth-twitter'
 require 'rack/csrf'
 require 'mongo_mapper'
+require 'rack-session-mongo'
 require 'mail'
+require 'dalli'
 
 require_relative 'plugins/picasa'
+require_relative 'plugins/logging'
 
 module Massr
+	# definition of module of plugins
 	module Plugin
+		module Notify
+		end
 	end
 
 	class App < Sinatra::Base
-		enable :sessions
 		set :haml, { format: :html5, escape_html: true }
 
 		configure :production do
@@ -35,7 +40,9 @@ module Massr
 
 			uri = URI.parse(ENV['MONGOLAB_URI'])
 			MongoMapper.connection = Mongo::Connection.from_uri(ENV['MONGOLAB_URI'])
-			MongoMapper.database = uri.path.gsub(/^\//, '')
+			db_name = uri.path.gsub(/^\//, '')
+			MongoMapper.database = db_name
+			DB   = MongoMapper.connection.db(db_name)
 
 			Mail.defaults do # using sendgrid plugin
 				delivery_method :smtp, {
@@ -49,7 +56,14 @@ module Massr
 				}
 			end
 
+			set :cache,Dalli::Client.new(
+				ENV['MEMCACHE_SERVERS'],
+				:username => ENV['MEMCACHE_USERNAME'],
+				:password => ENV['MEMCACHE_PASSWORD'],
+				:expires_in => 24 * 60 * 60)
+
 			Massr::Plugin::Picasa.auth(ENV['PICASA_ID'], ENV['PICASA_PASS']) if ENV['PICASA_ID']
+			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::WARN)
 		end
 
 		configure :development, :test do
@@ -64,7 +78,9 @@ module Massr
 				} )
 			
 			MongoMapper.connection = Mongo::Connection.new('localhost', 27017)
-			MongoMapper.database = 'massr'
+			db_name = 'massr'
+			MongoMapper.database = db_name
+			DB   = MongoMapper.connection.db(db_name)
 
 			auth_gmail = Pit::get( 'Gmail', :require => {
 				'mail' => 'Your Gmail address',
@@ -81,23 +97,31 @@ module Massr
 				}
 			end
 
+			set :cache,Dalli::Client.new(
+				nil,
+				:expires_in => 24 * 60 * 60)
+
 			Massr::Plugin::Picasa.auth(auth_gmail['mail'], auth_gmail['pass'])
+			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::DEBUG)
 		end
+
+		use(
+			Rack::Session::Mongo,{
+				:db => DB,
+				:expire_after => 6 * 30 * 24 * 60 * 60,
+				:secret => ENV['SESSION_SECRET']
+			})
 
 		use(
 			OmniAuth::Strategies::Twitter,
 			@auth_twitter[:id],
 			@auth_twitter[:secret])
 
-		use(
-			Rack::Session::Cookie,
-			:expire_after => 6 * 30 * 24 * 60 * 60,
-			:secret => ENV['SESSION_SECRET'])
-
 		use Rack::Csrf
 
 		#表示エントリ数
 		$limit = 20
+
 	end
 end
 

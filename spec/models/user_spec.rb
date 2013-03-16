@@ -13,8 +13,10 @@ describe 'Massr::User' do
 			subject{ @user }
 
 			its(:massr_id) { should eq(prototype_user(0)[:massr_id]) }
+			its(:twitter_user_id) { should eq(prototype_user(0)[:twitter_user_id]) }
 			its(:twitter_id) { should eq(prototype_user(0)[:twitter_id]) }
 			its(:twitter_icon_url) { should eq(prototype_user(0)[:twitter_icon_url]) }
+			its(:twitter_icon_url_https) { should eq(prototype_user(0)[:twitter_icon_url_https]) }
 			its(:name) { should eq(prototype_user(0)[:name]) }
 			its(:email) { should eq(prototype_user(0)[:email]) }
 			its(:status) { should eq(Massr::User::ADMIN) }
@@ -29,8 +31,10 @@ describe 'Massr::User' do
 			subject{ @user }
 
 			its(:massr_id) { should eq(prototype_user(1)[:massr_id]) }
+			its(:twitter_user_id) { should eq(prototype_user(1)[:twitter_user_id]) }
 			its(:twitter_id) { should eq(prototype_user(1)[:twitter_id]) }
 			its(:twitter_icon_url) { should eq(prototype_user(1)[:twitter_icon_url]) }
+			its(:twitter_icon_url_https) { should eq(prototype_user(1)[:twitter_icon_url_https]) }
 			its(:name) { should eq(prototype_user(1)[:name]) }
 			its(:email) { should eq(prototype_user(1)[:email]) }
 			its(:status) { should eq(Massr::User::UNAUTHORIZED) }
@@ -58,13 +62,15 @@ describe 'Massr::User' do
 			before :all do
 				Massr::User.collection.remove
 				Massr::User.create_by_registration_form( prototype_user(0) )
-				@user = Massr::User.find_by_twitter_id(prototype_user(0)[:twitter_id])
+				@user = Massr::User.find_by_twitter_user_id(prototype_user(0)[:twitter_user_id])
 				@user.update_profile(prototype_user(1))
 			end
 			subject{ @user }
 
+			its(:twitter_user_id) { should eq(prototype_user(1)[:twitter_user_id]) }
 			its(:twitter_id) { should eq(prototype_user(1)[:twitter_id]) }
 			its(:twitter_icon_url) { should eq(prototype_user(1)[:twitter_icon_url]) }
+			its(:twitter_icon_url_https) { should eq(prototype_user(1)[:twitter_icon_url_https]) }
 			its(:name) { should eq(prototype_user(1)[:name]) }
 			its(:email) { should eq(prototype_user(1)[:email]) }
 
@@ -124,6 +130,7 @@ describe 'Massr::User' do
 		it {should be_a_kind_of(Hash)}
 		it {subject['id'].should be_a_kind_of(BSON::ObjectId)}
 		it {subject['massr_id'].should eq("wasamas")}
+		it {subject['twitter_user_id'].should eq("00000000")}
 		it {subject['twitter_id'].should eq("1234567")}
 		it {subject['twitter_icon_url'].should be}
 		it {subject['name'].should be}
