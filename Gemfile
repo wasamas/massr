@@ -14,6 +14,7 @@ gem 'mail'
 gem 'picasa'
 gem 'rack-session-mongo'
 gem 'dalli'
+gem 'celluloid'
 
 group :development, :test do
 	gem 'rake'

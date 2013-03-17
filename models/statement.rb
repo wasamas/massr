@@ -2,8 +2,6 @@
 require 'mongo_mapper'
 require 'json'
 require 'uri'
-require 'net/http'
-require 'net/https'
 require 'picasa'
 
 module Massr
@@ -28,32 +26,14 @@ module Massr
 			return self.all(options)
 		end
 
+		def self.add_photo(id,uri)
+			statement = Statement.find_by_id(id)
+			statement[:photos] << uri.to_s
+			statement.save!
+		end
+
 		def update_statement(request)
 			self[:body], self[:photos] = request[:body], request[:photos]
-			
-			# body内の画像
-			re = URI.regexp(['http', 'https'])
-			request_uri = URI.parse(request.url)
-			self[:body].scan(re) do 
-				uri = URI.parse($&)
-				next if uri.host == request_uri.host
-				response = nil
-				begin
-					proxy = if uri.scheme == 'https'
-						URI(ENV['https_proxy'] || '')
-					else
-						URI(ENV['http_proxy'] || '')
-					end
-					nethttp = Net::HTTP::Proxy(proxy.host, proxy.port).new( uri.host, uri.port )
-					nethttp.use_ssl = true if uri.scheme == 'https'
-					nethttp.start do |http|
-						response = http.head( uri.request_uri )
-						self[:photos] << uri.to_s if response["content-type"].to_s.include?('image')
-					end
-				rescue SocketError => e
-					#URLの先が存在しないなど。
-				end
-			end
 
 			user = request[:user]
 			self.user  = user
@@ -67,11 +47,20 @@ module Massr
 				end
 			end
 
-
 			if save!
 				if request[:res_id]
 					res_statement.save!
 					res_statement.user.save!
+				end
+
+				# body内の画像
+				re = URI.regexp(['http', 'https'])
+				request_uri = URI.parse(request.url)
+				self[:body].scan(re) do
+					uri = URI.parse($&)
+					next if uri.host == request_uri.host
+					response = nil
+					Massr::Plugin::AsyncRequest.new(uri).future.add_photo(self._id)
 				end
 			end
 

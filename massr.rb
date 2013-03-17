@@ -21,6 +21,7 @@ require 'dalli'
 
 require_relative 'plugins/picasa'
 require_relative 'plugins/logging'
+require_relative 'plugins/async_request'
 
 module Massr
 	# definition of module of plugins
