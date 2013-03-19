@@ -61,9 +61,10 @@ module Massr
 			if request[:res_id]
 				res_statement  = Statement.find_by_id(request[:res_id])
 				res_statement.refs << self
-				self.res   = res_statement
-				
-				res_statement.user.ress << self
+				self.res = res_statement
+				if res_statement.user.massr_id != user.massr_id
+					res_statement.user.ress << self
+				end
 			end
 
 
