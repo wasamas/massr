@@ -1,6 +1,8 @@
 Massr - Mini Wassr
 =====
 
+[![Build Status](https://secure.travis-ci.org/tdtds/massr.png)](https://travis-ci.org/tdtds/massr) [![Dependency Status](https://gemnasium.com/tdtds/massr.png)](https://gemnasium.com/tdtds/massr)
+
 ## Massrについて
 
 日本のTwitterクローン型SNSである「Wassr」が2012年9月いっぱいで閉鎖になることが発表され、Wassrのヘビーユーザーであった我々はひどく狼狽し、そして悲しくなりました。Wassrで行われていた会話を、これからどこですればいいのかと。
