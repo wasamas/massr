@@ -442,12 +442,15 @@ $(function(){
 		var body = $(form.body).attr("value");
 		var statement_id = $(form.res_id).attr("value");
 		var method = $(form).attr('method');
-		var formdata = new FormData(form[0]);
+		var formdata = new FormData(form);
+
 		if (body) {
 		$.ajax('/statement', {
 			type: method,
+			processData: false,
+			contentType: false,
 			data: formdata,
-			dataType: 'html'}).
+			dataType: 'text'}).
 		done(function(statement) {
 				reloadDiff();
 				$(form.body).attr("value", "");
