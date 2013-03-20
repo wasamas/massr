@@ -435,6 +435,37 @@ $(function(){
 	});
 
 	/*
+	 * response
+	 */
+	$(document).on('submit', 'form.res-form', function(){
+		var form = this;
+		var body = $(form.body).attr("value");
+		var statement_id = $(form.res_id).attr("value");
+		var method = $(form).attr('method');
+		if (body) {
+		$.ajax('/statement', {
+			type: method,
+			data: "csrf_input=" + $(form._csrf).attr("value") +
+				'&body=' + encodeURIComponent(body) +
+				'&res_id=' + statement_id,
+			dataType: 'text'}).
+		done(function(statement) {
+				reloadDiff();
+				$(form.body).attr("value", "");
+				$(form).parent().parent().find(".res").trigger("click");
+				// TODO 写真の初期化
+				// TODO レス数表示の更新
+				// TODO 投稿結果を見せたい
+			}).
+		fail(function(XMLHttpRequest, textStatus, errorThrown) {
+				// TODO エラーメッセージ
+				message.error('(' + textStatus + ')');
+			});
+		}
+		return false;
+	});
+
+	/*
 	 * delete statement
 	 */
 	$(document).on('click', '.statement-action a.trash', function(){

@@ -56,7 +56,7 @@
 
 		/ レスフォーム
 		.response{:id=>"res-#{statement._id}"}
-			%form{:method => "POST", :action => "/statement"}
+			%form{:method => "POST", :action => "/statement", :class=>"res-form"}
 				%div
 					%textarea{:type => "text", :name => "body"}
 					%input{:type => "hidden", :name => "res_id", :value => statement._id}
