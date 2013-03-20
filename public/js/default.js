@@ -442,13 +442,12 @@ $(function(){
 		var body = $(form.body).attr("value");
 		var statement_id = $(form.res_id).attr("value");
 		var method = $(form).attr('method');
+		var formdata = new FormData(form[0]);
 		if (body) {
 		$.ajax('/statement', {
 			type: method,
-			data: "csrf_input=" + $(form._csrf).attr("value") +
-				'&body=' + encodeURIComponent(body) +
-				'&res_id=' + statement_id,
-			dataType: 'text'}).
+			data: formdata,
+			dataType: 'html'}).
 		done(function(statement) {
 				reloadDiff();
 				$(form.body).attr("value", "");
