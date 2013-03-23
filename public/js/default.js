@@ -408,7 +408,6 @@ $(function(){
 	/*
 	 * photo upload
 	 */
-	//$('.photo-shadow').on('change', function(){
 	$(document).on('change', '.photo-shadow', function(){
 		var fileName = $(this).attr('value').replace(/\\/g, '/').replace(/.*\//, '');
 		$(this).parent().find('.photo-name').first().empty().text(fileName);
@@ -416,7 +415,6 @@ $(function(){
 		return true;
 	});
 
-	//$('.photo-button').on('click', function(){
 	$(document).on('click', '.photo-button', function(){
 		$(this).parents('form').find('.photo-shadow').show();
 		$(this).parents('form').find('.photo-shadow').trigger('click');
