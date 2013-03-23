@@ -81,7 +81,7 @@ $(function(){
 		return location.href.match(/^https/);
 	};
 
-	function	get_icon_url(user){
+	function get_icon_url(user){
 		if (isHttps()) {
 			return user.twitter_icon_url_https
 		} else {
@@ -89,6 +89,46 @@ $(function(){
 		}
 	};
 
+	function postRes(form){
+		var body = $(form.body).attr("value");
+		var statement_id = $(form.res_id).attr("value");
+		var method = $(form).attr('method');
+		var formdata = new FormData(form);
+		$(form).find("input").attr("disabled", "disabled");
+		$(form).find("textarea").attr("disabled", "disabled");
+
+		if (body) {
+		message.info(_['sending']);
+		$.ajax('/statement', {
+			type: method,
+			processData: false,
+			contentType: false,
+			data: formdata,
+			dataType: 'text'}).
+		done(function(statement) {
+				$(form).find("input").removeAttr("disabled");
+				$(form).find("textarea").removeAttr("disabled");
+				var photoShadow = $(form).find(".photo-shadow");
+				photoShadow.replaceWith(photoShadow.val("").clone(true));
+				$(form).find(".photo-name").text("");
+	
+				reloadDiff();
+				$(form.body).attr("value", "");
+				$(form).parent().parent().find(".res").trigger("click");
+				message.success(_['send_success']);
+				// TODO 写真の初期化
+				// TODO レス数表示の更新
+				// TODO 投稿結果を見せたい
+			}).
+		fail(function(XMLHttpRequest, textStatus, errorThrown) {
+				// TODO エラーメッセージ
+				message.error('(' + textStatus + ')');
+				$(form).find("input").removeAttr("disabled");
+				$(form).find("textarea").removeAttr("disabled");
+			});
+		}
+		return false;
+	}
 
 	// notification popup on the desktop
 	function desktopNotification(statement, timeout){
@@ -185,7 +225,7 @@ $(function(){
 				)
 			).append(
 				$('<div>').addClass('response').attr('id', 'res-'+s.id).append(
-					$('<form>').attr('method', 'POST').attr('action', '/statement').append(
+					$('<form>').addClass("res-form").attr('method', 'POST').attr('action', '/statement').append(
 						$('<div>').append(
 							$('<textarea>').
 								attr('name', 'body').
@@ -200,11 +240,28 @@ $(function(){
 								attr('name', '_csrf').
 								attr('type', 'hidden').
 								attr('value', $('meta[name="_csrf"]').attr('content'))
-						).append(
+						)
+					).append(
+						$('<div>').addClass('button').append(
 							$('<input>').
-								addClass('btn').
+								addClass('btn').addClass('btn-small').addClass('submit').
 								attr('type', 'submit').
 								attr('value', _['post_res'])
+						).append(
+							$('<div>').addClass('photo-items').append(
+								$('<input>').
+									addClass('photo-shadow').
+									attr('type', 'file').
+									attr('acept', 'image/*').
+									attr('name', 'photo').
+									attr('tabindex', '-1')
+							).append(
+								$('<a>').attr('href', '#').addClass('photo-button').append(
+									$('<i>').attr('title', _['attach_photo']).addClass('icon-camera').addClass('photo-button')
+								)
+							).append(
+								$('<span>').addClass('photo-name')
+							)
 						)
 					)
 				)
@@ -351,14 +408,16 @@ $(function(){
 	/*
 	 * photo upload
 	 */
-	$('.photo-shadow').on('change', function(){
+	//$('.photo-shadow').on('change', function(){
+	$(document).on('change', '.photo-shadow', function(){
 		var fileName = $(this).attr('value').replace(/\\/g, '/').replace(/.*\//, '');
 		$(this).parent().find('.photo-name').first().empty().text(fileName);
 		$(this).hide();
 		return true;
 	});
 
-	$('.photo-button').on('click', function(){
+	//$('.photo-button').on('click', function(){
+	$(document).on('click', '.photo-button', function(){
 		$(this).parents('form').find('.photo-shadow').show();
 		$(this).parents('form').find('.photo-shadow').trigger('click');
 		return false;
@@ -437,47 +496,7 @@ $(function(){
 	/*
 	 * response
 	 */
-	$(document).on('submit', 'form.res-form', function(){
-		var form = this;
-		var body = $(form.body).attr("value");
-		var statement_id = $(form.res_id).attr("value");
-		var method = $(form).attr('method');
-		var formdata = new FormData(form);
-		$(this).find("input").attr("disabled", "disabled");
-		$(this).find("textarea").attr("disabled", "disabled");
-
-		if (body) {
-		message.info(_['sending']);
-		$.ajax('/statement', {
-			type: method,
-			processData: false,
-			contentType: false,
-			data: formdata,
-			dataType: 'text'}).
-		done(function(statement) {
-				$(form).find("input").removeAttr("disabled");
-				$(form).find("textarea").removeAttr("disabled");
-				var photoShadow = $(form).find(".photo-shadow");
-				photoShadow.replaceWith(photoShadow.val("").clone(true));
-				$(form).find(".photo-name").text("");
-	
-				reloadDiff();
-				$(form.body).attr("value", "");
-				$(form).parent().parent().find(".res").trigger("click");
-				message.info(_['send_success']);
-				// TODO 写真の初期化
-				// TODO レス数表示の更新
-				// TODO 投稿結果を見せたい
-			}).
-		fail(function(XMLHttpRequest, textStatus, errorThrown) {
-				// TODO エラーメッセージ
-				message.error('(' + textStatus + ')');
-				$(form).find("input").removeAttr("disabled");
-				$(form).find("textarea").removeAttr("disabled");
-			});
-		}
-		return false;
-	});
+	$(document).on('submit', 'form.res-form', function() { return postRes(this); });
 
 	/*
 	 * delete statement
