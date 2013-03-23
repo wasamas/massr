@@ -140,12 +140,12 @@ public/settings.json (JSONフォーマット)に、カスタマイズ可能な�
 
 ```sh
 # ファイル(public/custom_settings.json)の場合
-$ heroku congis:add MASSR_SETTINGS=custom_settings.json
+$ heroku config:add MASSR_SETTINGS=custom_settings.json
 ```
 
 ```sh
 # URLの場合
-$ heroku congis:add MASSR_SETTINGS=http://exapmle.com/massr_settings.json
+$ heroku config:add MASSR_SETTINGS=http://exapmle.com/massr_settings.json
 ```
 
 なお、MASSR_SETTINGSはMassr起動時に読み込まれるので、で指定したファイルを書き換えてもMassrを再起動するまでその内容は反映されません。
