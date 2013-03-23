@@ -443,8 +443,11 @@ $(function(){
 		var statement_id = $(form.res_id).attr("value");
 		var method = $(form).attr('method');
 		var formdata = new FormData(form);
+		$(this).find("input").attr("disabled", "disabled");
+		$(this).find("textarea").attr("disabled", "disabled");
 
 		if (body) {
+		message.info(_['sending']);
 		$.ajax('/statement', {
 			type: method,
 			processData: false,
@@ -452,9 +455,16 @@ $(function(){
 			data: formdata,
 			dataType: 'text'}).
 		done(function(statement) {
+				$(form).find("input").removeAttr("disabled");
+				$(form).find("textarea").removeAttr("disabled");
+				var photoShadow = $(form).find(".photo-shadow");
+				photoShadow.replaceWith(photoShadow.val("").clone(true));
+				$(form).find(".photo-name").text("");
+	
 				reloadDiff();
 				$(form.body).attr("value", "");
 				$(form).parent().parent().find(".res").trigger("click");
+				message.info(_['send_success']);
 				// TODO 写真の初期化
 				// TODO レス数表示の更新
 				// TODO 投稿結果を見せたい
@@ -462,6 +472,8 @@ $(function(){
 		fail(function(XMLHttpRequest, textStatus, errorThrown) {
 				// TODO エラーメッセージ
 				message.error('(' + textStatus + ')');
+				$(form).find("input").removeAttr("disabled");
+				$(form).find("textarea").removeAttr("disabled");
 			});
 		}
 		return false;
