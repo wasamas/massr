@@ -132,6 +132,9 @@ $(function(){
 		if(window.localStorage.getItem('popupNotification') != 'true'){
 			return false;
 		}
+		if(statement.user.massr_id == me){
+			return false;
+		}
 
 		var n = window.webkitNotifications.createNotification(get_icon_url(statement.user), _['site_name'], statement.body);
 		n.show();
