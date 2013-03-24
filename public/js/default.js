@@ -483,8 +483,8 @@ $(function(){
 	 */
 	$(document).on('click', '.statement-action a.res', function(){
 		var statement = getID($(this).parent().parent().parent().attr('id'));
-		$("#res-" + statement).toggle().each(function(){
-			if($(this).css('display') == 'block'){
+		$("#res-" + statement).slideToggle(function(){
+			if($(this).is(':visible')){
 				$('textarea', this).focus();
 			}
 		});
