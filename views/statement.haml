@@ -62,7 +62,7 @@
 					%input{:type => "hidden", :name => "res_id", :value => statement._id}
 					%input{csrf_input}
 				%div.button
-					%input.btn.btn-small.submit{:type => "submit" , :value => _post_res}
+					%button.btn.btn-small.submit{:type => "submit"}<#{_post_res}
 					- if picasa_client
 						.photo-items
 							%input.photo-shadow{:type => "file", :name => "photo", :accept => 'image/*', :tabindex => '-1'}

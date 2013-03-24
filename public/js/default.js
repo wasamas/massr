@@ -90,37 +90,34 @@ $(function(){
 	};
 
 	function postRes(form){
-		var body = $(form.body).attr("value");
-		var statement_id = $(form.res_id).attr("value");
-		var method = $(form).attr('method');
-		var formdata = new FormData(form);
-		$(form).find("input").attr("disabled", "disabled");
-		$(form).find("textarea").attr("disabled", "disabled");
-
-		if (body) {
-		message.info(_['sending']);
-		$.ajax('/statement', {
-			type: method,
-			processData: false,
-			contentType: false,
-			data: formdata,
-			dataType: 'text'}).
-		done(function(statement) {
-				$(form).find("input").removeAttr("disabled");
-				$(form).find("textarea").removeAttr("disabled");
-				var photoShadow = $(form).find(".photo-shadow");
-				photoShadow.replaceWith(photoShadow.val("").clone(true));
-				$(form).find(".photo-name").text("");
+		var $form = $(form);
+		if($(form.body).attr("value")){
+			var statement_id = $(form.res_id).attr("value");
+			var method = $(form).attr('method');
+			var formdata = new FormData(form);
+			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/loading.gif">');
+			$form.find("textarea").slideUp();
 	
+			$.ajax('/statement', {
+				type: method,
+				processData: false,
+				contentType: false,
+				data: formdata,
+				dataType: 'text'
+			}).done(function(statement){
+				$form.find("button").removeAttr("disabled").empty().append(_['post_res']);
+				$form.find("textarea").show();
+				var photoShadow = $form.find(".photo-shadow");
+				photoShadow.replaceWith(photoShadow.val("").clone(true));
+				$form.find(".photo-name").text("");
+
 				reloadDiff();
 				$(form.body).attr("value", "");
-				$(form).parent().parent().find(".res").trigger("click");
-				message.success(_['send_success']);
+				$form.parent().parent().find(".res").trigger("click");
 				// TODO 写真の初期化
 				// TODO レス数表示の更新
 				// TODO 投稿結果を見せたい
-			}).
-		fail(function(XMLHttpRequest, textStatus, errorThrown) {
+			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
 				// TODO エラーメッセージ
 				message.error('(' + textStatus + ')');
 				$(form).find("input").removeAttr("disabled");
@@ -243,10 +240,10 @@ $(function(){
 						)
 					).append(
 						$('<div>').addClass('button').append(
-							$('<input>').
-								addClass('btn').addClass('btn-small').addClass('submit').
+							$('<button>').
+								addClass('btn btn-small submit').
 								attr('type', 'submit').
-								attr('value', _['post_res'])
+								text(_['post_res'])
 						).append(
 							$('<div>').addClass('photo-items').append(
 								$('<input>').
