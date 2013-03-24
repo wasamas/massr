@@ -136,7 +136,7 @@ $(function(){
 			return false;
 		}
 
-		var n = window.webkitNotifications.createNotification(get_icon_url(statement.user), _['site_title'], statement.body);
+		var n = window.webkitNotifications.createNotification(get_icon_url(statement.user), _['site_name'], statement.body);
 		n.show();
 		if(timeout > 0){
 			setTimeout(function(){n.close()}, timeout);
