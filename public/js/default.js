@@ -118,10 +118,10 @@ $(function(){
 				// TODO レス数表示の更新
 				// TODO 投稿結果を見せたい
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
+				$form.find("button").removeAttr("disabled").empty().append(_['post_res']);
+				$form.find("textarea").slideDown();
 				// TODO エラーメッセージ
 				message.error('(' + textStatus + ')');
-				$(form).find("input").removeAttr("disabled");
-				$(form).find("textarea").removeAttr("disabled");
 			});
 		}
 		return false;
