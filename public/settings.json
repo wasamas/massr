@@ -50,8 +50,6 @@
 		"deny_cancel_admin": "管理者の認可は取り消せません",
 		"deny_nominate_admin": "未認可メンバは管理者指名できません",
 		"success_change_status": "のステータスを変更しました",
-		"fail_change_status": "ステータス変更に失敗しました",
-		"sending": "投稿中...",
-		"send_success": "投稿しました"
+		"fail_change_status": "ステータス変更に失敗しました"
 	}
 }
