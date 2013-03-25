@@ -113,7 +113,6 @@ $(function(){
 				reloadDiff();
 				$(form.body).attr("value", "");
 				$form.parent().parent().find(".res").trigger("click");
-				// TODO 写真の初期化
 				// TODO レス数表示の更新
 				// TODO 投稿結果を見せたい
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
