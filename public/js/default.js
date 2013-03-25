@@ -106,7 +106,6 @@ $(function(){
 				dataType: 'text'
 			}).done(function(statement){
 				$form.find("button").removeAttr("disabled").empty().append(_['post_res']);
-				$form.find("textarea").show();
 				var photoShadow = $form.find(".photo-shadow");
 				photoShadow.replaceWith(photoShadow.val("").clone(true));
 				$form.find(".photo-name").text("");
@@ -484,6 +483,7 @@ $(function(){
 	$(document).on('click', '.statement-action a.res', function(){
 		var statement = getID($(this).parent().parent().parent().attr('id'));
 		$("#res-" + statement).slideToggle(function(){
+			$('textarea', this).show();
 			if($(this).is(':visible')){
 				$('textarea', this).focus();
 			}
