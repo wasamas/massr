@@ -10,7 +10,6 @@
  * name space and defaults
  */
 $Massr = new Object();
-$Massr.settings = '/settings.json';
 
 /*
  * massr main
@@ -18,9 +17,17 @@ $Massr.settings = '/settings.json';
 $(function(){
 	var me = $('#me').text();
 	var settings = {}, _ = {};
-	$.getJSON($Massr.settings, function(json){
+	$.getJSON('/default.json', function(json){
 		settings = json;
 		_ = settings['local'];
+		if($Massr.settings){
+			$.getJSON($Massr.settings, function(json){
+				$.each(settings, function(k, v){
+					settings[k] = $.extend({}, settings[k], json[k])
+				});
+				_ = settings['local'];
+			});
+		}
 	});
 
 	/*

@@ -12,27 +12,34 @@ require 'open-uri'
 
 module Massr
 	class App < Sinatra::Base
-		massr_settings_url = '/settings.json'
-
+		custom_settings_uri = nil
+		custom_settings = {}
 		env = ENV['MASSR_SETTINGS']
+
 		if env # online
 			if %r|\Ahttps?://| =~ env
 				# saving copy to cache
-				massr_settings_url = '/settings_cache.json'
-				open("public#{massr_settings_url}", 'w'){|o|o.write(open(env, &:read))}
+				custom_settings_uri = '/custom_cache.json'
+				open("public#{custom_settings_uri}", 'w'){|o|o.write(open(env, &:read))}
 			else # local
 				if %r|\.\.| =~ env
 					puts "MASSR_SETTINGS cannot contains '..'."
 					exit
 				end
-				massr_settings_url = env
-				massr_settings_url = '/' + massr_settings_url if %r|\A/| !~ massr_settings_url
+				custom_settings_uri = env
+				custom_settings_uri = '/' + custom_settings_uri if %r|\A/| !~ custom_settings_uri
 			end
 		end
-		SETTINGS = JSON.parse(open("public#{massr_settings_url}", &:read))
+		default_settings = JSON.parse(open("public/default.json", &:read))
+		puts "defailt: #{default_settings}"
+		custom_settings = JSON.parse(open("public#{custom_settings_uri}", &:read)) if custom_settings_uri
+		puts "custom: #{custom_settings}"
+		default_settings.keys.each{|key| default_settings[key].merge!(custom_settings[key])}
+		SETTINGS = default_settings
+		puts "SETTINGS: #{SETTINGS}"
 
 		define_method(:massr_settings) do
-			massr_settings_url
+			custom_settings_uri
 		end
 
 		PLUGINS = []
