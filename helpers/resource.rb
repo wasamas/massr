@@ -31,12 +31,9 @@ module Massr
 			end
 		end
 		default_settings = JSON.parse(open("public/default.json", &:read))
-		puts "defailt: #{default_settings}"
 		custom_settings = JSON.parse(open("public#{custom_settings_uri}", &:read)) if custom_settings_uri
-		puts "custom: #{custom_settings}"
 		default_settings.keys.each{|key| default_settings[key].merge!(custom_settings[key])}
 		SETTINGS = default_settings
-		puts "SETTINGS: #{SETTINGS}"
 
 		define_method(:massr_settings) do
 			custom_settings_uri
