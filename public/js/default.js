@@ -10,6 +10,7 @@
  * name space and defaults
  */
 $Massr = new Object();
+$Massr.intervalFunctions = [];
 
 /*
  * massr main
@@ -26,6 +27,9 @@ $(function(){
 					settings[k] = $.extend({}, settings[k], json[k])
 				});
 				_ = settings['local'];
+				$.each(settings['plugin'], function(name, opts){
+					plugin_setup(name, opts);
+				});
 			});
 		}
 	});
@@ -337,6 +341,10 @@ $(function(){
 					}
 					++retry_count_of_reload;
 				}
+			});
+
+			$.each($Massr.intervalFunctions, function(){
+				this();
 			});
 		}
 	};
@@ -687,5 +695,79 @@ $(function(){
 			window.localStorage.setItem('popupNotification', 'false');
 		}
 	});
+
+	/*
+	 * plugins
+	 */
+	function plugin_setup(name, opts){
+		var plugin = name.match(/^([^\/]+)\/([^ ]+) (.*)$/);
+		switch(plugin[1]){
+			case "notify":
+				switch(plugin[2]){
+					case "information":
+						break;
+					case "like":
+						plugin_notify_like(plugin[3], opts);
+						break;
+				}
+				break;
+		}
+	}
+
+	function plugin_notify_like(id, opts){
+		var del = opts['delete'] || 'owner';
+		var myIcon = $('#'+id+' img[alt='+me+']').length != 0;
+
+		if(myIcon){
+			$('#'+id+'-like').hide();
+		}else{
+			$('#'+id+'-unlike').hide();
+		}
+
+		$('#' + id + '-like').on('click', function(){
+			$.ajax({
+				url: '/plugin/notify/like/' + id,
+				type: 'POST',
+				dataType: 'json',
+			}).done(function(result){
+				plugin_notify_like_draw_icons($('#'+id), result);
+				$('#'+id+'-like').toggle();
+				$('#'+id+'-unlike').toggle();
+			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
+				message.error('(' + textStatus + ')');
+			});
+
+			return false;
+		});
+
+		$('#' + id + '-unlike').on('click', function(){
+			$.ajax({
+				url: '/plugin/notify/like/' + id + '/' + me,
+				type: 'DELETE',
+				dataType: 'json',
+			}).done(function(result){
+				plugin_notify_like_draw_icons($('#'+id), result);
+				$('#'+id+'-like').toggle();
+				$('#'+id+'-unlike').toggle();
+			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
+				message.error('(' + textStatus + ')');
+			});
+
+			return false;
+		});
+
+		$Massr.intervalFunctions.push(function(){
+			$.getJSON('/plugin/notify/like/' + id + '.json', function(json){
+				plugin_notify_like_draw_icons($('#'+id), json);
+			});
+		});
+	}
+
+	function plugin_notify_like_draw_icons(elem, icons){
+		elem.empty();
+		$.each(icons, function(name, val){
+			elem.append('<img class="massr-icon-mini" src="' + val[1] + '" alt="' + name + '">');
+		});
+	}
 });
 
