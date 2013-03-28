@@ -4,7 +4,7 @@ ruby '1.9.3'
 
 gem 'sinatra'
 gem 'thin'
-gem 'haml'
+gem 'haml', '< 4.0.0'
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'mongo_mapper'
