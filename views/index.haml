@@ -2,7 +2,7 @@
 %html
 	%head
 		%title
-			-if defined?(q)
+			-if defined?(q) && q
 				Search "#{q}" / #{_site_name}
 			- else
 				#{_site_name}

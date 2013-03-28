@@ -2,7 +2,7 @@
 	.span12
 		%header
 			%h1
-				- if defined?(q)
+				- if defined?(q) && q
 					Search "#{q}" /
 					%a{:href => "/"}<#{_site_name}
 				- else
