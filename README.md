@@ -134,7 +134,8 @@ $ mongo ${HOST}:${PORT}/${DBNAME} -u ${MONGO_USER} -p ${MONGO_PASS}
 > db.massr.users.update({},{$unset: {statement_ids:1}},false,true)
 ```
 
-### カスタマイズする方法
+## カスタマイズ
+### 設定ファイルでカスタマイズ
 
 public/default.json (JSONフォーマット)に、カスタマイズ可能な項目が書かれています。これをコピーして環境変数MASSR_SETTINGSにファイル名やURLを指定することでそのファイルを使うことも可能です。MASSR_SETTINGSに指定したファイルはpublicの下に置くか、サーバサイドから参照可能なURLである必要があります(URLの場合クライアントサイドではMassr側で作成したコピーを使います)。
 
@@ -150,6 +151,9 @@ $ heroku config:add MASSR_SETTINGS=http://exapmle.com/massr_custom.json
 
 なお、MASSR_SETTINGSはMassr起動時に読み込まれるので、で指定したファイルを書き換えてもMassrを再起動するまでその内容は反映されません。カスタマイズしたjsonファイルには、元のdefault.jsonとの差分のみ書いてあればOKです。
 
+### プラグインでカスタマイズ
+
+いくつかのプラグインが提供されています。詳しくは[Wiki](https://github.com/tdtds/massr/wiki/Plugins)を参照して下さい。
 
 ## ライセンス
 Massrの著作権は「The wasam@s production」が保有しており、GPLのもとで改変・再配布が可能です。ただし、同梱する下記のプロダクトはその限りではありません。
