@@ -2,4 +2,8 @@
 	.span12
 		%header
 			%h1
-				%a{:href => "/"}<#{_site_name}
+				- if defined?(q)
+					Search "#{q}" /
+					%a{:href => "/"}<#{_site_name}
+				- else
+					%a{:href => "/"}<#{_site_name}

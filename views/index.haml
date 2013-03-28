@@ -1,11 +1,15 @@
 !!!
 %html
 	%head
-		%title<#{_site_name}
+		%title
+			-if defined?(q)
+				Search "#{q}" / #{_site_name}
+			- else
+				#{_site_name}
 		!= haml :head
 	%body
 		.container-fluid
-			!= haml :header
+			!= haml :header, locals: {q: q}
 			.row-fluid
 				.span9
 					.main
