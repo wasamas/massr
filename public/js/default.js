@@ -782,7 +782,7 @@ $(function(){
 			$('#'+id+'-unlike').hide();
 			$.each(icons, function(name, val){
 				if(del == 'any'){
-					elem.append('<a href="#" class="' + id + '-delete"><img class="massr-icon-mini" src="' + val[1] + '" alt="' + name + '" title="delete ' + name + '"></a>');
+					elem.append('<a href="#" class="' + id + '-delete"><img class="massr-icon-mini" src="' + val[1] + '" alt="' + name + '" title="delete ' + name + '"></a>&nbsp;');
 				}else{
 					elem.append('<img class="massr-icon-mini" src="' + val[1] + '" alt="' + name + '" title=" + name + ">');
 				}

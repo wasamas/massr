@@ -69,7 +69,7 @@ module Massr
 				LIKES[@id].map{|user, (http, https)|
 					case @delete
 					when "any"
-						%Q|<a href="#" class="#{@id}-delete"><img class="massr-icon-mini" src="#{https}" alt="#{user}" title="delete #{user}"></a>|
+						%Q|<a href="#" class="#{@id}-delete"><img class="massr-icon-mini" src="#{https}" alt="#{user}" title="delete #{user}"></a>&nbsp;|
 					else # "owner"
 						%Q|<img class="massr-icon-mini" src="#{https}" alt="#{user}">|
 					end
