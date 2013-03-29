@@ -730,9 +730,7 @@ $(function(){
 				type: 'POST',
 				dataType: 'json',
 			}).done(function(result){
-				plugin_notify_like_draw_icons($('#'+id), result);
-				$('#'+id+'-like').toggle();
-				$('#'+id+'-unlike').toggle();
+				plugin_notify_like_draw_icons(id, result);
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
 				message.error('(' + textStatus + ')');
 			});
@@ -746,9 +744,23 @@ $(function(){
 				type: 'DELETE',
 				dataType: 'json',
 			}).done(function(result){
-				plugin_notify_like_draw_icons($('#'+id), result);
-				$('#'+id+'-like').toggle();
-				$('#'+id+'-unlike').toggle();
+				plugin_notify_like_draw_icons(id, result);
+			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
+				message.error('(' + textStatus + ')');
+			});
+
+			return false;
+		});
+
+		$('#' + id).on('click', 'a.' + id + '-delete', function(){
+			var name = $('img', this).attr('alt');
+
+			$.ajax({
+				url: '/plugin/notify/like/' + id + '/' + name,
+				type: 'DELETE',
+				dataType: 'json',
+			}).done(function(result){
+				plugin_notify_like_draw_icons(id, result);
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
 				message.error('(' + textStatus + ')');
 			});
@@ -758,16 +770,28 @@ $(function(){
 
 		$Massr.intervalFunctions.push(function(){
 			$.getJSON('/plugin/notify/like/' + id + '.json', function(json){
-				plugin_notify_like_draw_icons($('#'+id), json);
+				plugin_notify_like_draw_icons(id, json);
 			});
 		});
-	}
 
-	function plugin_notify_like_draw_icons(elem, icons){
-		elem.empty();
-		$.each(icons, function(name, val){
-			elem.append('<img class="massr-icon-mini" src="' + val[1] + '" alt="' + name + '">');
-		});
+		function plugin_notify_like_draw_icons(id, icons){
+			var elem = $('#' + id);
+	
+			elem.empty();
+			$('#'+id+'-like').show();
+			$('#'+id+'-unlike').hide();
+			$.each(icons, function(name, val){
+				if(del == 'any'){
+					elem.append('<a href="#" class="' + id + '-delete"><img class="massr-icon-mini" src="' + val[1] + '" alt="' + name + '" title="delete ' + name + '"></a>');
+				}else{
+					elem.append('<img class="massr-icon-mini" src="' + val[1] + '" alt="' + name + '" title=" + name + ">');
+				}
+				if(me == name){
+					$('#'+id+'-like').hide();
+					$('#'+id+'-unlike').show();
+				}
+			});
+		}
 	}
 });
 
