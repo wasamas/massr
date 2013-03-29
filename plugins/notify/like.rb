@@ -73,7 +73,7 @@ module Massr
 					else # "owner"
 						%Q|<img class="massr-icon-mini" src="#{https}" alt="#{user}">|
 					end
-				}.join("\n")
+				}.join
 			end
 		end
 	end
