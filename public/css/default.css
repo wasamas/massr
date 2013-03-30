@@ -93,14 +93,24 @@ ul.user-list li.user-list {
 	display: inline;
 }
 
+.search-box {
+	letter-spacing: -.40em;
+}
+
 #search-field {
-	width: 65%;
+	display: inline-block;
+	letter-spacing: normal;
+	width: 70%;
 	margin: 0px;
+	border-radius: 4px 0px 0px 4px;
 }
 
 #search-button {
+	display: inline-block;
+	letter-spacing: normal;
 	margin: 0px;
 	padding: 4px;
+	border-radius: 0px 4px 4px 0px;
 }
 
 footer {
