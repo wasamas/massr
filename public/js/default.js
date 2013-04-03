@@ -102,6 +102,11 @@ $(function(){
 
 	function postRes(form){
 		var $form = $(form);
+
+		if($('button', $form).attr('disabled') == 'disabled'){
+			return false;
+		}
+
 		if($(form.body).attr("value")){
 			var statement_id = $(form.res_id).attr("value");
 			var method = $(form).attr('method');
