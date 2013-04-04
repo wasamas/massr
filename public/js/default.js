@@ -111,7 +111,7 @@ $(function(){
 			var statement_id = $(form.res_id).attr("value");
 			var method = $(form).attr('method');
 			var formdata = new FormData(form);
-			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/loading.gif">');
+			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
 			$form.find("textarea").slideUp();
 	
 			$.ajax('/statement', {

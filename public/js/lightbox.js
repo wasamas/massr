@@ -35,7 +35,7 @@
 //
 
 // If you would like to use a custom loading image or close button reference them in the next two lines.
-var loadingImage = '/img/loading.gif';
+var loadingImage = '/img/masao_loading.gif';
 var closeButton = '/img/close.gif';
 
 

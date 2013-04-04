@@ -147,6 +147,11 @@ div.new-post textarea, div.response textarea {
 	float: right;
 }
 
+.submit img {
+	width: 32px;
+	height: 32px;
+}
+
 .photo-shadow {
 	display: none;
 	position: absolute;
