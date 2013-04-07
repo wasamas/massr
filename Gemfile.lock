@@ -1,12 +1,15 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    ZenTest (4.9.0)
     activemodel (3.2.13)
       activesupport (= 3.2.13)
       builder (~> 3.0.0)
     activesupport (3.2.13)
       i18n (= 0.6.1)
       multi_json (~> 1.0)
+    autotest (4.4.6)
+      ZenTest (>= 4.4.1)
     backports (3.1.1)
     bson (1.8.4)
     bson_ext (1.8.4)
@@ -106,6 +109,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  autotest
   bson_ext
   celluloid
   dalli
