@@ -35,6 +35,11 @@
 						%input.input-small{:id => "search-field", :type => "text", :name => "q", :placeholder => _search, :value => "#{q rescue ''}"}
 						%button.btn{:id => "search-button", :type => "submit"}
 							%i.icon-search
+			%h2<Pin
+			%ul.sidebar-menu.sidebar-list#search-pin
+				- Massr::SearchPin.all.each do |pin|
+					%li.search-pin
+						%a{href: "/search?q=#{pin.word}", title: pin.word}<#{pin.label}
 			%h2<#{_member}
 			%ul.user-list.sidebar-list
 				- Massr::User.each_authorized_user_without(current_user) do |member|
