@@ -71,6 +71,7 @@ ul.sidebar-list {
 ul.sidebar-list li {
 	list-style: none;
 	margin-bottom: 2px;
+	overflow: hidden;
 }
 
 ul.sidebar-list li.isolate {

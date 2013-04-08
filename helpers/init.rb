@@ -68,5 +68,12 @@ module Massr
 	end
 end
 
+class String
+	def truncate(len = 20)
+		matched = self.gsub( /\n/, ' ' ).scan( /^.{0,#{len - 3}}/u )[0]
+		($'.nil? || $'.empty?) ? matched : matched + '...'
+	end
+end
+
 require_relative 'resource'
 require_relative 'picasa'

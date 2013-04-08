@@ -709,7 +709,7 @@ $(function(){
 			url: '/search/pin',
 			type: method,
 			dataType: 'json',
-			data: {q: $('#query-string').text()}
+			data: {q: $('#query-string').attr('title')}
 		}).done(function(result){
 			$('a.share-search').toggleClass('hide');
 			success(result);

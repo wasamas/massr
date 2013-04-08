@@ -5,7 +5,7 @@
 				- if defined?(q) && q
 					- exist_pin = Massr::SearchPin.find_by_word(q)
 					Search "
-					%span#query-string<#{q}
+					%span#query-string{title: q}<#{q.truncate}
 					"
 					%a.share-search#share-search{href: '#', class: exist_pin ? 'hide' : ''}
 						%i.icon-share-alt.share-search{title: 'share search result'}
