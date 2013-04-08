@@ -725,7 +725,7 @@ $(function(){
 			var l = result[0]['label'];
 			$('#search-pin').append(
 				$('<li>').addClass('search-pin').append(
-					$('<a>').attr('href', '/search?q=' + q).attr('title', q).text(l)
+					$('<a>').attr('href', '/search?q=' + q.replace(/#/g, '%23')).attr('title', q).text(l)
 				)
 			);
 		},
