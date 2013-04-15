@@ -18,20 +18,27 @@ $Massr.intervalFunctions = [];
 $(function(){
 	var me = $('#me').text();
 	var settings = {}, _ = {};
-	$.getJSON('/default.json', function(json){
-		settings = json;
+
+	$.when(
+		$.getJSON('/default.json'), // default setting
+		(function(){ // custom setting
+			if($Massr.settings){
+				return $.getJSON($Massr.settings);
+			}else{
+				return [{plugin:{}, resouce:{}, setting:{}, local:{}}]
+			}
+		})()
+	).done(function(default_settings, custom_settings){
+		$.each(default_settings[0], function(k, v){
+			settings[k] = $.extend({}, default_settings[0][k], custom_settings[0][k])
+		});
 		_ = settings['local'];
-		if($Massr.settings){
-			$.getJSON($Massr.settings, function(json){
-				$.each(settings, function(k, v){
-					settings[k] = $.extend({}, settings[k], json[k])
-				});
-				_ = settings['local'];
-				$.each(settings['plugin'], function(name, opts){
-					plugin_setup(name, opts);
-				});
-			});
-		}
+
+		$.each(settings['plugin'], function(name, opts){
+			plugin_setup(name, opts);
+		});
+	}).fail(function(){
+		message.error('loading settings');
 	});
 
 	/*
