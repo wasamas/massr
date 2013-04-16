@@ -133,11 +133,12 @@ $(function(){
 				photoShadow.replaceWith(photoShadow.val("").clone(true));
 				$form.find(".photo-name").text("");
 
-				reloadDiff();
-				$(form.body).attr("value", "");
-				$form.parent().parent().find(".res").trigger("click");
-				// TODO レス数表示の更新
-				// TODO 投稿結果を見せたい
+				reloadDiff().always(function(){
+					$(form.body).attr("value", "");
+					$form.parent().parent().find(".res").trigger("click");
+					// TODO レス数表示の更新
+					// TODO 投稿結果を見せたい
+				});
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
 				$form.find("button").removeAttr("disabled").empty().append(_['post_res']);
 				$form.find("textarea").slideDown();
@@ -318,7 +319,7 @@ $(function(){
 	// reload diff of recent statements
 	function reloadDiff(){
 		if(location.pathname == '/' && location.search == ''){
-			$.ajax({
+			var promise = $.ajax({
 				url: '/index.json',
 				type: 'GET',
 				dataType: 'json',
@@ -358,6 +359,8 @@ $(function(){
 			$.each($Massr.intervalFunctions, function(){
 				this();
 			});
+
+			return promise;
 		}
 	};
 
