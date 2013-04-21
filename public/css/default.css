@@ -430,3 +430,7 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 .ui-pnotify-container {
 	text-align: left;
 }
+
+.new-res-count:empty {
+	display: none;
+}

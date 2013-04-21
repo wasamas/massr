@@ -12,9 +12,8 @@
 				%li
 					%a{:href => "/user/#{current_user.massr_id}/res", :title => _res}<
 						#new-res-size-side
-							#{_res} (
-							%span.new-res-count<#{current_user.res_ids.size}
-							)
+							#{_res}
+							%span.new-res-count.badge.badge-info<#{current_user.res_ids.size > 0 ? current_user.res_ids.size : ''}
 				%li
 					%a{:href => "/user/#{current_user.massr_id}/photos", :title => _user_photos(current_user.massr_id)}<#{_user_photos current_user.massr_id}
 				%li
