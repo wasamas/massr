@@ -1,15 +1,38 @@
 .row-fluid
 	.span12
 		%header
-			%h1
-				- if defined?(q) && q
-					- exist_pin = Massr::SearchPin.find_by_word(q)
-					Search "
-					%span#query-string{title: q}<#{q.truncate}
-					"
-					%a.share-search#share-search{href: '#', class: exist_pin ? 'hide' : ''}
-						%i.icon-share-alt.share-search{title: 'share search result'}
-					%a.share-search#unshare-search{href: '#', class: exist_pin ? '' : 'hide'}
-						%i.icon-remove.share-search{title: 'unshare search result'}
-					\/
-				%a{:href => "/"}<#{_site_name}
+			.navbar
+				.navbar-inner
+					.container
+						%button.btn.btn-navbar{ :type => 'button', 'data-toggle' => 'collapse', 'data-target' => '.nav-collapse' }
+							.icon-bar
+							.icon-bar
+							.icon-bar
+						%a.brand{:href => "/"}<#{_site_name}
+						.nav-collapse.collapse
+							%ul.nav
+								%li
+									%a{:href => "/user/#{current_user.massr_id}/res", :title => _res}<
+										#new-res-size-side
+											#{_res}
+											%span.new-res-count.badge.badge-info<#{current_user.res_ids.size > 0 ? current_user.res_ids.size : ''}
+								%li
+									%a{:href => "/user/#{current_user.massr_id}/photos", :title => _user_photos(current_user.massr_id)}<#{_user_photos current_user.name}
+								%li
+									%a{:href => "/statement/photos", :title => _all_photos}<#{_all_photos}
+								%li
+									%a{:href => "/user/#{current_user.massr_id}/liked", :title => _liked}<#{_liked}
+								%li
+									%a{:href => "/user/#{current_user.massr_id}/likes", :title => _likes}<#{_likes}
+								%li
+									%a{:href => "/user", :title => _settings}<#{_settings}
+								- if current_user.admin?
+									%li
+										%a{:href => "/admin", :title => _admin_menu}<#{_admin_menu}
+								%li
+									%form.search-box.form-inline{:method => "GET", :action => "/search"}
+										%input.input-small{:id => "search-field", :type => "text", :name => "q", :placeholder => _search, :value => "#{q rescue ''}"}
+										%button.btn{:id => "search-button", :type => "submit"}
+											%i.icon-search
+								%li
+									%a{:href => "/logout", :title => _logout}<#{_logout}
