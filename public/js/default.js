@@ -25,12 +25,12 @@ $(function(){
 			if($Massr.settings){
 				return $.getJSON($Massr.settings);
 			}else{
-				return [{plugin:{}, resouce:{}, setting:{}, local:{}}]
+				return [{plugin:{}, resouce:{}, setting:{}, local:{}}];
 			}
 		})()
 	).done(function(default_settings, custom_settings){
 		$.each(default_settings[0], function(k, v){
-			settings[k] = $.extend({}, default_settings[0][k], custom_settings[0][k])
+			settings[k] = $.extend({}, default_settings[0][k], custom_settings[0][k]);
 		});
 		_ = settings['local'];
 
@@ -69,7 +69,7 @@ $(function(){
 	// get ID from style "aaa-999999999"
 	function getID(label){
 		return label.split('-', 2)[1];
-	};
+	}
 
 	var message = new Object();
 
@@ -97,15 +97,15 @@ $(function(){
 
 	function isHttps(){
 		return location.href.match(/^https/);
-	};
+	}
 
 	function get_icon_url(user){
 		if (isHttps()) {
-			return user.twitter_icon_url_https
+			return user.twitter_icon_url_https;
 		} else {
-			return user.twitter_icon_url
+			return user.twitter_icon_url;
 		}
-	};
+	}
 
 	function postRes(form){
 		var $form = $(form);
@@ -120,7 +120,7 @@ $(function(){
 			var formdata = new FormData(form);
 			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
 			$form.find("textarea").slideUp();
-	
+
 			$.ajax('/statement', {
 				type: method,
 				processData: false,
@@ -161,14 +161,14 @@ $(function(){
 		var n = window.webkitNotifications.createNotification(get_icon_url(statement.user), _['site_name'], statement.body);
 		n.show();
 		if(timeout > 0){
-			setTimeout(function(){n.close()}, timeout);
+			setTimeout(function(){n.close();}, timeout);
 		}
-	};
+	}
 
 	// replace CR/LF to single space
 	function shrinkText(text){
 		return text.replace(/[\r\n]+/g, ' ');
-	};
+	}
 
 	// template of a statement
 	function buildStatement(s){ // s is json object of a statement
@@ -183,7 +183,7 @@ $(function(){
 				if(s.user.massr_id == me){
 					$(this).addClass('statement-body-me');
 				}
-				if(s.res != null){
+				if(s.res !== null){
 					$(this).append(
 						$('<div>').addClass('statement-res-icon').append(
 							$('<a>').attr('href', '/user/'+s.res.user.massr_id).append(
@@ -197,7 +197,7 @@ $(function(){
 						$('<div>').addClass('statement-res').append(
 							$('<a>').attr('href', '/statement/'+s.res.id).
 								text('< '+shrinkText(s.res.body)))
-					)
+					);
 				}
 			}).append(
 				$('<div>').addClass('statement-message').text(shrinkText(s.body)).autoLink()
@@ -223,7 +223,7 @@ $(function(){
 						$(this).append(
 							$('<a>').addClass('trash').attr('href', '#').
 								append($('<i>').addClass('icon-trash').attr('title', _['delete']))
-						)
+						);
 					}
 				}).append(
 					$('<a>').addClass('res').attr('href', '#').append(
@@ -289,7 +289,7 @@ $(function(){
 				)
 			)
 		);
-	};
+	}
 
 	// template of a photo
 	function buildPhoto(s){ // s is json object of a photo
@@ -310,7 +310,7 @@ $(function(){
 					append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at))
 			)
 		);
-	};
+	}
 
 	function getNewestTime(){
 		return $($('#statements .statement .statement-info a').get(1)).text().replace(/^\s*(.*?)\s*$/, "$1");
@@ -318,7 +318,7 @@ $(function(){
 
 	// reload diff of recent statements
 	function reloadDiff(){
-		if(location.pathname == '/' && location.search == ''){
+		if(location.pathname === '/' && location.search === ''){
 			var promise = $.ajax({
 				url: '/index.json',
 				type: 'GET',
@@ -326,7 +326,7 @@ $(function(){
 				cache: false
 			}).done(function(json){
 				retry_count_of_reload = 0;
-				var newest = getNewestTime()
+				var newest = getNewestTime();
 				$('#statements').each(function(){
 					var $div = $(this);
 					$.each(json.reverse(), function(){
@@ -346,7 +346,7 @@ $(function(){
 					newResCheck();
 				}
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
-				if($('textarea:focus').length == 0){
+				if($('textarea:focus').length === 0){
 					if(retry_count_of_reload > 30){ // over 15min
 						location.reload();
 					}else if(retry_count_of_reload > 10){ // over 5min
@@ -362,16 +362,16 @@ $(function(){
 
 			return promise;
 		}
-	};
+	}
 
 	function updateResCount(count){
 		$('.new-res-count').text(count);
-		if(count == 0){
+		if(count === 0){
 			$('#new-res-size-main').hide();
 		}else{
 			$('#new-res-size-main').show();
 		}
-	};
+	}
 
 	function newResCheck(){
 		$.ajax({
@@ -382,11 +382,11 @@ $(function(){
 		).done(function(json) {
 			updateResCount(json.size);
 		}).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-			if($('textarea:focus').length == 0){
+			if($('textarea:focus').length === 0){
 				location.reload();
 			}
 		});
-	};
+	}
 
 	// automatic link plugin
 	$.fn.autoLink = function(config){
@@ -415,9 +415,9 @@ $(function(){
 	 */
 	$(document).on('keydown', 'textarea', function(e){
 		if(e.keyCode == 13 && e.ctrlKey){
-		  e.preventDefault();
-		  $(this).parent().parent().submit();
-		  return;
+			e.preventDefault();
+			$(this).parent().parent().submit();
+			return;
 		}
 	});
 
@@ -425,7 +425,7 @@ $(function(){
 	 * empty post changes to reload
 	 */
 	$('#form-new').on('submit', function(e){
-		if($('textarea', this).val().length == 0){
+		if($('textarea', this).val().length === 0){
 			location.reload();
 			return false;
 		}else{
@@ -456,7 +456,7 @@ $(function(){
 		$('#st-' + statement_id + ' a.like-button').
 			toggleClass('like').
 			toggleClass('unlike');
-	};
+	}
 
 	function refreshLike(statement){
 		var likeClasses = ['unlike', 'like'];
@@ -486,7 +486,7 @@ $(function(){
 			});
 		}
 		$('#like-' + statement.id).removeClass(likeClasses[0]).addClass(likeClasses[1]);
-	};
+	}
 
 	$(document).on('click', '.statement-action a.like-button', function(){
 		var statement_id = getID($(this).attr('id'));
@@ -579,16 +579,16 @@ $(function(){
 			$($('#items .item .item-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, ''):
 			$($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
 
-		if (oldest == null|| oldest == ''){
-			 $('#subjoinpage-loading').hide();
-			 $('#subjoinpage').show();
+		if (oldest === null|| oldest === ''){
+			$('#subjoinpage-loading').hide();
+			$('#subjoinpage').show();
 		}else{
 
-			var link=$(this).attr('path') + "?date=" + oldest
-			var $button = $(this)
+			var link=$(this).attr('path') + "?date=" + oldest;
+			var $button = $(this);
 
-			if ($(this).attr('query')!=""){
-				link = link + "&q=" + encodeURIComponent($(this).attr('query'))
+			if ($(this).attr('query')!==""){
+				link = link + "&q=" + encodeURIComponent($(this).attr('query'));
 			}
 			$.ajax({
 				url: link,
@@ -596,16 +596,16 @@ $(function(){
 				dataType: 'json',
 				cache: false}).
 			done(function(json) {
-					var idname = (/.*photos$/.test(location.pathname))? '#items':'#statements'
+					var idname = (/.*photos$/.test(location.pathname))? '#items':'#statements';
 					$(idname).each(function(){
 						var $div = $(this);
 						$.each(json, function(){
 							var $statement = (/.*photos$/.test(location.pathname))? buildPhoto(this).hide():buildStatement(this).hide();
 							if (/.*photos$/.test(location.pathname)){
-								$div.append( $statement )
+								$div.append( $statement );
 								$div.imagesLoaded(function(){
-									 $container.masonry( 'appended', $statement );
-									 $container.masonry( 'reload' );
+									$container.masonry( 'appended', $statement );
+									$container.masonry( 'reload' );
 								});
 							}
 							else {
@@ -619,7 +619,7 @@ $(function(){
 					$('#subjoinpage').show();
 				}).
 			fail(function(XMLHttpRequest, textStatus, errorThrown) {
-					if($('textarea:focus').length == 0){
+					if($('textarea:focus').length === 0){
 						location.reload();
 					}
 				});
@@ -635,11 +635,11 @@ $(function(){
 
 	function toggleStatus(massr_id, stat, on, off){
 		if($('#' + massr_id).hasClass('admin') && on == 'unauthorized'){
-			message.info(_['deny_cancel_admin'])
+			message.info(_['deny_cancel_admin']);
 			return false;
 		}
 		if($('#' + massr_id).hasClass('unauthorized') && on == 'admin'){
-			message.info(_['deny_nominate_admin'])
+			message.info(_['deny_nominate_admin']);
 			return false;
 		}
 		$.ajax({
@@ -654,7 +654,7 @@ $(function(){
 				message.error('(' + textStatus + ')');
 			});
 		return true;
-	};
+	}
 
 	$('ul.admin li').
 		on('click', 'a.admin', function(){ // Admin権限剥奪
@@ -687,7 +687,7 @@ $(function(){
 	 */
 	if(window.webkitNotifications && window.localStorage){
 		if(window.localStorage.getItem('popupNotification') == 'true'){
-			if(window.webkitNotifications.checkPermission() == 0){
+			if(window.webkitNotifications.checkPermission() === 0){
 				$('#popup-notification').attr('checked', 'checked');
 			}else{
 				window.webkitNotifications.requestPermission();
@@ -699,7 +699,7 @@ $(function(){
 
 	$('#popup-notification').on('click', function(){
 		if($(this).attr('checked') == 'checked'){
-			if(window.webkitNotifications.checkPermission() == 0){
+			if(window.webkitNotifications.checkPermission() === 0){
 				window.localStorage.setItem('popupNotification', 'true');
 			}else{
 				window.webkitNotifications.requestPermission(function(){
@@ -786,7 +786,7 @@ $(function(){
 
 	function plugin_notify_like(id, opts){
 		var del = opts['delete'] || 'owner';
-		var myIcon = $('#'+id+' img[alt='+me+']').length != 0;
+		var myIcon = $('#'+id+' img[alt='+me+']').length !== 0;
 
 		if(myIcon){
 			$('#'+id+'-like').hide();
@@ -798,7 +798,7 @@ $(function(){
 			$.ajax({
 				url: '/plugin/notify/like/' + id,
 				type: 'POST',
-				dataType: 'json',
+				dataType: 'json'
 			}).done(function(result){
 				plugin_notify_like_draw_icons(id, result);
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
@@ -828,7 +828,7 @@ $(function(){
 			$.ajax({
 				url: '/plugin/notify/like/' + id + '/' + name,
 				type: 'DELETE',
-				dataType: 'json',
+				dataType: 'json'
 			}).done(function(result){
 				plugin_notify_like_draw_icons(id, result);
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
@@ -846,7 +846,7 @@ $(function(){
 
 		function plugin_notify_like_draw_icons(id, icons){
 			var elem = $('#' + id);
-	
+
 			elem.empty();
 			$('#'+id+'-like').show();
 			$('#'+id+'-unlike').hide();
