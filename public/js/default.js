@@ -399,7 +399,7 @@ $(function(){
 							return '<a href="/search?q='+encodeURIComponent(u)+'">'+u+'</a>';
 						} else {
 							var url = $.url(u);
-							return '[<a href="'+u+'" target="_brank">'+url.attr('host')+'</a>]';
+							return '[<a href="'+u+'" target="_blank">'+url.attr('host')+'</a>]';
 						}
 					}catch(e){
 						return u;
