@@ -365,12 +365,7 @@ $(function(){
 	}
 
 	function updateResCount(count){
-		$('.new-res-count').text(count);
-		if(count === 0){
-			$('#new-res-size-main').hide();
-		}else{
-			$('#new-res-size-main').show();
-		}
+		$('.new-res-count').text(count === 0 ? '' : count);
 	}
 
 	function newResCheck(){

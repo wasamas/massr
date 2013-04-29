@@ -434,3 +434,8 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 .new-res-count:empty {
 	display: none;
 }
+
+.btn-navbar>.badge {
+	float: left;
+	margin-left: 30%;
+}
