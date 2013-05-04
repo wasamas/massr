@@ -37,6 +37,13 @@
 												%a{:href => "/user/#{current_user.massr_id}/liked", :title => _liked}<#{_liked}
 											%li
 												%a{:href => "/user/#{current_user.massr_id}/likes", :title => _likes}<#{_likes}
+								%ul.nav.pull-right
+									%li
+										%form.navbar-search.pull-left{:method => "GET", :action => "/search"}
+											.input-append
+												%input.search-query{:id => "search-field", :type => "text", :name => "q", :placeholder => _search, :value => "#{q rescue ''}"}
+												%button.btn{:id => "search-button", :type => "submit"}
+													%i.icon-search
 									%li.dropdown
 										%a.dropdown-toggle{"data-toggle" => "dropdown"}
 											#{_settings}
@@ -57,7 +64,3 @@
 											%li.divider
 											%li
 												%a{:href => "/logout", :title => _logout}<#{_logout}
-								%form.navbar-search.pull-left{:method => "GET", :action => "/search"}
-									%input.search-query{:id => "search-field", :type => "text", :name => "q", :placeholder => _search, :value => "#{q rescue ''}"}
-									%button.btn{:id => "search-button", :type => "submit"}
-										%i.icon-search

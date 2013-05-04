@@ -439,3 +439,37 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 	float: left;
 	margin-left: 30%;
 }
+
+@media(max-width: 767px) {
+	.dropdown-toggle>b {
+		display: none;
+	}
+	.dropdown-toggle {
+		display: none !important;
+	}
+	.navbar-search {
+		width: auto;
+	}
+	.search-query {
+		width: auto;
+	}
+}
+
+@media(min-width: 767px) {
+	.navbar-search {
+		width: auto;
+	}
+	.search-query {
+		width: auto;
+	}
+}
+
+@media(min-width: 980px) {
+	.navbar-search {
+		width: auto;
+	}
+	.search-query {
+		width: auto;
+	}
+}
+
