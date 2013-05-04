@@ -8,8 +8,8 @@
 				#{_site_name}
 		!= haml :head
 	%body
+		!= haml :header, locals: {q: q}
 		.container-fluid
-			!= haml :header, locals: {q: q}
 			.row-fluid
 				.span9
 					.main
