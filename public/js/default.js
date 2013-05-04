@@ -366,6 +366,11 @@ $(function(){
 
 	function updateResCount(count){
 		$('.new-res-count').text(count === 0 ? '' : count);
+		if(count === 0){
+			$('#new-res-size-main').hide();
+		}else{
+			$('#new-res-size-main').show();
+		}
 	}
 
 	function newResCheck(){
