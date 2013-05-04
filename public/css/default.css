@@ -441,6 +441,9 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 }
 
 @media(max-width: 767px) {
+	.nav {
+		text-align: left;
+	}
 	.dropdown-toggle>b {
 		display: none;
 	}
@@ -456,6 +459,9 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 }
 
 @media(min-width: 767px) {
+	.nav {
+		text-align: left;
+	}
 	.navbar-search {
 		width: auto;
 	}
@@ -465,6 +471,9 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 }
 
 @media(min-width: 980px) {
+	.nav {
+		text-align: left;
+	}
 	.navbar-search {
 		width: auto;
 	}
