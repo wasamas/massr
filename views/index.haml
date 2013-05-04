@@ -10,6 +10,12 @@
 	%body
 		!= haml :header, locals: {q: q}
 		.container-fluid
+			-if defined?(q) && q
+				.row-fluid
+					.span9
+						Search "
+						%span#query-string<#{q}
+						"
 			.row-fluid
 				.span9
 					.main
