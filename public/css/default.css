@@ -5,8 +5,8 @@
  */
 
 * {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 
 body {
@@ -16,7 +16,7 @@ body {
 }
 
 h1 {
-	margin: 0px;
+	margin: 0;
 	font-size: x-large;
 	height: 1em;
 	line-height: 1em;
@@ -29,7 +29,7 @@ h1 a:hover {
 div.container-fluid {
 	max-width: 700px;
 	text-align: left;
-	margin: 0px auto;
+	margin: 0 auto;
 }
 
 div.main {
@@ -64,7 +64,7 @@ div.sidebar-nav h2 {
 }
 
 ul.sidebar-list {
-	margin: 0px;
+	margin: 0;
 	margin-left: 8px;
 }
 
@@ -77,7 +77,7 @@ ul.sidebar-list li {
 ul.sidebar-list li.isolate {
 	border-style: solid;
 	border-color: #ddd;
-	border-width: 1px 0px;
+	border-width: 1px 0;
 	margin-top: 8px;
 	margin-bottom: 8px;
 	padding-top: 8px;
@@ -85,7 +85,7 @@ ul.sidebar-list li.isolate {
 }
 
 ul.user-list {
-	margin: 0px auto;
+	margin: 0 auto;
 	line-height: 180%;
 }
 
@@ -106,16 +106,16 @@ ul.user-list li.user-list {
 	display: inline-block;
 	letter-spacing: normal;
 	width: 70%;
-	margin: 0px;
-	border-radius: 4px 0px 0px 4px;
+	margin: 0;
+	border-radius: 4px 0 0 4px;
 }
 
 #search-button {
 	display: inline-block;
 	letter-spacing: normal;
-	margin: 0px;
+	margin: 0;
 	padding: 4px;
-	border-radius: 0px 4px 4px 0px;
+	border-radius: 0 4px 4px 0;
 }
 
 footer {
@@ -129,7 +129,7 @@ footer {
 
 footer div {
 	position: absolute;
-	bottom: 0px;
+	bottom: 0;
 	width: 100%;
 	text-align: right;
 }
@@ -173,7 +173,7 @@ div.new-post textarea, div.response textarea {
 }
 
 .photo-button {
-	margin: 0px 4px;
+	margin: 0 4px;
 }
 
 img.massr-icon {
@@ -188,14 +188,14 @@ img.massr-icon-mini {
 
 div.statement {
 	border-style: solid;
-	border-width: 1px 0px 0px 3px;
+	border-width: 1px 0 0 3px;
 	border-color: #eee transparent;
-	margin: 4px 0px;
-	padding: 4px 2px 0px 2px;
+	margin: 4px 0;
+	padding: 4px 2px 0 2px;
 }
 
 div.statement-new {
-	border-width: 1px 0px 0px 3px;
+	border-width: 1px 0 0 3px;
 	border-color: #eee #06f;
 }
 
@@ -227,12 +227,12 @@ div.statement-icon {
 
 div.statement-body {
 	border-style: solid;
-	border-width: 0px 0px 0px 1px;
+	border-width: 0 0 0 1px;
 	border-color: #eee;
 	margin-left: 4px;
 	margin-right: auto;
 	overflow: auto;
-	padding: 0px;
+	padding: 0;
 }
 
 div.statement-body-me {
@@ -241,7 +241,7 @@ div.statement-body-me {
 
 div.statement-res-icon {
 	float: left;
-	margin-right: 0px;
+	margin-right: 0;
 	height: 1.2em;
 }
 
@@ -300,7 +300,7 @@ img.statement-photo {
 
 div.statement-info {
 	border-style: solid;
-	border-width: 1px 1px 1px 0px;
+	border-width: 1px 1px 1px 0;
 	border-color: #eee;
 	font-size: 70%;
 	height: 1.1em;
@@ -318,7 +318,7 @@ div.statement-action {
 	text-align: right;
 	float: right;
 	border-style: solid;
-	border-width: 0px 0px 0px 1px;
+	border-width: 0 0 0 1px;
 	border-color: #ccc;
 }
 
@@ -338,11 +338,11 @@ div.statement-action a.like img.like{ display: inline; }
 
 div.statement-like {
 	border-style: solid;
-	border-width: 1px 1px 1px 0px;
+	border-width: 1px 1px 1px 0;
 	border-color: #eee;
 	background-color: #f8f8f8;
 	font-size: 83%;
-	padding: 2px 0px 2px 2px;
+	padding: 2px 0 2px 2px;
 	margin-top: 2px;
 	line-height: 200%;
 }
@@ -366,7 +366,7 @@ div.response input.btn {
 	display: block;
 	text-align: right;
 	margin-left: auto;
-	margin-right: 0px;
+	margin-right: 0;
 }
 
 div.pagenation {
