@@ -467,6 +467,10 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 	.nav-vertical-margin {
 		margin: 20px;
 	}
+	.dropdown-menu {
+		margin-left: 0 !important;
+		padding-left: 0 !important;
+	}
 }
 
 @media(min-width: 767px) {
