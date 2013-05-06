@@ -12,7 +12,7 @@
 body {
 	background-color: #fff;
 	text-align: center;
-	padding: 4px;
+	padding: 0 4px 0 0;
 }
 
 h1 {
@@ -438,6 +438,14 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 .btn-navbar>.badge {
 	float: left;
 	margin-left: 30%;
+}
+
+.navbar {
+	padding-bottom: 4px;
+}
+
+.navbar-static-top {
+	margin: 0;
 }
 
 @media(max-width: 767px) {
