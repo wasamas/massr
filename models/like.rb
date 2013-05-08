@@ -5,7 +5,7 @@ module Massr
 	class Like
 		include MongoMapper::EmbeddedDocument
 
-		key :is_read,  :type => Boolean,  :required => true 
+		key :is_read,  :type => Boolean,  :required => true
 		timestamps!
 
 		embedded_in :statement
@@ -17,5 +17,5 @@ module Massr
 				'user' => user.to_hash,
 			}
 		end
-	end 
+	end
 end

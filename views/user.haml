@@ -1,6 +1,6 @@
 !!!
 %html
-	%head  
+	%head
 		%title Massr - Mini Wassr - User Registration.
 		!= haml :head
 	%body
@@ -45,8 +45,10 @@
 								.controls
 									- if user
 										%button.btn.btn-large{:type => "submit"}<#{_save}
+										%button.btn.btn-large{:type => "button", :id => "user_delete"}<#{_delete}
 									- else
 										%button.btn.btn-primary.btn-large{:type => "submit"}<#{_registration}
+										%button.btn.btn-large{:type => "button", :id => "user_cancel"}<#{_cancel}
 						%hr
 						%h2<#{_local_setting}
 						%form.form-horizontal

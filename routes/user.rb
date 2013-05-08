@@ -18,6 +18,14 @@ module Massr
 			haml :user , :locals => {:update => params[:update]}
 		end
 
+		delete '/user' do
+			user = User.find_by_id(session[:user_id])
+			Statement.delete_all_statements(user)
+			user.methods
+			user.destroy
+			redirect '/logout'
+		end
+
 		before "/user/:massr_id*" do
 			@user = User.find_by_massr_id(params[:massr_id].sub(/\.json$/,""))
 		end
@@ -35,6 +43,14 @@ module Massr
 				:res_ids    => nil,
 				:statements => Statement.get_statements(param_date, {:user_id => @user.id}),
 				:q => nil}
+		end
+
+		delete '/user/:massr_id' do
+			user =  User.find_by_id(session[:user_id])
+			redirect '/' unless user.admin?
+			Statement.delete_all_statements(@user)
+			@user.destroy
+			redirect '/'
 		end
 
 		before '/user/:massr_id/photos*' do
@@ -59,8 +75,8 @@ module Massr
 		before '/user/:massr_id/res*' do
 			user = User.find_by_massr_id(params[:massr_id])
 			statements = Statement.where(
-				:user_id => user.id , 
-				:ref_ids => {:$ne => []}, 
+				:user_id => user.id ,
+				:ref_ids => {:$ne => []},
 				:created_at => {:$lt => Time.parse(param_date)}).
 				sort(:created_at.desc)
 			statements.limit($limit)
@@ -88,7 +104,7 @@ module Massr
 				:res_ids    => res_ids,
 				:statements => Statement.get_statements(param_date, @query),
 				:q => nil}
-			
+
 		end
 
 		before '/user/:massr_id/liked*' do

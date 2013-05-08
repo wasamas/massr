@@ -10,6 +10,7 @@
 		"like": "わかるわ",
 		"unlike": "わからないわ",
 		"delete": "削除",
+		"cancel": "取消",
 		"res": "レス",
 		"post": "投稿にょわー",
 		"post_res": "レスるわ",
@@ -21,6 +22,7 @@
 		"privilege_user": "管理者にする",
 		"unauthorize_user": "認可を取り消す",
 		"authorize_user": "認可する",
+		"delete_user": "削除する",
 		"unauth_count": "未認証ユーザが%1人います",
 		"response_count": "新着レスが%1個あります",
 		"res_from": "%1さんからレスがありました",
@@ -47,9 +49,12 @@
 		"fail_like": "わかるわに失敗しました",
 		"deny_delete": "削除は発言者本人にしかできません",
 		"confirm_delete": "本当に削除してよろしいいですか?",
+		"confirm_cancel": "登録せずに終了してよろしいいですか?",
 		"deny_cancel_admin": "管理者の認可は取り消せません",
+		"deny_delete_admin": "管理者の削除はできません",
 		"deny_nominate_admin": "未認可メンバは管理者指名できません",
 		"success_change_status": "のステータスを変更しました",
+		"success_delete_user": "を削除しました",
 		"fail_change_status": "ステータス変更に失敗しました"
 	}
 }
