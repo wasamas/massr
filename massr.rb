@@ -23,7 +23,6 @@ require_relative 'plugins/picasa'
 require_relative 'plugins/logging'
 
 require_relative 'plugins/async_request'
-require_relative 'plugins/async_likes_delete'
 
 module Massr
 	# definition of module of plugins

@@ -39,7 +39,11 @@ module Massr
 			options={}
 			options[:"likes.user_id"] = user._id
 			statements = self.all(options)
-			Massr::Plugin::AsyncLikesDelete.new(statements, user._id).future.delete
+
+			statements.each do |statement|
+				statement.delete_if{ |like| like.user_id == @user_id}
+				statement.save!
+			end
 		end
 
 		def update_statement(request)

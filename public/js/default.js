@@ -546,32 +546,6 @@ $(function(){
 	});
 
 	/*
-	 * delete user
-	 */
-	$('#user_delete').on('click', function(){
-		if(window.confirm(_['confirm_delete'])){
-			$(this).empty().attr("disabled", "disabled").append('<img src="/img/masao_loading.gif">');
-			$.ajax({
-				url: '/user',
-				type: 'DELETE'}).
-			done(function(result) {
-					location.href = "/logout";
-				});
-		}
-	});
-
-	/*
-	 * cancel user registration
-	 */
-	$('#user_cancel').on('click', function(){
-		if(window.confirm(_['confirm_cancel'])){
-			$(this).empty().attr("disabled", "disabled").append('<img src="/img/masao_loading.gif">');
-			location.href = "/";
-		}
-	});
-
-
-	/*
 	 * show response-count when over zero, and wrap span.new-res-count
 	 */
 	$('#new-res-notice-text').each(function(){

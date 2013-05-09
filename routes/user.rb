@@ -18,14 +18,6 @@ module Massr
 			haml :user , :locals => {:update => params[:update]}
 		end
 
-		delete '/user' do
-			user = User.find_by_id(session[:user_id])
-			Statement.delete_all_statements(user)
-			user.methods
-			user.destroy
-			redirect '/logout'
-		end
-
 		before "/user/:massr_id*" do
 			@user = User.find_by_massr_id(params[:massr_id].sub(/\.json$/,""))
 		end
