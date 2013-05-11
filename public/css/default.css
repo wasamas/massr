@@ -452,12 +452,6 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 	.nav {
 		text-align: left;
 	}
-	.dropdown-toggle>b {
-		display: none;
-	}
-	.dropdown-toggle {
-		display: none !important;
-	}
 	.navbar-search {
 		width: auto;
 	}
@@ -466,10 +460,6 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 	}
 	.nav-vertical-margin {
 		margin: 20px;
-	}
-	.dropdown-menu {
-		margin-left: 0 !important;
-		padding-left: 0 !important;
 	}
 }
 
