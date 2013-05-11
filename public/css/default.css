@@ -467,6 +467,9 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 	.nav-vertical-margin {
 		margin: 20px;
 	}
+	.nav-vertical-margin {
+		margin: 20px;
+	}
 }
 
 @media(min-width: 767px) {
@@ -485,11 +488,8 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 	.search-query {
 		width: auto;
 	}
-}
-
-@media(max-width: 979px) {
 	.nav-vertical-margin {
-		margin: 20px;
+		display: none;
 	}
 }
 
@@ -502,9 +502,6 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 	}
 	.search-query {
 		width: auto;
-	}
-	.nav-vertical-margin {
-		display: none;
 	}
 }
 
