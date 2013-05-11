@@ -36,6 +36,14 @@
 										%a{:href => "/user/#{current_user.massr_id}/liked", :title => _liked}<#{_liked}
 									%li
 										%a{:href => "/user/#{current_user.massr_id}/likes", :title => _likes}<#{_likes}
+							%li.flat-menu
+								%a{:href => "/user/#{current_user.massr_id}/photos", :title => _user_photos(current_user.massr_id)}<#{_user_photos current_user.name}
+							%li.flat-menu
+								%a{:href => "/statement/photos", :title => _all_photos}<#{_all_photos}
+							%li.flat-menu
+								%a{:href => "/user/#{current_user.massr_id}/liked", :title => _liked}<#{_liked}
+							%li.flat-menu
+								%a{:href => "/user/#{current_user.massr_id}/likes", :title => _likes}<#{_likes}
 						%ul.nav.pull-right
 							%li
 								%form.navbar-search.pull-left{:method => "GET", :action => "/search"}
@@ -63,3 +71,18 @@
 									%li.divider
 									%li
 										%a{:href => "/logout", :title => _logout}<#{_logout}
+							%li.flat-menu
+								%ul.user-list.sidebar-list
+									%li
+										%a{:href => "/user/#{current_user.massr_id}"}<
+											%img{:SRC => "#{get_icon_url(current_user)}", :class => "massr_id"}
+											#{current_user.name}
+											%span#me<#{current_user.massr_id}
+							%li.flat-menu
+								%a{:href => "/user", :title => _settings}<#{_settings}
+							- if current_user.admin?
+								%li.flat-menu
+									%a{:href => "/admin", :title => _admin_menu}<#{_admin_menu}
+							%li.divider.flat-menu
+							%li.flat-menu
+								%a{:href => "/logout", :title => _logout}<#{_logout}

@@ -452,6 +452,12 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 	.nav {
 		text-align: left;
 	}
+	.flat-menu {
+		display: inline;
+	}
+	.dropdown {
+		display: none;
+	}
 	.navbar-search {
 		width: auto;
 	}
@@ -466,6 +472,12 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 @media(min-width: 767px) {
 	.nav {
 		text-align: left;
+	}
+	.flat-menu {
+		display: none;
+	}
+	.dropdown {
+		display: block;
 	}
 	.navbar-search {
 		width: auto;
