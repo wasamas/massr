@@ -58,9 +58,9 @@ module Massr
 
 			def render
 				html = "#{@label}&nbsp;"
+				html << %Q|<span class="pull-right"><a class="close" href="#" id="#{@id}-like"><img src="/img/wakaranaiwa.png"></a>|
+				html << %Q|<a class="close" href="#" id="#{@id}-unlike"><img src="/img/wakaruwa.png"></a></span>|
 				html << %Q|<span id="#{@id}">#{icons}</span>|
-				html << %Q|<a class="close" href="#" id="#{@id}-like"><img src="/img/wakaranaiwa.png"></a>|
-				html << %Q|<a class="close" href="#" id="#{@id}-unlike"><img src="/img/wakaruwa.png"></a>|
 			end
 
 		private
