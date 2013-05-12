@@ -11,11 +11,16 @@
 		!= haml :header, locals: {q: q}
 		.container-fluid
 			-if defined?(q) && q
+				- exist_pin = Massr::SearchPin.find_by_word(q)
 				.row-fluid
 					.span9
 						Search "
 						%span#query-string<#{q}
 						"
+						%a.share-search#share-search{href: '#', class: exist_pin ? 'hide' : ''}
+							%i.icon-share-alt.share-search{title: 'share search result'}
+						%a.share-search#unshare-search{href: '#', class: exist_pin ? '' : 'hide'}
+							%i.icon-remove.share-search{title: 'unshare search result'}
 			.row-fluid
 				.span9
 					.main
