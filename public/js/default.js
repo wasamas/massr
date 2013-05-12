@@ -656,6 +656,27 @@ $(function(){
 		return true;
 	}
 
+	function deleteUser(massr_id){
+		if($('#' + massr_id).hasClass('admin')){
+			message.info(_['deny_delete_admin']);
+			return false;
+		}
+		if(window.confirm(_['confirm_delete'])){
+			$('#' + massr_id + ' .delete').hide().parent().append('<img src="/img/masao_loading.gif">');
+			$.ajax({
+				url: '/user/' + massr_id,
+				type: 'DELETE'}).
+			done(function(result) {
+				message.success(massr_id + _['success_delete_user']);
+				$('#' + massr_id).hide();
+			}).
+		fail(function(XMLHttpRequest, textStatus, errorThrown){
+				message.error('(' + textStatus + ')');
+			});
+		}
+		return true;
+	}
+
 	$('ul.admin li').
 		on('click', 'a.admin', function(){ // Admin権限剥奪
 			toggleStatus($(this).parent().attr('id'), AUTHORIZED, 'normal', 'admin');
@@ -668,6 +689,9 @@ $(function(){
 			return false;}).
 		on('click', 'a.unauthorized', function(){ // 認可
 			toggleStatus($(this).parent().attr('id'), AUTHORIZED, 'authorized', 'unauthorized');
+			return false;}).
+		on('click', 'a.delete', function(){ // 削除
+			deleteUser($(this).parent().attr('id'));
 			return false;});
 
 	/*

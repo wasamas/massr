@@ -21,6 +21,7 @@ require 'dalli'
 
 require_relative 'plugins/picasa'
 require_relative 'plugins/logging'
+
 require_relative 'plugins/async_request'
 
 module Massr
@@ -77,7 +78,7 @@ module Massr
 					:id => 'your CONSUMER KEY of Twitter APP.',
 					:secret => 'your CONSUMER SECRET of Twitter APP.',
 				} )
-			
+
 			MongoMapper.connection = Mongo::Connection.new('localhost', 27017)
 			db_name = 'massr'
 			MongoMapper.database = db_name

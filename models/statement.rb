@@ -7,7 +7,7 @@ require 'picasa'
 module Massr
 	class Statement
 		include MongoMapper::Document
-		
+
 		key :body,  :type => String, :required => true
 		key :photos, Array
 		key :ref_ids, Array
@@ -30,6 +30,20 @@ module Massr
 			statement = Statement.find_by_id(id)
 			statement[:photos] << uri.to_s
 			statement.save!
+		end
+
+		def self.delete_all_statements(user, options={})
+			options[:user_id] = user._id
+			Statement.destroy_all(options)
+
+			options={}
+			options[:"likes.user_id"] = user._id
+			statements = self.all(options)
+
+			statements.each do |statement|
+				statement.delete_if{ |like| like.user_id == @user_id}
+				statement.save!
+			end
 		end
 
 		def update_statement(request)
