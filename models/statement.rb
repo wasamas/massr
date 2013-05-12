@@ -41,7 +41,7 @@ module Massr
 			statements = self.all(options)
 
 			statements.each do |statement|
-				statement.delete_if{ |like| like.user_id == @user_id}
+				statement.likes.delete_if{ |like| like.user_id == user._id}
 				statement.save!
 			end
 		end
