@@ -43,29 +43,27 @@ div.main h2 {
 	line-height: 100%;
 	font-size: medium;
 	font-weight: bold;
-	margin: 16px 0px;
+	margin: 16px 0;
 }
 
 #me {
 	display: none;
 }
 
-div.sidebar-nav {
+.sidebar-nav {
 	padding: 8px;
-	padding-top: 16px;
 }
 
-div.sidebar-nav h2 {
+.sidebar-nav h2 {
 	line-height: 100%;
 	font-size: small;
 	font-weight: bold;
-	margin-top: 16px;
+	margin-top: 4px;
 	margin-bottom: 4px;
 }
 
 ul.sidebar-list {
-	margin: 0;
-	margin-left: 8px;
+	margin: 0 0 16px 8px;
 }
 
 ul.sidebar-list li {
