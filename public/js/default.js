@@ -449,6 +449,11 @@ $(function(){
 		return false;
 	});
 
+	var queryString = $('#query-string').attr('title');
+	if (queryString) {
+		$('#text-new').text(' ' + queryString + ' ');
+	}
+
 	/*
 	 * action like / unlike
 	 */

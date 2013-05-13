@@ -39,7 +39,7 @@
 						.new-post
 							%form#form-new{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
 								%div
-									%textarea{:type => "text", :name => "body"}
+									%textarea#text-new{:type => "text", :name => "body"}
 									%input{csrf_input}
 								%div.button
 									%input.btn.btn-small.submit{:type => "submit" , :value => _post}
