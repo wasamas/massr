@@ -8,8 +8,19 @@
 				#{_site_name}
 		!= haml :head
 	%body
+		!= haml :header, locals: {q: q}
 		.container-fluid
-			!= haml :header, locals: {q: q}
+			- if defined?(q) && q
+				.row-fluid
+					.span9
+						- exist_pin = Massr::SearchPin.find_by_word(q)
+						Search "
+						%span#query-string{title: q}<#{q.truncate}
+						"
+						%a.share-search#share-search{href: '#', class: exist_pin ? 'hide' : ''}
+							%i.icon-share-alt.share-search{title: 'share search result'}
+						%a.share-search#unshare-search{href: '#', class: exist_pin ? '' : 'hide'}
+							%i.icon-remove.share-search{title: 'unshare search result'}
 			.row-fluid
 				.span9
 					.main
@@ -28,7 +39,7 @@
 						.new-post
 							%form#form-new{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
 								%div
-									%textarea{:type => "text", :name => "body"}
+									%textarea#text-new{:type => "text", :name => "body"}
 									%input{csrf_input}
 								%div.button
 									%input.btn.btn-small.submit{:type => "submit" , :value => _post}

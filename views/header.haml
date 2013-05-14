@@ -1,15 +1,94 @@
-.row-fluid
-	.span12
-		%header
-			%h1
-				- if defined?(q) && q
-					- exist_pin = Massr::SearchPin.find_by_word(q)
-					Search "
-					%span#query-string{title: q}<#{q.truncate}
-					"
-					%a.share-search#share-search{href: '#', class: exist_pin ? 'hide' : ''}
-						%i.icon-share-alt.share-search{title: 'share search result'}
-					%a.share-search#unshare-search{href: '#', class: exist_pin ? '' : 'hide'}
-						%i.icon-remove.share-search{title: 'unshare search result'}
-					\/
-				%a{:href => "/"}<#{_site_name}
+%header
+	.navbar.navbar-static-top
+		.navbar-inner
+			.container
+				%a.btn.btn-navbar{ 'data-toggle' => 'collapse', 'data-target' => '.nav-collapse' }
+					- if current_user
+						%span.new-res-count.badge.badge-info<#{current_user.res_ids.size > 0 ? current_user.res_ids.size : ''}
+					%span.icon-bar
+					%span.icon-bar
+					%span.icon-bar
+				%a.brand{:href => "/"}<#{_site_name}
+				- if current_user
+					.nav-collapse
+						%ul.nav
+							%li.nav-vertical-margin
+							%li
+								%a{:href => "/user/#{current_user.massr_id}/res", :title => _res}<
+									#new-res-size-side
+										#{_res}
+										%span.new-res-count.badge.badge-info<#{current_user.res_ids.size > 0 ? current_user.res_ids.size : ''}
+							%li.dropdown
+								%a.dropdown-toggle{"data-toggle" => "dropdown"}
+									#{_photos}
+									%b.caret
+								%ul.dropdown-menu
+									%li
+										%a{:href => "/user/#{current_user.massr_id}/photos", :title => _user_photos(current_user.massr_id)}<#{_user_photos current_user.name}
+									%li
+										%a{:href => "/statement/photos", :title => _all_photos}<#{_all_photos}
+							%li.dropdown
+								%a.dropdown-toggle{"data-toggle" => "dropdown"}
+									#{_like}
+									%b.caret
+								%ul.dropdown-menu
+									%li
+										%a{:href => "/user/#{current_user.massr_id}/liked", :title => _liked}<#{_liked}
+									%li
+										%a{:href => "/user/#{current_user.massr_id}/likes", :title => _likes}<#{_likes}
+							%li.flat-menu
+								%a{:href => "/user/#{current_user.massr_id}/photos", :title => _user_photos(current_user.massr_id)}<#{_user_photos current_user.name}
+							%li.flat-menu
+								%a{:href => "/statement/photos", :title => _all_photos}<#{_all_photos}
+							%li.flat-menu
+								%a{:href => "/user/#{current_user.massr_id}/liked", :title => _liked}<#{_liked}
+							%li.flat-menu
+								%a{:href => "/user/#{current_user.massr_id}/likes", :title => _likes}<#{_likes}
+						%ul.nav.pull-right
+							%li
+								%form.navbar-search.pull-left{:method => "GET", :action => "/search"}
+									.input-append
+										%input.search-query{:id => "search-field", :type => "text", :name => "q", :placeholder => _search, :value => "#{q rescue ''}"}
+										%button.btn{:id => "search-button", :type => "submit"}
+											%i.icon-search
+									%div.search-pins-dropdown#search-pin-dropdown
+										- pins = Massr::SearchPin.all
+										- if pins.length > 0
+											- pins.each do |pin|
+												%span.search-pin
+													%a{href: "/search?q=#{pin.word.gsub(/#/, '%23')}", title: pin.word}<#{pin.label}
+							%li.dropdown
+								%a.dropdown-toggle{"data-toggle" => "dropdown"}
+									#{_settings}
+									%b.caret
+								%ul.dropdown-menu
+									%li
+										%ul.user-list.sidebar-list
+											%li
+												%a{:href => "/user/#{current_user.massr_id}"}<
+													%img{:SRC => "#{get_icon_url(current_user)}", :class => "massr_id"}
+													#{current_user.name}
+													%span#me<#{current_user.massr_id}
+									%li
+										%a{:href => "/user", :title => _settings}<#{_settings}
+									- if current_user.admin?
+										%li
+											%a{:href => "/admin", :title => _admin_menu}<#{_admin_menu}
+									%li.divider
+									%li
+										%a{:href => "/logout", :title => _logout}<#{_logout}
+							%li.flat-menu
+								%ul.user-list.sidebar-list
+									%li
+										%a{:href => "/user/#{current_user.massr_id}"}<
+											%img{:SRC => "#{get_icon_url(current_user)}", :class => "massr_id"}
+											#{current_user.name}
+											%span#me<#{current_user.massr_id}
+							%li.flat-menu
+								%a{:href => "/user", :title => _settings}<#{_settings}
+							- if current_user.admin?
+								%li.flat-menu
+									%a{:href => "/admin", :title => _admin_menu}<#{_admin_menu}
+							%li.divider.flat-menu
+							%li.flat-menu
+								%a{:href => "/logout", :title => _logout}<#{_logout}

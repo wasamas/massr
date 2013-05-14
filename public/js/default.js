@@ -365,7 +365,7 @@ $(function(){
 	}
 
 	function updateResCount(count){
-		$('.new-res-count').text(count);
+		$('.new-res-count').text(count === 0 ? '' : count);
 		if(count === 0){
 			$('#new-res-size-main').hide();
 		}else{
@@ -448,6 +448,11 @@ $(function(){
 		$(this).parents('form').find('.photo-shadow').trigger('click');
 		return false;
 	});
+
+	var queryString = $('#query-string').attr('title');
+	if (queryString) {
+		$('#text-new').text(' ' + queryString + ' ');
+	}
 
 	/*
 	 * action like / unlike
@@ -759,6 +764,11 @@ $(function(){
 			var l = result[0]['label'];
 			$('#search-pin').append(
 				$('<li>').addClass('search-pin').append(
+					$('<a>').attr('href', '/search?q=' + q.replace(/#/g, '%23')).attr('title', q).text(l)
+				)
+			);
+			$('#search-pin-dropdown').append(
+				$('<span>').addClass('search-pin').append(
 					$('<a>').attr('href', '/search?q=' + q.replace(/#/g, '%23')).attr('title', q).text(l)
 				)
 			);

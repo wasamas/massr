@@ -1,39 +1,6 @@
 %aside
 	.well.sidebar-nav
 		-if current_user
-			%ul.user-list.sidebar-list
-				%li
-					%a{:href => "/user/#{current_user.massr_id}"}<
-						%img{:SRC => "#{get_icon_url(current_user)}", :class => "massr_id"}
-						#{current_user.name}
-						%span#me<#{current_user.massr_id}
-			%h2<#{_menu}
-			%ul.sidebar-menu.sidebar-list
-				%li
-					%a{:href => "/user/#{current_user.massr_id}/res", :title => _res}<
-						#new-res-size-side
-							#{_res}
-							%span.new-res-count.badge.badge-info<#{current_user.res_ids.size > 0 ? current_user.res_ids.size : ''}
-				%li
-					%a{:href => "/user/#{current_user.massr_id}/photos", :title => _user_photos(current_user.massr_id)}<#{_user_photos current_user.massr_id}
-				%li
-					%a{:href => "/statement/photos", :title => _all_photos}<#{_all_photos}
-				%li
-					%a{:href => "/user/#{current_user.massr_id}/liked", :title => _liked}<#{_liked}
-				%li
-					%a{:href => "/user/#{current_user.massr_id}/likes", :title => _likes}<#{_likes}
-				%li
-					%a{:href => "/user", :title => _settings}<#{_settings}
-				- if current_user.admin?
-					%li
-						%a{:href => "/admin", :title => _admin_menu}<#{_admin_menu}
-				%li.isolate
-					%a{:href => "/logout", :title => _logout}<#{_logout}
-				%li
-					%form.search-box.form-inline{:method => "GET", :action => "/search"}
-						%input.input-small{:id => "search-field", :type => "text", :name => "q", :placeholder => _search, :value => "#{q rescue ''}"}
-						%button.btn{:id => "search-button", :type => "submit"}
-							%i.icon-search
 			%h2<Pin
 			%ul.sidebar-menu.sidebar-list#search-pin
 				- Massr::SearchPin.all.each do |pin|
