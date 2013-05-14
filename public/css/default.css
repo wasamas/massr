@@ -438,10 +438,17 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 	margin-left: 30%;
 }
 
+.search-pin {
+	display: inline;
+}
+
 .search-pin a, .search-pins-dropdown a {
-	background-color: #d8d8f8;
+	background-color: #d8d8d8;
+	color: #000;
 	padding: 4px;
-	border-radius: 5px;
+	margin: 0 4px 4px 0;
+	line-height: 200%;
+	border-radius: 8px;
 }
 
 .navbar {
@@ -473,9 +480,6 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 	}
 	.nav-vertical-margin {
 		margin: 20px;
-	}
-	.search-pins-dropdown span {
-		margin-left: 8px;
 	}
 }
 
