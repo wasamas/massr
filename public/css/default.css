@@ -438,6 +438,12 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 	margin-left: 30%;
 }
 
+.search-pin a, .search-pins-dropdown a {
+	background-color: #d8d8f8;
+	padding: 4px;
+	border-radius: 5px;
+}
+
 .navbar {
 	padding-bottom: 4px;
 }
