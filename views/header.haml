@@ -51,6 +51,12 @@
 										%input.search-query{:id => "search-field", :type => "text", :name => "q", :placeholder => _search, :value => "#{q rescue ''}"}
 										%button.btn{:id => "search-button", :type => "submit"}
 											%i.icon-search
+									%div.search-pins-dropdown#search-pin-dropdown
+										- pins = Massr::SearchPin.all
+										- if pins.length > 0
+											- pins.each do |pin|
+												%span.search-pin
+													%a{href: "/search?q=#{pin.word.gsub(/#/, '%23')}", title: pin.word}<#{pin.label}
 							%li.dropdown
 								%a.dropdown-toggle{"data-toggle" => "dropdown"}
 									#{_settings}

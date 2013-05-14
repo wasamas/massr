@@ -468,6 +468,9 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 	.nav-vertical-margin {
 		margin: 20px;
 	}
+	.search-pins-dropdown span {
+		margin-left: 8px;
+	}
 }
 
 @media(min-width: 767px) {
@@ -487,6 +490,9 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 		width: auto;
 	}
 	.nav-vertical-margin {
+		display: none;
+	}
+	.search-pins-dropdown {
 		display: none;
 	}
 }

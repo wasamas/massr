@@ -743,6 +743,11 @@ $(function(){
 					$('<a>').attr('href', '/search?q=' + q.replace(/#/g, '%23')).attr('title', q).text(l)
 				)
 			);
+			$('#search-pin-dropdown').append(
+				$('<span>').addClass('search-pin').append(
+					$('<a>').attr('href', '/search?q=' + q.replace(/#/g, '%23')).attr('title', q).text(l)
+				)
+			);
 		},
 		function(status, msg){
 			if(XMLHttpRequest.status != 409){
