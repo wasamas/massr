@@ -3,7 +3,7 @@
 		-if current_user
 			%h2<Pin
 			%ul.sidebar-menu.sidebar-list#search-pin
-				- Massr::SearchPin.all.each do |pin|
+				- Massr::SearchPin.all.reverse.each do |pin|
 					%li.search-pin
 						%a{href: "/search?q=#{pin.word.gsub(/#/, '%23')}", title: pin.word}<#{pin.label}
 			%h2<#{_member}

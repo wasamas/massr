@@ -52,7 +52,7 @@
 										%button.btn{:id => "search-button", :type => "submit"}
 											%i.icon-search
 									%div.search-pins-dropdown#search-pin-dropdown
-										- pins = Massr::SearchPin.all
+										- pins = Massr::SearchPin.all.reverse
 										- if pins.length > 0
 											- pins.each do |pin|
 												%span.search-pin
