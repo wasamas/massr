@@ -762,12 +762,12 @@ $(function(){
 		function(result){
 			var q = result[0]['q'];
 			var l = result[0]['label'];
-			$('#search-pin').append(
+			$('#search-pin').prepend(
 				$('<li>').addClass('search-pin').append(
 					$('<a>').attr('href', '/search?q=' + q.replace(/#/g, '%23')).attr('title', q).text(l)
 				)
 			);
-			$('#search-pin-dropdown').append(
+			$('#search-pin-dropdown').prepend(
 				$('<span>').addClass('search-pin').append(
 					$('<a>').attr('href', '/search?q=' + q.replace(/#/g, '%23')).attr('title', q).text(l)
 				)
