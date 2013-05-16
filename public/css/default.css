@@ -491,6 +491,15 @@ button.dropdown-toggle {
 	.nav-vertical-margin {
 		margin: 20px;
 	}
+	.badge-total {
+		display: none;
+	}
+	.collapsed .badge-total {
+		display: inline;
+	}
+	.badge-total:empty {
+		display: none;
+	}
 }
 
 @media(min-width: 767px) {
