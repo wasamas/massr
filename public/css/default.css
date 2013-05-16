@@ -461,6 +461,14 @@ ul.admin li.unauthorized a.unauthorized { display: inline; }
 	margin: 0;
 }
 
+button.dropdown-toggle {
+	background-color: transparent;
+	border: none;
+	margin-top: 2px;
+	padding: 8px 10px 8px 10px;
+	color: #777;
+}
+
 @media(max-width: 767px) {
 	.nav {
 		text-align: left;

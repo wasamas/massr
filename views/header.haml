@@ -19,7 +19,7 @@
 										#{_res}
 										%span.new-res-count.badge.badge-info<#{current_user.res_ids.size > 0 ? current_user.res_ids.size : ''}
 							%li.dropdown
-								%a.dropdown-toggle{"data-toggle" => "dropdown"}
+								%button.dropdown-toggle{"data-toggle" => "dropdown"}
 									#{_photos}
 									%b.caret
 								%ul.dropdown-menu
@@ -28,7 +28,7 @@
 									%li
 										%a{:href => "/statement/photos", :title => _all_photos}<#{_all_photos}
 							%li.dropdown
-								%a.dropdown-toggle{"data-toggle" => "dropdown"}
+								%button.dropdown-toggle{"data-toggle" => "dropdown"}
 									#{_like}
 									%b.caret
 								%ul.dropdown-menu
@@ -58,7 +58,7 @@
 												%span.search-pin
 													%a{href: "/search?q=#{pin.word.gsub(/#/, '%23')}", title: pin.word}<#{pin.label}
 							%li.dropdown
-								%a.dropdown-toggle{"data-toggle" => "dropdown"}
+								%button.dropdown-toggle{"data-toggle" => "dropdown"}
 									#{_settings}
 									%b.caret
 								%ul.dropdown-menu
