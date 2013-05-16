@@ -2,6 +2,7 @@
 	- statements.each do |statement|
 		!= haml :statement , :locals => {:statement => statement, :is_new => (res_ids && res_ids.include?(statement._id))}
 .pagenation
+	%a{:href => "?date=#{statements.last.created_at.strftime('%Y%m%d%H%M%S')}", :rel => 'next'}
 	%input.btn.btn-large{:id => 'subjoinpage', :type => "button" , :value => "next" , :path => "#{request.path_info}#{request.path_info == '/' ? 'index' : ''}.json", :query => "#{q}"}
 	%img{:id => 'subjoinpage-loading', :src => '/img/masao_loading.gif', :alt => 'Loading...'}
 
