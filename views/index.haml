@@ -39,14 +39,14 @@
 						.new-post
 							%form#form-new{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
 								%div
-									%textarea#text-new{:type => "text", :name => "body", :tabindex => "1"}
+									%textarea#text-new{:type => "text", :name => "body", :tabindex => "2"}
 									%input{csrf_input}
 								%div.button
-									%input.btn.btn-small.submit{:type => "submit" , :value => _post, :tabindex => "2"}
+									%input.btn.btn-small.submit{:type => "submit" , :value => _post, :tabindex => "3"}
 									- if picasa_client
 										.photo-items
 											%input.photo-shadow{:type => "file", :name => "photo", :accept => 'image/*', :tabindex => '-1'}
-											%a.photo-button{:href => '#', :tabindex => "3"}
+											%a.photo-button{:href => '#', :tabindex => "4"}
 												%i.icon-camera.photo-button{:title => _attach_photo}
 											%span.photo-name
 						!= haml :statements ,:locals => {:res_ids => nil , :statements => statements,:q => q}

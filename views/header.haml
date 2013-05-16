@@ -8,7 +8,7 @@
 					%span.icon-bar
 					%span.icon-bar
 					%span.icon-bar
-				%a.brand{:href => "/"}<#{_site_name}
+				%a.brand{:href => "/", :tabindex => "1"}<#{_site_name}
 				- if current_user
 					.nav-collapse
 						%ul.nav
@@ -48,8 +48,8 @@
 							%li
 								%form.navbar-search.pull-left{:method => "GET", :action => "/search"}
 									.input-append
-										%input.search-query{:id => "search-field", :type => "text", :name => "q", :placeholder => _search, :tabindex => "4", :value => "#{q rescue ''}"}
-										%button.btn{:id => "search-button", :type => "submit", :tabindex => "5"}
+										%input.search-query{:id => "search-field", :type => "text", :name => "q", :placeholder => _search, :tabindex => "5", :value => "#{q rescue ''}"}
+										%button.btn{:id => "search-button", :type => "submit", :tabindex => "6"}
 											%i.icon-search
 									%div.search-pins-dropdown#search-pin-dropdown
 										- pins = Massr::SearchPin.all.reverse
