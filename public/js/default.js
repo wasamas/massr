@@ -133,12 +133,18 @@ $(function(){
 				photoShadow.replaceWith(photoShadow.val("").clone(true));
 				$form.find(".photo-name").text("");
 
-				reloadDiff().always(function(){
+				var promise = reloadDiff();
+				if (promise) {
+					promise.always(function(){
+						$(form.body).attr("value", "");
+						$form.parent().parent().find(".res").trigger("click");
+						// TODO レス数表示の更新
+						// TODO 投稿結果を見せたい
+					});
+				} else {
 					$(form.body).attr("value", "");
 					$form.parent().parent().find(".res").trigger("click");
-					// TODO レス数表示の更新
-					// TODO 投稿結果を見せたい
-				});
+				}
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
 				$form.find("button").removeAttr("disabled").empty().append(_['post_res']);
 				$form.find("textarea").slideDown();
