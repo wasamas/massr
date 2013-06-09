@@ -18,6 +18,7 @@ $Massr.intervalFunctions = [];
 $(function(){
 	var me = $('#me').text();
 	var settings = {}, _ = {};
+	var fileEnabled = false; try {if (FileReader) {fileEnabled = true;}} catch (e) {}
 
 	$.when(
 		$.getJSON('/default.json'), // default setting
@@ -902,6 +903,21 @@ $(function(){
 				}
 			});
 		}
+	}
+
+	if (fileEnabled) {
+		$('.photo-shadow').change(function() {
+			var preview = $(this).siblings('.photo-preview');
+			if (this.files.length) {
+				var fileReader = new FileReader();
+				fileReader.onload = function(event) {
+					$(preview).attr('src', event.target.result).css('display', 'inline')
+				}
+				fileReader.readAsDataURL(this.files[0]);
+			} else {
+				$(preview).css('display', 'none');
+			}
+		});
 	}
 });
 
