@@ -59,9 +59,9 @@ module Massr
 			end
 
 			set :cache,Dalli::Client.new(
-				ENV['MEMCACHE_SERVERS'],
-				:username => ENV['MEMCACHE_USERNAME'],
-				:password => ENV['MEMCACHE_PASSWORD'],
+				ENV['MEMCACHE_SERVERS'] || ENV["MEMCACHIER_SERVERS"],
+				:username => ENV['MEMCACHE_USERNAME'] || ENV["MEMCACHIER_USERNAME"],
+				:password => ENV['MEMCACHE_PASSWORD'] || ENV["MEMCACHIER_PASSWORD"],
 				:expires_in => 24 * 60 * 60)
 
 			Massr::Plugin::Picasa.auth(ENV['PICASA_ID'], ENV['PICASA_PASS']) if ENV['PICASA_ID']
