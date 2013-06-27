@@ -71,7 +71,7 @@ module Massr
 				re = URI.regexp(['http', 'https'])
 				request_uri = URI.parse(request.url)
 				self[:body].scan(re) do
-					uri = URI.parse($&)
+					uri = URI.parse($&) rescue next
 					next if uri.host == request_uri.host
 					response = nil
 					Massr::Plugin::AsyncRequest.new(uri).future.add_photo(self._id)
