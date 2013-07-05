@@ -32,7 +32,7 @@ module Massr
 			end
 
 			haml :index , :locals => {
-				:statements => Statement.get_statements(param_date,{:body => /#{@q}/}),
+				:statements => Statement.get_statements(param_date,{:body => /#{@q}/i}),
 				:q => @q}
 		end
 
