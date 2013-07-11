@@ -15,6 +15,7 @@ gem 'picasa'
 gem 'rack-session-mongo'
 gem 'dalli'
 gem 'celluloid'
+gem 'newrelic_rpm'
 
 group :development, :test do
 	gem 'rake'

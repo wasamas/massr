@@ -35,7 +35,10 @@ module Massr
 		set :haml, { format: :html5, escape_html: true }
 
 		configure :production do
-         @auth_twitter  = {
+
+			require 'newrelic_rpm'
+
+			@auth_twitter  = {
 				:id => ENV['TWITTER_CONSUMER_ID'],
 				:secret => ENV['TWITTER_CONSUMER_SECRET']
 			}
