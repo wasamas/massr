@@ -121,6 +121,26 @@ $ heroku config:add \
 有効にすることで、Picasaウェブアルバム上に『MassrYYMMNNN』というアルバムを作成し、
 そこに投稿された画像を登録します。
 
+### New Relicアドオンよるパフォーマンス計測を実施する方法
+
+New Relicにてパフォーマンス計測等を実施する場合は以下の設定を実施することで有効になります。
+
+※New Relicアドオンはproductionでのみ有効になります。
+
+詳細は [New Relic | Heroku Dev Center](https://devcenter.heroku.com/articles/newrelic)をご参照ください。
+
+#### アドオンの有効化
+
+```sh
+$ heroku addons:add newrelic:standard
+$ heroku config:set NEW_RELIC_APP_NAME="XXXXXXXXXXXXXXXX" #new relicのサイトにて表示されるアプリケーション名
+```
+
+#### コンフィグファイルの修正
+
+同梱されている config/newrelic.yml を環境に合わせ変更してください。
+
+
 ### mongodbデータへの修正適用方法
 commit b5151ea7より、modeles/userに関して、User.statement_idsを廃止しました。
 データベースへの修正を適用しなくても動作に問題有りませんが、以下のコマンドを適用し、

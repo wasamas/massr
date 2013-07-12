@@ -36,7 +36,7 @@ module Massr
 
 		configure :production do
 
-			require 'newrelic_rpm'
+			require 'newrelic_rpm' if ENV['NEW_RELIC_LICENSE_KEY']
 
 			@auth_twitter  = {
 				:id => ENV['TWITTER_CONSUMER_ID'],
