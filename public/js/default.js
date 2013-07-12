@@ -114,7 +114,7 @@ $(function(){
 			return false;
 		}
 
-		if($(form.body).attr("value")){
+		if($(form.body).attr("value").trim()){
 			var statement_id = $(form.res_id).attr("value");
 			var method = $(form).attr('method');
 			var formdata = new FormData(form);
@@ -425,7 +425,7 @@ $(function(){
 	 * empty post changes to reload
 	 */
 	$('#form-new').on('submit', function(e){
-		if($('textarea', this).val().length === 0){
+		if($('textarea', this).val().trim().length === 0){
 			location.reload();
 			return false;
 		}else{
