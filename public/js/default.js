@@ -888,7 +888,7 @@ $(function(){
 				if(del == 'any'){
 					elem.append('<a href="#" class="' + id + '-delete"><img class="massr-icon-mini" src="' + val[1] + '" alt="' + name + '" title="delete ' + name + '"></a>&nbsp;');
 				}else{
-					elem.append('<img class="massr-icon-mini" src="' + val[1] + '" alt="' + name + '" title=" + name + ">');
+					elem.append('<img class="massr-icon-mini" src="' + val[1] + '" alt="' + name + '" title="' + name + '">');
 				}
 				if(me == name){
 					$('#'+id+'-like').hide();
