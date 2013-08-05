@@ -37,6 +37,7 @@ module Massr
 		configure :production do
 
 			require 'newrelic_rpm' if ENV['NEW_RELIC_LICENSE_KEY']
+			use Rack::Deflater
 
 			@auth_twitter  = {
 				:id => ENV['TWITTER_CONSUMER_ID'],
@@ -76,6 +77,8 @@ module Massr
 			register Sinatra::Reloader
 
 			disable :protection
+
+			use Rack::Deflater
 
 			@auth_twitter = Pit::get( 'auth_twitter', :require => {
 					:id => 'your CONSUMER KEY of Twitter APP.',
