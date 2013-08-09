@@ -179,6 +179,9 @@ div.new-post textarea, div.response textarea {
 	display: none;
 	width: 48px;
 	height: 48px;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 img.massr-icon {

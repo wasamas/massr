@@ -911,7 +911,7 @@ $(function(){
 			if (this.files.length) {
 				var fileReader = new FileReader();
 				fileReader.onload = function(event) {
-					$(preview).attr('src', event.target.result).css('display', 'inline')
+					$(preview).css('background-image', "url(" + event.target.result + ")").css('display', 'inline')
 				}
 				fileReader.readAsDataURL(this.files[0]);
 			} else {
