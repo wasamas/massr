@@ -172,7 +172,7 @@ $(function(){
 
 	// template of a statement
 	function buildStatement(s){ // s is json object of a statement
-		return $('<div>').addClass('statement').attr('id', 'st-'+s.id).append(
+		return $('<div>').addClass('hentry').addClass('statement').attr('id', 'st-'+s.id).append(
 			$('<div>').addClass('statement-icon').append(
 				$('<a>').attr('href', '/user/'+s.user.massr_id).append(
 					$('<img>').addClass('massr-icon').attr('src', get_icon_url(s.user))
