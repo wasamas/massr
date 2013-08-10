@@ -175,6 +175,12 @@ div.new-post textarea, div.response textarea {
 	margin: 0 4px;
 }
 
+.photo-preview {
+	display: none;
+	width: 48px;
+	height: 48px;
+}
+
 img.massr-icon {
 	width: 45px;
 	height: 45px;

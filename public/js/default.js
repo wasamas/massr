@@ -18,6 +18,7 @@ $Massr.intervalFunctions = [];
 $(function(){
 	var me = $('#me').text();
 	var settings = {}, _ = {};
+	var fileEnabled = false; try {if (FileReader) {fileEnabled = true;}} catch (e) {}
 
 	$.when(
 		$.getJSON('/default.json'), // default setting
@@ -133,12 +134,18 @@ $(function(){
 				photoShadow.replaceWith(photoShadow.val("").clone(true));
 				$form.find(".photo-name").text("");
 
-				reloadDiff().always(function(){
+				var promise = reloadDiff();
+				if (promise) {
+					promise.always(function(){
+						$(form.body).attr("value", "");
+						$form.parent().parent().find(".res").trigger("click");
+						// TODO レス数表示の更新
+						// TODO 投稿結果を見せたい
+					});
+				} else {
 					$(form.body).attr("value", "");
 					$form.parent().parent().find(".res").trigger("click");
-					// TODO レス数表示の更新
-					// TODO 投稿結果を見せたい
-				});
+				}
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
 				$form.find("button").removeAttr("disabled").empty().append(_['post_res']);
 				$form.find("textarea").slideDown();
@@ -896,6 +903,21 @@ $(function(){
 				}
 			});
 		}
+	}
+
+	if (fileEnabled) {
+		$('.photo-shadow').change(function() {
+			var preview = $(this).siblings('.photo-preview');
+			if (this.files.length) {
+				var fileReader = new FileReader();
+				fileReader.onload = function(event) {
+					$(preview).attr('src', event.target.result).css('display', 'inline')
+				}
+				fileReader.readAsDataURL(this.files[0]);
+			} else {
+				$(preview).css('display', 'none');
+			}
+		});
 	}
 });
 
