@@ -133,6 +133,7 @@ $(function(){
 				var photoShadow = $form.find(".photo-shadow");
 				photoShadow.replaceWith(photoShadow.val("").clone(true));
 				$form.find(".photo-name").text("");
+				$form.find(".photo-preview").css("display", "none");
 
 				var promise = reloadDiff();
 				if (promise) {
