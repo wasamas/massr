@@ -175,7 +175,7 @@ $(function(){
 
 	// replace CR/LF to single space
 	function shrinkText(text){
-		return text.replace(/[\r\n]+/g, ' ');
+		return text.replace(/[\r\n]+/g, '\n');
 	}
 
 	// template of a statement
