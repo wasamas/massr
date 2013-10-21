@@ -20,6 +20,7 @@ module Massr
 
 		before "/user/:massr_id*" do
 			@user = User.find_by_massr_id(params[:massr_id].sub(/\.json$/,""))
+			not_found unless @user
 		end
 
 		get '/user/:massr_id.json' do
