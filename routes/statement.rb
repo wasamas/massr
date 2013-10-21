@@ -21,10 +21,17 @@ module Massr
 			end
 			redirect '/'
 		end
-		
-		before '/statement/photos*' do
-			@query = {"photos" => {:$ne => [] } }
+
+		before '/statement/:id*' do
+			case params[:id]
+			when 'photos' , 'photos.json'
+				@query = {"photos" => {:$ne => [] } }
+			else
+				@statement = Statement.find_by_id(params[:id])
+				not_found unless @statement
+			end
 		end
+
 
 		get '/statement/photos' do
 			haml :user_photos, :locals => {
@@ -41,11 +48,11 @@ module Massr
 		end
 
 		get '/statement/:id.json' do
-			Statement.find_by_id(params[:id]).to_hash.to_json
+			@statement.to_hash.to_json
 		end
 
 		get '/statement/:id' do
-			haml :user_statement, :locals => {:statement => Statement.find_by_id(params[:id])}
+			haml :user_statement, :locals => {:statement => @statement}
 		end
 
 		delete '/statement/:id' do

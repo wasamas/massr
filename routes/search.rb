@@ -11,6 +11,7 @@ module Massr
 	class App < Sinatra::Base
 		before '/search*' do
 			@q = params[:q].strip if params[:q]
+			redirect '/' unless @q
 		end
 
 		get '/search.json' do
