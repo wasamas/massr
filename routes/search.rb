@@ -32,9 +32,13 @@ module Massr
 				return
 			end
 
-			haml :index , :locals => {
-				:statements => Statement.get_statements(param_date,{:body => /#{@q}/i}),
-				:q => @q}
+			begin
+				haml :index , :locals => {
+					:statements => Statement.get_statements(param_date,{:body => /#{@q}/i}),
+					:q => @q}
+			rescue RegexpError
+				redirect '/'
+			end
 		end
 
 		get '/search/pins.json' do
