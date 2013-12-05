@@ -770,15 +770,12 @@ $(function(){
 		function(result){
 			var q = result[0]['q'];
 			var l = result[0]['label'];
+			var a = $('<a>').attr('href', '/search?q=' + q.replace(/#/g, '%23').replace(/\+/g, '%2B')).attr('title', q).text(l);
 			$('#search-pin').prepend(
-				$('<li>').addClass('search-pin').append(
-					$('<a>').attr('href', '/search?q=' + q.replace(/#/g, '%23')).attr('title', q).text(l)
-				)
+				$('<li>').addClass('search-pin').append(a.clone())
 			);
 			$('#search-pin-dropdown').prepend(
-				$('<span>').addClass('search-pin').append(
-					$('<a>').attr('href', '/search?q=' + q.replace(/#/g, '%23')).attr('title', q).text(l)
-				)
+				$('<span>').addClass('search-pin').append(a.clone())
 			);
 		},
 		function(status, msg){

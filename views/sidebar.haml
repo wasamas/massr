@@ -5,7 +5,7 @@
 			%ul.sidebar-menu.sidebar-list#search-pin
 				- Massr::SearchPin.all.reverse.each do |pin|
 					%li.search-pin
-						%a{href: "/search?q=#{pin.word.gsub(/#/, '%23')}", title: pin.word}<#{pin.label}
+						%a{href: "/search?q=#{pin.word.gsub(/#/, '%23').gsub(/\+/, '%2B')}", title: pin.word}<#{pin.label}
 			%h2<#{_member}
 			%ul.user-list.sidebar-list
 				- Massr::User.each_authorized_user_without(current_user) do |member|

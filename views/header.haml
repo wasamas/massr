@@ -56,7 +56,7 @@
 										- if pins.length > 0
 											- pins.each do |pin|
 												%span.search-pin
-													%a{href: "/search?q=#{pin.word.gsub(/#/, '%23')}", title: pin.word}<#{pin.label}
+													%a{href: "/search?q=#{pin.word.gsub(/#/, '%23').gsub(/\+/, '%2B')}", title: pin.word}<#{pin.label}
 							%li.dropdown
 								%button.dropdown-toggle{"data-toggle" => "dropdown"}
 									#{_settings}
