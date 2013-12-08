@@ -706,6 +706,16 @@ $(function(){
 		on('click', 'a.delete', function(){ // 削除
 			deleteUser($(this).parent().attr('id'));
 			return false;});
+	/*
+	 */
+	$('#search-form').on('submit', function(event){
+		try {
+			new RegExp($('#search-field').val());
+		} catch (e) {
+			event.preventDefault();
+			alert(e);
+		}
+	});
 
 	/*
 	 * automatic link
