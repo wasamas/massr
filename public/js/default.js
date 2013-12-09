@@ -713,7 +713,7 @@ $(function(){
 			new RegExp($('#search-field').val());
 		} catch (e) {
 			event.preventDefault();
-			alert(e);
+			message.error(e);
 		}
 	});
 
