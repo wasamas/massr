@@ -901,9 +901,23 @@ $(function(){
 			$('#'+id+'-unlike').hide();
 			$.each(icons, function(name, val){
 				if(del == 'any'){
-					elem.append('<a href="#" class="' + id + '-delete"><img class="massr-icon-mini" src="' + val[1] + '" alt="' + name + '" title="delete ' + name + '"></a>&nbsp;');
+					elem.append(
+						$('<a>').addClass(id + '-delete').attr('href', '#').append(
+							$('<img>').
+							addClass('massr-icon-mini').
+							attr('src', val[1]).
+							attr('alt', name).
+							attr('title', 'delete ' + name)
+						)
+					).append('&nbsp;')
 				}else{
-					elem.append('<img class="massr-icon-mini" src="' + val[1] + '" alt="' + name + '" title="' + name + '">');
+					elem.append(
+						$('<img>').
+						addClass('massr-icon-mini').
+						attr('src', val[1]).
+						attr('alt', name).
+						attr('title', name)
+					)
 				}
 				if(me == name){
 					$('#'+id+'-like').hide();
