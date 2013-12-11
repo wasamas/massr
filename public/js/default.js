@@ -115,7 +115,7 @@ $(function(){
 			return false;
 		}
 
-		if($(form.body).attr("value").trim()){
+		if($(form.body).val().trim()){
 			var statement_id = $(form.res_id).attr("value");
 			var method = $(form).attr('method');
 			var formdata = new FormData(form);
