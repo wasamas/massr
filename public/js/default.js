@@ -445,7 +445,7 @@ $(function(){
 	 * photo upload
 	 */
 	$(document).on('change', '.photo-shadow', function(){
-		var fileName = $(this).attr('value').replace(/\\/g, '/').replace(/.*\//, '');
+		var fileName = $(this).val().replace(/\\/g, '/').replace(/.*\//, '');
 		$(this).parent().find('.photo-name').first().empty().text(fileName);
 		$(this).hide();
 		return true;
