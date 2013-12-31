@@ -928,11 +928,30 @@ $(function(){
 	}
 
 	if (fileEnabled) {
+		function clearPhoto(form) {
+			$form = $(form);
+			var photoShadow = $form.find('.photo-shadow');
+			photoShadow.replaceWith(photoShadow.val("").clone(true));
+			$form.find(".photo-name").text("");
+			$form.find(".photo-preview").css("display", "none");
+		}
+
 		$('.photo-shadow').change(function() {
-			var preview = $(this).siblings('.photo-preview');
+			var shadow = $(this);
+			var preview = shadow.siblings('.photo-preview');
 			if (this.files.length) {
 				var fileReader = new FileReader();
 				fileReader.onload = function(event) {
+					console.log("target: " + shadow.hasClass("for-icon"));
+					if (shadow.hasClass('for-icon')) {
+						var icon = new Image();
+						icon.src = event.target.result;
+						if (icon.width > 90 || icon.height > 90) {
+							message.error(_['icon_size_over']);
+							clearPhoto(shadow.parents('form'));
+							return;
+						}
+					}
 					$(preview).css('background-image', "url(" + event.target.result + ")").css('display', 'inline')
 				}
 				fileReader.readAsDataURL(this.files[0]);
@@ -942,4 +961,3 @@ $(function(){
 		});
 	}
 });
-
