@@ -144,20 +144,19 @@ module Massr
 			user = User.find_by_id(session[:user_id])
 			request[:twitter_user_id] = session[:twitter_user_id]
 			request[:twitter_id] = session[:twitter_id]
-			request[:twitter_icon_url] = user[:twitter_icon_url]
-			request[:twitter_icon_url_https] = user[:twitter_icon_url_https]
+			request[:twitter_icon_url] = session[:twitter_icon_url]
+			request[:twitter_icon_url_https] = session[:twitter_icon_url_https]
 
-			if params[:use_twitter_icon] == '1' ||
-					user[:twitter_icon_url] == nil && params[:newicon] == nil then
-				puts 'twittericon'
-				request[:twitter_icon_url] = session[:twitter_icon_url]
-				request[:twitter_icon_url_https] = session[:twitter_icon_url_https]
-			elsif params[:newicon] != nil then
-				puts 'newicon'
-				icon_url = picasa_upload(params[:newicon])
-				if icon_url then
-					request[:twitter_icon_url] = icon_url
-					request[:twitter_icon_url_https] = icon_url
+			if params[:use_twitter_icon] != '1' then
+				if params[:newicon] != nil then
+					icon_url = picasa_upload(params[:newicon])
+					if icon_url then
+						request[:twitter_icon_url] = icon_url
+						request[:twitter_icon_url_https] = icon_url
+					end
+				elsif user != nil && user[:twitter_icon_url] != nil then
+					request[:twitter_icon_url] = user[:twitter_icon_url]
+					request[:twitter_icon_url_https] = user[:twitter_icon_url_https]
 				end
 			end
 
