@@ -17,8 +17,7 @@
 
 		/ 発言本文
 		.statement-message<
-			- statement.body.gsub(/[\r\n]+/, "\r").each_line do |line|
-				= line
+			= statement.body.gsub(/[\r\n]+/, "\r")
 
 		/ 画像表示
 		.statement-photos
