@@ -15,7 +15,7 @@
 							.info.alert-info
 								#{_user_info_update}
 						%h2<#{_basic_setting}
-						%form.form-horizontal{:method => "POST", :action => '/user'}
+						%form.form-horizontal{:method => "POST", :action => '/user', :enctype => 'multipart/form-data'}
 							%input{csrf_input}
 							- user = Massr::User.find_by_id(session[:user_id]) if session[:user_id]
 							.control-group
@@ -26,9 +26,19 @@
 										Twitter ID
 								.controls
 									- if user
-										%img{:src => get_icon_url(user), :alt => user.twitter_id}
+										%img{:src => get_icon_url(user), :alt => user.twitter_id, :class => 'massr-icon'}
 									- else
 										=session[:twitter_id]
+									- if picasa_client
+										%input.photo-shadow.for-icon{:type => "file", :name => "newicon", :accept => 'image/*', :tabindex => '-1'}
+										%img.photo-preview.massr-icon
+										%span.photo-name
+										%a.photo-button{:href => '#'}
+											#{_upload_icon}
+										#{_icon_size_info}
+									%label.checkbox{:for => 'use-twitter-icon'}
+										%input#use-twitter-icon{:type => 'checkbox', :name => 'use_twitter_icon', :value => '1'}
+										#{_use_twitter_icon}
 							.control-group
 								%label.control-label{:for => 'input-massr_id'}<Massr ID
 								.controls
