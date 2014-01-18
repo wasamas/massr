@@ -20,7 +20,7 @@ describe 'Massr::Statement' do
 			its(:body)  {should eq(prototype_statement(0,@user)[:body]) }
 			its(:photos) {should eq(prototype_statement(0,@user)[:photos])}
 			its(:user)  {should eq(@user) }
-			its(:res)   {should raise_error(NoMethodError) }
+			its(:res)   {should eq(nil) }
 		end
 	end
 		
