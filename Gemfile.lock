@@ -33,10 +33,8 @@ GEM
     celluloid (0.15.2)
       timers (~> 1.1.0)
     coderay (1.1.0)
-    daemons (1.1.9)
     dalli (2.6.4)
     diff-lcs (1.2.5)
-    eventmachine (1.0.3)
     haml (4.0.4)
       tilt
     hashie (2.0.5)
@@ -76,6 +74,8 @@ GEM
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
+    puma (2.7.1)
+      rack (>= 1.1, < 2.0)
     rack (1.5.2)
     rack-protection (1.5.1)
       rack
@@ -109,10 +109,6 @@ GEM
     sinatra-reloader (1.0)
       sinatra-contrib
     slop (3.4.7)
-    thin (1.6.1)
-      daemons (>= 1.0.9)
-      eventmachine (>= 1.0.0)
-      rack (>= 1.0.0)
     thread_safe (0.1.3)
       atomic
     tilt (1.4.1)
@@ -139,10 +135,10 @@ DEPENDENCIES
   picasa
   pit
   pry
+  puma
   rack-session-mongo
   rack_csrf
   rake
   rspec
   sinatra
   sinatra-reloader
-  thin
