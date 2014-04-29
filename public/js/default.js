@@ -26,7 +26,7 @@ $(function(){
 			if($Massr.settings){
 				return $.getJSON($Massr.settings);
 			}else{
-				return [{plugin:{}, resouce:{}, setting:{}, local:{}}];
+				return [{plugin:{}, resource:{}, setting:{}, local:{}}];
 			}
 		})()
 	).done(function(default_settings, custom_settings){
