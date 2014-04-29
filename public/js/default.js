@@ -115,7 +115,8 @@ $(function(){
 			return false;
 		}
 
-		if($(form.body).val().trim()){
+        var $body = form.find("[name=body]");
+		if($body.val().trim()){
 			var statement_id = $(form.res_id).attr("value");
 			var method = $(form).attr('method');
 			var formdata = new FormData(form);
@@ -138,13 +139,13 @@ $(function(){
 				var promise = reloadDiff();
 				if (promise) {
 					promise.always(function(){
-						$(form.body).attr("value", "");
+						$body.val("");
 						$form.parent().parent().find(".res").trigger("click");
 						// TODO レス数表示の更新
 						// TODO 投稿結果を見せたい
 					});
 				} else {
-					$(form.body).attr("value", "");
+                    $body.val("");
 					$form.parent().parent().find(".res").trigger("click");
 				}
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
