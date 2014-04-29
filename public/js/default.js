@@ -930,7 +930,7 @@ $(function(){
 
 	if (fileEnabled) {
 		function clearPhoto(form) {
-			$form = $(form);
+			var $form = $(form);
 			var photoShadow = $form.find('.photo-shadow');
 			photoShadow.replaceWith(photoShadow.val("").clone(true));
 			$form.find(".photo-name").text("");
@@ -954,7 +954,7 @@ $(function(){
 						}
 					}
 					$(preview).css('background-image', "url(" + event.target.result + ")").css('display', 'inline')
-				}
+				};
 				fileReader.readAsDataURL(this.files[0]);
 			} else {
 				$(preview).css('display', 'none');
