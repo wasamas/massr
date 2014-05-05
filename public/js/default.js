@@ -9,7 +9,7 @@
 /*
  * name space and defaults
  */
-$Massr = new Object();
+$Massr = {};
 $Massr.intervalFunctions = [];
 
 /*
@@ -426,7 +426,6 @@ $(function(){
 		if(e.keyCode == 13 && e.ctrlKey){
 			e.preventDefault();
 			$(this).parent().parent().submit();
-			return;
 		}
 	});
 
@@ -648,11 +647,12 @@ $(function(){
 	var UNAUTHORIZED = 9;
 
 	function toggleStatus(massr_id, stat, on, off){
-		if($('#' + massr_id).hasClass('admin') && on == 'unauthorized'){
+        var user = $('#' + massr_id);
+		if(user.hasClass('admin') && on == 'unauthorized'){
 			message.info(_['deny_cancel_admin']);
 			return false;
 		}
-		if($('#' + massr_id).hasClass('unauthorized') && on == 'admin'){
+		if(user.hasClass('unauthorized') && on == 'admin'){
 			message.info(_['deny_nominate_admin']);
 			return false;
 		}
@@ -733,20 +733,21 @@ $(function(){
 	/*
 	 * local setting
 	 */
+    var notificationCheck = $('#popup-notification');
 	if(window.webkitNotifications && window.localStorage){
 		if(window.localStorage.getItem('popupNotification') == 'true'){
 			if(window.webkitNotifications.checkPermission() === 0){
-				$('#popup-notification').attr('checked', 'checked');
+                notificationCheck.prop('checked', true);
 			}else{
 				window.webkitNotifications.requestPermission();
 			}
 		}
 	}else{
-		$('#popup-notification').attr('disabled', 'disabled');
+        notificationCheck.prop('disabled', true);
 	}
 
-	$('#popup-notification').on('click', function(){
-		if($(this).attr('checked') == 'checked'){
+    notificationCheck.on('click', function(){
+		if($(this).prop('checked')){
 			if(window.webkitNotifications.checkPermission() === 0){
 				window.localStorage.setItem('popupNotification', 'true');
 			}else{
@@ -838,13 +839,15 @@ $(function(){
 		var del = opts['delete'] || 'owner';
 		var myIcon = $('#'+id+' img[alt='+me+']').length !== 0;
 
+        var likeButton = $('#'+id+'-like');
+        var unlikeButton = $('#'+id+'-unlike');
 		if(myIcon){
-			$('#'+id+'-like').hide();
+            likeButton.hide();
 		}else{
-			$('#'+id+'-unlike').hide();
+            unlikeButton.hide();
 		}
 
-		$('#' + id + '-like').on('click', function(){
+        likeButton.on('click', function(){
 			$.ajax({
 				url: '/plugin/notify/like/' + id,
 				type: 'POST',
@@ -858,11 +861,11 @@ $(function(){
 			return false;
 		});
 
-		$('#' + id + '-unlike').on('click', function(){
+        unlikeButton.on('click', function(){
 			$.ajax({
 				url: '/plugin/notify/like/' + id + '/' + me,
 				type: 'DELETE',
-				dataType: 'json',
+				dataType: 'json'
 			}).done(function(result){
 				plugin_notify_like_draw_icons(id, result);
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
