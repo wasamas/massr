@@ -70,8 +70,13 @@ $ cd massr
 $ mkdir vendor
 $ bundle install --path vendor/bundle
 $ export RACK_ENV=development
+$ export EDITOR=vi
 $ bundle exec rackup --port 9393
 ```
+
+developmentでの初回起動時にはTwitterのAPI情報、Gmailのアカウント情報を設定するようviが起動します。(上記でEDITORに指定したエディタ)
+TwitterのAPI情報はユーザ認証に、Gmailのアカウント情報は画像のアップロード (Picasa) に使用します。
+それぞれ ~/.pit/ 以下にファイルが作成されますので、上手く動作しないときはこの中のファイルを編集するか、一度削除して起動し直してください。
 
 http://127.0.0.1:9393 へ接続し、動作確認します。
 
