@@ -283,7 +283,7 @@ $(function(){
 								$('<input>').
 									addClass('photo-shadow').
 									attr('type', 'file').
-									attr('acept', 'image/*').
+									attr('accept', 'image/*').
 									attr('name', 'photo').
 									attr('tabindex', '-1')
 							).append(
