@@ -50,9 +50,9 @@ $(function(){
 	/*
 	 * setup against CSRF
 	 */
-	jQuery.ajaxSetup({
+	$.ajaxSetup({
 		beforeSend: function(xhr) {
-			var token = jQuery('meta[name="_csrf"]').attr('content');
+			var token = $('meta[name="_csrf"]').attr('content');
 			xhr.setRequestHeader('X_CSRF_TOKEN', token);
 		}
 	});
@@ -72,7 +72,7 @@ $(function(){
 		return label.split('-', 2)[1];
 	}
 
-	var message = new Object();
+	var message = {};
 
 	// popup notification message
 	message.success = function(text){
@@ -117,8 +117,7 @@ $(function(){
 
         var $body = $form.find("[name=body]");
 		if($body.val().trim()){
-			var statement_id = $(form.res_id).attr("value");
-			var method = $(form).attr('method');
+			var method = $form.attr('method');
 			var formdata = new FormData(form);
 			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
 			$form.find("textarea").slideUp();
@@ -554,7 +553,7 @@ $(function(){
 				type: 'DELETE'}).
 			done(function(result) {
 					location.href = "/";
-				});
+			});
 		}
 	});
 
@@ -586,20 +585,18 @@ $(function(){
 
 	// Subjoin the next page
 	$('#subjoinpage').on('click', function(str){
+        var loading = $('#subjoinpage-loading');
 		$(this).hide();
-		$('#subjoinpage-loading').show();
+        loading.show();
 		var oldest = (/.*photos$/.test(location.pathname))?
 			$($('#items .item .item-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, ''):
 			$($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
 
-		if (oldest === null|| oldest === ''){
-			$('#subjoinpage-loading').hide();
+		if (oldest === null|| oldest === '') {
+            loading.hide();
 			$('#subjoinpage').show();
-		}else{
-
+		} else {
 			var link=$(this).attr('path') + "?date=" + oldest;
-			var $button = $(this);
-
 			if ($(this).attr('query')!==""){
 				link = link + "&q=" + encodeURIComponent($(this).attr('query'));
 			}
