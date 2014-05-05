@@ -115,7 +115,7 @@ $(function(){
 			return false;
 		}
 
-        var $body = form.find("[name=body]");
+        var $body = $form.find("[name=body]");
 		if($body.val().trim()){
 			var statement_id = $(form.res_id).attr("value");
 			var method = $(form).attr('method');
