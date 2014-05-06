@@ -16,8 +16,8 @@ $Massr.intervalFunctions = [];
  * massr main
  */
 $(function(){
-    // Use local alias
-    var $ = jQuery;
+	// Use local alias
+	var $ = jQuery;
 
 	var me = $('#me').text();
 	var settings = {}, _ = {};
@@ -118,7 +118,7 @@ $(function(){
 			return false;
 		}
 
-        var $body = $form.find("[name=body]");
+		var $body = $form.find("[name=body]");
 		if($body.val().trim()){
 			var method = $form.attr('method');
 			var formdata = new FormData(form);
@@ -147,7 +147,7 @@ $(function(){
 						// TODO 投稿結果を見せたい
 					});
 				} else {
-                    $body.val("");
+					$body.val("");
 					$form.parent().parent().find(".res").trigger("click");
 				}
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
@@ -405,9 +405,9 @@ $(function(){
 				$(this).html().replace(re, function(u){
 					try {
 						if (u.match(/^\s*#/)) {
-                            var array = u.split('#');
-                            var prefix = array[0];
-                            var tag = '#' + array[1];
+							var array = u.split('#');
+							var prefix = array[0];
+							var tag = '#' + array[1];
 							return prefix + '<a href="/search?q='+encodeURIComponent(tag)+'">'+tag+'</a>';
 						} else {
 							var url = $.url(u);
@@ -589,15 +589,15 @@ $(function(){
 
 	// Subjoin the next page
 	$('#subjoinpage').on('click', function(str){
-        var loading = $('#subjoinpage-loading');
+		var loading = $('#subjoinpage-loading');
 		$(this).hide();
-        loading.show();
+		loading.show();
 		var oldest = (/.*photos$/.test(location.pathname))?
 			$($('#items .item .item-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, ''):
 			$($('#statements .statement .statement-info a').get(-1)).text().replace(/^\s*(.*?)\s*$/, "$1").replace(/[-: ]/g, '');
 
 		if (oldest === null|| oldest === '') {
-            loading.hide();
+			loading.hide();
 			$('#subjoinpage').show();
 		} else {
 			var link=$(this).attr('path') + "?date=" + oldest;
@@ -648,7 +648,7 @@ $(function(){
 	var UNAUTHORIZED = 9;
 
 	function toggleStatus(massr_id, stat, on, off){
-        var user = $('#' + massr_id);
+		var user = $('#' + massr_id);
 		if(user.hasClass('admin') && on == 'unauthorized'){
 			message.info(_['deny_cancel_admin']);
 			return false;
@@ -734,20 +734,20 @@ $(function(){
 	/*
 	 * local setting
 	 */
-    var notificationCheck = $('#popup-notification');
+	var notificationCheck = $('#popup-notification');
 	if(window.webkitNotifications && window.localStorage){
 		if(window.localStorage.getItem('popupNotification') == 'true'){
 			if(window.webkitNotifications.checkPermission() === 0){
-                notificationCheck.prop('checked', true);
+				notificationCheck.prop('checked', true);
 			}else{
 				window.webkitNotifications.requestPermission();
 			}
 		}
 	}else{
-        notificationCheck.prop('disabled', true);
+		notificationCheck.prop('disabled', true);
 	}
 
-    notificationCheck.on('click', function(){
+	notificationCheck.on('click', function(){
 		if($(this).prop('checked')){
 			if(window.webkitNotifications.checkPermission() === 0){
 				window.localStorage.setItem('popupNotification', 'true');
@@ -840,15 +840,15 @@ $(function(){
 		var del = opts['delete'] || 'owner';
 		var myIcon = $('#'+id+' img[alt='+me+']').length !== 0;
 
-        var likeButton = $('#'+id+'-like');
-        var unlikeButton = $('#'+id+'-unlike');
+		var likeButton = $('#'+id+'-like');
+		var unlikeButton = $('#'+id+'-unlike');
 		if(myIcon){
-            likeButton.hide();
+			likeButton.hide();
 		}else{
-            unlikeButton.hide();
+			unlikeButton.hide();
 		}
 
-        likeButton.on('click', function(){
+		likeButton.on('click', function(){
 			$.ajax({
 				url: '/plugin/notify/like/' + id,
 				type: 'POST',
@@ -862,7 +862,7 @@ $(function(){
 			return false;
 		});
 
-        unlikeButton.on('click', function(){
+		unlikeButton.on('click', function(){
 			$.ajax({
 				url: '/plugin/notify/like/' + id + '/' + me,
 				type: 'DELETE',
