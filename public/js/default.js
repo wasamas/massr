@@ -16,6 +16,9 @@ $Massr.intervalFunctions = [];
  * massr main
  */
 $(function(){
+    // Use local alias
+    var $ = jQuery;
+
 	var me = $('#me').text();
 	var settings = {}, _ = {};
 	var fileEnabled = false; try {if (FileReader) {fileEnabled = true;}} catch (e) {}
@@ -215,7 +218,6 @@ $(function(){
 					$.each(s.photos, function(){
 						$parent.append($('<a>').attr('href', this).
 							attr('rel', 'lightbox').
-							on('click', function(){showLightbox(this); return false;}).
 							append($('<img>').addClass('statement-photo').attr('src', this)));
 					});
 				})
@@ -308,7 +310,6 @@ $(function(){
 					$.each(s.photos, function(){
 						$parent.append($('<a>').attr('href', this).
 							attr('rel', 'lightbox').
-							on('click', function(){showLightbox(this); return false;}).
 							append($('<img>').addClass('item-photo').attr('src', this)));
 					});
 				})
