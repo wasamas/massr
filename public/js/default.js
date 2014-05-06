@@ -399,12 +399,15 @@ $(function(){
 	// automatic link plugin
 	$.fn.autoLink = function(config){
 		this.each(function(){
-			var re = /((https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+|#\S+)/g;
+			var re = /((https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+|^#\S+|\s#\S+)/g;
 			$(this).html(
 				$(this).html().replace(re, function(u){
 					try {
-						if (u.match(/^#/)) {
-							return '<a href="/search?q='+encodeURIComponent(u)+'">'+u+'</a>';
+						if (u.match(/^\s*#/)) {
+                            var array = u.split('#');
+                            var prefix = array[0];
+                            var tag = '#' + array[1];
+							return prefix + '<a href="/search?q='+encodeURIComponent(tag)+'">'+tag+'</a>';
 						} else {
 							var url = $.url(u);
 							return '[<a href="'+u+'" target="_blank">'+url.attr('host')+'</a>]';
