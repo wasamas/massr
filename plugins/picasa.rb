@@ -58,13 +58,16 @@ module Massr
 
 			def upload_file(path, content_type)
 				retry_count = 0
+				size = ENV['UPLOAD_PHOTO_SIZE'].to_i > 0 ? ENV['UPLOAD_PHOTO_SIZE'].to_i : @@DEFAULT_PHOTO_SIZE
 				begin
 					album = @picasa_client.get_album(Time.now.strftime("Massr%Y%m001"))
-					return @picasa_client.photo.create(
+					image_uri = URI.parse(@picasa_client.photo.create(
 						album.id,
 						file_path: path,
 						content_type: content_type
-					).content.src
+					).content.src)
+					image_uri.path = image_uri.path.split('/').insert(-2,"s#{size}").join('/')
+					return image_uri.to_s
 				rescue ::Picasa::ForbiddenError
 					init_picasa_client
 					retry if (retry_count += 1) < 10
