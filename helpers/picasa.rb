@@ -33,7 +33,7 @@ module Massr
 
 				path = photo_info[:tempfile].to_path || ''
 				content_type = specify_content_type(photo_info[:head])
-				picasa_client.resize_file(path) if ENV['UPLOAD_PHOTO_SIZE']
+				picasa_client.resize_file(path)
 				return picasa_client.upload_file(path, content_type)
 			end
 		end

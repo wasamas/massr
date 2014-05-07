@@ -35,6 +35,8 @@ module Massr
 			@@user_id = nil
 			@@password = nil
 
+			@@DEFAULT_PHOTO_SIZE = 2048
+
 			def self.auth(user_id, password)
 				@@user_id, @@password = user_id, password
 			end
@@ -45,9 +47,12 @@ module Massr
 			end
 
 			def resize_file(path)
-				photo = Magick::ImageList.new(path)
-				photo.resize_to_fit!(ENV['UPLOAD_PHOTO_SIZE'],ENV['UPLOAD_PHOTO_SIZE'])
-				photo.write(path)
+				size = ENV['UPLOAD_PHOTO_SIZE'].to_i > 0 ? ENV['UPLOAD_PHOTO_SIZE'].to_i : @@DEFAULT_PHOTO_SIZE
+				photo = Magick::ImageList.new(path).first
+				if photo.columns > size || photo.rows > size
+					photo.resize_to_fit!(size,size)
+					photo.write(path)
+				end
 				photo.destroy!
 			end
 
