@@ -87,6 +87,7 @@ GEM
     rack_csrf (2.4.0)
       rack (>= 0.9)
     rake (10.1.1)
+    rmagick (2.13.2)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -139,6 +140,7 @@ DEPENDENCIES
   rack-session-mongo
   rack_csrf
   rake
+  rmagick
   rspec
   sinatra
   sinatra-reloader

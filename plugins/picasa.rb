@@ -8,6 +8,7 @@
 # Distributed under GPL
 #
 require 'picasa'
+require 'RMagick'
 
 #
 # Enhanced Picasa Client
@@ -41,6 +42,13 @@ module Massr
 			def initialize
 				raise StandardError::new('not specified user_id or password') unless @@user_id && @@password
 				@picasa_client ||= init_picasa_client
+			end
+
+			def resize_file(path)
+				photo = Magick::ImageList.new(path)
+				photo.resize_to_fit!(ENV['UPLOAD_PHOTO_SIZE'],ENV['UPLOAD_PHOTO_SIZE'])
+				photo.write(path)
+				photo.destroy!
 			end
 
 			def upload_file(path, content_type)
