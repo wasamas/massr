@@ -35,7 +35,8 @@ module Massr
 			@@user_id = nil
 			@@password = nil
 
-			@@DEFAULT_PHOTO_SIZE = 2048
+			@@DEFAULT_UPLOAD_PHOTO_SIZE = 2048
+			@@DEFAULT_DISPLAY_PHOTO_SIZE = 800
 
 			def self.auth(user_id, password)
 				@@user_id, @@password = user_id, password
@@ -47,7 +48,7 @@ module Massr
 			end
 
 			def resize_file(path)
-				size = ENV['UPLOAD_PHOTO_SIZE'].to_i > 0 ? ENV['UPLOAD_PHOTO_SIZE'].to_i : @@DEFAULT_PHOTO_SIZE
+				size = ENV['UPLOAD_PHOTO_SIZE'].to_i > 0 ? ENV['UPLOAD_PHOTO_SIZE'].to_i : @@DEFAULT_UPLOAD_PHOTO_SIZE
 				photo = Magick::ImageList.new(path).first
 				if photo.columns > size || photo.rows > size
 					photo.resize_to_fit!(size,size)
@@ -58,7 +59,7 @@ module Massr
 
 			def upload_file(path, content_type)
 				retry_count = 0
-				size = ENV['UPLOAD_PHOTO_SIZE'].to_i > 0 ? ENV['UPLOAD_PHOTO_SIZE'].to_i : @@DEFAULT_PHOTO_SIZE
+				size = ENV['DISPLAY_PHOTO_SIZE'].to_i > 0 ? ENV['DISPLAY_PHOTO_SIZE'].to_i : @@DEFAULT_DISPLAY_PHOTO_SIZE
 				begin
 					album = @picasa_client.get_album(Time.now.strftime("Massr%Y%m001"))
 					image_uri = URI.parse(@picasa_client.photo.create(
