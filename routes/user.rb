@@ -10,6 +10,9 @@
 
 module Massr
 	class App < Sinatra::Base
+
+		@@DEFAULT_ICON_SIZE = 90
+
 		get '/users.html' do
 			haml :users , :locals => { :users => User.sort(:created_at.desc) }
 		end
@@ -149,7 +152,7 @@ module Massr
 
 			if params[:use_twitter_icon] != '1' then
 				if params[:newicon] != nil then
-					icon_url = picasa_upload(params[:newicon])
+					icon_url = picasa_upload(params[:newicon],@@DEFAULT_ICON_SIZE,true)
 					if icon_url then
 						request[:twitter_icon_url] = icon_url
 						request[:twitter_icon_url_https] = icon_url

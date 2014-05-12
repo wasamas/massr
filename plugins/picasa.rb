@@ -47,12 +47,20 @@ module Massr
 				@picasa_client ||= init_picasa_client
 			end
 
-			def resize_file(path,size=0)
+			def resize_file(path,size=0,square=false)
 				size = @@DEFAULT_UPLOAD_PHOTO_SIZE if size == 0
 				photo = Magick::ImageList.new(path).first
 				if photo.columns > size || photo.rows > size
 					photo.resize_to_fit!(size,size)
 					photo.write(path)
+				end
+				if square
+					img = Magick::Image.new(size, size)
+					img.background_color = '#ffffff'
+					img.composite!(photo, Magick::CenterGravity, Magick::OverCompositeOp)
+					img.format = photo.format
+					img.write(path)
+					img.destroy!
 				end
 				photo.destroy!
 			end
