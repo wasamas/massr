@@ -47,8 +47,8 @@ module Massr
 				@picasa_client ||= init_picasa_client
 			end
 
-			def resize_file(path)
-				size = ENV['UPLOAD_PHOTO_SIZE'].to_i > 0 ? ENV['UPLOAD_PHOTO_SIZE'].to_i : @@DEFAULT_UPLOAD_PHOTO_SIZE
+			def resize_file(path,size=0)
+				size = @@DEFAULT_UPLOAD_PHOTO_SIZE if size == 0
 				photo = Magick::ImageList.new(path).first
 				if photo.columns > size || photo.rows > size
 					photo.resize_to_fit!(size,size)
