@@ -951,11 +951,6 @@ $(function(){
 					if (shadow.hasClass('for-icon')) {
 						var icon = new Image();
 						icon.src = event.target.result;
-						if (icon.width > 90 || icon.height > 90) {
-							message.error(_['icon_size_over']);
-							clearPhoto(shadow.parents('form'));
-							return;
-						}
 					}
 					$(preview).css('background-image', "url(" + event.target.result + ")").css('display', 'inline')
 				};

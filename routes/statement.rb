@@ -14,7 +14,7 @@ module Massr
 			statement = Statement.new
 
 			request[:user] = User.find_by_id(session[:user_id])
-			(request[:photos] ||= []) << picasa_upload(params[:photo]) if params[:photo]
+			(request[:photos] ||= []) << picasa_upload(params[:photo],ENV['UPLOAD_PHOTO_SIZE'].to_i) if params[:photo]
 			statement.update_statement( request ) unless request[:body].size == 0
 			if statement.res && statement.res.user.email.length > 0 && statement.res.user.massr_id != request[:user].massr_id
 				send_mail(statement.res.user, statement)

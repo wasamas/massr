@@ -35,6 +35,9 @@ module Massr
 			@@user_id = nil
 			@@password = nil
 
+			@@DEFAULT_UPLOAD_PHOTO_SIZE = 2048
+			@@DEFAULT_DISPLAY_PHOTO_SIZE = 800
+
 			def self.auth(user_id, password)
 				@@user_id, @@password = user_id, password
 			end
@@ -44,22 +47,36 @@ module Massr
 				@picasa_client ||= init_picasa_client
 			end
 
-			def resize_file(path)
-				photo = Magick::ImageList.new(path)
-				photo.resize_to_fit!(ENV['UPLOAD_PHOTO_SIZE'],ENV['UPLOAD_PHOTO_SIZE'])
-				photo.write(path)
+			def resize_file(path,size=0,square=false)
+				size = @@DEFAULT_UPLOAD_PHOTO_SIZE if size == 0
+				photo = Magick::ImageList.new(path).first
+				if photo.columns > size || photo.rows > size
+					photo.resize_to_fit!(size,size)
+					photo.write(path)
+				end
+				if square
+					img = Magick::Image.new(size, size)
+					img.background_color = '#ffffff'
+					img.composite!(photo, Magick::CenterGravity, Magick::OverCompositeOp)
+					img.format = photo.format
+					img.write(path)
+					img.destroy!
+				end
 				photo.destroy!
 			end
 
 			def upload_file(path, content_type)
 				retry_count = 0
+				size = ENV['DISPLAY_PHOTO_SIZE'].to_i > 0 ? ENV['DISPLAY_PHOTO_SIZE'].to_i : @@DEFAULT_DISPLAY_PHOTO_SIZE
 				begin
 					album = @picasa_client.get_album(Time.now.strftime("Massr%Y%m001"))
-					return @picasa_client.photo.create(
+					image_uri = URI.parse(@picasa_client.photo.create(
 						album.id,
 						file_path: path,
 						content_type: content_type
-					).content.src
+					).content.src)
+					image_uri.path = image_uri.path.split('/').insert(-2,"s#{size}").join('/')
+					return image_uri.to_s
 				rescue ::Picasa::ForbiddenError
 					init_picasa_client
 					retry if (retry_count += 1) < 10
