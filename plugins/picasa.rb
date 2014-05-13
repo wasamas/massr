@@ -35,8 +35,8 @@ module Massr
 			@@user_id = nil
 			@@password = nil
 
-			@@DEFAULT_UPLOAD_PHOTO_SIZE = 2048
-			@@DEFAULT_DISPLAY_PHOTO_SIZE = 800
+			DEFAULT_UPLOAD_PHOTO_SIZE = 2048
+			DEFAULT_DISPLAY_PHOTO_SIZE = 800
 
 			def self.auth(user_id, password)
 				@@user_id, @@password = user_id, password
@@ -47,8 +47,8 @@ module Massr
 				@picasa_client ||= init_picasa_client
 			end
 
-			def resize_file(path,size=0,square=false)
-				size = @@DEFAULT_UPLOAD_PHOTO_SIZE if size == 0
+			def resize_file(path, size=0, square=false)
+				size = DEFAULT_UPLOAD_PHOTO_SIZE if size == 0
 				photo = Magick::ImageList.new(path).first
 				if photo.columns > size || photo.rows > size
 					photo.resize_to_fit!(size,size)
@@ -65,9 +65,9 @@ module Massr
 				photo.destroy!
 			end
 
-			def upload_file(path, content_type)
+			def upload_file(path, content_type, display_size = nil)
+				display_size ||= DEFAULT_DISPLAY_PHOTO_SIZE
 				retry_count = 0
-				size = ENV['DISPLAY_PHOTO_SIZE'].to_i > 0 ? ENV['DISPLAY_PHOTO_SIZE'].to_i : @@DEFAULT_DISPLAY_PHOTO_SIZE
 				begin
 					album = @picasa_client.get_album(Time.now.strftime("Massr%Y%m001"))
 					image_uri = URI.parse(@picasa_client.photo.create(
@@ -75,7 +75,7 @@ module Massr
 						file_path: path,
 						content_type: content_type
 					).content.src)
-					image_uri.path = image_uri.path.split('/').insert(-2,"s#{size}").join('/')
+					image_uri.path = image_uri.path.split('/').insert(-2,"s#{display_size}").join('/')
 					return image_uri.to_s
 				rescue ::Picasa::ForbiddenError
 					init_picasa_client

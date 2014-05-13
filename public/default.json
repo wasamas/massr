@@ -4,6 +4,8 @@
 	"resource": {
 	},
 	"setting": {
+		"upload_photo_size": 2048,
+		"display_photo_size": 800
 	},
 	"local": {
 		"site_name": "Massr",
