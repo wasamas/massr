@@ -36,7 +36,6 @@ module Massr
 			cache = Massr::Plugin::Memcached.search(@q).get
 
 			if(cache)
-				p Massr::Plugin::Memcached.query_list.get
 				cache
 			else
 				begin
