@@ -11,14 +11,15 @@
 module Massr
 	class App < Sinatra::Base
 		post '/statement' do
-			statement = Statement.new
+			@statement = Statement.new
 
 			request[:user] = User.find_by_id(session[:user_id])
 			(request[:photos] ||= []) << picasa_upload(params[:photo], SETTINGS['setting']['upload_photo_size']) if params[:photo]
-			statement.update_statement( request ) unless request[:body].size == 0
-			if statement.res && statement.res.user.email.length > 0 && statement.res.user.massr_id != request[:user].massr_id
-				send_mail(statement.res.user, statement)
+			@statement.update_statement( request ) unless request[:body].size == 0
+			if @statement.res && @statement.res.user.email.length > 0 && @statement.res.user.massr_id != request[:user].massr_id
+				send_mail(@statement.res.user, @statement)
 			end
+
 			redirect '/'
 		end
 
@@ -29,7 +30,16 @@ module Massr
 			else
 				@statement = Statement.find_by_id(params[:id])
 				not_found unless @statement
+
+
 			end
+		end
+
+		after '/statement*' do
+			unless request.get? || @statement.body.size == 0
+				Massr::Plugin::AsyncCleanCache.new().future.clean_cache(@statement.body)
+			end
+
 		end
 
 
