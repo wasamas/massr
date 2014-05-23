@@ -56,11 +56,6 @@ module Massr
 				date = params[:date] ? params[:date] : (Time.now + 1).strftime("%Y%m%d%H%M%S")
 			end
 
-			#for mamcached
-			def clear_cache
-				settings.cache.flush_all
-			end
-
 			def get_icon_url(user)
 				request.scheme == 'https' ? user.twitter_icon_url_https : user.twitter_icon_url
 			end

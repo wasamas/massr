@@ -19,6 +19,12 @@ module Massr
 		many       :likes , :class_name => 'Massr::Like'  , :dependent => :delete_all
 		many       :refs  , :class_name => 'Massr::Statement' , :in => :ref_ids
 
+		def save!
+			Massr::Plugin::AsyncCleanCache.new().future.clean_cache(body)
+			super
+		end
+
+
 		def self.get_statements(date,options={})
 			options[:created_at.lt] = Time.parse(date)
 			options[:order]         = :created_at.desc
