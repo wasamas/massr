@@ -50,7 +50,7 @@ module Massr
 			end
 
 			def self.main
-				@@prefix="mail-"
+				@@prefix="main-"
 				@@key="index"
 				self
 			end
