@@ -36,10 +36,9 @@ module Massr
 		end
 
 		after '/statement*' do
-			unless request.get? || @statement.body.size == 0
+			if (not request.get?) && @statement.body.size != 0
 				Massr::Plugin::AsyncCleanCache.new().future.clean_cache(@statement.body)
 			end
-
 		end
 
 
