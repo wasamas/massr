@@ -27,17 +27,27 @@ module Massr
 				redirect '/'
 				return
 			end
+
 			if @q != params[:q] then
 				redirect '/search?q=' + @q
 				return
 			end
 
-			begin
-				haml :index , :locals => {
-					:statements => Statement.get_statements(param_date,{:body => /#{@q}/i}),
-					:q => @q}
-			rescue RegexpError
-				redirect '/'
+			cache = Massr::Plugin::Memcached.search(@q).get
+
+			if(cache)
+				cache
+			else
+				begin
+					page = haml :index , :locals => {
+						:statements => Statement.get_statements(param_date,{:body => /#{@q}/i}),
+						:q => @q}
+					Massr::Plugin::Memcached.search(@q).set(page)
+					Massr::Plugin::Memcached.query_list.add_list(@q)
+					page
+				rescue RegexpError
+					redirect '/'
+				end
 			end
 		end
 

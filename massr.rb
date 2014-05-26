@@ -21,6 +21,7 @@ require 'dalli'
 
 require_relative 'plugins/picasa'
 require_relative 'plugins/logging'
+require_relative 'plugins/memcached'
 
 require_relative 'plugins/async_request'
 
@@ -61,11 +62,12 @@ module Massr
 				}
 			end
 
-			set :cache,Dalli::Client.new(
+			Massr::Plugin::Memcached.cache Dalli::Client.new(
 				ENV['MEMCACHE_SERVERS'] || ENV["MEMCACHIER_SERVERS"],
 				:username => ENV['MEMCACHE_USERNAME'] || ENV["MEMCACHIER_USERNAME"],
 				:password => ENV['MEMCACHE_PASSWORD'] || ENV["MEMCACHIER_PASSWORD"],
-				:expires_in => 24 * 60 * 60)
+				:expires_in => 24 * 60 * 60,
+				:compress => true)
 
 			Massr::Plugin::Picasa.auth(ENV['PICASA_ID'], ENV['PICASA_PASS']) if ENV['PICASA_ID']
 			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::WARN)
@@ -102,9 +104,10 @@ module Massr
 				}
 			end
 
-			set :cache,Dalli::Client.new(
+			Massr::Plugin::Memcached.cache Dalli::Client.new(
 				nil,
-				:expires_in => 24 * 60 * 60)
+				:expires_in => 24 * 60 * 60,
+				:compress => true)
 
 			Massr::Plugin::Picasa.auth(auth_gmail['mail'], auth_gmail['pass'])
 			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::DEBUG)
