@@ -42,8 +42,8 @@ module Massr
 					page = haml :index , :locals => {
 						:statements => Statement.get_statements(param_date,{:body => /#{@q}/i}),
 						:q => @q}
-					Massr::Plugin::Memcached.search(@q).set(page)
 					Massr::Plugin::Memcached.query_list.add_list(@q)
+					Massr::Plugin::Memcached.search(@q).set(page)
 					page
 				rescue RegexpError
 					redirect '/'

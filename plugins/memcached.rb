@@ -70,8 +70,8 @@ module Massr
 
 				Massr::Plugin::Memcached.query_list.get.each do |query|
 					if /#{query}/ =~ body
-						Massr::Plugin::Memcached.query_list.delete_list(query)
 						Massr::Plugin::Memcached.search(query).delete
+						Massr::Plugin::Memcached.query_list.delete_list(query)
 					end
 				end
 			end
