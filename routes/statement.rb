@@ -37,7 +37,7 @@ module Massr
 
 		after '/statement*' do
 			if (not request.get?) && @statement.body.size != 0
-				Massr::Plugin::AsyncCleanCache.new().future.clean_cache(@statement.body)
+				Massr::Plugin::Memcached.cache_cleaner.async.clean_cache(@statement.body)
 			end
 		end
 

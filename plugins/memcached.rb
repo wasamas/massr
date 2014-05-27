@@ -15,6 +15,11 @@ module Massr
 
 			def self.cache cache
 				@@cache = cache
+				@@cache_cleaner = Massr::Plugin::AsyncCleanCache.new()
+			end
+
+			def self.cache_cleaner
+				@@cache_cleaner
 			end
 
 			def self.delete
