@@ -38,6 +38,10 @@ module Massr
 				@@cache.get("#{@@prefix}#{@@key}") ? @@cache.get("#{@@prefix}#{@@key}") : Set.new
 			end
 
+			def self.include_list?(value)
+				self.get_list.include?(value)
+			end
+
 			def self.add_list(value)
 				qlist = self.get_list.add(value)
 				@@cache.set("#{@@prefix}#{@@key}",qlist)

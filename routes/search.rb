@@ -33,7 +33,7 @@ module Massr
 				return
 			end
 
-			cache = Massr::Plugin::Memcached.search(@q).get
+			cache = Massr::Plugin::Memcached.query_list.include_list?(@q) ? Massr::Plugin::Memcached.search(@q).get : nil
 
 			if(cache)
 				cache
