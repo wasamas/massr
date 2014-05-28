@@ -87,6 +87,12 @@ module Massr
 				return 404
 			end
 		end
+
+		after '/search/pin' do
+			if (not request.get?)
+				Massr::Plugin::Memcached.cache_cleaner.async.clean_cache(params[:q])
+			end
+		end
 	end
 end
 
