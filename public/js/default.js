@@ -169,10 +169,9 @@ $(function(){
 			return false;
 		}
 
-		var n = window.webkitNotifications.createNotification(get_icon_url(statement.user), _['site_name'], statement.body);
-		n.show();
+		var n = new Notification(_['site_name'], {icon: get_icon_url(statement.user), body: statement.body});
 		if(timeout > 0){
-			setTimeout(function(){n.cancel();}, timeout);
+			setTimeout(function(){n.close();}, timeout);
 		}
 	}
 
@@ -735,12 +734,10 @@ $(function(){
 	 * local setting
 	 */
 	var notificationCheck = $('#popup-notification');
-	if(window.webkitNotifications && window.localStorage){
+	if(window.Notification && window.localStorage){
 		if(window.localStorage.getItem('popupNotification') == 'true'){
-			if(window.webkitNotifications.checkPermission() === 0){
+			if(Notification.permission === 'granted'){
 				notificationCheck.prop('checked', true);
-			}else{
-				window.webkitNotifications.requestPermission();
 			}
 		}
 	}else{
@@ -749,10 +746,10 @@ $(function(){
 
 	notificationCheck.on('click', function(){
 		if($(this).prop('checked')){
-			if(window.webkitNotifications.checkPermission() === 0){
+			if(Notification.permission === 'granted'){
 				window.localStorage.setItem('popupNotification', 'true');
 			}else{
-				window.webkitNotifications.requestPermission(function(){
+				Notification.requestPermission(function(){
 					window.localStorage.setItem('popupNotification', 'true');
 				});
 			}
