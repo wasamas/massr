@@ -162,7 +162,7 @@ $(function(){
 
 	// notification popup on the desktop
 	function desktopNotification(statement, timeout){
-		if(window.localStorage.getItem('popupNotification') != 'true'){
+		if(localStorage['popupNotification'] !== 'true'){
 			return false;
 		}
 		if(statement.user.massr_id == me){
@@ -734,8 +734,8 @@ $(function(){
 	 * local setting
 	 */
 	var notificationCheck = $('#popup-notification');
-	if(window.Notification && window.localStorage){
-		if(window.localStorage.getItem('popupNotification') == 'true'){
+	if(window.Notification && localStorage){
+		if(localStorage['popupNotification'] === 'true'){
 			if(Notification.permission === 'granted'){
 				notificationCheck.prop('checked', true);
 			}
@@ -747,14 +747,14 @@ $(function(){
 	notificationCheck.on('click', function(){
 		if($(this).prop('checked')){
 			if(Notification.permission === 'granted'){
-				window.localStorage.setItem('popupNotification', 'true');
+				localStorage['popupNotification'] = 'true';
 			}else{
 				Notification.requestPermission(function(){
-					window.localStorage.setItem('popupNotification', 'true');
+					localStorage['popupNotification'] = 'true';
 				});
 			}
 		}else{
-			window.localStorage.setItem('popupNotification', 'false');
+			localStorage['popupNotification'] = 'false';
 		}
 	});
 
