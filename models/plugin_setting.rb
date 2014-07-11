@@ -1,7 +1,5 @@
 # -*- coding: utf-8; -*-
 
-require 'pathname'
-
 module Massr
 	class PluginSetting
 		include MongoMapper::Document
@@ -24,7 +22,8 @@ module Massr
 
 	private
 		def self.plugin_name
-			return Pathname(caller[1].split(/:/).first).basename('.rb').to_s
+			path = caller[1].split(/:/).first
+			return path.scan(%r|plugins/(.*)\.rb|).flatten.first || path
 		end
 	end
 end
