@@ -11,6 +11,8 @@ describe 'Massr::PluginSetting' do
 		it('exist key') do
 			Massr::PluginSetting.set('test', 'aaa')
 			expect(Massr::PluginSetting.get('test')).to eq('aaa')
+			Massr::PluginSetting.set('test', 'bbb')
+			expect(Massr::PluginSetting.get('test')).to eq('bbb')
 		end
 
 		it('no exist key') do
