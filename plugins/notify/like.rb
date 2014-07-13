@@ -12,32 +12,47 @@
 #       "notify/like party": {
 #          "label": "Do you attend the party?",
 #          "delete": "any"   // "any" or "owner"
-#          "volatile": true, // true or false / only true now
 #       }
 #    }
 #
 module Massr
 	module Plugin::Notify
 		class Like
-			LIKES = {} unless const_defined? :LIKES
 			SETTINGS = {} unless const_defined? :SETTINGS
 
 			attr_reader :label, :delete
 
 			def self.likes(id)
-				LIKES[id]
+				JSON.parse(Massr::PluginSetting.get(id) || '{}')
+			end
+
+			def self.update(id, likes)
+				Massr::PluginSetting.set(id, likes.to_json)
+			end
+
+			def self.cancel(id, name)
+				tmp = likes(id)
+				val = tmp.delete(name)
+				update(id, tmp)
+				return val
 			end
 
 			def self.add(id, me)
-				likes(id)[me.massr_id] = [me.twitter_icon_url, me.twitter_icon_url_https]
+				tmp = likes(id)
+				tmp[me.massr_id] = [me.twitter_icon_url, me.twitter_icon_url_https]
+				update(id, tmp)
 			end
 
 			def self.delete(id, name, me)
 				case SETTINGS[id].delete
 				when 'owner'
-					return likes(id).delete(name) if name == me.massr_id
+					if name == me.massr_id
+						return cancel(id, name)
+					else
+						return nil
+					end
 				when 'any'
-					return likes(id).delete(name)
+					return cancel(id, name)
 				end
 				return nil
 			end
@@ -48,12 +63,10 @@ module Massr
 
 			def initialize(plugin_id, opts)
 				@id = plugin_id
-				LIKES[@id] = {}
 				SETTINGS[@id] = self
 
 				@label = opts['label'] || ''
 				@delete = opts['delete'] || 'owner'
-				### future function ### @volatile = opts['volatile'] || true
 			end
 
 			def render
@@ -66,7 +79,7 @@ module Massr
 		private
 
 			def icons
-				LIKES[@id].map{|user, (http, https)|
+				self.class.likes(@id).map{|user, (http, https)|
 					case @delete
 					when "any"
 						%Q|<a href="#" class="#{@id}-delete"><img class="massr-icon-mini" src="#{https}" alt="#{user}" title="delete #{user}"></a>&nbsp;|
