@@ -36,18 +36,24 @@ module Massr
 			cache = Massr::Plugin::Memcached.query_list.include_list?(@q) ? Massr::Plugin::Memcached.search(@q).get : nil
 
 			if(cache)
-				cache
-			else
-				begin
-					page = haml :index , :locals => {
-						:statements => Statement.get_statements(param_date,{:body => /#{@q}/i}),
-						:q => @q}
-					Massr::Plugin::Memcached.query_list.add_list(@q)
-					Massr::Plugin::Memcached.search(@q).set(page)
-					page
-				rescue RegexpError
-					redirect '/'
+				statements = Array.new
+				cache.each do |statement|
+					statements << Statement.from_json(statement.to_json)
 				end
+
+			else
+				statements = Statement.get_statements(param_date,{:body => /#{@q}/i})
+				Massr::Plugin::Memcached.query_list.add_list(@q)
+
+				Statement.include_root_in_json = true
+				Massr::Plugin::Memcached.search(@q).set(statements.as_json)
+			end
+			begin
+				page = haml :index , :locals => {
+					:statements => statements ,
+					:q => @q}
+			rescue RegexpError
+				redirect '/'
 			end
 		end
 
