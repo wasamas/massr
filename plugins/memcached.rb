@@ -53,7 +53,7 @@ module Massr
 			end
 
 			def self.search(key)
-				@@prefix="search-"
+				@@prefix="search-statements-"
 				@@key = key
 				self
 			end
