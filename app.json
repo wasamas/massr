@@ -1,0 +1,17 @@
+{
+  "name": "Massr",
+  "addons": [
+    "sendgrid",
+    "memcachier",
+    "mongolab"
+  ],
+  "env": {
+    "TWITTER_CONSUMER_ID": "",
+    "TWITTER_CONSUMER_SECRET": "",
+    "PICASA_ID": "",
+    "PICASA_PASS": "",
+    "TZ": "Asia/Tokyo",
+    "LANG": "en_US.UTF-8",
+    "RACK_ENV": "production"
+  }
+}

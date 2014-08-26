@@ -1,6 +1,7 @@
 Massr - Mini Wassr
 =====
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 [![Build Status](https://secure.travis-ci.org/tdtds/massr.png)](https://travis-ci.org/tdtds/massr) [![Dependency Status](https://gemnasium.com/tdtds/massr.png)](https://gemnasium.com/tdtds/massr)
 
 ## Massrについて
