@@ -84,7 +84,7 @@ http://127.0.0.1:9393 へ接続し、動作確認します。
 ### Heroku環境(production)での実行方法
 まず https://toolbelt.heroku.com/ から自分の環境に合った heroku toolbelt をインストールし、ログインまで済ませておきます。
 
-```sh 
+```sh
 $ git clone git://github.com/tdtds/massr.git
 $ cd massr
 $ mkdir vendor
@@ -190,6 +190,30 @@ $ heroku config:add MASSR_SETTINGS=http://exapmle.com/massr_custom.json
 
 ### Massrの設定
 設定ファイルで変更できるのは、以下のとおりです:
+
+resourceセクションの中で、Massrのアイコンを変更する設定を記述します。
+
+```
+"resource": {
+   "icon_dir": "default"
+}
+```
+
+上記の設定をすると、以下に配置した各ファイルを参照します。
+
+```
+/public/img/icons/default/
+```
+
+現在設定可能なアイコンファイルは以下になります。
+
+- favicon.ico
+- iOSホーム画面用アイコン
+	- apple-touch-icon-57x57.png
+	- apple-touch-icon-72x72.png
+	- apple-touch-icon-114x114.png
+
+また、icon_dirを指定しない場合、まさお君の月替りアイコンが利用されます。（推奨）
 
 settingセクションの中で、Massrの動作を変更する設定を記述します。
 
