@@ -2,6 +2,7 @@
 	"plugin": {
 	},
 	"resource": {
+		"icon_dir": "default"
 	},
 	"setting": {
 		"upload_photo_size": 2048,

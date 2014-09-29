@@ -213,7 +213,7 @@ resourceセクションの中で、Massrのアイコンを変更する設定を�
 	- apple-touch-icon-72x72.png
 	- apple-touch-icon-114x114.png
 
-また、icon_dirを指定しない場合、まさお君の月替りアイコンが利用されます。（推奨）
+また、icon_dirを指定しない場合、"default"が設定されます。
 
 settingセクションの中で、Massrの動作を変更する設定を記述します。
 

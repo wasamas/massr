@@ -61,7 +61,7 @@ module Massr
 			end
 
 			def icon_dir
-				SETTINGS['resource']['icon_dir'] || Time.now.strftime("%m")
+				SETTINGS['resource']['icon_dir'] || 'default'
 			end
 
 		end
