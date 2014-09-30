@@ -59,6 +59,11 @@ module Massr
 			def get_icon_url(user)
 				request.scheme == 'https' ? user.twitter_icon_url_https : user.twitter_icon_url
 			end
+
+			def icon_dir
+				SETTINGS['resource']['icon_dir'] || 'default'
+			end
+
 		end
 	end
 end
