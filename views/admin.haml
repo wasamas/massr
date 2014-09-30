@@ -25,6 +25,11 @@
 									= member.name
 									%a.delete
 										%i.icon-trash{:title => _delete_user}
+						%h2<Stats
+						%p
+							fileSize: 
+							= stats(:fileSize).to_s.reverse.gsub(/\d\d\d/,',\\0').reverse.sub(/,$/, '')
+							bytes
 				.span3
 					!= haml :sidebar
 		!= haml :footer
