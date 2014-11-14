@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'models/user'
 require 'models/statement'
 
-describe 'Massr::User' do
+describe 'Massr::User', :type => :model do
 	describe '.create_by_registration_form' do
 		context '最初の新規ユーザ登録が正常にできているか' do
 			before :all do
@@ -12,14 +12,45 @@ describe 'Massr::User' do
 			end
 			subject{ @user }
 
-			its(:massr_id) { should eq(prototype_user(0)[:massr_id]) }
-			its(:twitter_user_id) { should eq(prototype_user(0)[:twitter_user_id]) }
-			its(:twitter_id) { should eq(prototype_user(0)[:twitter_id]) }
-			its(:twitter_icon_url) { should eq(prototype_user(0)[:twitter_icon_url]) }
-			its(:twitter_icon_url_https) { should eq(prototype_user(0)[:twitter_icon_url_https]) }
-			its(:name) { should eq(prototype_user(0)[:name]) }
-			its(:email) { should eq(prototype_user(0)[:email]) }
-			its(:status) { should eq(Massr::User::ADMIN) }
+			describe '#massr_id' do
+			  subject { super().massr_id }
+			  it { is_expected.to eq(prototype_user(0)[:massr_id]) }
+			end
+
+			describe '#twitter_user_id' do
+			  subject { super().twitter_user_id }
+			  it { is_expected.to eq(prototype_user(0)[:twitter_user_id]) }
+			end
+
+			describe '#twitter_id' do
+			  subject { super().twitter_id }
+			  it { is_expected.to eq(prototype_user(0)[:twitter_id]) }
+			end
+
+			describe '#twitter_icon_url' do
+			  subject { super().twitter_icon_url }
+			  it { is_expected.to eq(prototype_user(0)[:twitter_icon_url]) }
+			end
+
+			describe '#twitter_icon_url_https' do
+			  subject { super().twitter_icon_url_https }
+			  it { is_expected.to eq(prototype_user(0)[:twitter_icon_url_https]) }
+			end
+
+			describe '#name' do
+			  subject { super().name }
+			  it { is_expected.to eq(prototype_user(0)[:name]) }
+			end
+
+			describe '#email' do
+			  subject { super().email }
+			  it { is_expected.to eq(prototype_user(0)[:email]) }
+			end
+
+			describe '#status' do
+			  subject { super().status }
+			  it { is_expected.to eq(Massr::User::ADMIN) }
+			end
 		end
 
 		context '2番目の新規ユーザ登録が正常にできているか' do
@@ -30,14 +61,45 @@ describe 'Massr::User' do
 			end
 			subject{ @user }
 
-			its(:massr_id) { should eq(prototype_user(1)[:massr_id]) }
-			its(:twitter_user_id) { should eq(prototype_user(1)[:twitter_user_id]) }
-			its(:twitter_id) { should eq(prototype_user(1)[:twitter_id]) }
-			its(:twitter_icon_url) { should eq(prototype_user(1)[:twitter_icon_url]) }
-			its(:twitter_icon_url_https) { should eq(prototype_user(1)[:twitter_icon_url_https]) }
-			its(:name) { should eq(prototype_user(1)[:name]) }
-			its(:email) { should eq(prototype_user(1)[:email]) }
-			its(:status) { should eq(Massr::User::UNAUTHORIZED) }
+			describe '#massr_id' do
+			  subject { super().massr_id }
+			  it { is_expected.to eq(prototype_user(1)[:massr_id]) }
+			end
+
+			describe '#twitter_user_id' do
+			  subject { super().twitter_user_id }
+			  it { is_expected.to eq(prototype_user(1)[:twitter_user_id]) }
+			end
+
+			describe '#twitter_id' do
+			  subject { super().twitter_id }
+			  it { is_expected.to eq(prototype_user(1)[:twitter_id]) }
+			end
+
+			describe '#twitter_icon_url' do
+			  subject { super().twitter_icon_url }
+			  it { is_expected.to eq(prototype_user(1)[:twitter_icon_url]) }
+			end
+
+			describe '#twitter_icon_url_https' do
+			  subject { super().twitter_icon_url_https }
+			  it { is_expected.to eq(prototype_user(1)[:twitter_icon_url_https]) }
+			end
+
+			describe '#name' do
+			  subject { super().name }
+			  it { is_expected.to eq(prototype_user(1)[:name]) }
+			end
+
+			describe '#email' do
+			  subject { super().email }
+			  it { is_expected.to eq(prototype_user(1)[:email]) }
+			end
+
+			describe '#status' do
+			  subject { super().status }
+			  it { is_expected.to eq(Massr::User::UNAUTHORIZED) }
+			end
 		end
 	end
 
@@ -53,7 +115,10 @@ describe 'Massr::User' do
 			end
 			subject{ @user }
 
-			its(:status) { should eq(Massr::User::AUTHORIZED) }
+			describe '#status' do
+			  subject { super().status }
+			  it { is_expected.to eq(Massr::User::AUTHORIZED) }
+			end
 		end
 	end
 
@@ -67,15 +132,42 @@ describe 'Massr::User' do
 			end
 			subject{ @user }
 
-			its(:twitter_user_id) { should eq(prototype_user(1)[:twitter_user_id]) }
-			its(:twitter_id) { should eq(prototype_user(1)[:twitter_id]) }
-			its(:twitter_icon_url) { should eq(prototype_user(1)[:twitter_icon_url]) }
-			its(:twitter_icon_url_https) { should eq(prototype_user(1)[:twitter_icon_url_https]) }
-			its(:name) { should eq(prototype_user(1)[:name]) }
-			its(:email) { should eq(prototype_user(1)[:email]) }
+			describe '#twitter_user_id' do
+			  subject { super().twitter_user_id }
+			  it { is_expected.to eq(prototype_user(1)[:twitter_user_id]) }
+			end
+
+			describe '#twitter_id' do
+			  subject { super().twitter_id }
+			  it { is_expected.to eq(prototype_user(1)[:twitter_id]) }
+			end
+
+			describe '#twitter_icon_url' do
+			  subject { super().twitter_icon_url }
+			  it { is_expected.to eq(prototype_user(1)[:twitter_icon_url]) }
+			end
+
+			describe '#twitter_icon_url_https' do
+			  subject { super().twitter_icon_url_https }
+			  it { is_expected.to eq(prototype_user(1)[:twitter_icon_url_https]) }
+			end
+
+			describe '#name' do
+			  subject { super().name }
+			  it { is_expected.to eq(prototype_user(1)[:name]) }
+			end
+
+			describe '#email' do
+			  subject { super().email }
+			  it { is_expected.to eq(prototype_user(1)[:email]) }
+			end
 
 			# massr_idを変えてはいけない
-			its(:massr_id) { should eq(prototype_user(0)[:massr_id]) }
+
+			describe '#massr_id' do
+			  subject { super().massr_id }
+			  it { is_expected.to eq(prototype_user(0)[:massr_id]) }
+			end
 		end
 	end
 
@@ -86,7 +178,11 @@ describe 'Massr::User' do
 				@user = Massr::User.create_by_registration_form( prototype_user(0) )
 			end
 			subject{ @user }
-			its(:admin?){ should be }
+
+			describe '#admin?' do
+			  subject { super().admin? }
+			  it { is_expected.to be }
+			end
 		end
 
 		context 'ユーザが管理者でない場合' do
@@ -96,7 +192,11 @@ describe 'Massr::User' do
 				@user = Massr::User.create_by_registration_form( prototype_user(0) )
 			end
 			subject{ @user }
-			its(:admin?){ should_not be }
+
+			describe '#admin?' do
+			  subject { super().admin? }
+			  it { is_expected.not_to be }
+			end
 		end
 	end
 
@@ -107,7 +207,11 @@ describe 'Massr::User' do
 				@user = Massr::User.create_by_registration_form( prototype_user(0) )
 			end
 			subject{ @user }
-			its(:authorized?){ should be }
+
+			describe '#authorized?' do
+			  subject { super().authorized? }
+			  it { is_expected.to be }
+			end
 		end
 
 		context 'ユーザが未認可の場合' do
@@ -117,7 +221,11 @@ describe 'Massr::User' do
 				@user = Massr::User.create_by_registration_form( prototype_user(0) )
 			end
 			subject{ @user }
-			its(:authorized?){ should_not be }
+
+			describe '#authorized?' do
+			  subject { super().authorized? }
+			  it { is_expected.not_to be }
+			end
 		end
 	end
 
@@ -127,14 +235,14 @@ describe 'Massr::User' do
 		end
 		subject{ @user.to_hash }
 
-		it {should be_a_kind_of(Hash)}
-		it {subject['id'].should be_a_kind_of(BSON::ObjectId)}
-		it {subject['massr_id'].should eq("wasamas")}
-		it {subject['twitter_user_id'].should eq("00000000")}
-		it {subject['twitter_id'].should eq("1234567")}
-		it {subject['twitter_icon_url'].should be}
-		it {subject['name'].should be}
-		it {subject['email'].should eq("wasamas@example\.com")}
-		it {subject['status'].should be_zero}
+		it {is_expected.to be_a_kind_of(Hash)}
+		it {expect(subject['id']).to be_a_kind_of(BSON::ObjectId)}
+		it {expect(subject['massr_id']).to eq("wasamas")}
+		it {expect(subject['twitter_user_id']).to eq("00000000")}
+		it {expect(subject['twitter_id']).to eq("1234567")}
+		it {expect(subject['twitter_icon_url']).to be}
+		it {expect(subject['name']).to be}
+		it {expect(subject['email']).to eq("wasamas@example\.com")}
+		it {expect(subject['status']).to be_zero}
 	end
 end

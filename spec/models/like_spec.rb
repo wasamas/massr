@@ -13,8 +13,8 @@ describe 'Massr::Like' do
 		end
 		subject{ @like.to_hash }
 
-		it {should be_a_kind_of(Hash)}
-		it {subject['id'].should be_a_kind_of(BSON::ObjectId)}
-		it {subject['user'].should be_a_kind_of(Hash)}
+		it {is_expected.to be_a_kind_of(Hash)}
+		it {expect(subject['id']).to be_a_kind_of(BSON::ObjectId)}
+		it {expect(subject['user']).to be_a_kind_of(Hash)}
 	end
 end
