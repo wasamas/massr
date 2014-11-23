@@ -76,13 +76,13 @@ module Massr
 			include Celluloid
 
 			def clean_cache(body)
-
-				Massr::Plugin::Memcached.query_list.get.each do |query|
+				list_cache = Massr::Plugin::Memcached.query_list.get
+				list_cache.each do |query|
 					if /#{query}/ =~ body
 						Massr::Plugin::Memcached.search(query).delete
 						Massr::Plugin::Memcached.query_list.delete_list(query)
 					end
-				end
+				end if list_cache
 			end
 		end
 	end
