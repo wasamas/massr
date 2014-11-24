@@ -28,6 +28,12 @@ Massr - Mini Wassr
 
 call back用のURLは『http://127.0.0.1:9393/auth/twitter/callback 』(開発用)、または、『http://HOGE-FUGA.herokuapp.com/auth/twitter/callback 』(heroku用)とする。
 
+* Googleアカウント用意
+画像のアップロードはPicasaを利用するため、Googleアカウントが必要です。
+IDとパスワードでログインするため、利用するアカウントで二段階認証を設定している場合はMassr用のパスワードの発行、そうでない場合は「安全性の低いアプリのアクセス」を有効にする必要があります。
+設定は https://www.google.com/settings/security で変更できます。
+
+
 ### 開発環境(development)で実行方法
 
 #### MongoDBを起動する
@@ -60,6 +66,20 @@ $ brew insatall memcached
 
 ```sh
 $ memcached -p 11211 -m 64m
+```
+
+#### imagemagickをインストール
+
+CentOSなら
+
+```sh
+sudo yum -y install ImageMagick-devel
+```
+
+MacOSでhomebrewを使用している場合は以下:
+
+```sh
+$ brew install imagemagick
 ```
 
 #### Massrを起動する
