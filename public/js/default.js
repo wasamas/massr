@@ -135,12 +135,12 @@ $(function(){
                 data: formdata,
                 dataType: 'text'
             }).done(function(statement){
-                $form.find("button").removeAttr("disabled").empty().append(_['post']);
                 $form.find("textarea").removeAttr("disabled");
                 var photoShadow = $form.find(".photo-shadow");
                 photoShadow.replaceWith(photoShadow.val("").clone(true));
                 $form.find(".photo-name").text("");
                 $form.find(".photo-preview").css("display", "none");
+                $form.find("button").removeAttr("disabled").empty().append(_['post']);
 
                 var promise = reloadDiff();
                 if (promise) {
@@ -184,11 +184,11 @@ $(function(){
 				data: formdata,
 				dataType: 'text'
 			}).done(function(statement){
-				$form.find("button").removeAttr("disabled").empty().append(_['post_res']);
 				var photoShadow = $form.find(".photo-shadow");
 				photoShadow.replaceWith(photoShadow.val("").clone(true));
 				$form.find(".photo-name").text("");
 				$form.find(".photo-preview").css("display", "none");
+                $form.find("button").removeAttr("disabled").empty().append(_['post_res']);
 
 				var promise = reloadDiff();
 				if (promise) {
