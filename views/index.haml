@@ -42,7 +42,7 @@
 									%textarea#text-new{:type => "text", :name => "body", :tabindex => "2"}
 									%input{csrf_input}
 								%div.button
-									%input.btn.btn-small.submit{:type => "submit" , :value => _post, :tabindex => "3"}
+									%button.btn.btn-small.submit{:type => "submit", :tabindex => "3"}<#{_post}
 									- if picasa_client
 										.photo-items
 											%input.photo-shadow{:type => "file", :name => "photo", :accept => 'image/*', :tabindex => '-1'}

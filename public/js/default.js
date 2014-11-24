@@ -22,6 +22,7 @@ $(function(){
 	var me = $('#me').text();
 	var settings = {}, _ = {};
 	var fileEnabled = false; try {if (FileReader) {fileEnabled = true;}} catch (e) {}
+    var posting = false;
 
 	$.when(
 		$.getJSON('/default.json'), // default setting
@@ -65,7 +66,7 @@ $(function(){
 	 *   reloading each 30sec without focused in TEXTAREA
 	 */
 	var retry_count_of_reload = 0;
-	var reload_interval = setInterval(function(){reloadDiff();}, 30000);
+	var reload_interval = setInterval(function(){ if (!posting) reloadDiff();}, 30000);
 
 	/*
 	 * utilities
@@ -111,6 +112,56 @@ $(function(){
 		}
 	}
 
+    // TODO postRes()とまとめたい
+    function post(form){
+        var $form = $(form);
+
+        if($('button', $form).attr('disabled') == 'disabled'){
+            return false;
+        }
+
+        var $body = $form.find("[name=body]");
+        if($body.val().trim()){
+            var method = $form.attr('method');
+            var formdata = new FormData(form);
+            $form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
+            $form.find("textarea").attr("disabled", "disabled");
+
+            posting = true;
+            $.ajax('/statement', {
+                type: method,
+                processData: false,
+                contentType: false,
+                data: formdata,
+                dataType: 'text'
+            }).done(function(statement){
+                $form.find("button").removeAttr("disabled").empty().append(_['post']);
+                $form.find("textarea").removeAttr("disabled");
+                var photoShadow = $form.find(".photo-shadow");
+                photoShadow.replaceWith(photoShadow.val("").clone(true));
+                $form.find(".photo-name").text("");
+                $form.find(".photo-preview").css("display", "none");
+
+                var promise = reloadDiff();
+                if (promise) {
+                    promise.always(function(){
+                        $body.val("");
+                    });
+                } else {
+                    $body.val("");
+                }
+                posting = false;
+            }).fail(function(XMLHttpRequest, textStatus, errorThrown){
+                $form.find("button").removeAttr("disabled").empty().append(_['post']);
+                $form.find("textarea").removeAttr("disabled");
+                // TODO エラーメッセージ
+                message.error('(' + textStatus + ')');
+                posting = false;
+            });
+        }
+        return false;
+    }
+
 	function postRes(form){
 		var $form = $(form);
 
@@ -125,6 +176,7 @@ $(function(){
 			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
 			$form.find("textarea").slideUp();
 
+            posting = true;
 			$.ajax('/statement', {
 				type: method,
 				processData: false,
@@ -150,11 +202,13 @@ $(function(){
 					$body.val("");
 					$form.parent().parent().find(".res").trigger("click");
 				}
+                posting = false;
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
 				$form.find("button").removeAttr("disabled").empty().append(_['post_res']);
 				$form.find("textarea").slideDown();
 				// TODO エラーメッセージ
 				message.error('(' + textStatus + ')');
+                posting = false;
 			});
 		}
 		return false;
@@ -439,7 +493,12 @@ $(function(){
 			location.reload();
 			return false;
 		}else{
-			return true;
+            // TODO 検索の場合もajaxにしてあとからトップへ
+            if ($('#query-string').length == 0) {
+                post(e.target);
+                return false;
+            }
+            return true;
 		}
 	});
 
@@ -944,7 +1003,6 @@ $(function(){
 			if (this.files.length) {
 				var fileReader = new FileReader();
 				fileReader.onload = function(event) {
-					console.log("target: " + shadow.hasClass("for-icon"));
 					if (shadow.hasClass('for-icon')) {
 						var icon = new Image();
 						icon.src = event.target.result;
