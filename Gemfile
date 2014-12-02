@@ -21,6 +21,7 @@ gem 'newrelic_rpm'
 group :development, :test do
 	gem 'rake'
 	gem 'rspec'
+	gem 'fuubar'
 	gem 'sinatra-reloader', require: 'sinatra/reloader'
 	gem 'pit', require: 'pit'
 	gem 'pry'
