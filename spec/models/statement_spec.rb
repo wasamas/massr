@@ -4,7 +4,7 @@ require 'models/statement'
 require 'models/user'
 require 'models/like'
 
-describe 'Massr::Statement' do
+describe 'Massr::Statement', :type => :model do
 	before do
 		Massr::Statement.collection.remove
 	end
@@ -17,10 +17,25 @@ describe 'Massr::Statement' do
 		subject {@statement1_1}
 		
 		context 'Statementが正常に登録できているか' do
-			its(:body)  {should eq(prototype_statement(0,@user)[:body]) }
-			its(:photos) {should eq(prototype_statement(0,@user)[:photos])}
-			its(:user)  {should eq(@user) }
-			its(:res)   {should eq(nil) }
+			describe '#body' do
+			  subject { super().body }
+			  it {is_expected.to eq(prototype_statement(0,@user)[:body]) }
+			end
+
+			describe '#photos' do
+			  subject { super().photos }
+			  it {is_expected.to eq(prototype_statement(0,@user)[:photos])}
+			end
+
+			describe '#user' do
+			  subject { super().user }
+			  it {is_expected.to eq(@user) }
+			end
+
+			describe '#res' do
+			  subject { super().res }
+			  it {is_expected.to eq(nil) }
+			end
 		end
 	end
 		
@@ -39,10 +54,25 @@ describe 'Massr::Statement' do
 
 		subject {@statement2_2}
 		context 'レスポンスStatementが正常に登録できているか' do
-			its(:body)  {should eq(prototype_statement(1,@user)[:body]) }
-			its(:photos) {pending do ; should eq(prototype_statement(1,@user)[:photos]);end }
-			its(:user)  {should eq(@user) }
-			its(:res)   {should eq(@statement2_1) }
+			describe '#body' do
+			  subject { super().body }
+			  it {is_expected.to eq(prototype_statement(1,@user)[:body]) }
+			end
+
+			describe '#photos' do
+			  subject { super().photos }
+			  it {skip do ; is_expected.to eq(prototype_statement(1,@user)[:photos]);end }
+			end
+
+			describe '#user' do
+			  subject { super().user }
+			  it {is_expected.to eq(@user) }
+			end
+
+			describe '#res' do
+			  subject { super().res }
+			  it {is_expected.to eq(@statement2_1) }
+			end
 		end
 
 	end
@@ -59,10 +89,10 @@ describe 'Massr::Statement' do
 		subject{ @statement }
 
 		context 'イイネした' do
-			it {subject.like?(@user0).should be_true}
+			it {expect(subject.like?(@user0)).to be_truthy}
 		end
 		context 'イイネしてない' do
-			it {subject.like?(@user1).should_not be_true}
+			it {expect(subject.like?(@user1)).not_to be_truthy}
 		end
 	end
 
@@ -76,14 +106,14 @@ describe 'Massr::Statement' do
 		end
 		subject{ @statement.to_hash }
 
-		it {should be_a_kind_of(Hash)}
-		it {subject['created_at'].should match(/^\d{4}-\d\d-\d\d \d\d:\d\d:\d\d$/)}
-		it {subject['id'].should be}
-		it {subject['body'].should be}
-		it {subject['user'].should be}
-		it {subject['likes'].should be_a_kind_of(Array)}
-		it {subject['re_ids'].should be_nil}
-		it {subject['res_id'].should be_nil}
+		it {is_expected.to be_a_kind_of(Hash)}
+		it {expect(subject['created_at']).to match(/^\d{4}-\d\d-\d\d \d\d:\d\d:\d\d$/)}
+		it {expect(subject['id']).to be}
+		it {expect(subject['body']).to be}
+		it {expect(subject['user']).to be}
+		it {expect(subject['likes']).to be_a_kind_of(Array)}
+		it {expect(subject['re_ids']).to be_nil}
+		it {expect(subject['res_id']).to be_nil}
 	end
 
 	after do

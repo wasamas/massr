@@ -2,15 +2,23 @@
 require 'spec_helper'
 require 'models/search_pin'
 
-describe 'Massr::SearchPin' do
+describe 'Massr::SearchPin', :type => :model do
 	describe '.create_by_word' do
 		before :all do
 			Massr::SearchPin.collection.remove
 			@pin = Massr::SearchPin.create_by_word('aaa')
 		end
 		subject{ @pin }
-		its(:word){should eq('aaa')}
-		its(:label){should eq('aaa')}
+
+		describe '#word' do
+		  subject { super().word }
+		  it {is_expected.to eq('aaa')}
+		end
+
+		describe '#label' do
+		  subject { super().label }
+		  it {is_expected.to eq('aaa')}
+		end
 	end
 
 	describe '#label=' do
@@ -20,7 +28,15 @@ describe 'Massr::SearchPin' do
 			@pin.label = 'bbb'
 		end
 		subject{ @pin }
-		its(:word){should eq('aaa')}
-		its(:label){should eq('bbb')}
+
+		describe '#word' do
+		  subject { super().word }
+		  it {is_expected.to eq('aaa')}
+		end
+
+		describe '#label' do
+		  subject { super().label }
+		  it {is_expected.to eq('bbb')}
+		end
 	end
 end
