@@ -135,20 +135,23 @@ $(function(){
                 data: formdata,
                 dataType: 'text'
             }).done(function(statement){
-                $form.find("textarea").removeAttr("disabled");
-                var photoShadow = $form.find(".photo-shadow");
-                photoShadow.replaceWith(photoShadow.val("").clone(true));
-                $form.find(".photo-name").text("");
-                $form.find(".photo-preview").css("display", "none");
-                $form.find("button").removeAttr("disabled").empty().append(_['post']);
+                var clear = function () {
+                    var photoShadow = $form.find(".photo-shadow");
+                    photoShadow.replaceWith(photoShadow.val("").clone(true));
+                    $form.find(".photo-name").text("");
+                    $form.find(".photo-preview").css("display", "none");
+                    $form.find("button").removeAttr("disabled").empty().append(_['post']);
+                    $body.val("");
+                    $form.find("textarea").removeAttr("disabled");
+                };
 
                 var promise = reloadDiff();
                 if (promise) {
-                    promise.always(function(){
-                        $body.val("");
+                    promise.always(function () {
+                        clear();
                     });
                 } else {
-                    $body.val("");
+                    clear();
                 }
                 posting = false;
             }).fail(function(XMLHttpRequest, textStatus, errorThrown){
@@ -184,23 +187,25 @@ $(function(){
 				data: formdata,
 				dataType: 'text'
 			}).done(function(statement){
-				var photoShadow = $form.find(".photo-shadow");
-				photoShadow.replaceWith(photoShadow.val("").clone(true));
-				$form.find(".photo-name").text("");
-				$form.find(".photo-preview").css("display", "none");
-                $form.find("button").removeAttr("disabled").empty().append(_['post_res']);
+                var clear = function() {
+                    var photoShadow = $form.find(".photo-shadow");
+                    photoShadow.replaceWith(photoShadow.val("").clone(true));
+                    $form.find(".photo-name").text("");
+                    $form.find(".photo-preview").css("display", "none");
+                    $form.find("button").removeAttr("disabled").empty().append(_['post_res']);
+                    $body.val("");
+                    $form.parent().parent().find(".res").trigger("click");
+                };
 
 				var promise = reloadDiff();
 				if (promise) {
 					promise.always(function(){
-						$body.val("");
-						$form.parent().parent().find(".res").trigger("click");
+                        clear();
 						// TODO レス数表示の更新
 						// TODO 投稿結果を見せたい
 					});
 				} else {
-					$body.val("");
-					$form.parent().parent().find(".res").trigger("click");
+                    clear();
 				}
                 posting = false;
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
