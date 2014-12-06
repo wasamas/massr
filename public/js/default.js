@@ -296,7 +296,9 @@ $(function(){
 				}).append(
 					$('<a>').addClass('res').attr('href', '#').append(
 						$('<i>').addClass('icon-comment').attr('title', _['res'])
-					)
+					).append(
+                        s.ref_ids.length > 0?' ('+s.ref_ids.length+') ':' '
+                    )
 				).append(
 					$('<a>').attr('href', '#').addClass('like-button').attr('id', 'like-'+s.id).
 						each(function(){
