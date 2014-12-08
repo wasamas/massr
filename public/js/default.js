@@ -66,7 +66,8 @@ $(function(){
 	 *   reloading each 30sec without focused in TEXTAREA
 	 */
 	var retry_count_of_reload = 0;
-	var reload_interval = setInterval(function(){ if (!posting) reloadDiff();}, 30000);
+	var reload_interval_time = 30000;
+	var reload_interval = setInterval(function(){ if (!posting) reloadDiff();}, reload_interval_time);
 
 	/*
 	 * utilities
@@ -179,7 +180,7 @@ $(function(){
 			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
 			$form.find("textarea").slideUp();
 
-            posting = true;
+			posting = true;
 			$.ajax('/statement', {
 				type: method,
 				processData: false,
@@ -200,20 +201,20 @@ $(function(){
 				var promise = reloadDiff();
 				if (promise) {
 					promise.always(function(){
-                        clear();
+						clear();
 						// TODO レス数表示の更新
 						// TODO 投稿結果を見せたい
 					});
 				} else {
-                    clear();
+					clear();
 				}
-                posting = false;
+				posting = false;
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
 				$form.find("button").removeAttr("disabled").empty().append(_['post_res']);
 				$form.find("textarea").slideDown();
 				// TODO エラーメッセージ
 				message.error('(' + textStatus + ')');
-                posting = false;
+				posting = false;
 			});
 		}
 		return false;
@@ -429,6 +430,8 @@ $(function(){
 				this();
 			});
 
+			var now = new Date();
+			localStorage['lastmodified']=now.getTime();
 			return promise;
 		}
 	}
@@ -482,6 +485,17 @@ $(function(){
 		return this;
 	};
 
+	$(window).on('focus', function(e){
+		if (localStorage['lastmodified']==null) {
+			reloadDiff();
+		} else {
+			var now = new Date();
+			var old = localStorage['lastmodified']
+			if(now - old > reload_interval_time) {
+				reloadDiff();
+			}
+		}
+	});
 	/*
 	 * post by Ctrl+Enter key
 	 */
