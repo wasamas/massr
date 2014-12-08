@@ -22,7 +22,7 @@ $(function(){
 	var me = $('#me').text();
 	var settings = {}, _ = {};
 	var fileEnabled = false; try {if (FileReader) {fileEnabled = true;}} catch (e) {}
-    var posting = false;
+	var posting = false;
 
 	$.when(
 		$.getJSON('/default.json'), // default setting
@@ -112,58 +112,58 @@ $(function(){
 		}
 	}
 
-    // TODO postRes()とまとめたい
-    function post(form){
-        var $form = $(form);
+	// TODO postRes()とまとめたい
+	function post(form){
+		var $form = $(form);
 
-        if($('button', $form).attr('disabled') == 'disabled'){
-            return false;
-        }
+		if($('button', $form).attr('disabled') == 'disabled'){
+			return false;
+		}
 
-        var $body = $form.find("[name=body]");
-        if($body.val().trim()){
-            var method = $form.attr('method');
-            var formdata = new FormData(form);
-            $form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
-            $form.find("textarea").attr("disabled", "disabled");
+		var $body = $form.find("[name=body]");
+		if($body.val().trim()){
+			var method = $form.attr('method');
+			var formdata = new FormData(form);
+			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
+			$form.find("textarea").attr("disabled", "disabled");
 
-            posting = true;
-            $.ajax('/statement', {
-                type: method,
-                processData: false,
-                contentType: false,
-                data: formdata,
-                dataType: 'text'
-            }).done(function(statement){
-                var clear = function () {
-                    var photoShadow = $form.find(".photo-shadow");
-                    photoShadow.replaceWith(photoShadow.val("").clone(true));
-                    $form.find(".photo-name").text("");
-                    $form.find(".photo-preview").css("display", "none");
-                    $form.find("button").removeAttr("disabled").empty().append(_['post']);
-                    $body.val("");
-                    $form.find("textarea").removeAttr("disabled");
-                };
+			posting = true;
+			$.ajax('/statement', {
+				type: method,
+				processData: false,
+				contentType: false,
+				data: formdata,
+				dataType: 'text'
+			}).done(function(statement){
+				var clear = function () {
+					var photoShadow = $form.find(".photo-shadow");
+					photoShadow.replaceWith(photoShadow.val("").clone(true));
+					$form.find(".photo-name").text("");
+					$form.find(".photo-preview").css("display", "none");
+					$form.find("button").removeAttr("disabled").empty().append(_['post']);
+					$body.val("");
+					$form.find("textarea").removeAttr("disabled");
+				};
 
-                var promise = reloadDiff();
-                if (promise) {
-                    promise.always(function () {
-                        clear();
-                    });
-                } else {
-                    clear();
-                }
-                posting = false;
-            }).fail(function(XMLHttpRequest, textStatus, errorThrown){
-                $form.find("button").removeAttr("disabled").empty().append(_['post']);
-                $form.find("textarea").removeAttr("disabled");
-                // TODO エラーメッセージ
-                message.error('(' + textStatus + ')');
-                posting = false;
-            });
-        }
-        return false;
-    }
+				var promise = reloadDiff();
+				if (promise) {
+					promise.always(function () {
+						clear();
+					});
+				} else {
+					clear();
+				}
+				posting = false;
+			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
+				$form.find("button").removeAttr("disabled").empty().append(_['post']);
+				$form.find("textarea").removeAttr("disabled");
+				// TODO エラーメッセージ
+				message.error('(' + textStatus + ')');
+				posting = false;
+			});
+		}
+		return false;
+	}
 
 	function postRes(form){
 		var $form = $(form);
@@ -187,15 +187,15 @@ $(function(){
 				data: formdata,
 				dataType: 'text'
 			}).done(function(statement){
-                var clear = function() {
-                    var photoShadow = $form.find(".photo-shadow");
-                    photoShadow.replaceWith(photoShadow.val("").clone(true));
-                    $form.find(".photo-name").text("");
-                    $form.find(".photo-preview").css("display", "none");
-                    $form.find("button").removeAttr("disabled").empty().append(_['post_res']);
-                    $body.val("");
-                    $form.parent().parent().find(".res").trigger("click");
-                };
+				var clear = function() {
+					var photoShadow = $form.find(".photo-shadow");
+					photoShadow.replaceWith(photoShadow.val("").clone(true));
+					$form.find(".photo-name").text("");
+					$form.find(".photo-preview").css("display", "none");
+					$form.find("button").removeAttr("disabled").empty().append(_['post_res']);
+					$body.val("");
+					$form.parent().parent().find(".res").trigger("click");
+				};
 
 				var promise = reloadDiff();
 				if (promise) {
@@ -297,10 +297,10 @@ $(function(){
 					$('<a>').addClass('res').attr('href', '#').append(
 						$('<i>').addClass('icon-comment').attr('title', _['res'])
 					).append(
-                        s.ref_ids.length > 0?' ('+s.ref_ids.length+') ':' '
-                    )
-				).append(
-					$('<a>').attr('href', '#').addClass('like-button').attr('id', 'like-'+s.id).
+						s.ref_ids.length > 0?' ('+s.ref_ids.length+') ':' '
+						)
+					).append(
+						$('<a>').attr('href', '#').addClass('like-button').attr('id', 'like-'+s.id).
 						each(function(){
 							var classLike = 'like';
 							$.each(s.likes, function(){
@@ -500,12 +500,12 @@ $(function(){
 			location.reload();
 			return false;
 		}else{
-            // TODO 検索の場合もajaxにしてあとからトップへ
-            if ($('#query-string').length == 0) {
-                post(e.target);
-                return false;
-            }
-            return true;
+			// TODO 検索の場合もajaxにしてあとからトップへ
+			if ($('#query-string').length == 0) {
+				post(e.target);
+				return false;
+			}
+			return true;
 		}
 	});
 
