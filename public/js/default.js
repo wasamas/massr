@@ -22,7 +22,7 @@ $(function(){
 	var me = $('#me').text();
 	var settings = {}, _ = {};
 	var fileEnabled = false; try {if (FileReader) {fileEnabled = true;}} catch (e) {}
-    var posting = false;
+	var posting = false;
 
 	$.when(
 		$.getJSON('/default.json'), // default setting
@@ -66,7 +66,8 @@ $(function(){
 	 *   reloading each 30sec without focused in TEXTAREA
 	 */
 	var retry_count_of_reload = 0;
-	var reload_interval = setInterval(function(){ if (!posting) reloadDiff();}, 30000);
+	var reload_interval_time = 30000;
+	var reload_interval = setInterval(function(){ if (!posting) reloadDiff();}, reload_interval_time);
 
 	/*
 	 * utilities
@@ -112,58 +113,58 @@ $(function(){
 		}
 	}
 
-    // TODO postRes()とまとめたい
-    function post(form){
-        var $form = $(form);
+	// TODO postRes()とまとめたい
+	function post(form){
+		var $form = $(form);
 
-        if($('button', $form).attr('disabled') == 'disabled'){
-            return false;
-        }
+		if($('button', $form).attr('disabled') == 'disabled'){
+			return false;
+		}
 
-        var $body = $form.find("[name=body]");
-        if($body.val().trim()){
-            var method = $form.attr('method');
-            var formdata = new FormData(form);
-            $form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
-            $form.find("textarea").attr("disabled", "disabled");
+		var $body = $form.find("[name=body]");
+		if($body.val().trim()){
+			var method = $form.attr('method');
+			var formdata = new FormData(form);
+			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
+			$form.find("textarea").attr("disabled", "disabled");
 
-            posting = true;
-            $.ajax('/statement', {
-                type: method,
-                processData: false,
-                contentType: false,
-                data: formdata,
-                dataType: 'text'
-            }).done(function(statement){
-                var clear = function () {
-                    var photoShadow = $form.find(".photo-shadow");
-                    photoShadow.replaceWith(photoShadow.val("").clone(true));
-                    $form.find(".photo-name").text("");
-                    $form.find(".photo-preview").css("display", "none");
-                    $form.find("button").removeAttr("disabled").empty().append(_['post']);
-                    $body.val("");
-                    $form.find("textarea").removeAttr("disabled");
-                };
+			posting = true;
+			$.ajax('/statement', {
+				type: method,
+				processData: false,
+				contentType: false,
+				data: formdata,
+				dataType: 'text'
+			}).done(function(statement){
+				var clear = function () {
+					var photoShadow = $form.find(".photo-shadow");
+					photoShadow.replaceWith(photoShadow.val("").clone(true));
+					$form.find(".photo-name").text("");
+					$form.find(".photo-preview").css("display", "none");
+					$form.find("button").removeAttr("disabled").empty().append(_['post']);
+					$body.val("");
+					$form.find("textarea").removeAttr("disabled");
+				};
 
-                var promise = reloadDiff();
-                if (promise) {
-                    promise.always(function () {
-                        clear();
-                    });
-                } else {
-                    clear();
-                }
-                posting = false;
-            }).fail(function(XMLHttpRequest, textStatus, errorThrown){
-                $form.find("button").removeAttr("disabled").empty().append(_['post']);
-                $form.find("textarea").removeAttr("disabled");
-                // TODO エラーメッセージ
-                message.error('(' + textStatus + ')');
-                posting = false;
-            });
-        }
-        return false;
-    }
+				var promise = reloadDiff();
+				if (promise) {
+					promise.always(function () {
+						clear();
+					});
+				} else {
+					clear();
+				}
+				posting = false;
+			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
+				$form.find("button").removeAttr("disabled").empty().append(_['post']);
+				$form.find("textarea").removeAttr("disabled");
+				// TODO エラーメッセージ
+				message.error('(' + textStatus + ')');
+				posting = false;
+			});
+		}
+		return false;
+	}
 
 	function postRes(form){
 		var $form = $(form);
@@ -179,7 +180,7 @@ $(function(){
 			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
 			$form.find("textarea").slideUp();
 
-            posting = true;
+			posting = true;
 			$.ajax('/statement', {
 				type: method,
 				processData: false,
@@ -187,33 +188,33 @@ $(function(){
 				data: formdata,
 				dataType: 'text'
 			}).done(function(statement){
-                var clear = function() {
-                    var photoShadow = $form.find(".photo-shadow");
-                    photoShadow.replaceWith(photoShadow.val("").clone(true));
-                    $form.find(".photo-name").text("");
-                    $form.find(".photo-preview").css("display", "none");
-                    $form.find("button").removeAttr("disabled").empty().append(_['post_res']);
-                    $body.val("");
-                    $form.parent().parent().find(".res").trigger("click");
-                };
+				var clear = function() {
+					var photoShadow = $form.find(".photo-shadow");
+					photoShadow.replaceWith(photoShadow.val("").clone(true));
+					$form.find(".photo-name").text("");
+					$form.find(".photo-preview").css("display", "none");
+					$form.find("button").removeAttr("disabled").empty().append(_['post_res']);
+					$body.val("");
+					$form.parent().parent().find(".res").trigger("click");
+				};
 
 				var promise = reloadDiff();
 				if (promise) {
 					promise.always(function(){
-                        clear();
+						clear();
 						// TODO レス数表示の更新
 						// TODO 投稿結果を見せたい
 					});
 				} else {
-                    clear();
+					clear();
 				}
-                posting = false;
+				posting = false;
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
 				$form.find("button").removeAttr("disabled").empty().append(_['post_res']);
 				$form.find("textarea").slideDown();
 				// TODO エラーメッセージ
 				message.error('(' + textStatus + ')');
-                posting = false;
+				posting = false;
 			});
 		}
 		return false;
@@ -297,10 +298,10 @@ $(function(){
 					$('<a>').addClass('res').attr('href', '#').append(
 						$('<i>').addClass('icon-comment').attr('title', _['res'])
 					).append(
-                        s.ref_ids.length > 0?' ('+s.ref_ids.length+') ':' '
-                    )
-				).append(
-					$('<a>').attr('href', '#').addClass('like-button').attr('id', 'like-'+s.id).
+						s.ref_ids.length > 0?' ('+s.ref_ids.length+') ':' '
+						)
+					).append(
+						$('<a>').attr('href', '#').addClass('like-button').attr('id', 'like-'+s.id).
 						each(function(){
 							var classLike = 'like';
 							$.each(s.likes, function(){
@@ -429,6 +430,8 @@ $(function(){
 				this();
 			});
 
+			var now = new Date();
+			localStorage['lastmodified']=now.getTime();
 			return promise;
 		}
 	}
@@ -482,6 +485,17 @@ $(function(){
 		return this;
 	};
 
+	$(window).on('focus', function(e){
+		if (localStorage['lastmodified']==null) {
+			reloadDiff();
+		} else {
+			var now = new Date();
+			var old = localStorage['lastmodified']
+			if(now - old > reload_interval_time) {
+				reloadDiff();
+			}
+		}
+	});
 	/*
 	 * post by Ctrl+Enter key
 	 */
@@ -500,12 +514,12 @@ $(function(){
 			location.reload();
 			return false;
 		}else{
-            // TODO 検索の場合もajaxにしてあとからトップへ
-            if ($('#query-string').length == 0) {
-                post(e.target);
-                return false;
-            }
-            return true;
+			// TODO 検索の場合もajaxにしてあとからトップへ
+			if ($('#query-string').length == 0) {
+				post(e.target);
+				return false;
+			}
+			return true;
 		}
 	});
 
