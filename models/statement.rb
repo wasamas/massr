@@ -2,7 +2,6 @@
 require 'mongo_mapper'
 require 'json'
 require 'uri'
-require 'picasa'
 
 module Massr
 	class Statement

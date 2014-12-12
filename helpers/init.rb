@@ -76,5 +76,5 @@ class String
 end
 
 require_relative 'resource'
-require_relative 'picasa'
+require_relative 'media'
 require_relative 'stats'

@@ -19,7 +19,6 @@ require 'rack-session-mongo'
 require 'mail'
 require 'dalli'
 
-require_relative 'plugins/picasa'
 require_relative 'plugins/logging'
 require_relative 'plugins/memcached'
 
@@ -69,7 +68,6 @@ module Massr
 				:expires_in => 24 * 60 * 60,
 				:compress => true)
 
-			Massr::Plugin::Picasa.auth(ENV['PICASA_ID'], ENV['PICASA_PASS']) if ENV['PICASA_ID']
 			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::WARN)
 		end
 
@@ -109,7 +107,6 @@ module Massr
 				:expires_in => 24 * 60 * 60,
 				:compress => true)
 
-			Massr::Plugin::Picasa.auth(auth_gmail['mail'], auth_gmail['pass'])
 			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::DEBUG)
 		end
 

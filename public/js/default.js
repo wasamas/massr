@@ -899,7 +899,7 @@ $(function(){
 	 * plugins
 	 */
 	function plugin_setup(name, opts){
-		var plugin = name.match(/^([^\/]+)\/([^ ]+) (.*)$/);
+		var plugin = name.match(/^([^\/]+)\/([^ ]+) (.*)$/) || [name];
 		switch(plugin[1]){
 			case "notify":
 				switch(plugin[2]){

@@ -24,17 +24,16 @@ module Massr
 				return ''
 			end
 
-			def picasa_client
-				@picasa_client ||= Massr::Plugin::Picasa.new
-			end
-
-			def picasa_upload(photo_info, size=0, square=false)
+			def media_upload(photo_info, size=0, square=false)
 				return nil unless photo_info && photo_info[:tempfile]
+
+				media_client = media_plugins.first
+				return nil unless media_client
 
 				path = photo_info[:tempfile].to_path || ''
 				content_type = specify_content_type(photo_info[:head])
-				picasa_client.resize_file(path, size, square)
-				return picasa_client.upload_file(path, content_type, SETTINGS['setting']['display_photo_size'])
+				media_client.resize_file(path, size, square)
+				return media_client.upload_file(path, content_type, SETTINGS['setting']['display_photo_size'])
 			end
 		end
 	end

@@ -64,7 +64,7 @@
 					%input{csrf_input}
 				%div.button
 					%button.btn.btn-small.submit{:type => "submit"}<#{_post_res}
-					- if picasa_client
+					- if media_plugins
 						.photo-items
 							%input.photo-shadow{:type => "file", :name => "photo", :accept => 'image/*', :tabindex => '-1'}
 							%a.photo-button{:href => '#'}

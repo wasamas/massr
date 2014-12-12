@@ -29,7 +29,7 @@
 										%img{:src => get_icon_url(user), :alt => user.twitter_id, :class => 'massr-icon'}
 									- else
 										=session[:twitter_id]
-									- if picasa_client
+									- if media_plugins
 										%input.photo-shadow.for-icon{:type => "file", :name => "newicon", :accept => 'image/*', :tabindex => '-1'}
 										%img.photo-preview.massr-icon
 										%span.photo-name
