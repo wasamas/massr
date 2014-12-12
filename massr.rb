@@ -27,8 +27,8 @@ require_relative 'plugins/async_request'
 module Massr
 	# definition of module of plugins
 	module Plugin
-		module Notify
-		end
+		module Notify; end
+		module Media;  end
 	end
 
 	class App < Sinatra::Base
