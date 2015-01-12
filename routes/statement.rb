@@ -20,7 +20,11 @@ module Massr
 				send_mail(@statement.res.user, @statement)
 			end
 
-			redirect '/'
+			if params[:response] == 'json'
+				@statement.to_hash.to_json
+			else
+				redirect '/'
+			end
 		end
 
 		before '/statement/:id*' do
@@ -30,8 +34,6 @@ module Massr
 			else
 				@statement = Statement.find_by_id(params[:id])
 				not_found unless @statement
-
-
 			end
 		end
 
@@ -75,7 +77,7 @@ module Massr
 			@user = User.find_by_id(session[:user_id])
 			@statement = Statement.find_by_id(params[:id])
 		end
-		
+
 		post '/statement/:id/like' do
 			@statement.likes.delete_if{ |like| !like.user}
 			unless @statement.like?(@user)
@@ -94,4 +96,3 @@ module Massr
 		end
 	end
 end
-
