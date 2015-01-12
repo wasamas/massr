@@ -10,7 +10,7 @@
 
 module Massr
 	class App < Sinatra::Base
-		post '/statement' do
+		post '/statement.?:format?' do
 			@statement = Statement.new
 
 			request[:user] = User.find_by_id(session[:user_id])
@@ -20,7 +20,7 @@ module Massr
 				send_mail(@statement.res.user, @statement)
 			end
 
-			if params[:response] == 'json'
+			if params[:format] == 'json'
 				@statement.to_hash.to_json
 			else
 				redirect '/'

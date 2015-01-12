@@ -127,10 +127,9 @@ $(function(){
 			var formdata = new FormData(form);
 			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
 			$form.find("textarea").attr("disabled", "disabled");
-			formdata.append("response", "json");
 
 			posting = true;
-			$.ajax('/statement', {
+			$.ajax('/statement.json', {
 				type: method,
 				processData: false,
 				contentType: false,
@@ -180,10 +179,9 @@ $(function(){
 			var formdata = new FormData(form);
 			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
 			$form.find("textarea").slideUp();
-			formdata.append("response", "json");
 
 			posting = true;
-			$.ajax('/statement', {
+			$.ajax('/statement.json', {
 				type: method,
 				processData: false,
 				contentType: false,
