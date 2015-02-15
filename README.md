@@ -28,11 +28,15 @@ Massr - Mini Wassr
 
 call back用のURLは『http://127.0.0.1:9393/auth/twitter/callback 』(開発用)、または、『http://HOGE-FUGA.herokuapp.com/auth/twitter/callback 』(heroku用)とする。
 
-* Googleアカウント用意
-画像のアップロードはPicasaを利用するため、Googleアカウントが必要です。
+* Googleアカウント用意[オプション]
+画像のアップロードにPicasaを利用する場合、Googleアカウントが必要です。
 IDとパスワードでログインするため、利用するアカウントで二段階認証を設定している場合はMassr用のパスワードの発行、そうでない場合は「安全性の低いアプリのアクセス」を有効にする必要があります。
 設定は https://www.google.com/settings/security で変更できます。
 
+* 画像投稿用Twitterアカウントの用意[オプション]
+画像のアップロードにTwitterを利用する場合、Twitterアカウントが必要です。上記で用意した開発者用アカウントを流用してもかまいませんが、画像がポストされるので専用のものを用意した方がよいでしょう。また、いわゆる鍵付きアカウントにしておくと良いでしょう。
+
+このアカウントでも同様に開発者登録をしてアプリケーションをセットアップして、Consumer keyおよびSecretに加えてAccess TokenおよびSecretの4つのキーを入手しておきます。
 
 ### 開発環境(development)で実行方法
 
@@ -96,7 +100,7 @@ $ bundle exec rackup --port 9393
 ```
 
 developmentでの初回起動時にはTwitterのAPI情報、Gmailのアカウント情報を設定するようviが起動します。(上記でEDITORに指定したエディタ)
-TwitterのAPI情報はユーザ認証に、Gmailのアカウント情報は画像のアップロード (Picasa) に使用します。
+TwitterのAPI情報はユーザ認証に、Gmailのアカウント情報はメールの送信に使用します。
 それぞれ ~/.pit/ 以下にファイルが作成されますので、上手く動作しないときはこの中のファイルを編集するか、一度削除して起動し直してください。
 
 http://127.0.0.1:9393 へ接続し、動作確認します。
@@ -134,10 +138,19 @@ $ heroku logs -t
 
 ### 画像投稿を有効化する方法
 
-Massrでは画像投稿にPicasaウェブアルバムを利用しています。
+画像投稿にPicasaウェブアルバムを利用する場合は、設定が必要です。
 PicasaウェブアルバムではGoogle+と連携することで、2048px x 2048px以下の画像が容量無制限でアップロード可能となります。
 
-以下の設定をすることで、画像投稿機能が有効になります。
+yamlファイルに以下の設定をすることで、Picasaを使った画像投稿機能が有効になります:
+
+```
+"plugin": {
+  "media/picasa": {
+  }
+}
+```
+
+また、Herokuの環境変数に以下の設定が必要です:
 
 ```sh
 $ heroku config:add \
@@ -152,11 +165,27 @@ $ heroku config:add \
 投稿する画像サイズを変更する場合は後述する設定ファイルに指定して下さい。
 オリジナルサイズを利用したい場合は十分に大きい値を設定する必要があります。
 
-
 また、表示時に読み込まれる画像サイズはデフォルトで長辺が800pxになるように取得するようになっています。
 表示する画像サイズを変更する場合も、後述する設定ファイルに指定して下さい。
 
+画像投稿にTwitterを利用する場合は、yamlファイルに以下の設定が必要です。
 
+```
+"plugin": {
+  "media/twitter": {
+    "consumer_key": "aaaaaaaaaaaaaaa",
+	 "access_token": "bbbbbbbbbbbbbbbbb"
+  }
+}
+```
+
+また、Herokuの環境変数に以下の設定が必要です:
+
+```sh
+$ heroku config:add \
+  MEDIA_CONSUMER_SECRET=XXXXXXXXXXXXXXX \
+  MEDIA_ACCESS_TOKEN_SECRET=XXXXXXXXXXXXXXX
+```
 
 ### New Relicアドオンよるパフォーマンス計測を実施する方法
 

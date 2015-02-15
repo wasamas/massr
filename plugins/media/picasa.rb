@@ -1,6 +1,16 @@
 # -*- coding: utf-8; -*-
 #
-# plugins/picasa.rb : massr plugin of upload to picasa album
+# plugins/media/picasa.rb : massr plugin of upload to picasa album
+#
+# usage: in default.json file:
+#
+#        // if no user_id or password, uses PICASA_ID or PICASA_PASS from ENV
+#        "plugin": {
+#          "media/picasa": {
+#            "user_id": "hoge",
+#            "password": "fuga"
+#          }
+#        }
 #
 # Copyright (C) 2012 by The wasam@s production
 # https://github.com/tdtds/massr
@@ -30,20 +40,15 @@ end
 # Massr Picasa plugin
 #
 module Massr
-	module Plugin
+	module Plugin::Media
 		class Picasa
-			@@user_id = nil
-			@@password = nil
-
 			DEFAULT_UPLOAD_PHOTO_SIZE = 2048
 			DEFAULT_DISPLAY_PHOTO_SIZE = 800
 
-			def self.auth(user_id, password)
-				@@user_id, @@password = user_id, password
-			end
-
-			def initialize
-				raise StandardError::new('not specified user_id or password') unless @@user_id && @@password
+			def initialize(label, opts)
+				@user_id = opts['user_id'] || ENV['PICASA_ID']
+				@password = opts['password'] || ENV['PICASA_PASS']
+				raise StandardError::new('not specified user_id or password') unless @user_id && @password
 				@picasa_client ||= init_picasa_client
 			end
 
@@ -86,7 +91,7 @@ module Massr
 
 		private
 			def init_picasa_client
-				::Picasa::Client.new(user_id: @@user_id, password: @@password)
+				::Picasa::Client.new(user_id: @user_id, password: @password)
 			end
 		end
 	end

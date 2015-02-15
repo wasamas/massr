@@ -60,6 +60,12 @@ module Massr
 					/^Massr::Plugin::Notify::/ =~ plugin.class.to_s
 				end
 			end
+
+			def media_plugins
+				PLUGINS.select do |plugin|
+					/^Massr::Plugin::Media::/ =~ plugin.class.to_s
+				end
+			end
 		end
 
 		SETTINGS['local'].each do |key, value|
