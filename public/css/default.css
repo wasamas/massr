@@ -200,6 +200,7 @@ div.statement {
 	border-color: #eee transparent;
 	margin: 4px 0;
 	padding: 4px 2px 0 2px;
+	clear: both;
 }
 
 div.statement-new {
