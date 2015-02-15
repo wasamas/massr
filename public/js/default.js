@@ -129,7 +129,7 @@ $(function(){
 			$form.find("textarea").attr("disabled", "disabled");
 
 			posting = true;
-			$.ajax('/statement', {
+			$.ajax('/statement.json', {
 				type: method,
 				processData: false,
 				contentType: false,
@@ -181,7 +181,7 @@ $(function(){
 			$form.find("textarea").slideUp();
 
 			posting = true;
-			$.ajax('/statement', {
+			$.ajax('/statement.json', {
 				type: method,
 				processData: false,
 				contentType: false,
@@ -612,6 +612,7 @@ $(function(){
 				$('textarea', this).focus();
 			}
 		});
+
 		return false;
 	});
 
