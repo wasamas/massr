@@ -96,7 +96,7 @@ $ mkdir vendor
 $ bundle install --path vendor/bundle
 $ export RACK_ENV=development
 $ export EDITOR=vi
-$ bundle exec rackup --port 9393
+$ bundle exec puma --port 9393
 ```
 
 developmentでの初回起動時にはTwitterのAPI情報、Gmailのアカウント情報を設定するようviが起動します。(上記でEDITORに指定したエディタ)
