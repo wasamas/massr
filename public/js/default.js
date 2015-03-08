@@ -276,7 +276,6 @@ $(function(){
 					var $parent = $(this);
 					$.each(s.photos, function(){
 						$parent.append($('<a>').attr('href', this).
-							attr('rel', 'lightbox').
 							append($('<img>').addClass('statement-photo').attr('src', this)));
 					});
 				})
@@ -370,7 +369,6 @@ $(function(){
 					var $parent = $(this);
 					$.each(s.photos, function(){
 						$parent.append($('<a>').attr('href', this).
-							attr('rel', 'lightbox').
 							append($('<img>').addClass('item-photo').attr('src', this)));
 					});
 				})

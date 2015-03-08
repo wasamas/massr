@@ -296,5 +296,4 @@ localセクションでは、用語の変更を行えます。
 Massrの著作権は「The wasam@s production」が保有しており、GPLのもとで改変・再配布が可能です。ただし、同梱する下記のプロダクトはその限りではありません。
 
 * Twitter Bootstrap (public/cs/bootstrap*, public/js/bootstrap*)
-* Lightbox JS (public/js/lightbox.js)
 * jQuery URL Parser plugin (public/js/jquery.purl.js)

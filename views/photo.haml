@@ -3,7 +3,7 @@
 		/ 画像表示
 		.item-photos
 			- statement.photos.each do |photo|
-				%a{:href => "#{photo}" ,:rel=>"lightbox"}<
+				%a{:href => "#{photo}"}<
 					%img.item-photo{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
 
 		/ 発言の付属情報
