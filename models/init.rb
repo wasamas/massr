@@ -10,6 +10,7 @@
 
 require_relative 'user'
 require_relative 'statement'
+require_relative 'stamp'
 require_relative 'like'
 require_relative 'message'
 require_relative 'search_pin'

@@ -9,7 +9,7 @@
 			.row-fluid
 				.span9
 					.main
-						!= haml :photos ,:locals => {:statements => statements, :q => q}
+						!= haml :photos ,:locals => {:statements => statements, :q => q, :pagenation => pagenation}
 				.span3
 					!= haml :sidebar
 			!= haml :footer

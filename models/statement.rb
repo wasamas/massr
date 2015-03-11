@@ -7,7 +7,8 @@ module Massr
 	class Statement
 		include MongoMapper::Document
 
-		key :body,  :type => String, :required => true
+		key :body,  :type => String
+		key :stamp, :type => String
 		key :photos, Array
 		key :ref_ids, Array
 
@@ -17,6 +18,13 @@ module Massr
 		belongs_to :res   , :class_name => 'Massr::Statement'
 		many       :likes , :class_name => 'Massr::Like'  , :dependent => :delete_all
 		many       :refs  , :class_name => 'Massr::Statement' , :in => :ref_ids
+
+		def custom_validation
+			if body.nil && stamp.nil
+				errors.add( :body,  "Please enter the body or stamp.")
+				errors.add( :stamp,  "Please enter the body or stamp.")
+			end
+		end
 
 		def self.get_statements(date,options={})
 			options[:created_at.lt] = Time.parse(date)
@@ -46,7 +54,7 @@ module Massr
 		end
 
 		def update_statement(request)
-			self[:body], self[:photos] = request[:body], request[:photos]
+			self[:body], self[:photos],self[:stamp] = request[:body], request[:photos] , request[:stamp]
 
 			user = request[:user]
 			self.user  = user
@@ -74,7 +82,7 @@ module Massr
 					next if uri.host == request_uri.host
 					response = nil
 					Massr::Plugin::AsyncRequest.new(uri).future.add_photo(self._id)
-				end
+				end unless self[:body].nil?
 			end
 
 			return self
@@ -94,7 +102,8 @@ module Massr
 				'likes' => likes.map{|l| l.to_hash},
 				'ref_ids' => ref_ids,
 				'res' => res ? res.to_hash : nil,
-				'photos' => photos
+				'photos' => photos,
+				'stamp' => stamp
 			}
 		end
 	end

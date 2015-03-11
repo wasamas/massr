@@ -64,6 +64,10 @@ module Massr
 				SETTINGS['resource']['icon_dir'] || 'default'
 			end
 
+			def stamp_urls
+				Massr::Plugin::Memcached.stamp.get
+			end
+
 		end
 	end
 end

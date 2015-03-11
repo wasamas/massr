@@ -237,7 +237,11 @@ $(function(){
 
 	// replace CR/LF to single space
 	function shrinkText(text){
-		return text.replace(/[\r\n]+/g, '\r');
+		if (text != null) {
+			return text.replace(/[\r\n]+/g, '\r');
+		} else {
+			return ""
+		}
 	}
 
 	// template of a statement
@@ -270,13 +274,40 @@ $(function(){
 					);
 				}
 			}).append(
-				$('<div>').addClass('statement-message').text(shrinkText(s.body)).autoLink()
+				$('<div>').each(function(){
+					if (s.body != null){
+						$(this).addClass('statement-message').text(shrinkText(s.body)).autoLink();
+					} else {
+						$(this).addClass('statement-stamp').append($('<img>').addClass('statement-stamp-img').attr('src',s.stamp));
+					}
+				})
 			).append(
 				$('<div>').addClass('statement-photos').each(function(){
 					var $parent = $(this);
 					$.each(s.photos, function(){
-						$parent.append($('<a>').attr('href', this).
-							append($('<img>').addClass('statement-photo').attr('src', this)));
+						var $photo = this
+						$parent.append(($('<a>').addClass('popup-image').attr('href', '#'+s.id).mfp()).
+							append($('<img>').addClass('statement-photo').attr('src', $photo)));
+						$parent.append(($('<div>').addClass('mfp-hide').addClass('popup-photo').attr('id',s.id)).
+							append(($('<div>').addClass('stamp')).each(function(){
+								var $f = false;
+								$('#stamps').each(function(){
+									$(this).find('img').each(function(){
+										if ($(this).attr('src')==$photo){
+											$f = true
+										}
+									});
+								});
+								if ($f == true) {
+									$(this).append(($('<a>').addClass('unusestamp')).
+											append($('<i>').addClass('icon-star').attr('title',_['unuse_stamp'])));
+								} else {
+									$(this).append(($('<a>').addClass('usestamp')).
+											append($('<i>').addClass('icon-star-empty').attr('title',_['use_stamp'])));
+								}
+							})).
+							append(($('<div>').addClass('image')).
+								append($('<img>').attr('src',$photo))))
 					});
 				})
 			).append(
@@ -368,8 +399,40 @@ $(function(){
 				$('<div>').addClass('item-photos').each(function(){
 					var $parent = $(this);
 					$.each(s.photos, function(){
-						$parent.append($('<a>').attr('href', this).
-							append($('<img>').addClass('item-photo').attr('src', this)));
+						var $photo = this
+						$parent.append(($('<a>').addClass('popup-image').attr('href', '#'+s.id).mfp()).
+							append($('<img>').addClass('statement-photo').attr('src', $photo)));
+						$parent.append(($('<div>').addClass('mfp-hide').addClass('popup-photo').attr('id',s.id)).
+							append(($('<div>').addClass('stamp')).each(function(){
+								var $f = false;
+								$('#stamps').each(function(){
+									$(this).find('img').each(function(){
+										if ($(this).attr('src')==$photo){
+											$f = true
+										}
+									});
+								});
+								if ($f == true) {
+									$(this).append(($('<a>').addClass('unusestamp')).
+											append($('<i>').addClass('icon-star').attr('title',_['unuse_stamp'])));
+								} else {
+									$(this).append(($('<a>').addClass('usestamp')).
+											append($('<i>').addClass('icon-star-empty').attr('title',_['use_stamp'])));
+								}
+							})).
+							append(($('<div>').addClass('image')).
+								append($('<img>').attr('src',$photo))).
+							append(($('<div>').addClass('statement').attr('id','st-'+s.id)).
+								append(($('<div>').addClass('statement-icon')).
+									append(($('<a>').attr('href','/user/'+s.user.massr_id)).
+										append($('<img>').addClass('massr-icon').attr('src', get_icon_url(s.user))))).
+							append(($('<div>').addClass('statement-body')).
+								append(($('<div>').addClass('statement-massage').text(s.body)))).
+							append($('<div>').addClass('statement-info').
+								append('by ').
+								append($('<a>').attr('href', '/user/'+s.user.massr_id).append(s.user.name)).
+								append(' at ' ).
+								append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at)))))
 					});
 				})
 			).append(
@@ -719,6 +782,42 @@ $(function(){
 	});
 
 	/*
+	 * stamp
+	 */
+	var USE     = 0;
+	var UNUSE   = 1;
+	function toggleStamp(target , statement_id , image_url, stat){
+		target.hide().parent().append('<img src="/img/masao_loading.gif">');
+		if (stat == USE){
+			msg = _['success_use_stamp'];
+			method = 'POST'
+		} else {
+			msg = _['success_unuse_stamp'];
+			method = 'DELETE'
+		}
+		$.ajax({
+			url: '/stamp',
+			type: method,
+			data: "image_url=" + image_url + "&statement_id=" + statement_id}).
+		done(function(result){
+				message.success(msg);
+				target.toggleClass('unusestamp').toggleClass('usestamp');
+				target.children('i').toggleClass('icon-star-empty').toggleClass('icon-star');
+			}).
+		fail(function(XMLHttpRequest, textStatus, errorThrown){
+				message.error('(' + textStatus + ')');
+			});
+		target.show().parent().children('img').remove();
+		return true;
+	}
+	$(document).
+		on('click', 'a.usestamp', function(){ 
+			toggleStamp($(this),$(this).parent().parent().attr('id'),$(this).parent().parent().children('div.image').children('img').attr('src'),USE);
+			return false;}).
+		on('click', 'a.unusestamp', function(){
+			toggleStamp($(this),$(this).parent().parent().attr('id'),$(this).parent().parent().children('div.image').children('img').attr('src'),UNUSE);
+			return false;});
+	/*
 	 * admin
 	 */
 	var ADMIN        = 0;
@@ -806,6 +905,39 @@ $(function(){
 		$container.masonry({
 			itemSelector : '.item',
 			columnWidth : 110
+		});
+	});
+
+
+	/*
+	* Magnific Popup
+	*/
+	$.fn.mfp = function(config){
+		this.magnificPopup({
+			type: 'inline',
+			preloader: false
+		});
+		return this
+	};
+	$('.popup-image').mfp();
+
+	/*
+	* submit stamp 
+	*/
+	$(function(){
+		$('.item-stamp').on('click', function(){
+			posting = true;
+			$.ajax({
+				url: '/statement.json',
+				type: 'POST',
+				data: "stamp=" + $(this).attr('src')
+			}).done(function(statement){
+				reloadDiff();
+			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
+				// TODO エラーメッセージ
+				message.error('(' + textStatus + ')');
+			});
+			$.magnificPopup.close();
 		});
 	});
 

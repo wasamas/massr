@@ -1,7 +1,8 @@
 #items
 	- statements.each do |statement|
 		!= haml :photo , :locals => {:statement => statement}
-.pagenation
-	%input.btn.btn-large{:id => 'subjoinpage', :type => "button" , :value => "next" , :path => "#{request.path_info}.json", :query => "#{q}"}
-	%img{:id => 'subjoinpage-loading', :src => '/img/masao_loading.gif', :alt => 'Loading...'}
+- if pagenation
+	.pagenation
+		%input.btn.btn-large{:id => 'subjoinpage', :type => "button" , :value => "next" , :path => "#{request.path_info}.json", :query => "#{q}"}
+		%img{:id => 'subjoinpage-loading', :src => '/img/masao_loading.gif', :alt => 'Loading...'}
 

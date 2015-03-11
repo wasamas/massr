@@ -27,6 +27,8 @@
 										%a{:href => "/user/#{current_user.massr_id}/photos", :title => _user_photos(current_user.massr_id)}<#{_user_photos current_user.name}
 									%li
 										%a{:href => "/statement/photos", :title => _all_photos}<#{_all_photos}
+									%li
+										%a{:href => "/stamps", :title => _stamps}<#{_stamps}
 							%li.dropdown
 								%button.dropdown-toggle{"data-toggle" => "dropdown"}
 									#{_like}
@@ -40,6 +42,8 @@
 								%a{:href => "/user/#{current_user.massr_id}/photos", :title => _user_photos(current_user.massr_id)}<#{_user_photos current_user.name}
 							%li.flat-menu
 								%a{:href => "/statement/photos", :title => _all_photos}<#{_all_photos}
+							%li.flat-menu
+								%a{:href => "/stamps", :title => _stamps}<#{_stamps}
 							%li.flat-menu
 								%a{:href => "/user/#{current_user.massr_id}/liked", :title => _liked}<#{_liked}
 							%li.flat-menu

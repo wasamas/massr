@@ -16,14 +16,19 @@
 					&lt; #{statement.res.body}
 
 		/ 発言本文
-		.statement-message<
-			= statement.body.gsub(/[\r\n]+/, "\r")
+		- unless statement.body.nil?
+			.statement-message<
+				= statement.body.gsub(/[\r\n]+/, "\r")
+		- unless statement.stamp.nil?
+			.statement-stamp
+				%img.statement-stamp-img{:src => "#{statement.stamp}", :alt => "#{statement.stamp}", :title => "#{statement.stamp}"}
 
 		/ 画像表示
 		.statement-photos
 			- statement.photos.each do |photo|
-				%a{:href => "#{photo}"}<
+				%a{:href => "##{statement._id}" ,:class => "popup-image"}<
 					%img.statement-photo{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
+				!= haml :popup_photo , :locals => {:statement => statement,:photo => photo, :detail => false}
 
 		/ 発言の付属情報
 		.statement-info

@@ -1,0 +1,29 @@
+.mfp-hide.popup-photo{:id => "#{statement._id}"}
+	.stamp
+		- if stamp_urls.include? photo
+			%a.unusestamp
+				%i.icon-star{:title => _unuse_stamp}
+		- else
+			%a.usestamp
+				%i.icon-star-empty{:title => _use_stamp }
+	.image
+		%img{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
+	- if detail
+		.statement{:id => "st-#{statement._id}"}
+			/ アイコン
+			.statement-icon
+				%a{:href => "/user/#{statement.user.massr_id}"}
+					%img.massr-icon{:src => get_icon_url(statement.user)}
+		
+			%div{:class => "#{session[:user_id] == statement.user._id ? "statement-body-me statement-body" : "statement-body"}"}
+				/ 発言本文
+				.statement-message<
+					= statement.body.gsub(/[\r\n]+/, "\r")
+				/ 発言の付属情報
+				.statement-info
+					by
+					%a{:href => "/user/#{statement.user.massr_id}"}<#{statement.user.name}
+					at
+					%a{:href => "/statement/#{statement._id}"}
+						= statement.created_at.localtime.strftime('%Y-%m-%d %H:%M:%S')
+					- statement.likes.delete_if{|like| !like.user}

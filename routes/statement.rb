@@ -15,7 +15,11 @@ module Massr
 
 			request[:user] = User.find_by_id(session[:user_id])
 			(request[:photos] ||= []) << media_upload(params[:photo], SETTINGS['setting']['upload_photo_size']) if params[:photo]
-			@statement.update_statement( request ) unless request[:body].size == 0
+			if (request[:stamp].nil?)
+				@statement.update_statement( request ) unless request[:body].size == 0
+			else
+				@statement.update_statement( request ) unless request[:stamp].size == 0
+			end
 			if @statement.res && @statement.res.user.email.length > 0 && @statement.res.user.massr_id != request[:user].massr_id
 				send_mail(@statement.res.user, @statement)
 			end
@@ -38,7 +42,7 @@ module Massr
 		end
 
 		after '/statement*' do
-			if (not request.get?) && @statement.body.size != 0
+			unless request.get?
 				Massr::Plugin::Memcached.cache_cleaner.async.clean_cache(@statement.body)
 			end
 		end
@@ -47,7 +51,8 @@ module Massr
 		get '/statement/photos' do
 			haml :user_photos, :locals => {
 				:statements => Statement.get_statements(param_date, @query),
-				:q => nil}
+				:q => nil,
+				:pagenation => true}
 		end
 
 		get '/statement/photos.json' do
