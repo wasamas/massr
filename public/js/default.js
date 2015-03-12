@@ -467,6 +467,7 @@ $(function(){
 							var $statement = buildStatement(statement).hide();
 							$div.prepend($statement);
 							$statement.slideDown('slow');
+							$.fn.cropImage('.statement-stamp-img',200);
 							if(statement.res && statement.res.user.massr_id == me){
 								desktopNotification(statement, 10000);
 							}
@@ -768,6 +769,8 @@ $(function(){
 								$div.append($statement);
 							}
 							$statement.slideDown('slow');
+							$.fn.cropImage('.statement-stamp-img',200);
+
 							refreshLike(this);
 						});
 					});
@@ -818,6 +821,26 @@ $(function(){
 		on('click', 'a.unusestamp', function(){
 			toggleStamp($(this),$(this).parent().parent().attr('id'),$(this).parent().parent().children('div.image').children('img').attr('src'),UNUSE);
 			return false;});
+
+	$.fn.cropImage = function(klass,size) {
+		var iw, ih;
+		var cw = size; /*トリミング後の横幅*/
+		var ch = size; /*トリミング後の縦幅*/
+		$(document).find(klass).each(function(){
+			iw = ($(this).width() - cw) / 2;
+			ih = ($(this).height() - ch) / 2;
+			$(this).css("top", "-"+ih+"px");
+			$(this).css("left", "-"+iw+"px");
+		})
+	};
+
+	$.fn.cropImage(".statement-stamp-img",200);
+
+	$(document).on('click', '.stamp-button' , function(){
+		$.fn.cropImage(".item-stamp",80);
+	});
+
+
 	/*
 	 * admin
 	 */

@@ -194,9 +194,39 @@ img.massr-icon-mini {
 	height: 20px;
 }
 
-img.statement-stamp-img {
-	max-width: 200px;
-	max-height: 200px;
+.statement-stamp{
+	width:200px;
+	height:200px;
+	border: 0px solid;
+	display:block;
+	overflow:hidden;
+	position:relative;
+	z-index:1;
+}
+
+.stamp{
+	width:80px;
+	height:80px;
+	border: 0px solid;
+	display:block;
+	overflow:hidden;
+	position:relative;
+	z-index:1;
+}
+
+
+.statement-stamp img{
+	min-height:200px;
+	min-width:200px;
+	float:left;
+	position:absolute;
+}
+
+.stamp img{
+	min-width:80px;
+	min-height:80px;
+	float:left;
+	position:absolute;
 }
 
 div.statement {
