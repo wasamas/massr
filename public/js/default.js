@@ -300,10 +300,10 @@ $(function(){
 								});
 								if ($f == true) {
 									$(this).append(($('<a>').addClass('unusestamp')).
-											append($('<i>').addClass('icon-star').attr('title',_['unuse_stamp'])));
+											append($('<i>').addClass('icon-remove-circle').attr('title',_['unuse_stamp'])));
 								} else {
 									$(this).append(($('<a>').addClass('usestamp')).
-											append($('<i>').addClass('icon-star-empty').attr('title',_['use_stamp'])));
+											append($('<i>').addClass('icon-ok-circle').attr('title',_['use_stamp'])));
 								}
 							})).
 							append(($('<div>').addClass('image')).
@@ -414,10 +414,10 @@ $(function(){
 								});
 								if ($f == true) {
 									$(this).append(($('<a>').addClass('unusestamp')).
-											append($('<i>').addClass('icon-star').attr('title',_['unuse_stamp'])));
+											append($('<i>').addClass('icon-ok-circle').attr('title',_['unuse_stamp'])));
 								} else {
 									$(this).append(($('<a>').addClass('usestamp')).
-											append($('<i>').addClass('icon-star-empty').attr('title',_['use_stamp'])));
+											append($('<i>').addClass('icon-remove-circle').attr('title',_['use_stamp'])));
 								}
 							})).
 							append(($('<div>').addClass('image')).
@@ -802,7 +802,7 @@ $(function(){
 		done(function(result){
 				message.success(msg);
 				target.toggleClass('unusestamp').toggleClass('usestamp');
-				target.children('i').toggleClass('icon-star-empty').toggleClass('icon-star');
+				target.children('i').toggleClass('icon-ok-circle').toggleClass('icon-remove-circle');
 			}).
 		fail(function(XMLHttpRequest, textStatus, errorThrown){
 				message.error('(' + textStatus + ')');

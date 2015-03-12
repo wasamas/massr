@@ -1,4 +1,9 @@
 #items
+	.mfp-hide{:id => "stamps"}
+		#items
+			- stamp_urls.each do |url|
+				.stamp
+					%img.item-stamp{:src => "#{url}"}
 	- statements.each do |statement|
 		!= haml :photo , :locals => {:statement => statement}
 - if pagenation
