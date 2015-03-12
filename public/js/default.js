@@ -42,6 +42,7 @@ $(function(){
 		$.each(settings['plugin'], function(name, opts){
 			plugin_setup(name, opts);
 		});
+
 	}).fail(function(){
 		message.error('loading settings');
 	});
@@ -278,7 +279,7 @@ $(function(){
 					if (s.body != null){
 						$(this).addClass('statement-message').text(shrinkText(s.body)).autoLink();
 					} else {
-						$(this).addClass('statement-stamp').append($('<img>').addClass('statement-stamp-img').attr('src',s.stamp));
+						$(this).addClass('statement-stamp').append($('<img>').addClass('statement-stamp-img').attr('src',$.fn.image_size_change(s.stamp,settings['setting']['stamp_size'])));
 					}
 				})
 			).append(
@@ -293,7 +294,7 @@ $(function(){
 								var $f = false;
 								$('#stamps').each(function(){
 									$(this).find('img').each(function(){
-										if ($(this).attr('src')==$photo){
+										if ($.fn.image_size_change($(this).attr('src'),1)==$.fn.image_size_change($photo,1)){
 											$f = true
 										}
 									});
@@ -407,7 +408,7 @@ $(function(){
 								var $f = false;
 								$('#stamps').each(function(){
 									$(this).find('img').each(function(){
-										if ($(this).attr('src')==$photo){
+										if ($.fn.image_size_change($(this).attr('src'),1)==$.fn.image_size_change($photo,1)){
 											$f = true
 										}
 									});
@@ -920,6 +921,23 @@ $(function(){
 		return this
 	};
 	$('.popup-image').mfp();
+
+	$.fn.image_size_change = function(url,size){
+		if (url.indexOf("googleusercontent") != -1){
+			pattern = /\/s[0-9]+\//;
+			if (url.match(pattern) != null ){
+				return url.replace(pattern,'/s' + size + '/')
+			} else {
+				var parts = url.split("/");
+				var last = parts.pop();
+				parts.push('s'+size);
+				parts.push(last);
+				return parts.join('/')
+			}
+		} else {
+			return url;
+		}
+	}
 
 	/*
 	* submit stamp 

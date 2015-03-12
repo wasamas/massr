@@ -8,6 +8,7 @@
 # Distributed under GPL
 #
 require 'mail'
+require 'uri'
 
 module Massr
 	class App < Sinatra::Base
@@ -62,6 +63,19 @@ module Massr
 
 			def icon_dir
 				SETTINGS['resource']['icon_dir'] || 'default'
+			end
+
+			def image_size_change url,size
+				if (url.include? 'googleusercontent')
+					pattern = /\/s\d+\//
+					if url =~ pattern
+						url.sub(pattern , "/s#{size}/")
+					else
+						url.split('/').insert(-2,"s#{size}").join('/')
+					end
+				else
+					url
+				end
 			end
 
 			def stamp_urls

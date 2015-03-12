@@ -2,10 +2,10 @@
 	.stamp
 		- if stamp_urls.include? photo
 			%a.unusestamp
-				%i.icon-star{:title => _unuse_stamp}
+				%i.icon-remove-circle{:title => _unuse_stamp}
 		- else
 			%a.usestamp
-				%i.icon-star-empty{:title => _use_stamp }
+				%i.icon-ok-circle{:title => _use_stamp }
 	.image
 		%img{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
 	- if detail

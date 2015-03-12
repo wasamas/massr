@@ -52,7 +52,7 @@
 												#items
 													- stamp_urls.each do |url|
 														.stamp
-															%img.item-stamp{:src => "#{url}"}
+															%img.item-stamp{:src => "#{image_size_change(url,SETTINGS['setting']['stamp_thumbnail_size'])}"}
 											%a.photo-button{:href => '#', :tabindex => "5"}
 												%i.icon-camera.photo-button{:title => _attach_photo}
 											%img.photo-preview

@@ -6,7 +6,9 @@
 	},
 	"setting": {
 		"upload_photo_size": 2048,
-		"display_photo_size": 800
+		"display_photo_size": 800,
+		"stamp_size": 200,
+		"stamp_thumbnail_size": 100
 	},
 	"local": {
 		"site_name": "Massr",
