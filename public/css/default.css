@@ -179,9 +179,9 @@ div.new-post textarea, div.response textarea {
 	display: none;
 	width: 48px;
 	height: 48px;
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center center;
+	background-repeat: no-repeat;
 }
 
 img.massr-icon {
@@ -194,40 +194,59 @@ img.massr-icon-mini {
 	height: 20px;
 }
 
-.statement-stamp{
-	width:200px;
-	height:200px;
-	border: 0px solid;
-	display:block;
-	overflow:hidden;
-	position:relative;
-	z-index:1;
+.statement-stamp {
+	margin: 0;
 }
 
-.stamp{
-	width:80px;
-	height:80px;
-	border: 0px solid;
-	display:block;
-	overflow:hidden;
-	position:relative;
-	z-index:1;
+.statement-stamp li {
+	width: 100px;
+	height: 100px;
+	position: relative;
+	overflow: hidden;
 }
 
-
-.statement-stamp img{
-	min-height:200px;
-	min-width:200px;
-	float:left;
-	position:absolute;
+.statement-stamp li a {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 1000%;
+	height: 2000px;/* 縦は用途応じて改変 */
+	line-height: 2000px;
+	margin:-1000px 0 0 -500%;
+	text-align: center;
 }
 
-.stamp img{
-	min-width:80px;
-	min-height:80px;
-	float:left;
-	position:absolute;
+.statement-stamp li a img{
+	min-height: 200px;
+	min-width: 10%;
+	vertical-align: middle;
 }
+
+.submit-stamp li {
+	float: left;
+	width: 80px;
+	height: 80px;
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
+}
+
+.submit-stamp li a {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 1000%;
+	height: 2000px;/* 縦は用途応じて改変 */
+	line-height: 2000px;
+	margin:-1000px 0 0 -500%;
+	text-align: center;
+}
+.submit-stamp li a img{
+	min-height: 100px;
+	min-width: 10%;
+	vertical-align: middle;
+}
+
 
 div.statement {
 	border-style: solid;
