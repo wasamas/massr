@@ -198,14 +198,14 @@ img.massr-icon-mini {
 	margin: 0;
 }
 
-.statement-stamp li {
+.statement-stamp .stamp-style {
 	width: 100px;
 	height: 100px;
 	position: relative;
 	overflow: hidden;
 }
 
-.statement-stamp li .stamp{
+.statement-stamp .stamp-style .stamp{
 	position: absolute;
 	left: 50%;
 	top: 50%;
@@ -216,13 +216,13 @@ img.massr-icon-mini {
 	text-align: center;
 }
 
-.statement-stamp li .stamp img{
+.statement-stamp .stamp-style .stamp img{
 	min-height: 200px;
 	min-width: 10%;
 	vertical-align: middle;
 }
 
-.submit-stamp li {
+.submit-stamp .stamp-style {
 	float: left;
 	width: 80px;
 	height: 80px;
@@ -231,7 +231,7 @@ img.massr-icon-mini {
 	margin: 10px;
 }
 
-.submit-stamp li .stamp {
+.submit-stamp .stamp-style .stamp {
 	position: absolute;
 	left: 50%;
 	top: 50%;
@@ -241,7 +241,7 @@ img.massr-icon-mini {
 	margin:-1000px 0 0 -500%;
 	text-align: center;
 }
-.submit-stamp li .stamp img{
+.submit-stamp .stamp-style .stamp img{
 	min-height: 100px;
 	min-width: 10%;
 	vertical-align: middle;

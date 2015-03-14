@@ -21,7 +21,7 @@
 				= statement.body.gsub(/[\r\n]+/, "\r")
 		- unless statement.stamp.nil?
 			.statement-stamp
-				%li
+				.stamp-style
 					.stamp
 						%img.statement-stamp-img{:src => "#{image_size_change(statement.stamp,SETTINGS['setting']['stamp_size'])}", :alt => "#{statement.stamp}", :title => "#{statement.stamp}"}
 
