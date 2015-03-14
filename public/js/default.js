@@ -418,10 +418,10 @@ $(function(){
 								});
 								if ($f == true) {
 									$(this).append(($('<a>').addClass('unusestamp')).
-											append($('<i>').addClass('icon-ok-circle').attr('title',_['unuse_stamp'])));
+											append($('<i>').addClass('icon-remove-circle').attr('title',_['unuse_stamp'])));
 								} else {
 									$(this).append(($('<a>').addClass('usestamp')).
-											append($('<i>').addClass('icon-remove-circle').attr('title',_['use_stamp'])));
+											append($('<i>').addClass('icon-ok-circle').attr('title',_['use_stamp'])));
 								}
 							})).
 							append(($('<div>').addClass('image')).
