@@ -280,7 +280,7 @@ $(function(){
 						$(this).addClass('statement-message').text(shrinkText(s.body)).autoLink();
 					} else {
 						$(this).addClass('statement-stamp').
-							append(($('<li>')).append(($('<a>').attr('href','#').append(
+							append(($('<li>')).append(($('<div>').addClass('stamp').append(
 								$('<img>').addClass('statement-stamp-img').attr('src',$.fn.image_size_change(s.stamp,settings['setting']['stamp_size']))
 							))));
 					}

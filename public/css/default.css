@@ -205,7 +205,7 @@ img.massr-icon-mini {
 	overflow: hidden;
 }
 
-.statement-stamp li a {
+.statement-stamp li .stamp{
 	position: absolute;
 	left: 50%;
 	top: 50%;
@@ -216,7 +216,7 @@ img.massr-icon-mini {
 	text-align: center;
 }
 
-.statement-stamp li a img{
+.statement-stamp li .stamp img{
 	min-height: 200px;
 	min-width: 10%;
 	vertical-align: middle;
@@ -231,7 +231,7 @@ img.massr-icon-mini {
 	margin: 10px;
 }
 
-.submit-stamp li a {
+.submit-stamp li .stamp {
 	position: absolute;
 	left: 50%;
 	top: 50%;
@@ -241,7 +241,7 @@ img.massr-icon-mini {
 	margin:-1000px 0 0 -500%;
 	text-align: center;
 }
-.submit-stamp li a img{
+.submit-stamp li .stamp img{
 	min-height: 100px;
 	min-width: 10%;
 	vertical-align: middle;
@@ -268,7 +268,7 @@ div.item {
 	float: left;
 }
 
-div#items div.stamp {
+div#items div.img {
 	width: 80px;
 	margin: 3px;
 	float: left;
