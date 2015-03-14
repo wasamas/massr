@@ -791,6 +791,8 @@ $(function(){
 	var USE     = 0;
 	var UNUSE   = 1;
 	function toggleStamp(target , statement_id , image_url, stat){
+		image_url = $.fn.image_size_change(image_url,1);
+
 		target.hide().parent().append('<img src="/img/masao_loading.gif">');
 		if (stat == USE){
 			msg = _['success_use_stamp'];
