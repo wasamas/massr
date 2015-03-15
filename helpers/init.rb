@@ -65,11 +65,15 @@ module Massr
 				SETTINGS['resource']['icon_dir'] || 'default'
 			end
 
-			def image_size_change url,size
+			def image_size_change url,size,centering
 				if (url.include? 'googleusercontent')
-					pattern = /\/s\d+\//
+					pattern = /\/([whs][0-9]+|r(90|180|270)|-|c|p|o|d)+\//
 					if url =~ pattern
-						url.sub(pattern , "/s#{size}/")
+						if centering 
+							url.sub(pattern , "/s#{size}-c/")
+						else
+							url.sub(pattern , "/s#{size}/")
+						end
 					else
 						url.split('/').insert(-2,"s#{size}").join('/')
 					end

@@ -281,7 +281,7 @@ $(function(){
 					} else {
 						$(this).addClass('statement-stamp').
 							append(($('<div>')).addClass('stamp-style').append(($('<div>').addClass('stamp').append(
-								$('<img>').addClass('statement-stamp-img').attr('src',$.fn.image_size_change(s.stamp,settings['setting']['stamp_size']))
+								$('<img>').addClass('statement-stamp-img').attr('src',$.fn.image_size_change(s.stamp,settings['setting']['stamp_size'],true))
 							))));
 					}
 				})
@@ -928,11 +928,15 @@ $(function(){
 	};
 	$('.popup-image').mfp();
 
-	$.fn.image_size_change = function(url,size){
+	$.fn.image_size_change = function(url,size,centering){
 		if (url.indexOf("googleusercontent") != -1){
-			pattern = /\/s[0-9]+\//;
+			pattern = /\/([whs][0-9]+|r(90|180|270)|-|c|p|o|d)+\//;
 			if (url.match(pattern) != null ){
-				return url.replace(pattern,'/s' + size + '/')
+				if (centering == true){
+					return url.replace(pattern,'/s' + size + '-c/')
+				} else {
+					return url.replace(pattern,'/s' + size + '/')
+				}
 			} else {
 				var parts = url.split("/");
 				var last = parts.pop();
