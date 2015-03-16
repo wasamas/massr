@@ -66,7 +66,9 @@ module Massr
 			end
 
 			def image_size_change url,size,centering
-				if (url.include? 'googleusercontent')
+				uri = URI.parse(url)
+
+				if (uri.host =~ /[0-9a-zA-Z]+\.googleusercontent\.com/)
 					pattern = /\/([whs][0-9]+|r(90|180|270)|-|c|p|o|d)+\//
 					if url =~ pattern
 						if centering 

@@ -929,7 +929,12 @@ $(function(){
 	$('.popup-image').mfp();
 
 	$.fn.image_size_change = function(url,size,centering){
-		if (url.indexOf("googleusercontent") != -1){
+		var uri = document.createElement('a');
+		uri.href = url;
+
+		var pattern = /[0-9a-zA-Z]+\.googleusercontent\.com/;
+
+		if (uri.hostname.match(pattern) != null){
 			pattern = /\/([whs][0-9]+|r(90|180|270)|-|c|p|o|d)+\//;
 			if (url.match(pattern) != null ){
 				if (centering == true){
