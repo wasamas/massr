@@ -932,7 +932,7 @@ $(function(){
 		var uri = document.createElement('a');
 		uri.href = url;
 
-		var pattern = /[0-9a-zA-Z]+\.googleusercontent\.com/;
+		var pattern = /^[0-9a-zA-Z]+\.googleusercontent\.com$/;
 
 		if (uri.hostname.match(pattern) != null){
 			pattern = /\/([whs][0-9]+|r(90|180|270)|-|c|p|o|d)+\//;
