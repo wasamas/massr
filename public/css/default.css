@@ -169,9 +169,19 @@ div.new-post textarea, div.response textarea {
 
 .photo-items {
 	text-align: right;
+	float: right;
+}
+
+.stamp-items {
+	text-align: right;
+	float: right;
 }
 
 .photo-button {
+	margin: 0 4px;
+}
+
+.stamp-button {
 	margin: 0 4px;
 }
 

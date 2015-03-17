@@ -46,19 +46,20 @@
 									- if media_plugins.size != 0
 										.photo-items
 											%input.photo-shadow{:type => "file", :name => "photo", :accept => 'image/*', :tabindex => '-1'}
-											%a.stamp-button.popup-image{:href => '#stamps', :tabindex => "4"}
-												%i.icon-th.stamp-button{:title => _attach_stamp}
-											.mfp-hide{:id => "stamps"}
-												#items
-													- stamp_urls.each do |url|
-														.submit-stamp
-															.stamp-style
-																.stamp
-																	%img.item-stamp{:src => "#{image_size_change(url,SETTINGS['setting']['stamp_thumbnail_size'],true)}"}
 											%a.photo-button{:href => '#', :tabindex => "5"}
 												%i.icon-camera.photo-button{:title => _attach_photo}
 											%img.photo-preview
 											%span.photo-name
+									.stamp-items
+										%a.stamp-button.popup-image{:href => '#stamps', :tabindex => "4"}
+											%i.icon-th.stamp-button{:title => _attach_stamp}
+										.mfp-hide{:id => "stamps"}
+											#items
+												- stamp_urls.each do |url|
+													.submit-stamp
+														.stamp-style
+															.stamp
+																%img.item-stamp{:src => "#{image_size_change(url,SETTINGS['setting']['stamp_thumbnail_size'],true)}"}
 						!= haml :statements ,:locals => {:res_ids => nil , :statements => statements,:q => q}
 				.span3
 					!= haml :sidebar ,:locals => {:q => q}
