@@ -295,7 +295,7 @@ $(function(){
 						$parent.append(($('<div>').addClass('mfp-hide').addClass('popup-photo').attr('id',s.id)).
 							append(($('<div>').addClass('stamp')).each(function(){
 								var $f = false;
-								$('#stamps').each(function(){
+								$('.stamps').each(function(){
 									$(this).find('img').each(function(){
 										if ($.fn.image_size_change($(this).attr('src'),1)==$.fn.image_size_change($photo,1)){
 											$f = true
@@ -329,6 +329,12 @@ $(function(){
 						);
 					}
 				}).append(
+					$('<div>').addClass('stamp-items').each(function(){
+						$(this).append(
+							$('<a>').addClass('stamp-button').addClass('popup-image').attr('href', '#stamps').mfp().
+								append($('<i>').addClass('icon-th').addClass('stamp-button').attr('title', _['attach_stamp']))
+						);
+					})).append(
 					$('<a>').addClass('res').attr('href', '#').append(
 						$('<i>').addClass('icon-comment').attr('title', _['res'])
 					).append(
@@ -409,7 +415,7 @@ $(function(){
 						$parent.append(($('<div>').addClass('mfp-hide').addClass('popup-photo').attr('id',s.id)).
 							append(($('<div>').addClass('stamp')).each(function(){
 								var $f = false;
-								$('#stamps').each(function(){
+								$('.stamps').each(function(){
 									$(this).find('img').each(function(){
 										if ($.fn.image_size_change($(this).attr('src'),1)==$.fn.image_size_change($photo,1)){
 											$f = true
@@ -915,11 +921,18 @@ $(function(){
 		});
 	});
 
-
 	/*
 	* Magnific Popup
 	*/
 	$.fn.mfp = function(config){
+		this.on('click',function(){
+			if ($(this).parent().parent().parent().parent().attr('id')){
+				var statement_id = getID($(this).parent().parent().parent().parent().attr('id'));
+				$('.items','.mfp-hide','#submit-stamp').attr('id',statement_id);
+			} else {
+				$('.items','.mfp-hide','#submit-stamp').removeAttr('id');
+			}
+		});
 		this.magnificPopup({
 			type: 'inline',
 			preloader: false
@@ -959,11 +972,16 @@ $(function(){
 	*/
 	$(function(){
 		$('.item-stamp').on('click', function(){
+			var statement_id = $(this).parent().parent().parent().parent().attr('id');
 			posting = true;
+			var body = "stamp=" + $(this).attr('src');
+			if (statement_id){
+				body = body + "&res_id=" + statement_id;
+			}
 			$.ajax({
 				url: '/statement.json',
 				type: 'POST',
-				data: "stamp=" + $(this).attr('src')
+				data: body
 			}).done(function(statement){
 				reloadDiff();
 			}).fail(function(XMLHttpRequest, textStatus, errorThrown){

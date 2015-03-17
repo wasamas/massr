@@ -167,14 +167,18 @@ div.new-post textarea, div.response textarea {
 	filter: alpha(opacity=0);
 }
 
+.button {
+	text-align: right;
+}
+
 .photo-items {
 	text-align: right;
-	float: right;
+	display: inline;
 }
 
 .stamp-items {
 	text-align: right;
-	float: right;
+	display: inline;
 }
 
 .photo-button {
