@@ -230,7 +230,11 @@ $(function(){
 			return false;
 		}
 
-		var n = new Notification(_['site_name'], {icon: get_icon_url(statement.user), body: statement.body});
+		var statement_body = "";
+		if (statement.body){
+			statement_body = statement.body;
+		}
+		var n = new Notification(_['site_name'], {icon: get_icon_url(statement.user), body: statement_body});
 		if(timeout > 0){
 			setTimeout(function(){n.close();}, timeout);
 		}
@@ -415,7 +419,7 @@ $(function(){
 						$parent.append(($('<div>').addClass('mfp-hide').addClass('popup-photo').attr('id',s.id)).
 							append(($('<div>').addClass('stamp')).each(function(){
 								var $f = false;
-								$('.stamps').each(function(){
+								$('#stamps').each(function(){
 									$(this).find('img').each(function(){
 										if ($.fn.image_size_change($(this).attr('src'),1)==$.fn.image_size_change($photo,1)){
 											$f = true

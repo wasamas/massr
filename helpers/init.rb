@@ -27,10 +27,12 @@ module Massr
 			end
 
 			def send_mail(user, statement)
+
+				body = statement.body ? statement.body : ""
 				msg = <<-MAIL
 					#{_res_from(statement.user.name)}:
 
-					#{_res_body(statement.body.strip)}
+					#{_res_body(body.strip)}
 				MAIL
 
 				Thread.start do

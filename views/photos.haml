@@ -1,9 +1,4 @@
 #items
-	.mfp-hide{:id => "stamps"}
-		#items
-			- stamp_urls.each do |url|
-				.stamp
-					%img.item-stamp{:src => "#{image_size_change(url,SETTINGS['setting']['stamp_thumbnail_size'],true)}"}
 	- statements.each do |statement|
 		!= haml :photo , :locals => {:statement => statement}
 - if pagenation
