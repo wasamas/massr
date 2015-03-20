@@ -44,12 +44,12 @@
 		/ アクション
 		.statement-action
 			- if statement.user._id == session[:user_id]
-				%a.trash{:href => "#"}
+				%a.trash{:href => "#"}<
 					%i.icon-trash{:title => _delete}
 			.stamp-items
-				%a.stamp-button.popup-image{:href => "#stamps"}
+				%a.stamp-button.popup-image{:href => "#stamps"}<
 					%i.icon-th.stamp-button{:title => _attach_stamp}
-			%a.res{:href => '#'}
+			%a.res{:href => '#'}<
 				%i.icon-comment{:title => _res}
 				= statement.refs.size > 0 ? "(#{statement.refs.size})" : ''
 			- like = statement.like?(current_user) ? 'unlike' : 'like'
