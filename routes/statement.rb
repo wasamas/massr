@@ -73,6 +73,8 @@ module Massr
 
 		delete '/statement/:id' do
 			if current_user == Statement.find_by_id(params[:id]).user
+				stamp =  Stamp.find_by_original_id(params[:id])
+				stamp.destroy if stamp
 				Statement.destroy(params[:id])
 			end
 			redirect '/'
