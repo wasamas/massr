@@ -6,8 +6,12 @@
     "mongolab"
   ],
   "env": {
-    "TWITTER_CONSUMER_ID": "",
-    "TWITTER_CONSUMER_SECRET": "",
+    "TWITTER_CONSUMER_ID": {
+      "required": true
+    },
+    "TWITTER_CONSUMER_SECRET": {
+      "required": true
+    },
     "TZ": "Asia/Tokyo",
     "LANG": "en_US.UTF-8",
     "RACK_ENV": "production"
