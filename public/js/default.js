@@ -42,6 +42,7 @@ $(function(){
 		$.each(settings['plugin'], function(name, opts){
 			plugin_setup(name, opts);
 		});
+
 	}).fail(function(){
 		message.error('loading settings');
 	});
@@ -229,7 +230,11 @@ $(function(){
 			return false;
 		}
 
-		var n = new Notification(_['site_name'], {icon: get_icon_url(statement.user), body: statement.body});
+		var statement_body = "";
+		if (statement.body){
+			statement_body = statement.body;
+		}
+		var n = new Notification(_['site_name'], {icon: get_icon_url(statement.user), body: statement_body});
 		if(timeout > 0){
 			setTimeout(function(){n.close();}, timeout);
 		}
@@ -237,7 +242,11 @@ $(function(){
 
 	// replace CR/LF to single space
 	function shrinkText(text){
-		return text.replace(/[\r\n]+/g, '\r');
+		if (text != null) {
+			return text.replace(/[\r\n]+/g, '\r');
+		} else {
+			return ""
+		}
 	}
 
 	// template of a statement
@@ -270,14 +279,43 @@ $(function(){
 					);
 				}
 			}).append(
-				$('<div>').addClass('statement-message').text(shrinkText(s.body)).autoLink()
+				$('<div>').each(function(){
+					if (s.body != null){
+						$(this).addClass('statement-message').text(shrinkText(s.body)).autoLink();
+					} else {
+						$(this).addClass('statement-stamp').
+							append(($('<div>')).addClass('stamp-style').append(($('<div>').addClass('stamp').append(
+								$('<img>').addClass('statement-stamp-img').attr('src',$.fn.image_size_change(s.stamp,settings['setting']['stamp_size'],true))
+							))));
+					}
+				})
 			).append(
 				$('<div>').addClass('statement-photos').each(function(){
 					var $parent = $(this);
 					$.each(s.photos, function(){
-						$parent.append($('<a>').attr('href', this).
-							attr('rel', 'lightbox').
-							append($('<img>').addClass('statement-photo').attr('src', this)));
+						var $photo = this
+						$parent.append(($('<a>').addClass('popup-image').attr('href', '#'+s.id).mfp()).
+							append($('<img>').addClass('statement-photo').attr('src', $photo)));
+						$parent.append(($('<div>').addClass('mfp-hide').addClass('popup-photo').attr('id',s.id)).
+							append(($('<div>').addClass('stamp')).each(function(){
+								var $f = false;
+								$('.stamps').each(function(){
+									$(this).find('img').each(function(){
+										if ($.fn.image_size_change($(this).attr('src'),1)==$.fn.image_size_change($photo,1)){
+											$f = true
+										}
+									});
+								});
+								if ($f == true) {
+									$(this).append(($('<a>').addClass('unusestamp')).
+											append($('<i>').addClass('icon-remove-circle').attr('title',_['unuse_stamp'])));
+								} else {
+									$(this).append(($('<a>').addClass('usestamp')).
+											append($('<i>').addClass('icon-ok-circle').attr('title',_['use_stamp'])));
+								}
+							})).
+							append(($('<div>').addClass('image')).
+								append($('<img>').attr('src',$photo))))
 					});
 				})
 			).append(
@@ -295,6 +333,12 @@ $(function(){
 						);
 					}
 				}).append(
+					$('<div>').addClass('stamp-items').each(function(){
+						$(this).append(
+							$('<a>').addClass('stamp-button').addClass('popup-image').attr('href', '#stamps').mfp().
+								append($('<i>').addClass('icon-th').addClass('stamp-button').attr('title', _['attach_stamp']))
+						);
+					})).append(
 					$('<a>').addClass('res').attr('href', '#').append(
 						$('<i>').addClass('icon-comment').attr('title', _['res'])
 					).append(
@@ -369,9 +413,40 @@ $(function(){
 				$('<div>').addClass('item-photos').each(function(){
 					var $parent = $(this);
 					$.each(s.photos, function(){
-						$parent.append($('<a>').attr('href', this).
-							attr('rel', 'lightbox').
-							append($('<img>').addClass('item-photo').attr('src', this)));
+						var $photo = this
+						$parent.append(($('<a>').addClass('popup-image').attr('href', '#'+s.id).mfp()).
+							append($('<img>').addClass('statement-photo').attr('src', $photo)));
+						$parent.append(($('<div>').addClass('mfp-hide').addClass('popup-photo').attr('id',s.id)).
+							append(($('<div>').addClass('stamp')).each(function(){
+								var $f = false;
+								$('#stamps').each(function(){
+									$(this).find('img').each(function(){
+										if ($.fn.image_size_change($(this).attr('src'),1)==$.fn.image_size_change($photo,1)){
+											$f = true
+										}
+									});
+								});
+								if ($f == true) {
+									$(this).append(($('<a>').addClass('unusestamp')).
+											append($('<i>').addClass('icon-remove-circle').attr('title',_['unuse_stamp'])));
+								} else {
+									$(this).append(($('<a>').addClass('usestamp')).
+											append($('<i>').addClass('icon-ok-circle').attr('title',_['use_stamp'])));
+								}
+							})).
+							append(($('<div>').addClass('image')).
+								append($('<img>').attr('src',$photo))).
+							append(($('<div>').addClass('statement').attr('id','st-'+s.id)).
+								append(($('<div>').addClass('statement-icon')).
+									append(($('<a>').attr('href','/user/'+s.user.massr_id)).
+										append($('<img>').addClass('massr-icon').attr('src', get_icon_url(s.user))))).
+							append(($('<div>').addClass('statement-body')).
+								append(($('<div>').addClass('statement-massage').text(s.body)))).
+							append($('<div>').addClass('statement-info').
+								append('by ').
+								append($('<a>').attr('href', '/user/'+s.user.massr_id).append(s.user.name)).
+								append(' at ' ).
+								append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at)))))
 					});
 				})
 			).append(
@@ -721,6 +796,45 @@ $(function(){
 	});
 
 	/*
+	 * stamp
+	 */
+	var USE     = 0;
+	var UNUSE   = 1;
+	function toggleStamp(target , statement_id , image_url, stat){
+		image_url = $.fn.image_size_change(image_url,1);
+
+		target.hide().parent().append('<img src="/img/masao_loading.gif">');
+		if (stat == USE){
+			msg = _['success_use_stamp'];
+			method = 'POST'
+		} else {
+			msg = _['success_unuse_stamp'];
+			method = 'DELETE'
+		}
+		$.ajax({
+			url: '/stamp',
+			type: method,
+			data: "image_url=" + image_url + "&statement_id=" + statement_id}).
+		done(function(result){
+				message.success(msg);
+				target.toggleClass('unusestamp').toggleClass('usestamp');
+				target.children('i').toggleClass('icon-ok-circle').toggleClass('icon-remove-circle');
+			}).
+		fail(function(XMLHttpRequest, textStatus, errorThrown){
+				message.error('(' + textStatus + ')');
+			});
+		target.show().parent().children('img').remove();
+		return true;
+	}
+	$(document).
+		on('click', 'a.usestamp', function(){ 
+			toggleStamp($(this),$(this).parent().parent().attr('id'),$(this).parent().parent().children('div.image').children('img').attr('src'),USE);
+			return false;}).
+		on('click', 'a.unusestamp', function(){
+			toggleStamp($(this),$(this).parent().parent().attr('id'),$(this).parent().parent().children('div.image').children('img').attr('src'),UNUSE);
+			return false;});
+
+	/*
 	 * admin
 	 */
 	var ADMIN        = 0;
@@ -808,6 +922,77 @@ $(function(){
 		$container.masonry({
 			itemSelector : '.item',
 			columnWidth : 110
+		});
+	});
+
+	/*
+	* Magnific Popup
+	*/
+	$.fn.mfp = function(config){
+		this.on('click',function(){
+			if ($(this).parent().parent().parent().parent().attr('id')){
+				var statement_id = getID($(this).parent().parent().parent().parent().attr('id'));
+				$('.items','.mfp-hide','#submit-stamp').attr('id',statement_id);
+			} else {
+				$('.items','.mfp-hide','#submit-stamp').removeAttr('id');
+			}
+		});
+		this.magnificPopup({
+			type: 'inline',
+			preloader: false
+		});
+		return this
+	};
+	$('.popup-image').mfp();
+
+	$.fn.image_size_change = function(url,size,centering){
+		var uri = document.createElement('a');
+		uri.href = url;
+
+		var pattern = /^[0-9a-zA-Z]+\.googleusercontent\.com$/;
+
+		if (uri.hostname.match(pattern) != null){
+			pattern = /\/([whs][0-9]+|r(90|180|270)|-|c|p|o|d)+\//;
+			if (url.match(pattern) != null ){
+				if (centering == true){
+					return url.replace(pattern,'/s' + size + '-c/')
+				} else {
+					return url.replace(pattern,'/s' + size + '/')
+				}
+			} else {
+				var parts = url.split("/");
+				var last = parts.pop();
+				parts.push('s'+size);
+				parts.push(last);
+				return parts.join('/')
+			}
+		} else {
+			return url;
+		}
+	}
+
+	/*
+	* submit stamp 
+	*/
+	$(function(){
+		$('.item-stamp').on('click', function(){
+			var statement_id = $(this).parent().parent().parent().parent().attr('id');
+			posting = true;
+			var body = "stamp=" + $(this).attr('src');
+			if (statement_id){
+				body = body + "&res_id=" + statement_id;
+			}
+			$.ajax({
+				url: '/statement.json',
+				type: 'POST',
+				data: body
+			}).done(function(statement){
+				reloadDiff();
+			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
+				// TODO エラーメッセージ
+				message.error('(' + textStatus + ')');
+			});
+			$.magnificPopup.close();
 		});
 	});
 

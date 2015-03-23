@@ -6,7 +6,9 @@
 	},
 	"setting": {
 		"upload_photo_size": 2048,
-		"display_photo_size": 800
+		"display_photo_size": 800,
+		"stamp_size": 200,
+		"stamp_thumbnail_size": 100
 	},
 	"local": {
 		"site_name": "Massr",
@@ -20,6 +22,8 @@
 		"menu": "メニュー",
 		"admin_menu": "管理",
 		"member": "メンバ",
+		"use_stamp": "スタンプにする",
+		"unuse_stamp": "スタンプをやめる",
 		"unprivilege_user": "管理者権限を剥奪する",
 		"privilege_user": "管理者にする",
 		"unauthorize_user": "認可を取り消す",
@@ -33,10 +37,12 @@
 		"user_info_update": "アプリケーション更新に伴い、ユーザ情報の再登録をします",
 		"clearres": "新着レスクリア",
 		"attach_photo": "写真を添付",
+		"attach_stamp": "スタンプを投稿",
 		"need_login": "Massrの利用には、ログインが必要です。",
 		"photos": "写真",
 		"user_photos": "%1の写真",
 		"all_photos": "すべての写真",
+		"stamps": "スタンプリスト",
 		"liked": "わかられた",
 		"likes": "わかった",
 		"settings": "設定",
@@ -60,6 +66,8 @@
 		"deny_delete_admin": "管理者の削除はできません",
 		"deny_nominate_admin": "未認可メンバは管理者指名できません",
 		"success_change_status": "のステータスを変更しました",
+		"success_use_stamp": "スタンプに登録しました",
+		"success_unuse_stamp": "スタンプから削除しました",
 		"success_delete_user": "を削除しました",
 		"fail_change_status": "ステータス変更に失敗しました"
 	}

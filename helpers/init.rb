@@ -8,6 +8,7 @@
 # Distributed under GPL
 #
 require 'mail'
+require 'uri'
 
 module Massr
 	class App < Sinatra::Base
@@ -26,10 +27,12 @@ module Massr
 			end
 
 			def send_mail(user, statement)
+
+				body = statement.body ? statement.body : ""
 				msg = <<-MAIL
 					#{_res_from(statement.user.name)}:
 
-					#{_res_body(statement.body.strip)}
+					#{_res_body(body.strip)}
 				MAIL
 
 				Thread.start do
@@ -62,6 +65,29 @@ module Massr
 
 			def icon_dir
 				SETTINGS['resource']['icon_dir'] || 'default'
+			end
+
+			def image_size_change url,size,centering
+				uri = URI.parse(url)
+
+				if (uri.host =~ /\A[0-9a-zA-Z]+\.googleusercontent\.com\z/)
+					pattern = /\/([whs][0-9]+|r(90|180|270)|-|c|p|o|d)+\//
+					if url =~ pattern
+						if centering 
+							url.sub(pattern , "/s#{size}-c/")
+						else
+							url.sub(pattern , "/s#{size}/")
+						end
+					else
+						url.split('/').insert(-2,"s#{size}").join('/')
+					end
+				else
+					url
+				end
+			end
+
+			def stamp_urls
+				Massr::Plugin::Memcached.stamp.get
 			end
 
 		end

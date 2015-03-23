@@ -1,4 +1,11 @@
 %header
+	.mfp-hide{:id => "stamps"}
+		.items
+			- stamp_urls.each do |url|
+				.submit-stamp
+					.stamp-style
+						.stamp
+							%img.item-stamp{:src => "#{image_size_change(url,SETTINGS['setting']['stamp_thumbnail_size'],true)}"}
 	.navbar.navbar-static-top
 		.navbar-inner
 			.container
@@ -27,6 +34,8 @@
 										%a{:href => "/user/#{current_user.massr_id}/photos", :title => _user_photos(current_user.massr_id)}<#{_user_photos current_user.name}
 									%li
 										%a{:href => "/statement/photos", :title => _all_photos}<#{_all_photos}
+									%li
+										%a{:href => "/stamps", :title => _stamps}<#{_stamps}
 							%li.dropdown
 								%button.dropdown-toggle{"data-toggle" => "dropdown"}
 									#{_like}
@@ -41,6 +50,8 @@
 							%li.flat-menu
 								%a{:href => "/statement/photos", :title => _all_photos}<#{_all_photos}
 							%li.flat-menu
+								%a{:href => "/stamps", :title => _stamps}<#{_stamps}
+							%li.flat-menu
 								%a{:href => "/user/#{current_user.massr_id}/liked", :title => _liked}<#{_liked}
 							%li.flat-menu
 								%a{:href => "/user/#{current_user.massr_id}/likes", :title => _likes}<#{_likes}
@@ -48,8 +59,8 @@
 							%li
 								%form.navbar-search.pull-left{:id => "search-form", :method => "GET", :action => "/search"}
 									.input-append
-										%input.search-query{:id => "search-field", :type => "text", :name => "q", :placeholder => _search, :tabindex => "5", :value => "#{q rescue ''}"}
-										%button.btn{:id => "search-button", :type => "submit", :tabindex => "6"}
+										%input.search-query{:id => "search-field", :type => "text", :name => "q", :placeholder => _search, :tabindex => "6", :value => "#{q rescue ''}"}
+										%button.btn{:id => "search-button", :type => "submit", :tabindex => "7"}
 											%i.icon-search
 									%div.search-pins-dropdown#search-pin-dropdown
 										- pins = Massr::SearchPin.all.reverse

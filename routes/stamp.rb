@@ -1,0 +1,38 @@
+# -*- coding: utf-8; -*-
+#
+# routes/stamp.rb
+#
+# Copyright (C) 2015 by The wasam@s production
+# https://github.com/tdtds/massr
+#
+# Distributed under GPL
+#
+
+module Massr
+	class App < Sinatra::Base
+		before '/stamp' do
+			Massr::Plugin::Memcached.stamp.delete unless request.get?
+		end
+
+		post '/stamp' do
+			@stamp = Stamp.new
+			@stamp.update_stamp( request ) unless (request[:image_url].size == 0 || request[:statement_id].size == 0)
+		end
+
+		delete '/stamp' do
+			Stamp.delete_stamp(params[:image_url])
+			redirect '/'
+		end
+
+		after '/stamp' do
+			Massr::Plugin::Memcached.stamp.set(Stamp.get_image_urls) unless request.get?
+		end
+
+		get '/stamps' do
+			haml :user_photos, :locals => {
+				:statements => Stamp.get_statements(),
+				:q => nil,
+				:pagenation => false}
+		end
+	end
+end

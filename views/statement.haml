@@ -16,14 +16,21 @@
 					&lt; #{statement.res.body}
 
 		/ 発言本文
-		.statement-message<
-			= statement.body.gsub(/[\r\n]+/, "\r")
+		- unless statement.body.nil?
+			.statement-message<
+				= statement.body.gsub(/[\r\n]+/, "\r")
+		- unless statement.stamp.nil?
+			.statement-stamp
+				.stamp-style
+					.stamp
+						%img.statement-stamp-img{:src => "#{image_size_change(statement.stamp,SETTINGS['setting']['stamp_size'],true)}", :alt => "#{statement.stamp}", :title => "#{statement.stamp}"}
 
 		/ 画像表示
 		.statement-photos
 			- statement.photos.each do |photo|
-				%a{:href => "#{photo}" ,:rel=>"lightbox"}<
+				%a{:href => "##{statement._id}" ,:class => "popup-image"}<
 					%img.statement-photo{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
+				!= haml :popup_photo , :locals => {:statement => statement,:photo => photo, :detail => false}
 
 		/ 発言の付属情報
 		.statement-info
@@ -37,9 +44,12 @@
 		/ アクション
 		.statement-action
 			- if statement.user._id == session[:user_id]
-				%a.trash{:href => "#"}
+				%a.trash{:href => "#"}<
 					%i.icon-trash{:title => _delete}
-			%a.res{:href => '#'}
+			.stamp-items
+				%a.stamp-button.popup-image{:href => "#stamps"}<
+					%i.icon-th.stamp-button{:title => _attach_stamp}
+			%a.res{:href => '#'}<
 				%i.icon-comment{:title => _res}
 				= statement.refs.size > 0 ? "(#{statement.refs.size})" : ''
 			- like = statement.like?(current_user) ? 'unlike' : 'like'

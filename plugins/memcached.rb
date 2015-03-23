@@ -70,6 +70,12 @@ module Massr
 				self
 			end
 
+			def self.stamp
+				@@prefix = 'stamp-'
+				@@key = 'stamp'
+				self
+			end
+
 		end
 
 		class AsyncCleanCache

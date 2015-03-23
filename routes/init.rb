@@ -12,6 +12,7 @@ module Massr
 	class App < Sinatra::Base
 		before do
 			Massr::Plugin::Memcached.main.delete unless request.get?
+			Massr::Plugin::Memcached.stamp.set(Stamp.get_image_urls) unless Massr::Plugin::Memcached.stamp.get
 
 			case request.path
 			when '/unauthorized'
@@ -44,6 +45,7 @@ end
 require_relative 'main'
 require_relative 'auth'
 require_relative 'statement'
+require_relative 'stamp'
 require_relative 'user'
 require_relative 'admin'
 require_relative 'search'
