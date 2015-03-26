@@ -3,5 +3,5 @@
  *= require bootstrap-responsive
  *= require jquery.pnotify.default
  *= require magnific-popup
- *= require_tree .
+ *= require default
  */

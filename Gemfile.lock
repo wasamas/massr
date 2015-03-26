@@ -103,6 +103,8 @@ GEM
     rails-assets-bootstrap (2.3.2)
       rails-assets-jquery (>= 1.8.0, < 2.1.0)
     rails-assets-jquery (2.0.3)
+    rails-assets-magnific-popup (1.0.0)
+      rails-assets-jquery (>= 1.8.0)
     rake (10.4.2)
     rmagick (2.13.4)
     rspec (3.2.0)
@@ -198,6 +200,7 @@ DEPENDENCIES
   rack_csrf
   rails-assets-bootstrap (~> 2.3.0)!
   rails-assets-jquery!
+  rails-assets-magnific-popup!
   rake
   rmagick
   rspec

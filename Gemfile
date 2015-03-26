@@ -25,6 +25,7 @@ gem 'celluloid'
 source 'https://rails-assets.org' do
 	gem 'rails-assets-jquery'
 	gem 'rails-assets-bootstrap', '~> 2.3.0'
+	gem 'rails-assets-magnific-popup'
 end
 
 group :development, :test do

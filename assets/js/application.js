@@ -1,7 +1,7 @@
 //= require jquery
 //= require bootstrap
-//= require jquery.pnotify
-//= require jquery.magnific-popup
-//= require jquery.purl
+//= require magnific-popup
 //= require jquery.masonry.min
-//= require_tree .
+//= require jquery.pnotify
+//= require jquery.purl
+//= require default
