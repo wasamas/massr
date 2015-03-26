@@ -3,10 +3,11 @@
 	%head
 		%title Unauthorized - Massr
 		!= haml :head
-		%script{src: '/js/watch_authorize.js'}
 	%body
 		%h1<#{_unauthorized}
 		.special-info
 			%img#masao{:src => random_masao}
 		.special-info
 			%a{:href => '/'}<Return to Top
+		!= javascript_tag 'application'
+		%script{src: '/js/watch_authorize.js'}
