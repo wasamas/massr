@@ -43,7 +43,7 @@ module Massr
 
 		after '/statement*' do
 			unless request.get?
-				Massr::Plugin::Memcached.cache_cleaner.async.clean_cache(@statement.body)
+				Massr::Plugin::Memcached.cache_cleaner.async.clean_cache(@statement.body) rescue nil
 			end
 		end
 
