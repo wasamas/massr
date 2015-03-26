@@ -15,6 +15,7 @@ tmp
 vendor
 public/custom.json
 public/custom_cache.json
+public/assets/
 
 # YARD artifacts
 .yardoc

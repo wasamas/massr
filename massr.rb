@@ -8,16 +8,8 @@
 # Distributed under GPL
 #
 
-require 'sinatra/base'
-require 'haml'
+Bundler.require(:default, ENV['RACK_ENV'] || :development)
 require 'json'
-require 'omniauth'
-require 'omniauth-twitter'
-require 'rack/csrf'
-require 'mongo_mapper'
-require 'rack-session-mongo'
-require 'mail'
-require 'dalli'
 
 require_relative 'plugins/logging'
 require_relative 'plugins/memcached'
@@ -33,6 +25,16 @@ module Massr
 
 	class App < Sinatra::Base
 		set :haml, { format: :html5, escape_html: true }
+
+		set :assets_precompile, %w(application.js application.css *.png *.jpg *.svg)
+		set :assets_css_compressor, :yui
+		set :assets_js_compressor, :uglifier
+		register Sinatra::AssetPipeline
+		if defined?(RailsAssets)
+			RailsAssets.load_paths.each do |path|
+				settings.sprockets.append_path(path)
+			end
+		end
 
 		configure :production do
 

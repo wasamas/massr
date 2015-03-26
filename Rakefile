@@ -1,13 +1,19 @@
 require 'rubygems'
 require 'rake'
-require 'rspec/core/rake_task'
 
-task :default => [:spec]
-
-desc 'Run the code in specs'
-RSpec::Core::RakeTask.new(:spec) do |t|
-	t.pattern = "spec/**/*_spec.rb"
+begin
+	require 'rspec/core/rake_task'
+	desc 'Run the code in specs'
+	RSpec::Core::RakeTask.new(:spec) do |t|
+		t.pattern = "spec/**/*_spec.rb"
+	end
+	task :default => [:spec]
+rescue LoadError => e
 end
+
+require 'sinatra/asset_pipeline/task'
+require './massr'
+Sinatra::AssetPipeline::Task.define! Massr::App
 
 # Local Variables:
 # mode: ruby
