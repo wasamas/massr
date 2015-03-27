@@ -7,11 +7,10 @@
  */
 
 $(function(){
-	var me = Massr.me;
-	var _ = Massr.local;
-
 	// template of a statement
 	Massr.buildStatement = function(s){ // s is json object of a statement
+		var me = Massr.me;
+		var _ = Massr.settings['local'];
 		return $('<div>').addClass('statement').attr('id', 'st-'+s.id).append(
 			$('<div>').addClass('statement-icon').append(
 				$('<a>').attr('href', '/user/'+s.user.massr_id).append(
@@ -46,7 +45,7 @@ $(function(){
 					} else {
 						$(this).addClass('statement-stamp').
 							append(($('<div>')).addClass('stamp-style').append(($('<div>').addClass('stamp').append(
-								$('<img>').addClass('statement-stamp-img').attr('src',$.fn.image_size_change(s.stamp,settings['setting']['stamp_size'],true))
+								$('<img>').addClass('statement-stamp-img').attr('src',$.fn.image_size_change(s.stamp, Massr.settings['setting']['stamp_size'],true))
 							))));
 					}
 				})
@@ -169,6 +168,8 @@ $(function(){
 
 	// template of a photo
 	Massr.buildPhoto = function(s){ // s is json object of a photo
+		var me = Massr.me;
+		var _ = Massr.settings['local'];
 		return $('<div>').addClass('item').attr('id', 'st-'+s.id).append(
 			$('<div>').addClass('item-body').each(function(){}).append(
 				$('<div>').addClass('item-photos').each(function(){

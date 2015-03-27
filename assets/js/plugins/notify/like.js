@@ -8,7 +8,7 @@
 
 $(function(){
 	var me = Massr.me;
-	var _ = Massr.local;
+	var _ = Massr.settings['local'];
 
 	Massr.plugin_notify_like = function(id, opts){
 		var del = opts['delete'] || 'owner';

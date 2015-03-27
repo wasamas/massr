@@ -12,7 +12,7 @@
 Massr = {
 	intervalFunctions: [],
 	me: '',
-	local: {},
+	settings: {},
 
 	isHttps: function(){
 		return location.href.match(/^https/);
@@ -52,8 +52,8 @@ $(function(){
 	$.when(
 		$.getJSON('/default.json'), // default setting
 		(function(){ // custom setting
-			if(Massr.settings){
-				return $.getJSON(Massr.settings);
+			if(Massr.setting_file){
+				return $.getJSON(Massr.setting_file);
 			}else{
 				return [{plugin:{}, resource:{}, setting:{}, local:{}}];
 			}
@@ -62,7 +62,8 @@ $(function(){
 		$.each(default_settings[0], function(k, v){
 			settings[k] = $.extend({}, default_settings[0][k], custom_settings[0][k]);
 		});
-		_ = Massr.local = settings['local'];
+		Massr.settings = settings;
+		_ = settings['local'];
 
 		$.each(settings['plugin'], function(name, opts){
 			Massr.plugin_setup(name, opts);
