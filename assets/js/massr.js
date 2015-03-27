@@ -65,7 +65,7 @@ $(function(){
 		_ = Massr.local = settings['local'];
 
 		$.each(settings['plugin'], function(name, opts){
-			plugin_setup(name, opts);
+			Massr.plugin_setup(name, opts);
 		});
 
 	}).fail(function(){

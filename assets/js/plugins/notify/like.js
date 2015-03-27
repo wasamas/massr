@@ -10,7 +10,7 @@ $(function(){
 	var me = Massr.me;
 	var _ = Massr.local;
 
-	function plugin_notify_like(id, opts){
+	Massr.plugin_notify_like = function(id, opts){
 		var del = opts['delete'] || 'owner';
 		var myIcon = $('#'+id+' img[alt='+me+']').length !== 0;
 
@@ -66,7 +66,7 @@ $(function(){
 			return false;
 		});
 
-		$Massr.intervalFunctions.push(function(){
+		Massr.intervalFunctions.push(function(){
 			$.getJSON('/plugin/notify/like/' + id + '.json', function(json){
 				plugin_notify_like_draw_icons(id, json);
 			});
