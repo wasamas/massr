@@ -4,4 +4,6 @@
 //= require jquery.masonry.min
 //= require jquery.pnotify
 //= require jquery.purl
-//= require default
+//= require jquery.auto-link
+//= require massr
+//= require_tree .

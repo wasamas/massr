@@ -2,9 +2,6 @@
 %meta{csrf_meta}
 %meta{:name => "format-detection", :content => "telephone=no"}
 != stylesheet_tag 'application'
-- if massr_settings
-	%script
-		$Massr.settings = '#{massr_settings}';
 %link{:rel => "apple-touch-icon", :href => "/img/apple-touch-icon-114x114.png"}
 %link{:rel => "apple-touch-icon", :href => "/img/apple-touch-icon-57x57.png", :sizes => "57x57"}
 %link{:rel => "apple-touch-icon", :href => "/img/apple-touch-icon-72x72.png", :sizes => "72x72"}
