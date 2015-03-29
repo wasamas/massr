@@ -96,7 +96,7 @@ $ mkdir vendor
 $ bundle install --path vendor/bundle
 $ export RACK_ENV=development
 $ export EDITOR=vi
-$ bundle exec assets:precompile
+$ bundle exec rake assets:precompile
 $ bundle exec puma --port 9393
 ```
 
