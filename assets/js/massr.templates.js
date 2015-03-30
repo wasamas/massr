@@ -95,7 +95,7 @@ $(function(){
 				}).append(
 					$('<div>').addClass('stamp-items').each(function(){
 						$(this).append(
-							$('<a>').addClass('stamp-button').addClass('popup-image').attr('href', '#stamps').mfp().
+							$('<a>').addClass('stamp-button').attr('href', '#stamps').mfp().
 								append($('<i>').addClass('icon-th').addClass('stamp-button').attr('title', _['attach_stamp']))
 						);
 					})).append(

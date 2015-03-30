@@ -600,7 +600,7 @@ $(function(){
 		return true;
 	}
 	$(document).
-		on('click', 'a.usestamp', function(){ 
+		on('click', 'a.usestamp', function(){
 			toggleStamp($(this),$(this).parent().parent().attr('id'),$(this).parent().parent().children('div.image').children('img').attr('src'),USE);
 			return false;}).
 		on('click', 'a.unusestamp', function(){
@@ -717,6 +717,7 @@ $(function(){
 		return this
 	};
 	$('.popup-image').mfp();
+	$('a.stamp-button').mfp();
 
 	$.fn.image_size_change = function(url,size,centering){
 		var uri = document.createElement('a');
@@ -745,7 +746,7 @@ $(function(){
 	}
 
 	/*
-	* submit stamp 
+	* submit stamp
 	*/
 	$(function(){
 		$('.item-stamp').on('click', function(){

@@ -530,6 +530,11 @@ button.dropdown-toggle {
 	color: #777;
 }
 
+.popup-image:focus {
+	border: none;
+	outline: none;
+}
+
 .popup-photo {
 	position: relative;
 	margin:0px auto;

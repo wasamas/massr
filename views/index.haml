@@ -51,7 +51,7 @@
 											%img.photo-preview
 											%span.photo-name
 									.stamp-items{:id => 'submit-stamp'}
-										%a.stamp-button.popup-image{:href => '#stamps', :tabindex => "4"}<
+										%a.stamp-button{:href => '#stamps', :tabindex => "4"}<
 											%i.icon-th.stamp-button{:title => _attach_stamp}
 						!= haml :statements ,:locals => {:res_ids => nil , :statements => statements,:q => q}
 				.span3
