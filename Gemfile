@@ -2,22 +2,31 @@ source 'https://rubygems.org'
 
 ruby '2.2.1'
 
-gem 'sinatra'
+gem 'sinatra', require: 'sinatra/base'
+gem 'sinatra-asset-pipeline', require: 'sinatra/asset_pipeline'
+gem 'uglifier'
+gem 'yui-compressor'
+
 gem 'puma'
-gem 'haml'
-gem 'omniauth'
-gem 'omniauth-twitter'
-gem 'mongo_mapper'
+gem 'haml', require: 'haml'
+gem 'omniauth', require: 'omniauth'
+gem 'omniauth-twitter', require: 'omniauth-twitter'
+gem 'mongo_mapper', require: 'mongo_mapper'
 gem 'bson_ext'
-gem 'rack_csrf'
-gem 'mail'
+gem 'rack_csrf', require: 'rack/csrf'
+gem 'mail', require: 'mail'
 gem 'picasa'
 gem 'twitter'
 gem 'rmagick'
-gem 'rack-session-mongo'
-gem 'dalli'
+gem 'rack-session-mongo', require: 'rack-session-mongo'
+gem 'dalli', require: 'dalli'
 gem 'celluloid'
-gem 'newrelic_rpm'
+
+source 'https://rails-assets.org' do
+	gem 'rails-assets-jquery'
+	gem 'rails-assets-bootstrap', '~> 2.3.0'
+	gem 'rails-assets-magnific-popup'
+end
 
 group :development, :test do
 	gem 'rake'
@@ -27,4 +36,8 @@ group :development, :test do
 	gem 'pit', require: 'pit'
 	gem 'pry'
 	gem 'autotest'
+end
+
+group :production do
+	gem 'newrelic_rpm'
 end

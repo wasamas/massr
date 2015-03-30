@@ -1,16 +1,40 @@
 /*
- * default.js : common javascript file of massr
+ * massr.js : main javascript file of massr
  *
- * Copyright (C) 2012 by The wasam@s production
+ * Copyright (C) 2015 by The wasam@s production
  *
  * Distributed under GPL
  */
 
 /*
- * name space and defaults
+ * name space, defaults and global utilities
  */
-$Massr = {};
-$Massr.intervalFunctions = [];
+Massr = {
+	intervalFunctions: [],
+	me: '',
+	settings: {},
+
+	isHttps: function(){
+		return location.href.match(/^https/);
+	},
+
+	get_icon_url: function(user){
+		if (this.isHttps()) {
+			return user.twitter_icon_url_https;
+		} else {
+			return user.twitter_icon_url;
+		}
+	},
+
+	shrinkText: function(text){ // replace CR/LF to single space
+		if (text != null) {
+			return text.replace(/[\r\n]+/g, '\r');
+		} else {
+			return ""
+		}
+	}
+};
+
 
 /*
  * massr main
@@ -19,16 +43,17 @@ $(function(){
 	// Use local alias
 	var $ = jQuery;
 
-	var me = $('#me').text();
-	var settings = {}, _ = {};
+	var me = Massr.me = $('#me').text();
+	var settings = {};
+	var _;
 	var fileEnabled = false; try {if (FileReader) {fileEnabled = true;}} catch (e) {}
 	var posting = false;
 
 	$.when(
 		$.getJSON('/default.json'), // default setting
 		(function(){ // custom setting
-			if($Massr.settings){
-				return $.getJSON($Massr.settings);
+			if(Massr.setting_file){
+				return $.getJSON(Massr.setting_file);
 			}else{
 				return [{plugin:{}, resource:{}, setting:{}, local:{}}];
 			}
@@ -37,10 +62,11 @@ $(function(){
 		$.each(default_settings[0], function(k, v){
 			settings[k] = $.extend({}, default_settings[0][k], custom_settings[0][k]);
 		});
+		Massr.settings = settings;
 		_ = settings['local'];
 
 		$.each(settings['plugin'], function(name, opts){
-			plugin_setup(name, opts);
+			Massr.plugin_setup(name, opts);
 		});
 
 	}).fail(function(){
@@ -71,7 +97,7 @@ $(function(){
 	var reload_interval = setInterval(function(){ if (!posting) reloadDiff();}, reload_interval_time);
 
 	/*
-	 * utilities
+	 * local utilities
 	 */
 	// get ID from style "aaa-999999999"
 	function getID(label){
@@ -101,18 +127,6 @@ $(function(){
 			type: 'error'
 		});
 	};
-
-	function isHttps(){
-		return location.href.match(/^https/);
-	}
-
-	function get_icon_url(user){
-		if (isHttps()) {
-			return user.twitter_icon_url_https;
-		} else {
-			return user.twitter_icon_url;
-		}
-	}
 
 	// TODO postRes()とまとめたい
 	function post(form){
@@ -234,227 +248,10 @@ $(function(){
 		if (statement.body){
 			statement_body = statement.body;
 		}
-		var n = new Notification(_['site_name'], {icon: get_icon_url(statement.user), body: statement_body});
+		var n = new Notification(_['site_name'], {icon: Massr.get_icon_url(statement.user), body: statement_body});
 		if(timeout > 0){
 			setTimeout(function(){n.close();}, timeout);
 		}
-	}
-
-	// replace CR/LF to single space
-	function shrinkText(text){
-		if (text != null) {
-			return text.replace(/[\r\n]+/g, '\r');
-		} else {
-			return ""
-		}
-	}
-
-	// template of a statement
-	function buildStatement(s){ // s is json object of a statement
-		return $('<div>').addClass('statement').attr('id', 'st-'+s.id).append(
-			$('<div>').addClass('statement-icon').append(
-				$('<a>').attr('href', '/user/'+s.user.massr_id).append(
-					$('<img>').addClass('massr-icon').attr('src', get_icon_url(s.user))
-				)
-			)
-		).append(
-			$('<div>').addClass('statement-body').each(function(){
-				if(s.user.massr_id == me){
-					$(this).addClass('statement-body-me');
-				}
-				if(s.res !== null){
-					$(this).append(
-						$('<div>').addClass('statement-res-icon').append(
-							$('<a>').attr('href', '/user/'+s.res.user.massr_id).append(
-								$('<img>').addClass('massr-icon-mini').
-									attr('src', get_icon_url(s.res.user)).
-									attr('alt', s.res.user.name).
-									attr('title', s.res.user.name)
-							)
-						)
-					).append(
-						$('<div>').addClass('statement-res').append(
-							$('<a>').attr('href', '/statement/'+s.res.id).
-								text('< '+shrinkText(s.res.body)))
-					);
-				}
-			}).append(
-				$('<div>').each(function(){
-					if (s.body != null){
-						$(this).addClass('statement-message').text(shrinkText(s.body)).autoLink();
-					} else {
-						$(this).addClass('statement-stamp').
-							append(($('<div>')).addClass('stamp-style').append(($('<div>').addClass('stamp').append(
-								$('<img>').addClass('statement-stamp-img').attr('src',$.fn.image_size_change(s.stamp,settings['setting']['stamp_size'],true))
-							))));
-					}
-				})
-			).append(
-				$('<div>').addClass('statement-photos').each(function(){
-					var $parent = $(this);
-					$.each(s.photos, function(){
-						var $photo = this
-						$parent.append(($('<a>').addClass('popup-image').attr('href', '#'+s.id).mfp()).
-							append($('<img>').addClass('statement-photo').attr('src', $photo)));
-						$parent.append(($('<div>').addClass('mfp-hide').addClass('popup-photo').attr('id',s.id)).
-							append(($('<div>').addClass('stamp')).each(function(){
-								var $f = false;
-								$('.stamps').each(function(){
-									$(this).find('img').each(function(){
-										if ($.fn.image_size_change($(this).attr('src'),1)==$.fn.image_size_change($photo,1)){
-											$f = true
-										}
-									});
-								});
-								if ($f == true) {
-									$(this).append(($('<a>').addClass('unusestamp')).
-											append($('<i>').addClass('icon-remove-circle').attr('title',_['unuse_stamp'])));
-								} else {
-									$(this).append(($('<a>').addClass('usestamp')).
-											append($('<i>').addClass('icon-ok-circle').attr('title',_['use_stamp'])));
-								}
-							})).
-							append(($('<div>').addClass('image')).
-								append($('<img>').attr('src',$photo))))
-					});
-				})
-			).append(
-				$('<div>').addClass('statement-info').
-					append('by ').
-					append($('<a>').attr('href', '/user/'+s.user.massr_id).append(s.user.name)).
-					append(' at ' ).
-					append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at))
-			).append(
-				$('<div>').addClass('statement-action').each(function(){
-					if(s.user.massr_id == me){
-						$(this).append(
-							$('<a>').addClass('trash').attr('href', '#').
-								append($('<i>').addClass('icon-trash').attr('title', _['delete']))
-						);
-					}
-				}).append(
-					$('<div>').addClass('stamp-items').each(function(){
-						$(this).append(
-							$('<a>').addClass('stamp-button').addClass('popup-image').attr('href', '#stamps').mfp().
-								append($('<i>').addClass('icon-th').addClass('stamp-button').attr('title', _['attach_stamp']))
-						);
-					})).append(
-					$('<a>').addClass('res').attr('href', '#').append(
-						$('<i>').addClass('icon-comment').attr('title', _['res'])
-					).append(
-						s.ref_ids.length > 0?' ('+s.ref_ids.length+') ':' '
-						)
-					).append(
-						$('<a>').attr('href', '#').addClass('like-button').attr('id', 'like-'+s.id).
-						each(function(){
-							var classLike = 'like';
-							$.each(s.likes, function(){
-								if(this.user.massr_id == me){
-									classLike = 'unlike';
-									return false;
-								}
-								return true;
-							});
-							$(this).addClass(classLike);
-						}).
-						append($('<img>').addClass('unlike').attr('src', '/img/wakaruwa.png').attr('alt', _['unlike']).attr('title', _['unlike'])).
-						append($('<img>').addClass('like').attr('src', '/img/wakaranaiwa.png').attr('alt', _['like']).attr('title', _['like']))
-				)
-			).append(
-				$('<div>').addClass('response').attr('id', 'res-'+s.id).append(
-					$('<form>').addClass("res-form").attr('method', 'POST').attr('action', '/statement').append(
-						$('<div>').append(
-							$('<textarea>').
-								attr('name', 'body').
-								attr('type', 'text')
-						).append(
-							$('<input>').
-								attr('name', 'res_id').
-								attr('type', 'hidden').
-								attr('value', s.id)
-						).append(
-							$('<input>').
-								attr('name', '_csrf').
-								attr('type', 'hidden').
-								attr('value', $('meta[name="_csrf"]').attr('content'))
-						)
-					).append(
-						$('<div>').addClass('button').append(
-							$('<button>').
-								addClass('btn btn-small submit').
-								attr('type', 'submit').
-								text(_['post_res'])
-						).append(
-							$('<div>').addClass('photo-items').append(
-								$('<input>').
-									addClass('photo-shadow').
-									attr('type', 'file').
-									attr('accept', 'image/*').
-									attr('name', 'photo').
-									attr('tabindex', '-1')
-							).append(
-								$('<a>').attr('href', '#').addClass('photo-button').append(
-									$('<i>').attr('title', _['attach_photo']).addClass('icon-camera').addClass('photo-button')
-								)
-							).append(
-								$('<span>').addClass('photo-name')
-							)
-						)
-					)
-				)
-			)
-		);
-	}
-
-	// template of a photo
-	function buildPhoto(s){ // s is json object of a photo
-		return $('<div>').addClass('item').attr('id', 'st-'+s.id).append(
-			$('<div>').addClass('item-body').each(function(){}).append(
-				$('<div>').addClass('item-photos').each(function(){
-					var $parent = $(this);
-					$.each(s.photos, function(){
-						var $photo = this
-						$parent.append(($('<a>').addClass('popup-image').attr('href', '#'+s.id).mfp()).
-							append($('<img>').addClass('statement-photo').attr('src', $photo)));
-						$parent.append(($('<div>').addClass('mfp-hide').addClass('popup-photo').attr('id',s.id)).
-							append(($('<div>').addClass('stamp')).each(function(){
-								var $f = false;
-								$('#stamps').each(function(){
-									$(this).find('img').each(function(){
-										if ($.fn.image_size_change($(this).attr('src'),1)==$.fn.image_size_change($photo,1)){
-											$f = true
-										}
-									});
-								});
-								if ($f == true) {
-									$(this).append(($('<a>').addClass('unusestamp')).
-											append($('<i>').addClass('icon-remove-circle').attr('title',_['unuse_stamp'])));
-								} else {
-									$(this).append(($('<a>').addClass('usestamp')).
-											append($('<i>').addClass('icon-ok-circle').attr('title',_['use_stamp'])));
-								}
-							})).
-							append(($('<div>').addClass('image')).
-								append($('<img>').attr('src',$photo))).
-							append(($('<div>').addClass('statement').attr('id','st-'+s.id)).
-								append(($('<div>').addClass('statement-icon')).
-									append(($('<a>').attr('href','/user/'+s.user.massr_id)).
-										append($('<img>').addClass('massr-icon').attr('src', get_icon_url(s.user))))).
-							append(($('<div>').addClass('statement-body')).
-								append(($('<div>').addClass('statement-massage').text(s.body)))).
-							append($('<div>').addClass('statement-info').
-								append('by ').
-								append($('<a>').attr('href', '/user/'+s.user.massr_id).append(s.user.name)).
-								append(' at ' ).
-								append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at)))))
-					});
-				})
-			).append(
-				$('<div>').addClass('item-info').
-					append(' at ' ).
-					append($('<a>').attr('href', '/statement/'+s.id).append(s.created_at))
-			)
-		);
 	}
 
 	function getNewestTime(){
@@ -477,7 +274,7 @@ $(function(){
 					$.each(json.reverse(), function(){
 						if(this.created_at > newest){
 							var statement = this;
-							var $statement = buildStatement(statement).hide();
+							var $statement = Massr.buildStatement(statement).hide();
 							$div.prepend($statement);
 							$statement.slideDown('slow');
 							if(statement.res && statement.res.user.massr_id == me){
@@ -501,7 +298,7 @@ $(function(){
 				}
 			});
 
-			$.each($Massr.intervalFunctions, function(){
+			$.each(Massr.intervalFunctions, function(){
 				this();
 			});
 
@@ -535,31 +332,6 @@ $(function(){
 		});
 	}
 
-	// automatic link plugin
-	$.fn.autoLink = function(config){
-		this.each(function(){
-			var re = /((https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+|^#[^#\s]+|\s#[^#\s]+)/g;
-			$(this).html(
-				$(this).html().replace(re, function(u){
-					try {
-						if (u.match(/^\s*#/)) {
-							var array = u.split('#');
-							var prefix = array[0];
-							var tag = '#' + array[1];
-							return prefix + '<a href="/search?q='+encodeURIComponent(tag)+'">'+tag+'</a>';
-						} else {
-							var url = $.url(u);
-							return '[<a href="'+u+'" target="_blank">'+url.attr('host')+'</a>]';
-						}
-					}catch(e){
-						return u;
-					}
-				})
-			);
-		});
-		return this;
-	};
-
 	$(window).on('focus', function(e){
 		if (localStorage['lastmodified']==null) {
 			reloadDiff();
@@ -571,6 +343,7 @@ $(function(){
 			}
 		}
 	});
+
 	/*
 	 * post by Ctrl+Enter key
 	 */
@@ -645,7 +418,7 @@ $(function(){
 						attr('href', '/user/' + this.user.massr_id).
 						append( $('<img>').
 							addClass('massr-icon-mini').
-							attr('src', get_icon_url(this.user)).
+							attr('src', Massr.get_icon_url(this.user)).
 							attr('alt', this.user.name).
 							attr('title', this.user.name)
 						)
@@ -769,7 +542,7 @@ $(function(){
 					$(idname).each(function(){
 						var $div = $(this);
 						$.each(json, function(){
-							var $statement = (/.*photos$/.test(location.pathname))? buildPhoto(this).hide():buildStatement(this).hide();
+							var $statement = (/.*photos$/.test(location.pathname))? Massr.buildPhoto(this).hide() : Massr.buildStatement(this).hide();
 							if (/.*photos$/.test(location.pathname)){
 								$div.append( $statement );
 								$div.imagesLoaded(function(){
@@ -1080,120 +853,6 @@ $(function(){
 		});
 		return false;
 	});
-
-	/*
-	 * plugins
-	 */
-	function plugin_setup(name, opts){
-		var plugin = name.match(/^([^\/]+)\/([^ ]+) (.*)$/) || [name];
-		switch(plugin[1]){
-			case "notify":
-				switch(plugin[2]){
-					case "information":
-						break;
-					case "like":
-						plugin_notify_like(plugin[3], opts);
-						break;
-				}
-				break;
-		}
-	}
-
-	function plugin_notify_like(id, opts){
-		var del = opts['delete'] || 'owner';
-		var myIcon = $('#'+id+' img[alt='+me+']').length !== 0;
-
-		var likeButton = $('#'+id+'-like');
-		var unlikeButton = $('#'+id+'-unlike');
-		if(myIcon){
-			likeButton.hide();
-		}else{
-			unlikeButton.hide();
-		}
-
-		likeButton.on('click', function(){
-			$.ajax({
-				url: '/plugin/notify/like/' + id,
-				type: 'POST',
-				dataType: 'json'
-			}).done(function(result){
-				plugin_notify_like_draw_icons(id, result);
-			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
-				message.error('(' + textStatus + ')');
-			});
-
-			return false;
-		});
-
-		unlikeButton.on('click', function(){
-			$.ajax({
-				url: '/plugin/notify/like/' + id + '/' + me,
-				type: 'DELETE',
-				dataType: 'json'
-			}).done(function(result){
-				plugin_notify_like_draw_icons(id, result);
-			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
-				message.error('(' + textStatus + ')');
-			});
-
-			return false;
-		});
-
-		$('#' + id).on('click', 'a.' + id + '-delete', function(){
-			var name = $('img', this).attr('alt');
-
-			$.ajax({
-				url: '/plugin/notify/like/' + id + '/' + name,
-				type: 'DELETE',
-				dataType: 'json'
-			}).done(function(result){
-				plugin_notify_like_draw_icons(id, result);
-			}).fail(function(XMLHttpRequest, textStatus, errorThrown){
-				message.error('(' + textStatus + ')');
-			});
-
-			return false;
-		});
-
-		$Massr.intervalFunctions.push(function(){
-			$.getJSON('/plugin/notify/like/' + id + '.json', function(json){
-				plugin_notify_like_draw_icons(id, json);
-			});
-		});
-
-		function plugin_notify_like_draw_icons(id, icons){
-			var elem = $('#' + id);
-
-			elem.empty();
-			$('#'+id+'-like').show();
-			$('#'+id+'-unlike').hide();
-			$.each(icons, function(name, val){
-				if(del == 'any'){
-					elem.append(
-						$('<a>').addClass(id + '-delete').attr('href', '#').append(
-							$('<img>').
-							addClass('massr-icon-mini').
-							attr('src', val[1]).
-							attr('alt', name).
-							attr('title', 'delete ' + name)
-						)
-					).append('&nbsp;')
-				}else{
-					elem.append(
-						$('<img>').
-						addClass('massr-icon-mini').
-						attr('src', val[1]).
-						attr('alt', name).
-						attr('title', name)
-					)
-				}
-				if(me == name){
-					$('#'+id+'-like').hide();
-					$('#'+id+'-unlike').show();
-				}
-			});
-		}
-	}
 
 	if (fileEnabled) {
 		function clearPhoto(form) {
