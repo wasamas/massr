@@ -530,10 +530,15 @@ button.dropdown-toggle {
 	color: #777;
 }
 
+.popup-image:focus {
+	border: none;
+	outline: none;
+}
+
 .popup-photo {
 	position: relative;
 	margin:0px auto;
-	max-width: 80%;
+	max-width: 100%;
 	background: #fff;
 	padding: 5px;
 	opacity: 1.0;
@@ -541,7 +546,7 @@ button.dropdown-toggle {
 }
 
 .popup-photo .image img {
-	max-width: 80%;
+	max-width: 100%;
 	height: auto;
 }
 
