@@ -68,7 +68,11 @@ module Massr
 			end
 
 			def image_size_change url,size,centering
-				uri = URI.parse(url)
+				begin
+					uri = URI.parse(url)
+				rescue URI::InvalidURIError
+					puts "Fatal error in image_size_change cause by dirty cache"
+				end
 
 				if (uri.host =~ /\A[0-9a-zA-Z]+\.googleusercontent\.com\z/)
 					pattern = /\/([whs][0-9]+|r(90|180|270)|-|c|p|o|d)+\//
