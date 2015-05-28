@@ -36,6 +36,7 @@ group :development, :test do
 	gem 'pit', require: 'pit'
 	gem 'pry'
 	gem 'autotest'
+	gem 'google-api-client'
 end
 
 group :production do
