@@ -9,8 +9,8 @@
 #          "media/twitter": {
 #            "consumer_key": "hoge",
 #            "consumer_secret": "fuga",
-#            "oauth_token": "foo",
-#            "oauth_token_secret", "bar"
+#            "access_token": "foo",
+#            "access_token_secret", "bar"
 #          }
 #        }
 #
