@@ -63,7 +63,7 @@ module Massr
 				@redirect_uri = opts['redirect_uri']   || ENV['GOOGLE_OAUTH_REDIRECT']
 				@refresh_token = opts['refresh_token'] || ENV['GOOGLE_OAUTH_REFRESH_TOKEN']
 				raise StandardError::new('not specified user_id or password') unless @user_id && @client_id && @client_secret && @redirect_uri && @refresh_token
-				@picasa_client ||= init_picasa_client
+				@picasa_client = init_picasa_client
 			end
 
 			def resize_file(path, size=0, square=false)
@@ -97,7 +97,7 @@ module Massr
 					image_uri.path = image_uri.path.split('/').insert(-2,"s#{display_size}").join('/')
 					return image_uri.to_s
 				rescue ::Picasa::ForbiddenError
-					init_picasa_client
+					@picasa_client = init_picasa_client
 					retry if (retry_count += 1) < 10
 					raise
 				end
@@ -106,12 +106,12 @@ module Massr
 		private
 			def init_picasa_client
 				oauth2_client = Signet::OAuth2::Client.new(
-				  token_credential_uri: "https://accounts.google.com/o/oauth2/token",
-				  client_id: @client_id,
-				  client_secret: @client_secret,
-				  redirect_uri: @redirect_uri,
-				  scope: "https://picasaweb.google.com/data/",
-				  refresh_token: @refresh_token
+					token_credential_uri: "https://accounts.google.com/o/oauth2/token",
+					client_id: @client_id,
+					client_secret: @client_secret,
+					redirect_uri: @redirect_uri,
+					scope: "https://picasaweb.google.com/data/",
+					refresh_token: @refresh_token
 				)
 				oauth2_client.refresh!
 				::Picasa::Client.new(user_id: @user_id, authorization_header: Signet::OAuth2.generate_bearer_authorization_header(oauth2_client.access_token))
