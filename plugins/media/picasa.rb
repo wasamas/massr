@@ -4,13 +4,22 @@
 #
 # usage: in default.json file:
 #
-#        // if no user_id or password, uses PICASA_ID or PICASA_PASS from ENV
 #        "plugin": {
 #          "media/picasa": {
-#            "user_id": "hoge",
-#            "password": "fuga"
+#            "user_id": "hoge@gmail.com",
+#            "client_id": "hogehoge.apps.googleusercontent.com",
+#            "client_secret": "fuga",
+#            "redirect_uri": "https://hoge.example.com",
+#            "refresh_token": "foobarbaz"
 #          }
 #        }
+#
+#        if no variables in json, massr uses alternative values from ENV:
+#          user_id       -> PICASA_ID
+#          client_id     -> GOOGLE_OAUTH_CLIENT_ID
+#          client_secret -> GOOGLE_OAUTH_CLIENT_SECRET
+#          redirect_uri  -> GOOGLE_OAUTH_REDIRECT
+#          refresh_token -> GOOGLE_OAUTH_REFRESH_TOKEN
 #
 # Copyright (C) 2012 by The wasam@s production
 # https://github.com/tdtds/massr
@@ -18,7 +27,9 @@
 # Distributed under GPL
 #
 require 'picasa'
-require 'RMagick'
+require 'signet/oauth_2'
+require 'signet/oauth_2/client'
+require 'rmagick'
 
 #
 # Enhanced Picasa Client
@@ -46,9 +57,12 @@ module Massr
 			DEFAULT_DISPLAY_PHOTO_SIZE = 800
 
 			def initialize(label, opts)
-				@user_id = opts['user_id'] || ENV['PICASA_ID']
-				@password = opts['password'] || ENV['PICASA_PASS']
-				raise StandardError::new('not specified user_id or password') unless @user_id && @password
+				@user_id   = opts['user_id']           || ENV['PICASA_ID']
+				@client_id = opts['client_id']         || ENV['GOOGLE_OAUTH_CLIENT_ID']
+				@client_secret = opts['client_secret'] || ENV['GOOGLE_OAUTH_CLIENT_SECRET']
+				@redirect_uri = opts['redirect_uri']   || ENV['GOOGLE_OAUTH_REDIRECT']
+				@refresh_token = opts['refresh_token'] || ENV['GOOGLE_OAUTH_REFRESH_TOKEN']
+				raise StandardError::new('not specified user_id or password') unless @user_id && @client_id && @client_secret && @redirect_uri && @refresh_token
 				@picasa_client ||= init_picasa_client
 			end
 
@@ -91,7 +105,16 @@ module Massr
 
 		private
 			def init_picasa_client
-				::Picasa::Client.new(user_id: @user_id, password: @password)
+				oauth2_client = Signet::OAuth2::Client.new(
+				  token_credential_uri: "https://accounts.google.com/o/oauth2/token",
+				  client_id: @client_id,
+				  client_secret: @client_secret,
+				  redirect_uri: @redirect_uri,
+				  scope: "https://picasaweb.google.com/data/",
+				  refresh_token: @refresh_token
+				)
+				oauth2_client.refresh!
+				::Picasa::Client.new(user_id: @user_id, authorization_header: Signet::OAuth2.generate_bearer_authorization_header(oauth2_client.access_token))
 			end
 		end
 	end

@@ -156,8 +156,13 @@ yamlファイルに以下の設定をすることで、Picasaを使った画像�
 ```sh
 $ heroku config:add \
   PICASA_ID=XXXXXXXXXXXXXXX \
-  PICASA_PASS=XXXXXXXXXXXXXXX
+  GOOGLE_OAUTH_CLIENT_ID=XXXXXXX \
+  GOOGLE_OAUTH_CLIENT_SECRET=XXXXXXX \
+  GOOGLE_OAUTH_REDIRECT=XXXXXXX \
+  GOOGLE_OAUTH_REFRESH_TOKEN=XXXXXXX
 ```
+
+GOOGLEで始まる各変数は[googleapi - Google API OAuth2.0のアクセストークン&リフレッシュトークン取得手順メモ - Qiita](http://qiita.com/kossacks/items/8d279bcc1acc2c2153ab)を参考に取得して下さい。
 
 有効にすることで、Picasaウェブアルバム上に『MassrYYMMNNN』というアルバムを作成し、
 そこに投稿された画像を登録します。
@@ -187,6 +192,8 @@ $ heroku config:add \
   MEDIA_CONSUMER_SECRET=XXXXXXXXXXXXXXX \
   MEDIA_ACCESS_TOKEN_SECRET=XXXXXXXXXXXXXXX
 ```
+
+ただし、Twitterを利用する場合、スタンプ用の画像はうまく表示されないので、事実上スタンプ機能は使えなくなります。
 
 ### New Relicアドオンよるパフォーマンス計測を実施する方法
 

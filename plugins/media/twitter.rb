@@ -20,7 +20,7 @@
 # Distributed under GPL
 #
 require 'twitter'
-require 'RMagick'
+require 'rmagick'
 
 #
 # Massr Twitter media plugin

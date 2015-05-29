@@ -32,6 +32,7 @@ GEM
     diff-lcs (1.2.5)
     equalizer (0.0.11)
     execjs (2.5.2)
+    extlib (0.9.16)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
     fuubar (2.0.0)
@@ -50,6 +51,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
     json (1.8.2)
+    jwt (1.5.0)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     memoizable (0.4.2)
@@ -106,7 +108,7 @@ GEM
     rails-assets-magnific-popup (1.0.0)
       rails-assets-jquery (>= 1.8.0)
     rake (10.4.2)
-    rmagick (2.14.0)
+    rmagick (2.15.0)
     rspec (3.2.0)
       rspec-core (~> 3.2.0)
       rspec-expectations (~> 3.2.0)
@@ -122,6 +124,12 @@ GEM
     rspec-support (3.2.2)
     ruby-progressbar (1.7.5)
     sass (3.4.13)
+    signet (0.6.0)
+      addressable (~> 2.3)
+      extlib (~> 0.9)
+      faraday (~> 0.9)
+      jwt (~> 1.0)
+      multi_json (~> 1.10)
     simple_oauth (0.3.1)
     sinatra (1.4.6)
       rack (~> 1.4)
@@ -204,6 +212,7 @@ DEPENDENCIES
   rake
   rmagick
   rspec
+  signet
   sinatra
   sinatra-asset-pipeline
   sinatra-reloader
