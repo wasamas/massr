@@ -15,6 +15,7 @@ gem 'mongo_mapper', require: 'mongo_mapper'
 gem 'bson_ext'
 gem 'rack_csrf', require: 'rack/csrf'
 gem 'mail', require: 'mail'
+gem 'signet'
 gem 'picasa'
 gem 'twitter'
 gem 'rmagick'
@@ -36,7 +37,6 @@ group :development, :test do
 	gem 'pit', require: 'pit'
 	gem 'pry'
 	gem 'autotest'
-	gem 'google-api-client'
 end
 
 group :production do
