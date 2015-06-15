@@ -37,6 +37,7 @@ group :development, :test do
 	gem 'pit', require: 'pit'
 	gem 'pry'
 	gem 'autotest'
+	gem 'therubyracer'
 end
 
 group :production do
