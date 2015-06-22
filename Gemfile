@@ -4,6 +4,7 @@ ruby '2.2.2'
 
 gem 'sinatra', require: 'sinatra/base'
 gem 'sinatra-asset-pipeline', require: 'sinatra/asset_pipeline'
+gem 'sprockets-helpers', '= 1.1.0'
 gem 'uglifier'
 gem 'yui-compressor'
 
