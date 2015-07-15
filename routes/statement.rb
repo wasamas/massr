@@ -31,9 +31,9 @@ module Massr
 			end
 		end
 
-		before '/statement/:id*' do
+		before '/statement/:id.?:format?' do
 			case params[:id]
-			when 'photos' , 'photos.json'
+			when 'photos'
 				@query = {"photos" => {:$ne => [] } }
 			else
 				@statement = Statement.find_by_id(params[:id])
