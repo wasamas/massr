@@ -29,6 +29,7 @@ $(function(){
 		this.each(function(){
 			var re = /((https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+|^#[^#\s]+|\s#[^#\s]+)/g;
 			var embed = "";
+			var s_id = $(this).parent().parent().attr('id');
 			$(this).html(
 				$(this).html().replace(re, function(u){
 					try {
@@ -42,9 +43,9 @@ $(function(){
 							if (u.match(/https?:\/\/twitter\.com\/.+\/status\/(\d+)$/)) {
 								// embed tweet
 								var tweet_id = RegExp.$1;
-								embed += '<div id="tw' + tweet_id + '"></div>';
+								embed += '<div id="tw' + tweet_id + '-' + s_id + '"></div>';
 								twttr.ready(function() {
-									twttr.widgets.createTweet(tweet_id, $('#tw'+tweet_id).get(0),{cards:'hidden'});
+									twttr.widgets.createTweet(tweet_id, $('#tw'+tweet_id+'-'+s_id).get(0),{cards:'hidden'});
 								});
 							}
 							else if (u.match(/https?:\/\/www\.youtube\.com\/watch\?v=([0-9a-zA-Z_]+)/)) {
