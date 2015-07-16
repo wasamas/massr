@@ -48,12 +48,8 @@ $(function(){
 								});
 							}
 							else if (u.match(/https?:\/\/www\.youtube\.com\/watch\?v=([0-9a-zA-Z_]+)/)) {
-								embed += '<iframe id="ytplayer" type="text/html" src="//www.youtube.com/embed/' +
-										RegExp.$1 + '" frameborder="0" />';
-							}
-							else if (u.match(/https?:\/\/www\.nicovideo\.jp\/watch\/([0-9a-z]+)/)) {
-								embed += '<iframe width="312" height="176" src="http://ext.nicovideo.jp/thumb/' + RegExp.$1 +
-										 '" scrolling="no" style="border:solid 1px #CCC;" frameborder="0">';
+								embed += '<div><iframe id="ytplayer" type="text/html" src="//www.youtube.com/embed/' +
+										RegExp.$1 + '" frameborder="0" /></div>';
 							}
 
 							return '[<a href="'+u+'" target="_blank">'+url.attr('host')+'</a>]';
