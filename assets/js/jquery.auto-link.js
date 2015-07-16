@@ -45,6 +45,10 @@ $(function(){
 								var tweet_id = RegExp.$1;
 								embed += '<div id="tw' + tweet_id + '-' + s_id + '"></div>';
 								twttr.ready(function() {
+									twttr.events.bind('rendered', function(ev) {
+										$(ev.target).css({'width': 'auto'});
+										$(ev.target).contents().find('blockquote').css({'font-size':'85%'});
+									});
 									twttr.widgets.createTweet(tweet_id, $('#tw'+tweet_id+'-'+s_id).get(0),{cards:'hidden'});
 								});
 							}
