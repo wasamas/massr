@@ -101,7 +101,7 @@ $(function(){
 	 */
 	// get ID from style "aaa-999999999"
 	function getID(label){
-		return label.split('-', 2)[1];
+		return label ? label.split('-', 2)[1] : null;
 	}
 
 	var message = {};
@@ -703,11 +703,14 @@ $(function(){
 	*/
 	$.fn.mfp = function(config){
 		this.on('click',function(){
-			if ($(this).parent().parent().parent().parent().attr('id')){
-				var statement_id = getID($(this).parent().parent().parent().parent().attr('id'));
-				$('.items','.mfp-hide','#submit-stamp').attr('id',statement_id);
+			var submitStamp = $('.items','.mfp-hide','#submit-stamp');
+			submitStamp.removeAttr('id');
+
+			var statement_id = getID($(this).parent().parent().parent().parent().attr('id'));
+			if (statement_id) {
+				submitStamp.attr('id', statement_id);
 			} else {
-				$('.items','.mfp-hide','#submit-stamp').removeAttr('id');
+				submitStamp.removeAttr('id');
 			}
 		});
 		this.magnificPopup({
