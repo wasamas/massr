@@ -7,7 +7,7 @@
 			%a.usestamp
 				%i.icon-ok-circle{:title => _use_stamp }
 	.image
-		%a{:href => "#{photo}"}
+		%a{:href => "#{photo}", :target => "_blank"}
 			%img{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
 	- if detail
 		.statement{:id => "st-#{statement._id}"}
@@ -15,7 +15,7 @@
 			.statement-icon
 				%a{:href => "/user/#{statement.user.massr_id}"}
 					%img.massr-icon{:src => get_icon_url(statement.user)}
-		
+
 			%div{:class => "#{session[:user_id] == statement.user._id ? "statement-body-me statement-body" : "statement-body"}"}
 				/ 発言本文
 				.statement-message<
