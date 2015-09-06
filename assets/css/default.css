@@ -189,6 +189,11 @@ div.new-post textarea, div.response textarea {
 	margin: 0 4px;
 }
 
+.usestamp, .unusestamp {
+	padding: 16px;
+	cursor: pointer;
+}
+
 .photo-preview {
 	display: none;
 	width: 48px;
