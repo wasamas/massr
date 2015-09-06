@@ -7,7 +7,8 @@
 			%a.usestamp
 				%i.icon-ok-circle{:title => _use_stamp }
 	.image
-		%img{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
+		%a{:href => "#{photo}"}
+			%img{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
 	- if detail
 		.statement{:id => "st-#{statement._id}"}
 			/ アイコン
