@@ -14,6 +14,8 @@
 			.statement-res
 				%a{:href => "/statement/#{statement.res._id}"}
 					&lt; #{statement.res.body}
+					- unless statement.res.stamp.nil?
+						%img{:src => "#{image_size_change(statement.res.stamp,16,true)}", :alt => "#{statement.res.stamp}", :title => "#{statement.res.stamp}"}
 
 		/ 発言本文
 		- unless statement.body.nil?
