@@ -35,7 +35,12 @@ $(function(){
 					).append(
 						$('<div>').addClass('statement-res').append(
 							$('<a>').attr('href', '/statement/'+s.res.id).
-								text('< ' + Massr.shrinkText(s.res.body)))
+								text('< ' + Massr.shrinkText(s.res.body)).each(function(){
+									if (s.res.stamp) {
+										$(this).append($('<img>').attr('src', $.fn.image_size_change(s.res.stamp,16,true)).
+										attr('alt', s.res.stamp).attr('title', s.res.stamp));
+									}
+								}))
 					);
 				}
 			}).append(
