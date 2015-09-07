@@ -80,7 +80,8 @@ $(function(){
 								}
 							})).
 							append(($('<div>').addClass('image')).
-								append($('<img>').attr('src',$photo))))
+								append($('<a>').attr('href',$photo).attr('target','_blank').
+									append($('<img>').attr('src',$photo)))));
 					});
 				})
 			).append(
