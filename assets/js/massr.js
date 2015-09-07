@@ -601,10 +601,10 @@ $(function(){
 	}
 	$(document).
 		on('click', 'a.usestamp', function(){
-			toggleStamp($(this),$(this).parent().parent().attr('id'),$(this).parent().parent().children('div.image').children('img').attr('src'),USE);
+			toggleStamp($(this),$(this).parent().parent().attr('id'),$(this).parent().parent().children('div.image').find('img').attr('src'),USE);
 			return false;}).
 		on('click', 'a.unusestamp', function(){
-			toggleStamp($(this),$(this).parent().parent().attr('id'),$(this).parent().parent().children('div.image').children('img').attr('src'),UNUSE);
+			toggleStamp($(this),$(this).parent().parent().attr('id'),$(this).parent().parent().children('div.image').find('img').attr('src'),UNUSE);
 			return false;});
 
 	/*
