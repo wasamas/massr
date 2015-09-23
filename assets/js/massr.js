@@ -255,7 +255,7 @@ $(function(){
 	}
 
 	function getNewestTime(){
-		return $($('#statements .statement .statement-info a').get(1)).text().replace(/^\s*(.*?)\s*$/, "$1");
+		return $($('#statements>.statement>.statement-body>.statement-info a').get(1)).text().replace(/^\s*(.*?)\s*$/, "$1");
 	}
 
 	// reload diff of recent statements
@@ -590,7 +590,11 @@ $(function(){
 			data: "image_url=" + image_url + "&statement_id=" + statement_id}).
 		done(function(result){
 				message.success(msg);
-				target.toggleClass('unusestamp').toggleClass('usestamp');
+				if (stat == USE) {
+					target.addClass('unusestamp').removeClass('usestamp');
+				} else {
+					target.removeClass('unusestamp').addClass('usestamp');
+				}
 				target.children('i').toggleClass('icon-ok-circle').toggleClass('icon-remove-circle');
 			}).
 		fail(function(XMLHttpRequest, textStatus, errorThrown){
@@ -601,10 +605,18 @@ $(function(){
 	}
 	$(document).
 		on('click', 'a.usestamp', function(){
-			toggleStamp($(this),$(this).parent().parent().attr('id'),$(this).parent().parent().children('div.image').find('img').attr('src'),USE);
+			var container = $(this).parent().parent();
+			var src = container.children('div.image').find('img').attr('src');
+			if (container.attr('id') && src) {
+				toggleStamp($(this), container.attr('id'), src, USE);
+			}
 			return false;}).
 		on('click', 'a.unusestamp', function(){
-			toggleStamp($(this),$(this).parent().parent().attr('id'),$(this).parent().parent().children('div.image').find('img').attr('src'),UNUSE);
+			var container = $(this).parent().parent();
+			var src = container.children('div.image').find('img').attr('src');
+			if (container.attr('id') && src) {
+				toggleStamp($(this), container.attr('id'), src, UNUSE);
+			}
 			return false;});
 
 	/*
@@ -689,7 +701,7 @@ $(function(){
 	/*
 	 * automatic link
 	 */
-	$('.statement-message').autoLink();
+	$('.statement-message').autoLink().embedStatement();
 	var $container = $('#items');
 	$container.imagesLoaded(function(){
 		$container.masonry({
