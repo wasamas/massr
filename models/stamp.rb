@@ -39,7 +39,11 @@ module Massr
 			statements = Array.new
 			stamps.each do |stamp|
 				original = stamp.original
-				statements << original
+				if original.is_a? Massr::Statement
+					statements << original
+				else
+					stamp.delete
+				end
 			end
 			return statements
 		end
