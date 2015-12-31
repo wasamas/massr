@@ -127,7 +127,7 @@ GEM
     rails-assets-bootstrap (2.3.2)
       rails-assets-jquery (>= 1.8.0, < 2.1.0)
     rails-assets-jquery (2.0.3)
-    rails-assets-magnific-popup (1.0.0)
+    rails-assets-magnific-popup (1.0.1)
       rails-assets-jquery (>= 1.8.0)
     rake (10.4.2)
     ref (2.0.0)
