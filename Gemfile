@@ -34,7 +34,7 @@ group :development, :test do
 	gem 'rake'
 	gem 'rspec'
 	gem 'fuubar'
-	gem 'sinatra-reloader', require: 'sinatra/reloader'
+	gem 'sinatra-contrib', require: 'sinatra/reloader'
 	gem 'pit', require: 'pit'
 	gem 'pry'
 	gem 'autotest'
