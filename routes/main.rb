@@ -17,16 +17,16 @@ module Massr
 		end
 
 		get '/index.json' do
-			cache = Massr::Plugin::Memcached.main.get
-			if(cache && !params[:date])
-				cache
+			main = cache.get('main')
+			if(main && !params[:date])
+				main
 			else
 				json = [].tap {|a|
 					Statement.get_statements(param_date).each do |statement|
 						a << statement.to_hash
 					end
 				}.to_json
-				Massr::Plugin::Memcached.main.set(json)
+				cache.set('main', json)
 				json
 			end
 		end

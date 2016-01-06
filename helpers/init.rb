@@ -91,9 +91,20 @@ module Massr
 			end
 
 			def stamp_urls
-				Massr::Plugin::Memcached.stamp.get
+				cache.get('stamp')
 			end
 
+			def clear_search_cache(body)
+				new_query_list = (cache.get('query_list') || []).reject{|query|
+					if /#{query}/i =~ body
+						cache.delete("search:#{query}")
+						true
+					else
+						false
+					end
+				}
+				cache.set('query_list', new_query_list)
+			end
 		end
 	end
 end

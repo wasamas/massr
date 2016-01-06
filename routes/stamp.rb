@@ -11,7 +11,7 @@
 module Massr
 	class App < Sinatra::Base
 		before '/stamp' do
-			Massr::Plugin::Memcached.stamp.delete unless request.get?
+			cache.delete('stamp') unless request.get?
 		end
 
 		post '/stamp' do
@@ -25,7 +25,7 @@ module Massr
 		end
 
 		after '/stamp' do
-			Massr::Plugin::Memcached.stamp.set(Stamp.get_image_urls) unless request.get?
+			cache.set('stamp', Stamp.get_image_urls) unless request.get?
 		end
 
 		get '/stamps' do
