@@ -54,16 +54,23 @@ module Massr
 			end
 		end
 
-		helpers do
-			def notify_plugins
-				PLUGINS.select do |plugin|
-					/^Massr::Plugin::Notify::/ =~ plugin.class.to_s
-				end
-			end
+		# needs a cache plugin instance
+		unless PLUGINS.find{|plugin| plugin.class.to_s =~ /^Massr::Plugin::Cache::/}
+			require_relative "../plugins/cache/memcached"
+			PLUGINS << Massr::Plugin::Cache::Memcached.new('default')
+		end
 
-			def media_plugins
-				PLUGINS.select do |plugin|
-					/^Massr::Plugin::Media::/ =~ plugin.class.to_s
+		# define methods to search plugin instance
+		helpers do
+			[:notify, :media, :cache].each do |genre|
+				define_method("#{genre}_plugins") do
+					PLUGINS.select do |plugin|
+						/^Massr::Plugin::#{genre.to_s.capitalize}::/ =~ plugin.class.to_s
+					end
+				end
+
+				define_method(genre) do
+					__send__("#{genre}_plugins").first
 				end
 			end
 		end

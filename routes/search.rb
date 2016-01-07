@@ -33,20 +33,16 @@ module Massr
 				return
 			end
 
-			cache = Massr::Plugin::Memcached.query_list.include_list?(@q) ? Massr::Plugin::Memcached.search(@q).get : nil
-
-			if(cache)
-				statements = Array.new
-				cache.each do |statement|
+			cached_statements = cache.get("search:#{@q}")
+			if(cached_statements)
+				statements = []
+				JSON.parse(cached_statements).each do |statement|
 					statements << Statement.from_json(statement.to_json)
 				end
-
 			else
 				statements = Statement.get_statements(param_date,{:body => /#{@q}/i})
-				Massr::Plugin::Memcached.query_list.add_list(@q)
-
-				Statement.include_root_in_json = true
-				Massr::Plugin::Memcached.search(@q).set(statements.as_json)
+				cache.set('query_list', (cache.get('query_list') || []).push(@q).uniq)
+				cache.set("search:#{@q}", statements.to_json)
 			end
 			begin
 				page = haml :index , :locals => {
@@ -96,7 +92,7 @@ module Massr
 
 		after '/search/pin' do
 			if (not request.get?)
-				Massr::Plugin::Memcached.cache_cleaner.async.clean_cache(params[:q])
+				clear_search_cache(params[:q])
 			end
 		end
 	end

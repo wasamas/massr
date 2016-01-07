@@ -12,8 +12,6 @@ Bundler.require(:default, ENV['RACK_ENV'] || :development)
 require 'json'
 
 require_relative 'plugins/logging'
-require_relative 'plugins/memcached'
-
 require_relative 'plugins/async_request'
 
 module Massr
@@ -21,6 +19,7 @@ module Massr
 	module Plugin
 		module Notify; end
 		module Media;  end
+		module Cache;  end
 	end
 
 	class App < Sinatra::Base
@@ -63,13 +62,6 @@ module Massr
 				}
 			end
 
-			Massr::Plugin::Memcached.cache Dalli::Client.new(
-				ENV['MEMCACHE_SERVERS'] || ENV["MEMCACHIER_SERVERS"],
-				:username => ENV['MEMCACHE_USERNAME'] || ENV["MEMCACHIER_USERNAME"],
-				:password => ENV['MEMCACHE_PASSWORD'] || ENV["MEMCACHIER_PASSWORD"],
-				:expires_in => 24 * 60 * 60,
-				:compress => true)
-
 			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::WARN)
 		end
 
@@ -103,11 +95,6 @@ module Massr
 					:enable_starttls_auto => true
 				}
 			end
-
-			Massr::Plugin::Memcached.cache Dalli::Client.new(
-				nil,
-				:expires_in => 24 * 60 * 60,
-				:compress => true)
 
 			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::DEBUG)
 		end
