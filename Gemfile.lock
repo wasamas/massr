@@ -21,7 +21,7 @@ GEM
       bson (~> 1.12.5)
     buftok (0.2.0)
     builder (3.2.2)
-    celluloid (0.17.2)
+    celluloid (0.17.3)
       celluloid-essentials
       celluloid-extras
       celluloid-fsm
