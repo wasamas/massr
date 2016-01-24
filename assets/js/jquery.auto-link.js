@@ -26,6 +26,7 @@ $(function(){
 	}(document, "script", "twitter-wjs"));
 
 	$.fn.autoLink = function(config){
+		var site = document.location.href.match(/(https?:\/\/[^\/]+\/).*/)[1];
 		this.each(function(){
 			var re = /((https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+|^#[^#\s]+|\s#[^#\s]+)/g;
 			var embed = "";
@@ -58,9 +59,8 @@ $(function(){
 							}
 							else {
 								var m = u.match(/(https?:\/\/[^\/]+\/).*/);
-								if (m) {
-									var base = m[1];
-									var statement = u.match(new RegExp(base.replace(/\//g,'\\/') + 'statement/([^\\?\\/#]*)'));
+								if (m && m[1] == site) {
+									var statement = u.match(new RegExp(site.replace(/\//g,'\\/') + 'statement/([^\\?\\/#]*)'));
 									if (statement) {
 										embed += '<div class="embedded" data-statement="' + statement[1] + '"></div>';
 									}
