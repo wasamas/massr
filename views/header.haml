@@ -1,11 +1,12 @@
 %header
-	.mfp-hide{:id => "stamps"}
-		.items
-			- stamp_urls.each do |url|
-				.submit-stamp
-					.stamp-style
-						.stamp
-							%img.item-stamp{:src => "#{image_size_change(url,SETTINGS['setting']['stamp_thumbnail_size'],true)}"}
+	- if current_user
+		.mfp-hide{:id => "stamps"}
+			.items
+				- stamp_urls.each do |url|
+					.submit-stamp
+						.stamp-style
+							.stamp
+								%img.item-stamp{:src => "#{image_size_change(url,SETTINGS['setting']['stamp_thumbnail_size'],true)}"}
 	.navbar.navbar-static-top
 		.navbar-inner
 			.container
