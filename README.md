@@ -163,6 +163,7 @@ $ heroku config:add \
 ```
 
 GOOGLEで始まる各変数は[googleapi - Google API OAuth2.0のアクセストークン&リフレッシュトークン取得手順メモ - Qiita](http://qiita.com/kossacks/items/8d279bcc1acc2c2153ab)を参考に取得して下さい。
+（scopeは https://picasaweb.google.com/data/ ）
 
 有効にすることで、Picasaウェブアルバム上に『MassrYYMMNNN』というアルバムを作成し、
 そこに投稿された画像を登録します。
