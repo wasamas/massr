@@ -132,47 +132,52 @@ $(function(){
 					}
 				})
 			).append(
-				$('<div>').addClass('response').addClass('id-res-'+s.id).append(
-					$('<form>').addClass("res-form").attr('method', 'POST').attr('action', '/statement').append(
-						$('<div>').append(
-							$('<textarea>').
-								attr('name', 'body').
-								attr('type', 'text')
-						).append(
-							$('<input>').
-								attr('name', 'res_id').
-								attr('type', 'hidden').
-								attr('value', s.id)
-						).append(
-							$('<input>').
-								attr('name', '_csrf').
-								attr('type', 'hidden').
-								attr('value', $('meta[name="_csrf"]').attr('content'))
-						)
-					).append(
-						$('<div>').addClass('button').append(
-							$('<button>').
-								addClass('btn btn-small submit').
-								attr('type', 'submit').
-								text(_['post_res'])
-						).append(
-							$('<div>').addClass('photo-items').append(
-								$('<input>').
-									addClass('photo-shadow').
-									attr('type', 'file').
-									attr('accept', 'image/*').
-									attr('name', 'photo').
-									attr('tabindex', '-1')
-							).append(
-								$('<a>').attr('href', '#').addClass('photo-button').append(
-									$('<i>').attr('title', _['attach_photo']).addClass('icon-camera').addClass('photo-button')
+				$('<div>').each(function () {
+					if (!isEmbedded) {
+						$(this).addClass('response').addClass('id-res-' + s.id).append(
+							$('<form>').addClass("res-form").attr('method', 'POST').attr('action', '/statement').append(
+								$('<div>').append(
+									$('<textarea>').
+										attr('name', 'body').
+										attr('type', 'text')
+								).append(
+									$('<input>').
+										attr('name', 'res_id').
+										attr('type', 'hidden').
+										attr('value', s.id)
+								).append(
+									$('<input>').
+										attr('name', '_csrf').
+										attr('type', 'hidden').
+										attr('value', $('meta[name="_csrf"]').
+										attr('content'))
 								)
 							).append(
-								$('<span>').addClass('photo-name')
+								$('<div>').addClass('button').append(
+									$('<button>').
+										addClass('btn btn-small submit').
+										attr('type', 'submit').
+										text(_['post_res'])
+								).append(
+									$('<div>').addClass('photo-items').append(
+										$('<input>').
+											addClass('photo-shadow').
+											attr('type', 'file').
+											attr('accept', 'image/*').
+											attr('name', 'photo').
+											attr('tabindex', '-1')
+									).append(
+										$('<a>').attr('href', '#').addClass('photo-button').append(
+											$('<i>').attr('title', _['attach_photo']).addClass('icon-camera').addClass('photo-button')
+										)
+									).append(
+										$('<span>').addClass('photo-name')
+									)
+								)
 							)
 						)
-					)
-				)
+					}
+				})
 			)
 		);
 	};
