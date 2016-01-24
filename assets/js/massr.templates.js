@@ -11,7 +11,7 @@ $(function(){
 	Massr.buildStatement = function(s, isEmbedded){ // s is json object of a statement
 		var me = Massr.me;
 		var _ = Massr.settings['local'];
-		return $('<div>').addClass('statement').attr('id', 'st-'+s.id).append(
+		return $('<div>').addClass('statement').addClass('id-st-'+s.id).append(
 			$('<div>').addClass('statement-icon').append(
 				$('<a>').attr('href', '/user/'+s.user.massr_id).append(
 					$('<img>').addClass('massr-icon').attr('src', Massr.get_icon_url(s.user))
@@ -114,7 +114,7 @@ $(function(){
 								s.ref_ids.length > 0 ? ' (' + s.ref_ids.length + ') ' : ' '
 							)
 						).append(
-							$('<a>').attr('href', '#').addClass('like-button').attr('id', 'like-' + s.id).
+							$('<a>').attr('href', '#').addClass('like-button').addClass('id-like-' + s.id).
 								each(function () {
 									var classLike = 'like';
 									$.each(s.likes, function () {
@@ -132,7 +132,7 @@ $(function(){
 					}
 				})
 			).append(
-				$('<div>').addClass('response').attr('id', 'res-'+s.id).append(
+				$('<div>').addClass('response').addClass('id-res-'+s.id).append(
 					$('<form>').addClass("res-form").attr('method', 'POST').attr('action', '/statement').append(
 						$('<div>').append(
 							$('<textarea>').
@@ -181,7 +181,7 @@ $(function(){
 	Massr.buildPhoto = function(s){ // s is json object of a photo
 		var me = Massr.me;
 		var _ = Massr.settings['local'];
-		return $('<div>').addClass('item').attr('id', 'st-'+s.id).append(
+		return $('<div>').addClass('item').addClass('id-st-'+s.id).append(
 			$('<div>').addClass('item-body').each(function(){}).append(
 				$('<div>').addClass('item-photos').each(function(){
 					var $parent = $(this);
@@ -209,7 +209,7 @@ $(function(){
 							})).
 							append(($('<div>').addClass('image')).
 								append($('<img>').attr('src',$photo))).
-							append(($('<div>').addClass('statement').attr('id','st-'+s.id)).
+							append(($('<div>').addClass('statement').addClass('id-st-'+s.id)).
 								append(($('<div>').addClass('statement-icon')).
 									append(($('<a>').attr('href','/user/'+s.user.massr_id)).
 										append($('<img>').addClass('massr-icon').attr('src', Massr.get_icon_url(s.user))))).

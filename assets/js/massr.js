@@ -99,9 +99,19 @@ $(function(){
 	/*
 	 * local utilities
 	 */
-	// get ID from style "aaa-999999999"
+	// get ID from style "id-aaa-999999999"
 	function getID(label){
-		return label ? label.split('-', 2)[1] : null;
+		return label ? label.split('-', 3)[2] : null;
+	}
+	function getIDinClass(elem, sub) {
+		var value = elem.attr('class');
+		if (value) {
+			var id = $.grep(value.split(' '), function(elem) { return elem.indexOf('id-' + sub) == 0});
+			if (id.length == 1) {
+				return getID(id[0]);
+			}
+		}
+		return null;
 	}
 
 	var message = {};
@@ -396,7 +406,7 @@ $(function(){
 	 * action like / unlike
 	 */
 	function toggleLikeButton(statement_id){
-		$('#st-' + statement_id + ' a.like-button').
+		$('.id-st-' + statement_id + ' a.like-button').
 			toggleClass('like').
 			toggleClass('unlike');
 	}
@@ -404,15 +414,15 @@ $(function(){
 	function refreshLike(statement){
 		var likeClasses = ['unlike', 'like'];
 
-		$('#st-' + statement.id + ' .statement-like').remove();
+		$('.id-st-' + statement.id + ' .statement-like').remove();
 		if(statement.likes.length > 0){
-			$('#st-' + statement.id + ' .statement-action').
+			$('.id-st-' + statement.id + ' .statement-action').
 				after('<div class="statement-like">').
 				next().
 				append(_['like'] + ':');
 
 			$.each(statement.likes, function(){
-				$('#st-' + statement.id + ' .statement-like').
+				$('.id-st-' + statement.id + ' .statement-like').
 					append("&nbsp;").
 					append( $('<a>').
 						attr('href', '/user/' + this.user.massr_id).
@@ -428,24 +438,26 @@ $(function(){
 				}
 			});
 		}
-		$('#like-' + statement.id).removeClass(likeClasses[0]).addClass(likeClasses[1]);
+		$('.id-like-' + statement.id).removeClass(likeClasses[0]).addClass(likeClasses[1]);
 	}
 
 	$(document).on('click', '.statement-action a.like-button', function(){
-		var statement_id = getID($(this).attr('id'));
-		var method = $(this).hasClass('like') ? 'POST' : 'DELETE';
+		var statement_id = getIDinClass($(this), 'like-');
+		if (statement_id) {
+			var method = $(this).hasClass('like') ? 'POST' : 'DELETE';
 
-		toggleLikeButton(statement_id);
-		$.ajax('/statement/' + statement_id + '/like', {
-			type: method,
-			dataType: 'json'}).
-		done(function(statement) {
+			toggleLikeButton(statement_id);
+			$.ajax('/statement/' + statement_id + '/like', {
+				type: method,
+				dataType: 'json'}).
+			done(function(statement) {
 				refreshLike(statement);
 			}).
-		fail(function(XMLHttpRequest, textStatus, errorThrown) {
+			fail(function(XMLHttpRequest, textStatus, errorThrown) {
 				toggleLikeButton(statement_id);
 				message.error(_['fail_like'] + '(' + textStatus + ')');
 			});
+		}
 		return false;
 	});
 
@@ -453,13 +465,15 @@ $(function(){
 	 * res form
 	 */
 	$(document).on('click', '.statement-action a.res', function(){
-		var statement = getID($(this).parent().parent().parent().attr('id'));
-		$("#res-" + statement).slideToggle(function(){
-			$('textarea', this).show();
-			if($(this).is(':visible')){
-				$('textarea', this).focus();
-			}
-		});
+		var statement = getIDinClass($(this).parent().parent().parent(), 'st-');
+		if (statement) {
+			$(".id-res-" + statement).slideToggle(function () {
+				$('textarea', this).show();
+				if ($(this).is(':visible')) {
+					$('textarea', this).focus();
+				}
+			});
+		}
 
 		return false;
 	});
@@ -473,19 +487,21 @@ $(function(){
 	 * delete statement
 	 */
 	$(document).on('click', '.statement-action a.trash', function(){
-		var statement = getID($(this).parent().parent().parent().attr('id'));
-		var owner = $('#st-' + statement + ' .statement-icon a').attr('href').match(/[^/]+$/);
-		if(owner != me){
-			message.error(_['deny_delete']);
-			return false;
-		}
-		if(window.confirm(_['confirm_delete'])){
-			$.ajax({
-				url: '/statement/'+statement,
-				type: 'DELETE'}).
-			done(function(result) {
+		var statement = getIDinClass($(this).parent().parent().parent(), 'st-');
+		if (statement) {
+			var owner = $('.id-st-' + statement + ' .statement-icon a').attr('href').match(/[^/]+$/);
+			if(owner != me){
+				message.error(_['deny_delete']);
+				return false;
+			}
+			if(window.confirm(_['confirm_delete'])){
+				$.ajax({
+					url: '/statement/'+statement,
+					type: 'DELETE'}).
+				done(function(result) {
 					location.href = "/";
-			});
+				});
+			}
 		}
 	});
 
@@ -718,7 +734,7 @@ $(function(){
 			var submitStamp = $('.items','.mfp-hide','#submit-stamp');
 			submitStamp.removeAttr('id');
 
-			var statement_id = getID($(this).parent().parent().parent().parent().attr('id'));
+			var statement_id = getIDinClass($(this).parent().parent().parent().parent(), '');
 			if (statement_id) {
 				submitStamp.attr('id', statement_id);
 			} else {
