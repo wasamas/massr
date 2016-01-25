@@ -412,6 +412,12 @@ div.statement-like {
 	line-height: 200%;
 }
 
+div.embedded>div.statement {
+	border: solid #eee 1px;
+	padding: 8px 8px 12px 8px;
+	margin-right: 2px;
+}
+
 #new-res-size-main{
 	display: none;
 }

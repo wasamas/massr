@@ -26,6 +26,7 @@ $(function(){
 	}(document, "script", "twitter-wjs"));
 
 	$.fn.autoLink = function(config){
+		var site = document.location.href.match(/(https?:\/\/[^\/]+\/).*/)[1];
 		this.each(function(){
 			var re = /((https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+|^#[^#\s]+|\s#[^#\s]+)/g;
 			var embed = "";
@@ -56,6 +57,15 @@ $(function(){
 								embed += '<div><iframe id="ytplayer" type="text/html" src="//www.youtube.com/embed/' +
 										RegExp.$1 + '" frameborder="0" /></div>';
 							}
+							else {
+								var m = u.match(/(https?:\/\/[^\/]+\/).*/);
+								if (m && m[1] == site) {
+									var statement = u.match(new RegExp(site.replace(/\//g,'\\/') + 'statement/([^\\?\\/#]*)'));
+									if (statement) {
+										embed += '<div class="embedded" data-statement="' + statement[1] + '"></div>';
+									}
+								}
+							}
 
 							return '[<a href="'+u+'" target="_blank">'+url.attr('host')+'</a>]';
 						}
@@ -65,6 +75,32 @@ $(function(){
 				}) + embed
 			);
 		});
+		return this;
+	};
+
+	// $('#statements>.statement>.statement-info a')
+	$.fn.embedStatement = function(isEmbedded){// isEmbedded trueなら埋め込みからの呼び出し。入れ子をしないため。
+		if (! isEmbedded) {
+			this.each(function(){
+				var container = $(this);
+				container.find('[data-statement]').each(function() {
+					var $div = $(this);
+					var id = $div.attr('data-statement');
+					var promise = $.ajax({
+						url: '/statement/' + id + '.json',
+						type: 'GET',
+						dataType: 'json',
+						cache: true
+					}).done(function(json){
+						var $statement = Massr.buildStatement(json, true).hide();
+						$div.append($statement);
+						$statement.slideDown('slow');
+					}).fail(function(XMLHttpRequest, textStatus, errorThrown){
+						console.log(textStatus + ", " + errorThrown);
+					});
+				});
+			});
+		}
 		return this;
 	};
 });

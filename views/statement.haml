@@ -1,4 +1,4 @@
-.statement{:id => "st-#{statement._id}", :class => is_new ? 'statement-new' : ''}
+.statement{:class => "id-st-#{statement._id}" + (is_new ? ' statement-new' : '')}
 
 	/ アイコン
 	.statement-icon
@@ -55,7 +55,7 @@
 				%i.icon-comment{:title => _res}
 				= statement.refs.size > 0 ? "(#{statement.refs.size})" : ''
 			- like = statement.like?(current_user) ? 'unlike' : 'like'
-			%a{:class => "like-button #{like}", :href => '#', :id => "like-#{statement._id}"}
+			%a{:class => "id-like-#{statement._id} like-button #{like}", :href => '#'}
 				%img.unlike{:src => "/img/wakaruwa.png", :alt => _unlike, :title => _unlike}
 				%img.like{:src => "/img/wakaranaiwa.png", :alt => _like, :title => _like}
 
@@ -68,7 +68,7 @@
 						%img.massr-icon-mini{:src => get_icon_url(like.user), :title => like.user.name, :alt => like.user.name}
 
 		/ レスフォーム
-		.response{:id=>"res-#{statement._id}"}
+		.response{:class=>"id-res-#{statement._id}"}
 			%form{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data', :class=>"res-form"}
 				%div
 					%textarea{:type => "text", :name => "body"}
