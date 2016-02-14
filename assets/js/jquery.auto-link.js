@@ -49,9 +49,9 @@ $(function(){
 							return prefix + '<a href="/search?q='+encodeURIComponent(tag)+'">'+tag+'</a>';
 						} else {
 							var url = $.url(u);
-							if (u.match(/https?:\/\/twitter\.com\/.+\/status\/(\d+)$/)) {
+							if (u.match(/https?:\/\/(mobile\.)?twitter\.com\/.+\/status\/(\d+)$/)) {
 								// embed tweet
-								var tweet_id = RegExp.$1;
+								var tweet_id = RegExp.$2;
 								var s_id = divID();
 								embed += '<div id="tw' + tweet_id + '-' + s_id + '"></div>';
 								twttr.ready(function() {
