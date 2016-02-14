@@ -7,6 +7,15 @@
  */
 
 $(function(){
+	function divID() {
+		var result = "", i, random;
+		for (i = 0; i < 32; i++) {
+			random = Math.random() * 16 | 0;
+			result += (i == 12 ? 4 : (i == 16 ? (random & 3 | 8) : random)).toString(16);
+		}
+		return result;
+	}
+
 	// load twitter widget
 	window.twttr = (function(d, s, id) {
 		var js, fjs = d.getElementsByTagName(s)[0],
@@ -30,7 +39,6 @@ $(function(){
 		this.each(function(){
 			var re = /((https?|ftp):\/\/[\(\)%#!\/0-9a-zA-Z_$@.&+-,'"*=;?:~-]+|^#[^#\s]+|\s#[^#\s]+)/g;
 			var embed = "";
-			var s_id = $(this).parent().parent().attr('id');
 			$(this).html(
 				$(this).html().replace(re, function(u){
 					try {
@@ -44,6 +52,7 @@ $(function(){
 							if (u.match(/https?:\/\/twitter\.com\/.+\/status\/(\d+)$/)) {
 								// embed tweet
 								var tweet_id = RegExp.$1;
+								var s_id = divID();
 								embed += '<div id="tw' + tweet_id + '-' + s_id + '"></div>';
 								twttr.ready(function() {
 									twttr.events.bind('rendered', function(ev) {
