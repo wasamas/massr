@@ -153,10 +153,14 @@ module Massr
 
 			if params[:use_twitter_icon] != '1' then
 				if params[:newicon] != nil then
-					icon_url = media_upload(params[:newicon], DEFAULT_ICON_SIZE, true)
-					if icon_url then
-						request[:twitter_icon_url] = icon_url
-						request[:twitter_icon_url_https] = icon_url
+					begin
+						icon_url = media_upload(params[:newicon], DEFAULT_ICON_SIZE, true)
+						if icon_url then
+							request[:twitter_icon_url] = icon_url
+							request[:twitter_icon_url_https] = icon_url
+						end
+					rescue StandardError
+						# no photos
 					end
 				elsif user != nil && user[:twitter_icon_url] != nil then
 					request[:twitter_icon_url] = user[:twitter_icon_url]
