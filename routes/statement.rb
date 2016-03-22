@@ -14,7 +14,12 @@ module Massr
 			@statement = Statement.new
 
 			request[:user] = User.find_by_id(session[:user_id])
-			(request[:photos] ||= []) << media_upload(params[:photo], SETTINGS['setting']['upload_photo_size']) if params[:photo]
+			begin
+				(request[:photos] ||= []) << media_upload(params[:photo], SETTINGS['setting']['upload_photo_size'])
+			rescue StandardError
+				# no photos
+			end
+
 			if (request[:stamp].nil?)
 				@statement.update_statement( request ) unless request[:body].size == 0
 			else

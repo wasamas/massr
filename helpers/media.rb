@@ -25,12 +25,6 @@ module Massr
 			end
 
 			def media_upload(photo_info, size=0, square=false)
-				begin
-					return nil unless photo_info && photo_info[:tempfile]
-				rescue TypeError
-					return nil
-				end
-
 				media_client = media_plugins.first
 				return nil unless media_client
 
