@@ -8,6 +8,8 @@
 # Distributed under GPL
 #
 module Massr
+	class NoPhotoError < StandardError; end
+
 	class App < Sinatra::Base
 		helpers do
 			def specify_content_type(head)
@@ -25,13 +27,17 @@ module Massr
 			end
 
 			def media_upload(photo_info, size=0, square=false)
-				media_client = media_plugins.first
-				return nil unless media_client
+				begin
+					media_client = media_plugins.first
+					raise NoPhotoError.new unless media_client
 
-				path = photo_info[:tempfile].to_path || ''
-				content_type = specify_content_type(photo_info[:head])
-				media_client.resize_file(path, size, square)
-				return media_client.upload_file(path, content_type, SETTINGS['setting']['display_photo_size'])
+					path = photo_info[:tempfile].to_path || ''
+					content_type = specify_content_type(photo_info[:head])
+					media_client.resize_file(path, size, square)
+					return media_client.upload_file(path, content_type, SETTINGS['setting']['display_photo_size'])
+				rescue NoPhotoError
+					raise
+				end
 			end
 		end
 	end
