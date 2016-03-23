@@ -170,13 +170,13 @@ case $TYPE in
 	"backup" )
 		echo "backup start"
 		echo "execute : mongodump -h ${HOST}:${PORT} -d ${DBNAME} ${OPTIONS} -o ${TIME}"
-		mongodump -h ${HOST}:${PORT} -d ${DBNAME} ${OPTIONS} -o ${TIME}
+		mongodump --quiet -h ${HOST}:${PORT} -d ${DBNAME} ${OPTIONS} -o ${TIME}
 		exit
 		;;
 	"restore" )
 		echo "restore start"
 		echo "execute : mongorestore -h ${HOST}:${PORT} -d ${DBNAME} ${OPTIONS} --drop ${RESTORE}"
-		mongorestore -h ${HOST}:${PORT} -d ${DBNAME} ${OPTIONS} --drop ${RESTORE}
+		mongorestore --quiet -h ${HOST}:${PORT} -d ${DBNAME} ${OPTIONS} --drop ${RESTORE}
 		exit
 		;;
 	"delete" )
