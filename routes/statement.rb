@@ -16,7 +16,7 @@ module Massr
 			request[:user] = User.find_by_id(session[:user_id])
 			begin
 				(request[:photos] ||= []) << media_upload(params[:photo], SETTINGS['setting']['upload_photo_size'])
-			rescue NoPhotoError
+			rescue Massr::NoPhotoError
 				# no photos
 			end
 

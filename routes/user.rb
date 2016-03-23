@@ -159,7 +159,7 @@ module Massr
 							request[:twitter_icon_url] = icon_url
 							request[:twitter_icon_url_https] = icon_url
 						end
-					rescue NoPhotoError
+					rescue Massr::NoPhotoError
 						# no photos
 					end
 				elsif user != nil && user[:twitter_icon_url] != nil then

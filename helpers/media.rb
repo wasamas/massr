@@ -29,14 +29,14 @@ module Massr
 			def media_upload(photo_info, size=0, square=false)
 				begin
 					media_client = media_plugins.first
-					raise NoPhotoError.new unless media_client
+					raise Massr::NoPhotoError.new unless media_client
 
 					path = photo_info[:tempfile].to_path || ''
 					content_type = specify_content_type(photo_info[:head])
 					media_client.resize_file(path, size, square)
 					return media_client.upload_file(path, content_type, SETTINGS['setting']['display_photo_size'])
-				rescue NoPhotoError
-					raise
+				rescue StandardError
+					raise Massr::NoPhotoError
 				end
 			end
 		end
