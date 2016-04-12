@@ -44,8 +44,8 @@ module Massr
 				:secret => ENV['TWITTER_CONSUMER_SECRET']
 			}
 
-			uri = URI.parse(ENV['MONGOLAB_URI'])
-			MongoMapper.connection = Mongo::Connection.from_uri(ENV['MONGOLAB_URI'])
+			uri = URI.parse(ENV['MONGODB_URI'] || ENV['MONGOLAB_URI'])
+			MongoMapper.connection = Mongo::Connection.from_uri(uri.to_s)
 			db_name = uri.path.gsub(/^\//, '')
 			MongoMapper.database = db_name
 			DB   = MongoMapper.connection.db(db_name)
