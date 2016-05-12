@@ -8,6 +8,11 @@ before_install:
 rvm:
   - 2.3.1
 
+cache:
+  bundler: true
+  directories:
+    - node_modules
+
 script: bundle exec rake
 
 branches:
