@@ -2,11 +2,7 @@ source 'https://rubygems.org'
 
 ruby '~> 2.4.1'
 
-gem 'sinatra', '>= 1.4.8', require: 'sinatra/base'
-gem 'sinatra-asset-pipeline', require: 'sinatra/asset_pipeline'
-gem 'sprockets-helpers'
-gem 'uglifier'
-gem 'yui-compressor'
+gem 'sinatra', require: 'sinatra/base'
 
 gem 'puma'
 gem 'hamlit', require: 'hamlit'
@@ -25,12 +21,6 @@ gem 'rmagick'
 gem 'dalli', require: ['dalli', 'rack/session/dalli']
 gem 'celluloid'
 gem 'memcachier', require: 'memcachier'
-
-source 'https://rails-assets.org' do
-	gem 'rails-assets-jquery'
-	gem 'rails-assets-bootstrap', '~> 2.3.0'
-	gem 'rails-assets-magnific-popup'
-end
 
 group :development, :test do
 	gem 'rake'

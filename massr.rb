@@ -22,15 +22,6 @@ module Massr
 	class App < Sinatra::Base
 		set :haml, {format: :html5}
 
-		set :assets_precompile, %w(application.js application.css *.png *.jpg *.svg)
-		set :assets_css_compressor, :yui
-		set :assets_js_compressor, :uglifier
-		set :assets_paths, %w(assets/js assets/css)
-		register Sinatra::AssetPipeline
-		RailsAssets.load_paths.each do |path|
-			settings.sprockets.append_path(path)
-		end
-
 		configure :production do
 			require 'newrelic_rpm' if ENV['NEW_RELIC_LICENSE_KEY']
 
