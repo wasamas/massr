@@ -25,7 +25,7 @@ module Massr
 		end
 
 		after '/stamp' do
-			cache.set('stamp', Stamp.get_image_urls) unless request.get?
+			cache.set('stamp', Stamp.get_stamps {|i| i.to_hash}) unless request.get?
 		end
 
 		get '/stamps' do

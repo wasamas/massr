@@ -1,6 +1,6 @@
 .mfp-hide.popup-photo{:id => "#{statement._id}"}
 	.stamp
-		- if stamp_urls.map{|url| image_size_change(url,SETTINGS['setting']['stamp_thumbnail_size'],true)}.include? image_size_change(photo,SETTINGS['setting']['stamp_thumbnail_size'],true)
+		- if stamps.map{|stamp| image_size_change(stamp.image_url,SETTINGS['setting']['stamp_thumbnail_size'],true)}.include? image_size_change(photo,SETTINGS['setting']['stamp_thumbnail_size'],true)
 			%a.unusestamp
 				%i.icon-remove-circle{:title => _unuse_stamp}
 		- else

@@ -783,7 +783,7 @@ $(function(){
 		$('.item-stamp').on('click', function(){
 			var statement_id = $(this).parent().parent().parent().parent().attr('id');
 			posting = true;
-			var body = "stamp=" + $(this).attr('src');
+			var body = "stamp=" + $(this).attr('src') + "&stamp_id=" + $(this).attr('id');
 			if (statement_id){
 				body = body + "&res_id=" + statement_id;
 			}

@@ -90,7 +90,7 @@ module Massr
 				end
 			end
 
-			def stamp_urls
+			def stamps
 				cache.get('stamp')
 			end
 

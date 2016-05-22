@@ -2,11 +2,11 @@
 	- if current_user
 		.mfp-hide{:id => "stamps"}
 			.items
-				- stamp_urls.each do |url|
+				- stamps.each do |stamp|
 					.submit-stamp
 						.stamp-style
 							.stamp
-								%img.item-stamp{:src => "#{image_size_change(url,SETTINGS['setting']['stamp_thumbnail_size'],true)}"}
+								%img.item-stamp{:src => "#{image_size_change(stamp.image_url,SETTINGS['setting']['stamp_thumbnail_size'],true)}", :id => stamp.id, :title => stamp.post_cnt}
 	.navbar.navbar-static-top
 		.navbar-inner
 			.container
