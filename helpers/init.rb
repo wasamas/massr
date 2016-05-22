@@ -39,7 +39,7 @@ module Massr
 					begin
 						Mail.deliver do
 							from 'no-reply@tdtds.jp'
-							to  user.email
+							to	user.email
 							subject 'Message from Massr'
 							content_type 'text/plain; charset=UTF-8'
 							body msg.gsub(/^\t+/, '')
@@ -92,6 +92,17 @@ module Massr
 
 			def stamps
 				cache.get('stamp')
+			end
+
+			def photo_to_stamp(photo)
+				stamps.find{|stamp| 
+					org = image_size_change(stamp.image_url,
+								SETTINGS['setting']['stamp_thumbnail_size'],true)
+					dst = image_size_change(photo,
+								SETTINGS['setting']['stamp_thumbnail_size'],true)
+
+					org == dst
+				}
 			end
 
 			def clear_search_cache(body)

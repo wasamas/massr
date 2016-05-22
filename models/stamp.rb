@@ -9,6 +9,7 @@ module Massr
 
 		key :image_url,  :type => String, :required => true , :unique => true
 		key :post_cnt,	 :type => Integer, :default => 0
+		key :tag,		 :type => String
 
 		timestamps!
 
@@ -52,7 +53,14 @@ module Massr
 		end
 
 		def post_stamp()
-			self.increment({:post_cnt => 1})
+			self[:post_cnt] += 1
+			if save
+				return self
+			end
+		end
+
+		def update_tag(request)
+			self[:tag] = request[:tag]
 			if save
 				return self
 			end
@@ -64,6 +72,7 @@ module Massr
 				'id' => id,
 				'created_at' => created_at.localtime.strftime('%Y-%m-%d %H:%M:%S'),
 				'image_url' => image_url,
+				'tag' => tag,
 				'post_cnt' => post_cnt,
 				'original' => original ? original.to_hash : nil
 			}
