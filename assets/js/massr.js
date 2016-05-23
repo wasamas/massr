@@ -762,6 +762,9 @@ $(function(){
 	};
 	$('.popup-image').mfp();
 	$('a.stamp-button').mfp();
+	$('a.stamp-button').on('click', function(){
+		setTimeout(function(){$('#search-tag-field').focus();},400);
+	});
 
 	$.fn.image_size_change = function(url,size,centering){
 		var uri = document.createElement('a');
