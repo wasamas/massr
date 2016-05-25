@@ -69,6 +69,7 @@
 		"success_use_stamp": "スタンプに登録しました",
 		"success_unuse_stamp": "スタンプから削除しました",
 		"success_delete_user": "を削除しました",
-		"fail_change_status": "ステータス変更に失敗しました"
+		"fail_change_status": "ステータス変更に失敗しました",
+		"success_update_stamp_tag": "スタンプのタグを更新しました"
 	}
 }

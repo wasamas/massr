@@ -90,7 +90,7 @@ $(function(){
 
 	/*
 	 * setup auto reloading
-	 *   reloading each 30sec without focused in TEXTAREA
+	 *	 reloading each 30sec without focused in TEXTAREA
 	 */
 	var retry_count_of_reload = 0;
 	var reload_interval_time = 30000;
@@ -587,8 +587,8 @@ $(function(){
 	/*
 	 * stamp
 	 */
-	var USE     = 0;
-	var UNUSE   = 1;
+	var USE		= 0;
+	var UNUSE	= 1;
 	function toggleStamp(target , statement_id , image_url, stat){
 		image_url = $.fn.image_size_change(image_url,1);
 
@@ -633,13 +633,26 @@ $(function(){
 			if (container.attr('id') && src) {
 				toggleStamp($(this), container.attr('id'), src, UNUSE);
 			}
+			return false;}).
+		on('click', 'button#update-stamp-tag', function(){
+			var e = $('#stamp-tag');
+			$.ajax({
+				url: '/stamp/tag',
+				type: 'POST',
+				data: "stamp_id=" + e.data('stamp-id') + "&tag=" + e.val()}).
+			done(function(result){
+					message.success(_['success_update_stamp_tag']);
+				}).
+			fail(function(XMLHttpRequest, textStatus, errorThrown){
+					message.error('(' + textStatus + ')');
+				});
 			return false;});
 
 	/*
 	 * admin
 	 */
-	var ADMIN        = 0;
-	var AUTHORIZED   = 1;
+	var ADMIN		 = 0;
+	var AUTHORIZED	 = 1;
 	var UNAUTHORIZED = 9;
 
 	function toggleStatus(massr_id, stat, on, off){
@@ -749,6 +762,9 @@ $(function(){
 	};
 	$('.popup-image').mfp();
 	$('a.stamp-button').mfp();
+	$('a.stamp-button').on('click', function(){
+		setTimeout(function(){$('#search-tag-field').focus();},400);
+	});
 
 	$.fn.image_size_change = function(url,size,centering){
 		var uri = document.createElement('a');
@@ -783,7 +799,7 @@ $(function(){
 		$('.item-stamp').on('click', function(){
 			var statement_id = $(this).parent().parent().parent().parent().attr('id');
 			posting = true;
-			var body = "stamp=" + $(this).attr('src');
+			var body = "stamp=" + $(this).attr('src') + "&stamp_id=" + $(this).attr('id');
 			if (statement_id){
 				body = body + "&res_id=" + statement_id;
 			}
@@ -799,6 +815,7 @@ $(function(){
 			});
 			$.magnificPopup.close();
 		});
+
 	});
 
 	/*
@@ -884,6 +901,18 @@ $(function(){
 			}
 		});
 		return false;
+	});
+
+	$('#search-tag-field').on('keyup', function(){
+		var str = $(this).val();
+		$('img.item-stamp').each(function(i, elm){
+			var tag = $(elm).data('stamp-tag') || '';
+			if (tag.toLowerCase().indexOf(str.toLowerCase()) > -1) {
+				$(elm).parent().parent().parent().show();
+			} else {
+				$(elm).parent().parent().parent().hide();
+			}
+		});
 	});
 
 	if (fileEnabled) {

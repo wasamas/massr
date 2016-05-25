@@ -8,6 +8,8 @@ module Massr
 		include MongoMapper::Document
 
 		key :image_url,  :type => String, :required => true , :unique => true
+		key :popular,	 :type => Integer, :default => 0
+		key :tag,		 :type => String
 
 		timestamps!
 
@@ -16,24 +18,12 @@ module Massr
 		validates_uniqueness_of :image_url
 
 		def self.get_stamps(options={})
-			options[:order]         = :created_at.desc
+			options[:order]			= :popular.desc
 			return self.all(options)
 		end
 
-		def self.get_image_urls(options={})
-			options[:order]         = :created_at.desc
-			[].tap{ |a|
-				json = self.all.to_json(:only => [:image_url])
-				JSON.parse(json).each do |data|
-					data.each do |k,v|
-						a << v
-					end
-				end
-			}
-		end
-
 		def self.get_statements(options={})
-			options[:order]         = :created_at.desc
+			options[:order]			= :created_at.desc
 			stamps = self.all(options)
 
 			statements = Array.new
@@ -62,12 +52,28 @@ module Massr
 			end
 		end
 
+		def post_stamp()
+			self[:popular] += 1
+			if save
+				return self
+			end
+		end
+
+		def update_tag(request)
+			self[:tag] = request[:tag]
+			if save
+				return self
+			end
+		end
+
 		def to_hash
 			original = Statement.find_by_id(original_id)
 			{
 				'id' => id,
 				'created_at' => created_at.localtime.strftime('%Y-%m-%d %H:%M:%S'),
 				'image_url' => image_url,
+				'tag' => tag,
+				'popular' => popular,
 				'original' => original ? original.to_hash : nil
 			}
 		end

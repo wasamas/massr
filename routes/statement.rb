@@ -24,6 +24,10 @@ module Massr
 				@statement.update_statement( request ) unless request[:body].size == 0
 			else
 				@statement.update_statement( request ) unless request[:stamp].size == 0
+				stamp = Stamp.find_by_id(request[:stamp_id])
+				stamp.post_stamp() unless stamp.nil?
+				cache.delete('stamp')
+				cache.set('stamp', Stamp.get_stamps {|i| i.to_hash})
 			end
 			if @statement.res && @statement.res.user.email.length > 0 && @statement.res.user.massr_id != request[:user].massr_id
 				send_mail(@statement.res.user, @statement)
