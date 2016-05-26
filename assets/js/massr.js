@@ -783,7 +783,11 @@ $(function(){
 			} else {
 				var parts = url.split("/");
 				var last = parts.pop();
-				parts.push('s'+size);
+				if (centering == true){
+					parts.push('s' + size + '-c');
+				} else {
+					parts.push('s' + size);
+				}
 				parts.push(last);
 				return parts.join('/')
 			}

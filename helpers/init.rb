@@ -77,13 +77,17 @@ module Massr
 				if (uri.host =~ /\A[0-9a-zA-Z]+\.googleusercontent\.com\z/)
 					pattern = /\/([whs][0-9]+|r(90|180|270)|-|c|p|o|d)+\//
 					if url =~ pattern
-						if centering 
+						if centering
 							url.sub(pattern , "/s#{size}-c/")
 						else
 							url.sub(pattern , "/s#{size}/")
 						end
 					else
-						url.split('/').insert(-2,"s#{size}").join('/')
+						if centering
+							url.split('/').insert(-2,"s#{size}-c").join('/')
+						else
+							url.split('/').insert(-2,"s#{size}").join('/')
+						end
 					end
 				else
 					url
@@ -95,7 +99,7 @@ module Massr
 			end
 
 			def photo_to_stamp(photo)
-				stamps.find{|stamp| 
+				stamps.find{|stamp|
 					org = image_size_change(stamp.image_url,
 								SETTINGS['setting']['stamp_thumbnail_size'],true)
 					dst = image_size_change(photo,
