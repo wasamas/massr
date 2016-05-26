@@ -17,7 +17,7 @@ module.exports = {
 	},
 	output: {
 		path: path.join(__dirname, 'public'),
-		filename: 'js/[name].js'
+		filename: '/js/[name].js'
 	},
 	module: {
 		loaders: [
@@ -45,7 +45,7 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin('css/[name].css'),
+		new ExtractTextPlugin('/css/[name].css'),
 		new webpack.ProvidePlugin({
 			$: "jquery",
 			jQuery: "jquery"
