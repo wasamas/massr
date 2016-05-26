@@ -80,9 +80,9 @@ GEM
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
     method_source (0.8.2)
-    mime-types (3.0)
+    mime-types (3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2016.0221)
+    mime-types-data (3.2016.0521)
     minitest (5.9.0)
     mongo (1.12.5)
       bson (= 1.12.5)
@@ -248,9 +248,6 @@ DEPENDENCIES
   twitter
   uglifier
   yui-compressor
-
-RUBY VERSION
-   ruby 2.3.1p112
 
 BUNDLED WITH
    1.12.4
