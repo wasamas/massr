@@ -29,6 +29,7 @@
     "jquery": "^2.2.3",
     "jquery-bridget": "^2.0.0",
     "magnific-popup": "^1.1.0",
+    "masonry-layout": "^4.1.0",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
     "style-loader": "^0.13.1",
