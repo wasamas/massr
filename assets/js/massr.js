@@ -737,9 +737,8 @@ $(function(){
 	$('.statement-message').autoLink().embedStatement();
 
 	/*
-	 * layout 
+	 * layout images
 	 */
-	/*
 	var $container = $('#items');
 	$container.imagesLoaded(function(){
 		$container.masonry({
@@ -747,7 +746,6 @@ $(function(){
 			columnWidth : 110
 		});
 	});
-	*/
 
 	/*
 	* Magnific Popup
