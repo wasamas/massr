@@ -27,6 +27,7 @@
     "imagesloaded": "^4.1.0",
     "imports-loader": "^0.6.5",
     "jquery": "^2.2.3",
+    "jquery-bridget": "^2.0.0",
     "magnific-popup": "^1.1.0",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
