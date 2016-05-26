@@ -16,6 +16,10 @@ module Massr
 				q: nil}
 		end
 
+		get '/settings.json' do
+			SETTINGS.to_json
+		end
+
 		get '/index.json' do
 			main = cache.get('main')
 			if(main && !params[:date])
