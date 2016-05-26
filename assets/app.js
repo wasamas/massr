@@ -1,10 +1,12 @@
 require('bootstrap');
 require('magnific-popup');
-/*
-import jQueryBridget from 'jquery-bridget';
-import Masonry from 'masonry-layout';
-jQueryBridget('masonry', Masonry, jQuery);
-*/
+
+var imagesLoaded = require('imagesloaded');
+imagesLoaded.makeJQueryPlugin($);
+
+require('jquery-bridget');
+$.bridget('masonry', require('masonry-layout'));
+
 require('./css/bootstrap');
 require('./css/bootstrap-responsive');
 require('./css/jquery.pnotify.default');
