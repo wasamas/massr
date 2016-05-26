@@ -119,7 +119,7 @@ ul.user-list li.user-list {
 
 footer {
 	margin-top: 10px;
-	background-image: url('/img/masao_footer.jpg');
+	background-image: url('../img/masao_footer.jpg');
 	background-repeat: no-repeat;
 	background-position: right bottom;
 	height: 100px;

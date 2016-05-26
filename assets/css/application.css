@@ -1,7 +1,5 @@
-/*
- *= require bootstrap
- *= require bootstrap-responsive
- *= require jquery.pnotify.default
- *= require magnific-popup
- *= require default
- */
+require('bootstrap');
+require('bootstrap-responsive');
+require('jquery.pnotify.default');
+require('magnific-popup');
+require('default');

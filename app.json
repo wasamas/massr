@@ -15,5 +15,13 @@
     "TZ": "Asia/Tokyo",
     "LANG": "en_US.UTF-8",
     "RACK_ENV": "production"
-  }
+  },
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-ruby"
+    },
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+    }
+  ]
 }

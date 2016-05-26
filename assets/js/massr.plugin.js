@@ -5,6 +5,7 @@
  *
  * Distributed under GPL
  */
+import Massr from './massr'
 
 Massr.plugin_setup = function(name, opts){
 	var plugin = name.match(/^([^\/]+)\/([^ ]+) (.*)$/) || [name];

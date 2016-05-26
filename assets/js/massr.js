@@ -5,11 +5,12 @@
  *
  * Distributed under GPL
  */
+import jQuery from 'jquery';
 
 /*
  * name space, defaults and global utilities
  */
-Massr = {
+var Massr = {
 	intervalFunctions: [],
 	me: '',
 	settings: {},
@@ -34,7 +35,7 @@ Massr = {
 		}
 	}
 };
-
+export default Massr;
 
 /*
  * massr main
@@ -734,6 +735,11 @@ $(function(){
 	 * automatic link
 	 */
 	$('.statement-message').autoLink().embedStatement();
+
+	/*
+	 * layout 
+	 */
+	/*
 	var $container = $('#items');
 	$container.imagesLoaded(function(){
 		$container.masonry({
@@ -741,6 +747,7 @@ $(function(){
 			columnWidth : 110
 		});
 	});
+	*/
 
 	/*
 	* Magnific Popup
