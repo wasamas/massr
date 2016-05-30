@@ -97,15 +97,9 @@ module Massr
 				cache.get('stamp')
 			end
 
-			def photo_to_stamp(photo)
-				stamps.find{|stamp|
-					org = image_size_change(stamp.image_url,
-								SETTINGS['setting']['stamp_thumbnail_size'],true)
-					dst = image_size_change(photo,
-								SETTINGS['setting']['stamp_thumbnail_size'],true)
-
-					org == dst
-				}
+			def get_stamp(photo)
+				dst = image_size_change(photo,1,false)
+				Massr::Stamp.find_by_image_url(dst)
 			end
 
 			def clear_search_cache(body)

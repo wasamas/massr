@@ -1,6 +1,6 @@
 .mfp-hide.popup-photo{:id => "#{statement._id}"}
 	.stamp
-		- stamp = photo_to_stamp(photo)
+		- stamp = get_stamp(photo)
 		- if stamp
 			%a.unusestamp
 				%i.icon-remove-circle{:title => _unuse_stamp}
