@@ -68,7 +68,7 @@ module Massr
 
 			def image_size_change url,size,centering
 				begin
-					host = url.match(%r|\Ahttps?://(.*?)/|)
+					host = url.match(%r|\Ahttps?://(.*?)/|)[1]
 				rescue NoMethodError
 					puts "Fatal error in image_size_change cause by dirty cache"
 				end
