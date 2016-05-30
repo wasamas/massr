@@ -8,7 +8,6 @@
 # Distributed under GPL
 #
 require 'mail'
-require 'uri'
 
 module Massr
 	class App < Sinatra::Base
@@ -69,12 +68,12 @@ module Massr
 
 			def image_size_change url,size,centering
 				begin
-					uri = URI.parse(url)
-				rescue URI::InvalidURIError
+					host = url.match(%r|\Ahttps?://(.*?)/|)
+				rescue NoMethodError
 					puts "Fatal error in image_size_change cause by dirty cache"
 				end
 
-				if (uri.host =~ /\A[0-9a-zA-Z]+\.googleusercontent\.com\z/)
+				if (host =~ /\A[0-9a-zA-Z]+\.googleusercontent\.com\z/)
 					pattern = /\/([whs][0-9]+|r(90|180|270)|-|c|p|o|d)+\//
 					if url =~ pattern
 						if centering
