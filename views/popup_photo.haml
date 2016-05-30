@@ -1,6 +1,7 @@
 .mfp-hide.popup-photo{:id => "#{statement._id}"}
 	.stamp
-		- if photo_to_stamp(photo)
+		- stamp = photo_to_stamp(photo)
+		- if stamp
 			%a.unusestamp
 				%i.icon-remove-circle{:title => _unuse_stamp}
 		- else
@@ -9,7 +10,7 @@
 	.image
 		%a{:href => "#{photo}", :target => "_blank"}
 			%img{:src => "#{photo}" , :alt => "#{statement._id}" , :title => "#{statement._id}"}
-	- if stamp = photo_to_stamp(photo)
+	- if stamp
 		.tag{:style => "width: fit-content"}
 			%span Tag:
 			%input#stamp-tag{:type => "text", :value => "#{stamp.tag}", :"data-stamp-id" => stamp.id}
