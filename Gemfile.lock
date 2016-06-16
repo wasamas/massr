@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    ZenTest (4.11.0)
+    ZenTest (4.11.1)
     activemodel (4.2.6)
       activesupport (= 4.2.6)
       builder (~> 3.1)
