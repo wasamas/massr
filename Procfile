@@ -1,1 +1,1 @@
-web: ./bin/run.sh
+bundle exec puma -p $PORT
