@@ -4,16 +4,8 @@ const path = require('path');
 
 module.exports = {
 	entry: {
-		app: [
-			'./assets/app.js',
-			'./assets/js/jquery.auto-link.js',
-			'./assets/js/jquery.pnotify.js',
-			'./assets/js/massr.js',
-			'./assets/js/massr.plugin.js',
-			'./assets/js/massr.templates.js',
-			'./assets/js/plugins/notify/like.js'
-		],
-		watch: './assets/watch.js'
+		top: './assets/js/top.js',
+		main: './assets/js/main.js'
 	},
 	output: {
 		path: path.join(__dirname, 'public'),
@@ -37,21 +29,14 @@ module.exports = {
 			{
 				test: /\.(png|jpg)$/,
 				loader: "file-loader?name=/img/[name].[ext]"
-			},
-			{
-				test: require.resolve('jquery'),
-				loader: "imports?jQuery=jquery"
 			}
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin('/css/[name].css'),
-		new webpack.ProvidePlugin({
-			$: "jquery",
-			jQuery: "jquery"
-		})
+		new ExtractTextPlugin('/css/[name].css')
 	],
 	resolve: {
 		extensions: ['', '.js', '.css']
 	}
 };
+

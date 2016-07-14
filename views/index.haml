@@ -6,54 +6,13 @@
 				Search "#{q}" / #{_site_name}
 			- else
 				#{_site_name}
+		%link{rel: "stylesheet", type: "text/css", href: "/css/main.css"}
 		!= haml :head
 	%body
-		!= haml :header, locals: {q: q}
 		.container-fluid
-			- if defined?(q) && q
-				.row-fluid
-					.span9
-						- exist_pin = Massr::SearchPin.find_by(word: q)
-						Search "
-						%span#query-string{title: q}<#{q.truncate}
-						"
-						%a.share-search#share-search{href: '#', class: exist_pin ? 'hide' : ''}
-							%i.icon-share-alt.share-search{title: 'share search result'}
-						%a.share-search#unshare-search{href: '#', class: exist_pin ? '' : 'hide'}
-							%i.icon-remove.share-search{title: 'unshare search result'}
 			.row-fluid
 				.span9
-					.main
-						- user = Massr::User.find_by(id: session[:user_id])
-						- get_icon_url(user)
-						- if user.status == 0
-							- unauth_count = Massr::User.where(status: 9).count
-							- unless unauth_count == 0
-								.alert.alert-info
-									%a{:href=>'/admin'}<#{_unauth_count(unauth_count)}
-						!= haml :notify
-						- response_count = user.res_ids.size
-						.alert.alert-info#new-res-size-main
-							%a#new-res-notice-text{:href=>"/user/#{current_user.massr_id}/res"}<#{_response_count(response_count)}
-							%a#new-res-notice-delete-button.close{:href => "#", :title => _clearres}<!&times;
-						.new-post
-							%form#form-new{:method => "POST", :action => "/statement", :enctype => 'multipart/form-data'}
-								%div
-									%textarea#text-new{:type => "text", :name => "body", :tabindex => "2"}
-									%input{csrf_input}
-								%div.button
-									%button.btn.btn-small.submit{:type => "submit", :tabindex => "3"}<#{_post}
-									- if media_plugins.size != 0
-										.photo-items
-											%input.photo-shadow{:type => "file", :name => "photo", :accept => 'image/*', :tabindex => '-1'}
-											%a.photo-button{:href => '#', :tabindex => "5"}<
-												%i.icon-camera.photo-button{:title => _attach_photo}
-											%img.photo-preview
-											%span.photo-name
-									.stamp-items{:id => 'submit-stamp'}
-										%a.stamp-button{:href => '#stamps', :tabindex => "4"}<
-											%i.icon-th.stamp-button{:title => _attach_stamp}
-						!= haml :statements ,:locals => {:res_ids => nil , :statements => statements,:q => q}
+					.main#main{'data-me' => current_user.massr_id}
 				.span3
-					!= haml :sidebar ,:locals => {:q => q}
-			!= haml :footer
+		!= haml :footer
+		%script{src: "/js/main.js"}

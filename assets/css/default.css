@@ -4,6 +4,10 @@
  * Copyright (C) 2012 by wasam@s production
  */
 
+.muidocs-icon-custom-like {
+	background-image: url('/img/wakaruwa.png');
+}
+
 * {
 	margin: 0;
 	padding: 0;
