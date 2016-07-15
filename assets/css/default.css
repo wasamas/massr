@@ -8,6 +8,10 @@
 	background-image: url('/img/wakaruwa.png');
 }
 
+.muidocs-icon-custom-unlike {
+	background-image: url('/img/wakaranaiwa.png');
+}
+
 * {
 	margin: 0;
 	padding: 0;

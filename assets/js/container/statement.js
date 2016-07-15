@@ -7,10 +7,22 @@
 import * as React from 'react';
 import {Component} from 'flumpt';
 import {MuiThemeProvider, IconButton} from 'material-ui';
-import {CommunicationChatBubble, EditorInsertEmoticon} from 'material-ui/svg-icons';
+import {CommunicationChatBubble} from 'material-ui/svg-icons';
+import StampButton from '../component/stamp_button';
+import ResButton from '../component/res_button';
+import LikeButton from '../component/like_button';
 import {get_icon_url} from '../util';
 
+export const POST_STAMP = 'post-stamp';
+export const POST_RES = 'post-res';
+export const POST_LIKE = 'post-like';
+export const POST_UNLIKE = 'post-unlike';
+
 export default class Statement  extends Component {
+	_(str) {
+		return this.props.settings.local[str];
+	}
+
 	icon(user) {
 		return(<div className='statement-icon'>
 			<a href={'/user/' + user.massr_id}>
@@ -49,30 +61,30 @@ export default class Statement  extends Component {
 	}
 
 	action(s) {
+		const style = {width: 32, height: 32, padding: 6};
+		const iconStyle = {width: 20, height: 20};
+
 		return(<div className='statement-action'>
 			<div className='stamp-items'>
-				<MuiThemeProvider><IconButton className='stamp-button' onClick={(e)=>console.info('stamp')} key='stamp' iconStyle={{width: 20, height: 20}}>
-					<EditorInsertEmoticon/>
-				</IconButton></MuiThemeProvider>
-				<MuiThemeProvider><IconButton className='res' onClick={(e)=>console.info('res')} key='res' iconStyle={{width: 20, height: 20}}>
-					<CommunicationChatBubble/>
-				</IconButton></MuiThemeProvider>
-				<MuiThemeProvider>
-					<IconButton className='like' iconClassName='muidocs-icon-custom-like' onClick={(e)=>console.info('like')} key='like' iconStyle={{width: 20, height: 20}}/>
-				</MuiThemeProvider>
+				<StampButton size={[20, 32]} onClick={()=>this.dispatch(POST_STAMP, s.id)}/>
+				<ResButton size={[20, 32]} onClick={()=>this.dispatch(POST_RES, s.id)}/>
+				<LikeButton size={[20, 32]} onClick={(like)=>this.dispatch(like ? POST_LIKE:POST_UNLIKE, s)}/>
 			</div>
 		</div>);
 	}
 
 	like(s) {
-		const likes = s.likes.map(user => {
-			return(<a href={'/user/' + user.massr_id}>
-				<img className='massr-icon-mini' src={get_icon_url(user)} alt={user.name} title={user.name}/>
+		const likes = s.likes.map(like => {
+			return(<a key={like.id} href={'/user/' + like.user.massr_id}>
+				<img className='massr-icon-mini' src={get_icon_url(like.user)} alt={like.user.name} title={like.user.name}/>
 			</a>);
 		});
-		return(<div className='statement-like'>
-			わかるわ: {likes}
-		</div>);
+
+		if (likes.length == 0) {
+			return '';
+		} else {
+			return(<div className='statement-like'>{this._('like')}: {likes}</div>);
+		}
 	}
 
 	form(s) {
