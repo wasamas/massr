@@ -18,7 +18,7 @@ export default class Main extends Flux {
 
 		setInterval(() => {
 			this.update(state => {
-				state.flush = true;
+				//state.flush = true;
 				return state;
 			});
 			this.update(state => {
@@ -28,10 +28,21 @@ export default class Main extends Flux {
 		}, 10000);
 	}
 
+	mergeStatement(oldArray, newArray) {
+		let oldObj = {}, newObj = {};
+		oldArray.map(s => (oldObj[s.id] = s));
+		newArray.map(s => (newObj[s.id] = s));
+
+		const mergedObj = Object.assign(oldObj, newObj);
+		return Object.keys(mergedObj).map(id => mergedObj[id]).sort((a, b) => {
+			return a.created_at > b.created_at ? -1 : 1;
+		});
+	}
+
 	subscribe() {
 		this.on(UPDATE_STATEMENTS, statements => {
 			this.update(state => {
-				state.statements = statements;
+				state.statements = this.mergeStatement(state.statements, statements);
 				return state;
 			});
 		});
@@ -41,7 +52,6 @@ export default class Main extends Flux {
 		});
 
 		this.on(POST_LIKE, statement => {
-			console.info('POST_LIKE', statement);
 			this.update(state => {
 				return new Promise((resolve, reject) => {
 					let form = new FormData();
@@ -49,7 +59,7 @@ export default class Main extends Flux {
 					fetch('/statement/' + statement.id + '/like', {method: 'POST', body: form, credentials: 'same-origin'}).
 					then(res => res.json()).
 					then(json => {
-						console.info(POST_LIKE, json);
+						state.statements = this.mergeStatement(state.statements, [json])
 						return resolve(state);
 					}).
 					catch(err => console.error(POST_LIKE, err));
@@ -58,7 +68,19 @@ export default class Main extends Flux {
 		});
 
 		this.on(POST_UNLIKE, statement => {
-			console.info('POST_UNLIKE', statement);
+			this.update(state => {
+				return new Promise((resolve, reject) => {
+					let form = new FormData();
+					form.append('_csrf', document.querySelector('meta[name="_csrf"]').content);
+					fetch('/statement/' + statement.id + '/like', {method: 'DELETE', body: form, credentials: 'same-origin'}).
+					then(res => res.json()).
+					then(json => {
+						state.statements = this.mergeStatement(state.statements, [json])
+						return resolve(state);
+					}).
+					catch(err => console.error(POST_UNLIKE, err));
+				});
+			});
 		});
 
 		this.on(POST_STAMP, statement => {

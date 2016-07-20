@@ -63,12 +63,15 @@ export default class Statement  extends Component {
 	action(s) {
 		const style = {width: 32, height: 32, padding: 6};
 		const iconStyle = {width: 20, height: 20};
+		const like = s.likes.findIndex(l => {
+			return(l.user.massr_id === this.props.me)
+		}) == -1 ? true : false;
 
 		return(<div className='statement-action'>
 			<div className='stamp-items'>
 				<StampButton size={[20, 32]} onClick={()=>this.dispatch(POST_STAMP, s.id)}/>
 				<ResButton size={[20, 32]} onClick={()=>this.dispatch(POST_RES, s.id)}/>
-				<LikeButton size={[20, 32]} onClick={(like)=>this.dispatch(like ? POST_LIKE:POST_UNLIKE, s)}/>
+				<LikeButton size={[20, 32]} like={like} onClick={()=>this.dispatch(like ? POST_LIKE:POST_UNLIKE, s)}/>
 			</div>
 		</div>);
 	}
