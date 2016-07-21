@@ -7,6 +7,7 @@
 import * as React from 'react';
 import {Component} from 'flumpt';
 import {MuiThemeProvider} from 'material-ui';
+import HitokotoForm from './hitokoto_form';
 import Statement from './statement';
 
 export const UPDATE_STATEMENTS = 'update-statements';
@@ -40,7 +41,10 @@ export default class Timeline extends Component {
 			/>);
 		});
 
-		return(<div className='statements'>{statements}</div>);
+		return(<div className='timeline'>
+			<HitokotoForm value='' settings={this.props.settings}/>
+			<div className='statements'>{statements}</div>
+		</div>);
 	}
 };
 

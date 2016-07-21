@@ -8,9 +8,10 @@ import * as React from 'react';
 import {Flux} from 'flumpt';
 import {MuiThemeProvider, AppBar} from 'material-ui';
 import TitleBar from '../component/title_bar';
-import Timeline, {UPDATE_STATEMENTS} from '../container/timeline';
-import {POST_RES, POST_LIKE, POST_UNLIKE, POST_STAMP} from '../container/statement';
-import SideBar from '../container/side_bar';
+import Timeline, {UPDATE_STATEMENTS} from './timeline';
+import {POST_HITOKOTO} from './hitokoto_form';
+import {POST_RES, POST_LIKE, POST_UNLIKE, POST_STAMP} from './statement';
+import SideBar from './side_bar';
 
 export default class Main extends Flux {
 	constructor(...args) {
@@ -44,6 +45,27 @@ export default class Main extends Flux {
 			this.update(state => {
 				state.statements = this.mergeStatement(state.statements, statements);
 				return state;
+			});
+		});
+
+		this.on(POST_HITOKOTO, formData => {
+			this.update(state => {
+				return new Promise((resolve, reject) => {
+					formData.append('_csrf', document.querySelector('meta[name="_csrf"]').content);
+					fetch('/statement.json', {
+						method: 'POST',
+						body: formData,
+						credentials: 'same-origin',
+						enctype: 'multipart/form-data'
+					}).
+					then(res => res.json()).
+					then(json => {
+						state.statements = this.mergeStatement(state.statements, [json])
+						return resolve(state);
+					}).
+					catch(err => console.error(POST_HITOKOTO, err));
+
+				});
 			});
 		});
 
