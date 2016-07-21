@@ -54,7 +54,6 @@ export default class HitokotoForm extends Component {
 	}
 
 	render() {
-		const csrf_token = document.querySelector('meta[name="_csrf"]').content;
 		const photoStyle = {display: this.state.showPhoto ? 'inline' : 'none'};
 		const previewStyle = this.state.preview ? {
 			backgroundImage: this.state.preview,
@@ -64,7 +63,6 @@ export default class HitokotoForm extends Component {
 		return(<div className='new-post'>
 			<form ref='form' id='form-new' onSubmit={e => this.onSubmit(e)}>
 				<div>
-					<input name='_csrf' type='hidden' value={csrf_token}/>
 					<MuiThemeProvider>
 						<TextField id='text-new' name='body'
 							defaultValue={this.props.value}
