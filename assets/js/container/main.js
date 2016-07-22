@@ -114,8 +114,10 @@ export default class Main extends Flux {
 		return(
 			<div>
 				<TitleBar title={state._.site_name}/>
-				<Timeline {...state}/>
-				<SideBar {...state}/>
+				<div className='container'>
+					<Timeline {...state}/>
+					<SideBar {...state}/>
+				</div>
 			</div>
 		);
 	}

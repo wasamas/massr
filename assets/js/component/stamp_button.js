@@ -19,6 +19,7 @@ export default class StampButton extends Component {
 				onClick={(e)=>this.props.onClick()}
 				iconStyle={iconStyle}
 				style={style}
+				tooltip={this.props.label}
 			>
 				<EditorInsertEmoticon/>
 			</IconButton>

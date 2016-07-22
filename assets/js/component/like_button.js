@@ -23,6 +23,7 @@ export default class LikeButton extends Component {
 				key='like'
 				iconStyle={iconStyle}
 				style={style}
+				tooltip={this.props.label}
 			/>
 		</MuiThemeProvider>);
 	}

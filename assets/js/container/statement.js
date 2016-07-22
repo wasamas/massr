@@ -6,8 +6,7 @@
  */
 import * as React from 'react';
 import {Component} from 'flumpt';
-import {MuiThemeProvider, IconButton} from 'material-ui';
-import {CommunicationChatBubble} from 'material-ui/svg-icons';
+import {MuiThemeProvider, IconButton, Avatar} from 'material-ui';
 import StampButton from '../component/stamp_button';
 import ResButton from '../component/res_button';
 import LikeButton from '../component/like_button';
@@ -26,22 +25,23 @@ export default class Statement  extends Component {
 	icon(user) {
 		return(<div className='statement-icon'>
 			<a href={'/user/' + user.massr_id}>
-				<img className='massr-icon' src={get_icon_url(user)}/>
+				<MuiThemeProvider>
+					<Avatar src={get_icon_url(user)} alt='' size={45}/>
+				</MuiThemeProvider>
 			</a>
 		</div>);
 	}
 
 	body(s) {
 		const user = s.user;
-		const altClass = user.massr_id == this.props.me ? 'statemenet-body-me' : '';
 		return(
-			<div className={'statement-body ' + altClass}>
+			<div className='statement-body '>
 				<div className='statement-message'>
+					{this.info(s)}
 					{s.body}
 					{this.photo(s)}
-					{this.info(s)}
-					{this.action(s)}
 					{this.like(s)}
+					{this.action(s)}
 					{this.form(s)}
 				</div>
 			</div>
@@ -55,8 +55,9 @@ export default class Statement  extends Component {
 
 	info(s) {
 		return(<div className='statement-info'>
-			by <a href={'/user/' + s.user.massr_id}>{s.user.name}</a>
-			at <a href={'/statement/' + s.id}>{s.created_at}</a>
+			<a className='statemenet-name' href={'/user/' + s.user.massr_id}>{s.user.name}</a>
+			&nbsp;
+			<a href={'/statement/' + s.id}>{s.created_at}</a>
 		</div>);
 	}
 
@@ -68,25 +69,40 @@ export default class Statement  extends Component {
 		}) == -1 ? true : false;
 
 		return(<div className='statement-action'>
-			<div className='stamp-items'>
-				<StampButton size={[20, 32]} onClick={()=>this.dispatch(POST_STAMP, s.id)}/>
-				<ResButton size={[20, 32]} onClick={()=>this.dispatch(POST_RES, s.id)}/>
-				<LikeButton size={[20, 32]} like={like} onClick={()=>this.dispatch(like ? POST_LIKE:POST_UNLIKE, s)}/>
-			</div>
+			<StampButton size={[20, 32]} label={this._('attach_stamp')} onClick={()=>this.dispatch(POST_STAMP, s.id)}/>
+			<ResButton size={[20, 32]} label={this._('res')} onClick={()=>this.dispatch(POST_RES, s.id)}/>
+			<LikeButton size={[20, 32]} like={like} label={this._('like')} onClick={()=>this.dispatch(like ? POST_LIKE:POST_UNLIKE, s)}/>
 		</div>);
 	}
 
 	like(s) {
 		const likes = s.likes.map(like => {
+			const iconStyle = {
+				width: 20, height: 20,
+				backgroundImage: 'url("' + get_icon_url(like.user) + '")',
+			};
+			return(<MuiThemeProvider key={like.id}>
+				<IconButton href={'/user/' + like.user.massr_id}
+					style={{width: 32, height: 32, padding: 6}}
+					iconClassName='muidocs-icon-custom-user'
+					iconStyle={iconStyle}
+					tooltip={like.user.name}
+				/>
+			</MuiThemeProvider>);
+			/*
 			return(<a key={like.id} href={'/user/' + like.user.massr_id}>
-				<img className='massr-icon-mini' src={get_icon_url(like.user)} alt={like.user.name} title={like.user.name}/>
+				<MuiThemeProvider>
+					<IconButton 
+					<Avatar src={get_icon_url(like.user)} alt={like.user.name} title={like.user.name} size={20} style={{padding: '6px'}}/>
+				</MuiThemeProvider>
 			</a>);
+			*/
 		});
 
 		if (likes.length == 0) {
 			return '';
 		} else {
-			return(<div className='statement-like'>{this._('like')}: {likes}</div>);
+			return(<div className='statement-like'>{likes}</div>);
 		}
 	}
 
@@ -114,9 +130,12 @@ export default class Statement  extends Component {
 		const s = this.props.statement;
 		const user = s.user;
 
-		return(<div className='statement'>
-			{this.icon(user)}
-			{this.body(s)}
+		return(<div>
+			<div className='statement'>
+				{this.icon(user)}
+				{this.body(s)}
+			</div>
+			<hr/>
 		</div>);
 	}
 }

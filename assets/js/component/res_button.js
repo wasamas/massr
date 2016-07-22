@@ -7,7 +7,7 @@
 import * as React from 'react';
 import {Component} from 'flumpt';
 import {MuiThemeProvider, IconButton} from 'material-ui';
-import {CommunicationChatBubble} from 'material-ui/svg-icons';
+import {ContentReply} from 'material-ui/svg-icons';
 
 export default class ResButton extends Component {
 	render() {
@@ -19,8 +19,9 @@ export default class ResButton extends Component {
 				onClick={(e)=>this.props.onClick()}
 				iconStyle={iconStyle}
 				style={style}
+				tooltip={this.props.label}
 			>
-				<CommunicationChatBubble/>
+				<ContentReply/>
 			</IconButton>
 		</MuiThemeProvider>);
 	}

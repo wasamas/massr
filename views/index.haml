@@ -9,10 +9,6 @@
 		%link{rel: "stylesheet", type: "text/css", href: "/css/main.css"}
 		!= haml :head
 	%body
-		.container-fluid
-			.row-fluid
-				.span9
-					.main#main{'data-me' => current_user.massr_id}
-				.span3
+		.main#main{'data-me' => current_user.massr_id}
 		!= haml :footer
 		%script{src: "/js/main.js"}
