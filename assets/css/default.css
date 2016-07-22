@@ -153,8 +153,7 @@ div.new-post textarea, div.response textarea {
 }
 
 .submit {
-	margin-right: 2em;
-	margin-left: 2em;
+	margin-left: 1em;
 	text-align: right;
 	float: right;
 }

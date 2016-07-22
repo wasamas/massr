@@ -28,9 +28,21 @@ export default class HitokotoForm extends Component {
 		return this.props.settings.local[str];
 	}
 
+	submitHitokoto() {
+		this.setState({body: '', showPhoto: false, preview: null});
+		this.dispatch(POST_HITOKOTO, new FormData(this.refs.form));
+	}
+
 	onSubmit(e) {
 		e.preventDefault();
-		this.dispatch(POST_HITOKOTO, new FormData(e.nativeEvent.target));
+		this.submitHitokoto();
+	}
+
+	onKeyUp(e) {
+		if (e.ctrlKey && e.keyCode == 13) { // ctrl+enter
+			e.preventDefault();
+			this.submitHitokoto();
+		}
 	}
 
 	selectPhoto() {
@@ -65,8 +77,9 @@ export default class HitokotoForm extends Component {
 				<div>
 					<MuiThemeProvider>
 						<TextField id='text-new' name='body'
-							defaultValue={this.props.value}
+							value={this.state.body}
 							onChange={e => this.setState({body: e.target.value})}
+							onKeyUp={e => this.onKeyUp(e)}
 							hintText={this._('hitokoto')}
 							multiLine={true}
 							fullWidth={true}
@@ -75,7 +88,11 @@ export default class HitokotoForm extends Component {
 				</div>
 				<div className='button'>
 					<MuiThemeProvider>
-						<FloatingActionButton className='submit' type='submit' mini={true}>
+						<FloatingActionButton className='submit'
+							type='submit'
+							disabled={this.state.body.length == 0 ? true : false}
+							mini={true}
+						>
 							<ActionDone/>
 						</FloatingActionButton>
 					</MuiThemeProvider>
