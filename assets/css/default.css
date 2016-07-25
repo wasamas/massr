@@ -512,12 +512,13 @@ footer {
 	background-position: right bottom;
 	height: 100px;
 	position: relative;
+	padding: 0px 14px;
 }
 
 footer div {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	text-align: right;
+	text-align: left;
 }
 
