@@ -74,6 +74,16 @@ export default class Main extends Flux {
 		});
 
 		this.on(POST_LIKE, statement => {
+			// add loading icon before receive server response
+			this.update(state => {
+				state.statements.forEach(s => {
+					if (s.id == statement.id) {
+						s.likes.push({id: '-'})
+					}
+				});
+				return state;
+			});
+
 			this.update(state => {
 				return new Promise((resolve, reject) => {
 					let form = new FormData();
@@ -90,6 +100,16 @@ export default class Main extends Flux {
 		});
 
 		this.on(POST_UNLIKE, statement => {
+			// add loading icon before receive server response
+			this.update(state => {
+				state.statements.forEach(s => {
+					if (s.id == statement.id) {
+						s.likes.push({id: '-'})
+					}
+				});
+				return state;
+			});
+
 			this.update(state => {
 				return new Promise((resolve, reject) => {
 					let form = new FormData();

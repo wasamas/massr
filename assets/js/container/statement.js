@@ -6,7 +6,7 @@
  */
 import * as React from 'react';
 import {Component} from 'flumpt';
-import {MuiThemeProvider, IconButton, Avatar} from 'material-ui';
+import {MuiThemeProvider, IconButton, Avatar, RefreshIndicator} from 'material-ui';
 import StampButton from '../component/stamp_button';
 import ResButton from '../component/res_button';
 import LikeButton from '../component/like_button';
@@ -65,7 +65,7 @@ export default class Statement  extends Component {
 		const style = {width: 32, height: 32, padding: 6};
 		const iconStyle = {width: 20, height: 20};
 		const like = s.likes.findIndex(l => {
-			return(l.user.massr_id === this.props.me)
+			return(l.user && l.user.massr_id === this.props.me)
 		}) == -1 ? true : false;
 
 		return(<div className='statement-action'>
@@ -77,26 +77,24 @@ export default class Statement  extends Component {
 
 	like(s) {
 		const likes = s.likes.map(like => {
-			const iconStyle = {
-				width: 20, height: 20,
-				backgroundImage: 'url("' + get_icon_url(like.user) + '")',
-			};
-			return(<MuiThemeProvider key={like.id}>
-				<IconButton href={'/user/' + like.user.massr_id}
-					style={{width: 32, height: 32, padding: 6}}
-					iconClassName='muidocs-icon-custom-user'
-					iconStyle={iconStyle}
-					tooltip={like.user.name}
-				/>
-			</MuiThemeProvider>);
-			/*
-			return(<a key={like.id} href={'/user/' + like.user.massr_id}>
-				<MuiThemeProvider>
-					<IconButton 
-					<Avatar src={get_icon_url(like.user)} alt={like.user.name} title={like.user.name} size={20} style={{padding: '6px'}}/>
-				</MuiThemeProvider>
-			</a>);
-			*/
+			if (like.id == '-') { // waiting server response
+				return(<MuiThemeProvider key={like.id}>
+					<RefreshIndicator size={32} top={0} left={0} status='loading' style={{position: 'relative', display: 'inline-block'}}/>
+				</MuiThemeProvider>);
+			} else {
+				const iconStyle = {
+					width: 20, height: 20,
+					backgroundImage: 'url("' + get_icon_url(like.user) + '")',
+				};
+				return(<MuiThemeProvider key={like.id}>
+					<IconButton href={'/user/' + like.user.massr_id}
+						style={{width: 32, height: 32, padding: 6}}
+						iconClassName='muidocs-icon-custom-user'
+						iconStyle={iconStyle}
+						tooltip={like.user.name}
+					/>
+				</MuiThemeProvider>);
+			}
 		});
 
 		if (likes.length == 0) {
