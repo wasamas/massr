@@ -21,99 +21,16 @@ div.container {
 	margin: 0 auto;
 }
 
-.sidebar-nav {
-	padding: 8px;
-}
-
-.sidebar-nav h2 {
-	line-height: 100%;
-	font-size: small;
-	font-weight: bold;
-	margin-top: 4px;
-	margin-bottom: 4px;
-}
-
-ul.sidebar-list {
-	margin: 0 0 16px 8px;
-	overflow: hidden;
-}
-
-ul.sidebar-list li {
-	list-style: none;
-	margin-bottom: 2px;
-	overflow: hidden;
-}
-
-ul.sidebar-list li.isolate {
-	border-style: solid;
-	border-color: #ddd;
-	border-width: 1px 0;
-	margin-top: 8px;
-	margin-bottom: 8px;
-	padding-top: 8px;
-	padding-bottom: 8px;
-}
-
-ul.user-list {
-	margin: 0 auto;
-	line-height: 180%;
-}
-
-ul.user-list li {
-	list-style: none;
-	margin-bottom: 2px;
-}
-
-ul.user-list li.user-list {
-	display: inline;
-}
-
-.search-box {
-	letter-spacing: -.40em;
-}
-
-#search-field {
-	display: inline-block;
-	letter-spacing: normal;
-	width: 70%;
-	margin: 0;
-	border-radius: 4px 0 0 4px;
-}
-
-#search-button {
-	display: inline-block;
-	letter-spacing: normal;
-	margin: 0;
-	padding: 4px;
-	border-radius: 0 4px 4px 0;
-}
-
-footer {
-	margin-top: 10px;
-	background-image: url('../img/masao_footer.jpg');
-	background-repeat: no-repeat;
-	background-position: right bottom;
-	height: 100px;
-	position: relative;
-}
-
-footer div {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	text-align: right;
+@media screen and (max-device-width: 480px) {
+	div.container {
+		box-sizing: border-box;
+		margin: 0 14px;
+	}
 }
 
 .new-post {
-	background-color: #eee;
-	margin-top: 8px;
-	margin-bottom: 8px;
-	border-style: solid;
-	border-color: #eee;
-	border-width: 1px;
-	border-radius: 2px;
+	margin: 8px 0px;
 	padding: 8px;
-	box-shadow: 1px 1px 4px rgba(0,0,0,0.1);
 }
 
 .submit {
@@ -179,12 +96,8 @@ img.massr-icon-mini {
 }
 
 .statements {
-	border-style: solid;
-	border-width: 1px;
-	border-color: #eee;
-	border-radius: 2px;
+	margin: 8px 0px;
 	padding: 0px;
-	box-shadow: 1px 1px 4px rgba(0,0,0,0.1);
 }
 
 .statement-stamp {
@@ -525,72 +438,86 @@ button.dropdown-toggle {
 	text-align: center;
 }
 
-@media(max-width: 767px) {
-	.nav {
-		text-align: left;
-	}
-	.flat-menu {
-		display: inline;
-	}
-	.dropdown {
-		display: none;
-	}
-	.navbar-search {
-		width: auto;
-	}
-	.search-query {
-		width: auto;
-	}
-	.nav-vertical-margin {
-		margin: 20px;
-	}
-	.nav-vertical-margin {
-		margin: 20px;
-	}
-	.badge-total {
-		display: none;
-	}
-	.collapsed .badge-total {
-		display: inline;
-	}
-	.badge-total:empty {
-		display: none;
-	}
+.sidebar-nav {
+	padding: 8px;
 }
 
-@media(min-width: 767px) {
-	.nav {
-		text-align: left;
-	}
-	.flat-menu {
-		display: none;
-	}
-	.dropdown {
-		display: block;
-	}
-	.navbar-search {
-		width: auto;
-	}
-	.search-query {
-		width: auto;
-	}
-	.nav-vertical-margin {
-		display: none;
-	}
-	.search-pins-dropdown {
-		display: none;
-	}
+.sidebar-nav h2 {
+	line-height: 100%;
+	font-size: small;
+	font-weight: bold;
+	margin-top: 4px;
+	margin-bottom: 4px;
 }
 
-@media(min-width: 980px) {
-	.nav {
-		text-align: left;
-	}
-	.navbar-search {
-		width: auto;
-	}
-	.search-query {
-		width: auto;
-	}
+ul.sidebar-list {
+	margin: 0 0 16px 8px;
+	overflow: hidden;
+}
+
+ul.sidebar-list li {
+	list-style: none;
+	margin-bottom: 2px;
+	overflow: hidden;
+}
+
+ul.sidebar-list li.isolate {
+	border-style: solid;
+	border-color: #ddd;
+	border-width: 1px 0;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+ul.user-list {
+	margin: 0 auto;
+	line-height: 180%;
+}
+
+ul.user-list li {
+	list-style: none;
+	margin-bottom: 2px;
+}
+
+ul.user-list li.user-list {
+	display: inline;
+}
+
+.search-box {
+	letter-spacing: -.40em;
+}
+
+#search-field {
+	display: inline-block;
+	letter-spacing: normal;
+	width: 70%;
+	margin: 0;
+	border-radius: 4px 0 0 4px;
+}
+
+#search-button {
+	display: inline-block;
+	letter-spacing: normal;
+	margin: 0;
+	padding: 4px;
+	border-radius: 0 4px 4px 0;
+}
+
+footer {
+	margin-top: 10px;
+	background-image: url('../img/masao_footer.jpg');
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	height: 100px;
+	position: relative;
+}
+
+footer div {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	text-align: right;
 }
 

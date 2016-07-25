@@ -6,7 +6,7 @@
  */
 import * as React from 'react';
 import {Component} from 'flumpt';
-import {MuiThemeProvider} from 'material-ui';
+import {MuiThemeProvider, Paper} from 'material-ui';
 import HitokotoForm from './hitokoto_form';
 import Statement from './statement';
 
@@ -43,7 +43,9 @@ export default class Timeline extends Component {
 
 		return(<div className='timeline'>
 			<HitokotoForm value='' settings={this.props.settings}/>
-			<div className='statements'>{statements}</div>
+			<MuiThemeProvider>
+				<Paper className='statements'>{statements}</Paper>
+			</MuiThemeProvider>
 		</div>);
 	}
 };

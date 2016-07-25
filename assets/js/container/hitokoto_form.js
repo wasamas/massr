@@ -6,7 +6,7 @@
  */
 import * as React from 'react';
 import {Component} from 'flumpt';
-import {MuiThemeProvider, TextField, FloatingActionButton, IconButton} from 'material-ui';
+import {MuiThemeProvider, Paper, TextField, FloatingActionButton, IconButton} from 'material-ui';
 import {ActionDone, ImagePhotoCamera, EditorInsertEmoticon} from 'material-ui/svg-icons';
 
 export const POST_HITOKOTO = 'post-hitokoto';
@@ -66,13 +66,14 @@ export default class HitokotoForm extends Component {
 	}
 
 	render() {
+		const paperStyle = {backgroundColor: '#eeeeee'};
 		const photoStyle = {display: this.state.showPhoto ? 'inline' : 'none'};
 		const previewStyle = this.state.preview ? {
 			backgroundImage: this.state.preview,
 			display: 'inline'
 		} : {display: 'none'};
 
-		return(<div className='new-post'>
+		return(<MuiThemeProvider><Paper className='new-post' style={paperStyle}>
 			<form ref='form' id='form-new' onSubmit={e => this.onSubmit(e)}>
 				<div>
 					<MuiThemeProvider>
@@ -121,6 +122,6 @@ export default class HitokotoForm extends Component {
 					</div>
 				</div>
 			</form>
-		</div>);
+		</Paper></MuiThemeProvider>);
 	}
 }
