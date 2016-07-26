@@ -49,8 +49,15 @@ export default class Statement  extends Component {
 	}
 
 	photo(s) {
-		return(<div className='statement-photos'>
-		</div>);
+		let photos = '';
+		if (s.photos.length > 0) {
+			photos = s.photos.map(photo => {
+				return(<a className='popup-image'>
+					<img className='statement-photo' src={photo} alt=''/>
+				</a>);
+			});
+		}
+		return(<div className='statement-photos'>{photos}</div>);
 	}
 
 	info(s) {
