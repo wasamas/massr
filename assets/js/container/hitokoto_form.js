@@ -8,6 +8,7 @@ import * as React from 'react';
 import {Component} from 'flumpt';
 import {MuiThemeProvider, Paper, TextField, FloatingActionButton, IconButton} from 'material-ui';
 import {ActionDone, ImagePhotoCamera, EditorInsertEmoticon} from 'material-ui/svg-icons';
+import muiTheme from '../theme';
 
 export const POST_HITOKOTO = 'post-hitokoto';
 export const POST_RES = 'post-res';
@@ -86,7 +87,7 @@ export default class HitokotoForm extends Component {
 
 		return(<div className='photo-items'>
 			<input ref='photo' accept='image/*' className='photo-shadow' name='photo' type='file' style={photoStyle} onChange={e => this.onPhotoChange(e)}/>
-			<MuiThemeProvider>
+			<MuiThemeProvider muiTheme={muiTheme}>
 				<IconButton className='photo-button'
 					onClick={e => this.selectPhoto()}
 					tooltip={this._('attach_photo')}
@@ -104,7 +105,7 @@ export default class HitokotoForm extends Component {
 			return '';
 		} else {
 			return(<div className='stamp-items' id='submit-stamp'>
-				<MuiThemeProvider>
+				<MuiThemeProvider muiTheme={muiTheme}>
 					<IconButton className='stamp-button'
 						onClick={e => console.info('HitokotoForm#EditorInsertEmoticon', e)}
 						tooltip={this._('attach_stamp')}
@@ -119,34 +120,36 @@ export default class HitokotoForm extends Component {
 	render() {
 		const paperStyle = {backgroundColor: '#eeeeee'};
 
-		return(<MuiThemeProvider><Paper className='new-post' style={paperStyle}>
-			<form ref='form' id='form-new' onSubmit={e => this.onSubmit(e)}>
-				<div>
-					<MuiThemeProvider>
-						<TextField id='text-new' name='body' ref='body'
-							value={this.state.body}
-							onChange={e => this.setState({body: e.target.value})}
-							onKeyUp={e => this.onKeyUp(e)}
-							hintText={this._('hitokoto')}
-							multiLine={true}
-							fullWidth={true}
-						/>
-					</MuiThemeProvider>
-				</div>
-				<div className='button'>
-					<MuiThemeProvider>
-						<FloatingActionButton className='submit'
-							type='submit'
-							disabled={this.state.body.length == 0 ? true : false}
-							mini={true}
-						>
-							<ActionDone/>
-						</FloatingActionButton>
-					</MuiThemeProvider>
-					{this.photoButton()}
-					{this.stampButton()}
-				</div>
-			</form>
-		</Paper></MuiThemeProvider>);
+		return(<MuiThemeProvider muiTheme={muiTheme}>
+			<Paper className='new-post' style={paperStyle}>
+				<form ref='form' id='form-new' onSubmit={e => this.onSubmit(e)}>
+					<div>
+						<MuiThemeProvider muiTheme={muiTheme}>
+							<TextField id='text-new' name='body' ref='body'
+								value={this.state.body}
+								onChange={e => this.setState({body: e.target.value})}
+								onKeyUp={e => this.onKeyUp(e)}
+								hintText={this._('hitokoto')}
+								multiLine={true}
+								fullWidth={true}
+							/>
+						</MuiThemeProvider>
+					</div>
+					<div className='button'>
+						<MuiThemeProvider muiTheme={muiTheme}>
+							<FloatingActionButton className='submit'
+								type='submit'
+								disabled={this.state.body.length == 0 ? true : false}
+								mini={true}
+							>
+								<ActionDone/>
+							</FloatingActionButton>
+						</MuiThemeProvider>
+						{this.photoButton()}
+						{this.stampButton()}
+					</div>
+				</form>
+			</Paper>
+		</MuiThemeProvider>);
 	}
 }

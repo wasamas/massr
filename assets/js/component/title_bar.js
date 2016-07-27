@@ -7,10 +7,11 @@
 import * as React from 'react';
 import {Component} from 'flumpt';
 import {MuiThemeProvider, AppBar} from 'material-ui';
+import muiTheme from '../theme';
 
 export default class TitleBar extends Component {
 	render() {
-		return(<MuiThemeProvider>
+		return(<MuiThemeProvider muiTheme={muiTheme}>
 			<AppBar title={this.props.title}/>
 		</MuiThemeProvider>);
 	}
