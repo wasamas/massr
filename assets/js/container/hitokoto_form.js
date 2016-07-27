@@ -10,6 +10,7 @@ import {MuiThemeProvider, Paper, TextField, FloatingActionButton, IconButton} fr
 import {ActionDone, ImagePhotoCamera, EditorInsertEmoticon} from 'material-ui/svg-icons';
 
 export const POST_HITOKOTO = 'post-hitokoto';
+export const POST_RES = 'post-res';
 
 export default class HitokotoForm extends Component {
 	constructor(...args) {
@@ -28,9 +29,20 @@ export default class HitokotoForm extends Component {
 		return this.props.settings.local[str];
 	}
 
+	componentDidMount() {
+		if (this.props.res) {
+			this.refs.body.focus();
+		}
+	}
+
 	submitHitokoto() {
 		this.setState({body: '', showPhoto: false, preview: null});
-		this.dispatch(POST_HITOKOTO, new FormData(this.refs.form));
+		if (this.props.res) {
+			this.dispatch(POST_RES, {data: new FormData(this.refs.form), res: this.props.res});
+			this.props.onClose();
+		} else {
+			this.dispatch(POST_HITOKOTO, new FormData(this.refs.form));
+		}
 	}
 
 	onSubmit(e) {
@@ -65,19 +77,53 @@ export default class HitokotoForm extends Component {
 		}
 	}
 
-	render() {
-		const paperStyle = {backgroundColor: '#eeeeee'};
+	photoButton() {
 		const photoStyle = {display: this.state.showPhoto ? 'inline' : 'none'};
 		const previewStyle = this.state.preview ? {
 			backgroundImage: this.state.preview,
 			display: 'inline'
 		} : {display: 'none'};
 
+		return(<div className='photo-items'>
+			<input ref='photo' accept='image/*' className='photo-shadow' name='photo' type='file' style={photoStyle} onChange={e => this.onPhotoChange(e)}/>
+			<MuiThemeProvider>
+				<IconButton className='photo-button'
+					onClick={e => this.selectPhoto()}
+					tooltip={this._('attach_photo')}
+				>
+					<ImagePhotoCamera/>
+				</IconButton>
+			</MuiThemeProvider>
+			<img className='photo-preview' style={previewStyle}/>
+			<span className='photo-name'/>
+		</div>);
+	}
+
+	stampButton() {
+		if (this.props.res) {
+			return '';
+		} else {
+			return(<div className='stamp-items' id='submit-stamp'>
+				<MuiThemeProvider>
+					<IconButton className='stamp-button'
+						onClick={e => console.info('HitokotoForm#EditorInsertEmoticon', e)}
+						tooltip={this._('attach_stamp')}
+					>
+						<EditorInsertEmoticon/>
+					</IconButton>
+				</MuiThemeProvider>
+			</div>);
+		}
+	}
+
+	render() {
+		const paperStyle = {backgroundColor: '#eeeeee'};
+
 		return(<MuiThemeProvider><Paper className='new-post' style={paperStyle}>
 			<form ref='form' id='form-new' onSubmit={e => this.onSubmit(e)}>
 				<div>
 					<MuiThemeProvider>
-						<TextField id='text-new' name='body'
+						<TextField id='text-new' name='body' ref='body'
 							value={this.state.body}
 							onChange={e => this.setState({body: e.target.value})}
 							onKeyUp={e => this.onKeyUp(e)}
@@ -97,29 +143,8 @@ export default class HitokotoForm extends Component {
 							<ActionDone/>
 						</FloatingActionButton>
 					</MuiThemeProvider>
-					<div className='photo-items'>
-						<input ref='photo' accept='image/*' className='photo-shadow' name='photo' type='file' style={photoStyle} onChange={e => this.onPhotoChange(e)}/>
-						<MuiThemeProvider>
-							<IconButton className='photo-button'
-								onClick={e => this.selectPhoto()}
-								tooltip={this._('attach_photo')}
-							>
-								<ImagePhotoCamera/>
-							</IconButton>
-						</MuiThemeProvider>
-						<img className='photo-preview' style={previewStyle}/>
-						<span className='photo-name'/>
-					</div>
-					<div className='stamp-items' id='submit-stamp'>
-						<MuiThemeProvider>
-							<IconButton className='stamp-button'
-								onClick={e => console.info('HitokotoForm#EditorInsertEmoticon', e)}
-								tooltip={this._('attach_stamp')}
-							>
-								<EditorInsertEmoticon/>
-							</IconButton>
-						</MuiThemeProvider>
-					</div>
+					{this.photoButton()}
+					{this.stampButton()}
 				</div>
 			</form>
 		</Paper></MuiThemeProvider>);

@@ -220,6 +220,11 @@ div.statement-res {
 	margin-right: 4px;
 }
 
+div.statement-res a {
+	color: #555;
+	text-decoration: none;
+}
+
 div.statement-message {
 	white-space: pre-wrap;      /* CSS3 */
 	white-space: -moz-pre-wrap; /* Mozilla */
@@ -297,7 +302,6 @@ div.embedded>div.statement {
 
 div.response {
 	clear: both;
-	display: none;
 	margin-top: 4px;
 }
 

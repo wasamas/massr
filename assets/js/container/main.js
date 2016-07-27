@@ -9,8 +9,8 @@ import {Flux} from 'flumpt';
 import {MuiThemeProvider, AppBar} from 'material-ui';
 import TitleBar from '../component/title_bar';
 import Timeline, {UPDATE_STATEMENTS} from './timeline';
-import {POST_HITOKOTO} from './hitokoto_form';
-import {POST_RES, POST_LIKE, POST_UNLIKE, POST_STAMP} from './statement';
+import {POST_HITOKOTO, POST_RES} from './hitokoto_form';
+import {POST_LIKE, POST_UNLIKE, POST_STAMP} from './statement';
 import SideBar from './side_bar';
 
 export default class Main extends Flux {
@@ -48,13 +48,13 @@ export default class Main extends Flux {
 			});
 		});
 
-		this.on(POST_HITOKOTO, formData => {
+		this.on(POST_HITOKOTO, data => {
 			this.update(state => {
 				return new Promise((resolve, reject) => {
-					formData.append('_csrf', document.querySelector('meta[name="_csrf"]').content);
+					data.append('_csrf', document.querySelector('meta[name="_csrf"]').content);
 					fetch('/statement.json', {
 						method: 'POST',
-						body: formData,
+						body: data,
 						credentials: 'same-origin',
 						enctype: 'multipart/form-data'
 					}).
@@ -69,8 +69,25 @@ export default class Main extends Flux {
 			});
 		});
 
-		this.on(POST_RES, res => {
-			console.info('POST_RES', res);
+		this.on(POST_RES, ({data, res}) => {
+			this.update(state => {
+				return new Promise((resolve, reject) => {
+					data.append('res_id', res);
+					data.append('_csrf', document.querySelector('meta[name="_csrf"]').content);
+					fetch('/statement.json', {
+						method: 'POST',
+						body: data,
+						credentials: 'same-origin',
+						enctype: 'multipart/form-data'
+					}).
+					then(res => res.json()).
+					then(json => {
+						state.statements = this.mergeStatement(state.statements, [json])
+						return resolve(state);
+					}).
+					catch(err => console.error(POST_RES, err));
+				});
+			});
 		});
 
 		this.on(POST_LIKE, statement => {
