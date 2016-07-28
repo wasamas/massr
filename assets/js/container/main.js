@@ -41,6 +41,12 @@ export default class Main extends Flux {
 		});
 	}
 
+	deleteStatement(statements, statement_id) {
+		return statements.filter(statement => {
+			return !(statement.id === statement_id);
+		});
+	}
+
 	subscribe() {
 		this.on(UPDATE_STATEMENTS, statements => {
 			this.update(state => {
@@ -81,12 +87,21 @@ export default class Main extends Flux {
 						credentials: 'same-origin',
 						enctype: 'multipart/form-data'
 					}).
-					then(res => res.json()).
+					then(res => {
+						if (!res.ok) throw res;
+						return res.json();
+					}).
 					then(json => {
 						state.statements = this.mergeStatement(state.statements, [json])
 						return resolve(state);
 					}).
-					catch(err => console.error(POST_RES, err));
+					catch(err => {
+						if (err.status == 404) { // res to deleted statement
+							console.error(POST_RES, ': statement not found');
+						} else {
+							console.error(POST_RES, err);
+						}
+					});
 				});
 			});
 		});
@@ -107,12 +122,22 @@ export default class Main extends Flux {
 					let form = new FormData();
 					form.append('_csrf', document.querySelector('meta[name="_csrf"]').content);
 					fetch('/statement/' + statement.id + '/like', {method: 'POST', body: form, credentials: 'same-origin'}).
-					then(res => res.json()).
+					then(res => {
+						if (!res.ok) throw res;
+						return res.json();
+					}).
 					then(json => {
 						state.statements = this.mergeStatement(state.statements, [json])
 						return resolve(state);
 					}).
-					catch(err => console.error(POST_LIKE, err));
+					catch(err => {
+						if (err.status == 404) {
+							state.statements = this.deleteStatement(state.statements, statement.id);
+							return resolve(state);
+						} else {
+							console.error(POST_LIKE, err);
+						}
+					});
 				});
 			});
 		});
@@ -133,12 +158,22 @@ export default class Main extends Flux {
 					let form = new FormData();
 					form.append('_csrf', document.querySelector('meta[name="_csrf"]').content);
 					fetch('/statement/' + statement.id + '/like', {method: 'DELETE', body: form, credentials: 'same-origin'}).
-					then(res => res.json()).
+					then(res => {
+						if (!res.ok) throw res;
+						return res.json();
+					}).
 					then(json => {
 						state.statements = this.mergeStatement(state.statements, [json])
 						return resolve(state);
 					}).
-					catch(err => console.error(POST_UNLIKE, err));
+					catch(err => {
+						if (err.status == 404) {
+							state.statements = this.deleteStatement(state.statements, statement.id);
+							return resolve(state);
+						} else {
+							console.error(POST_LIKE, err);
+						}
+					});
 				});
 			});
 		});
@@ -154,13 +189,11 @@ export default class Main extends Flux {
 					form.append('_csrf', document.querySelector('meta[name="_csrf"]').content);
 					fetch('/statement/' + statement_id, {method: 'DELETE', body: form, credentials: 'same-origin'}).
 					then(res => {
-						if (res.ok) {
-							state.statements = state.statements.filter(s => {
-								return !(s.id === statement_id);
-							});
-							resolve(state);
+						if (res.ok || res.status == 404) { // success or already deleted
+							state.statements = this.deleteStatement(state.statements, statement_id);
+							return resolve(state);
 						} else {
-							reject(res);
+							throw res;
 						}
 					}).
 					catch(err => console.error(DELETE_HITOKOTO, err));

@@ -20,17 +20,21 @@ module Massr
 				# no photos
 			end
 
-			if (request[:stamp].nil?)
-				@statement.update_statement( request ) unless request[:body].size == 0
-			else
-				@statement.update_statement( request ) unless request[:stamp].size == 0
-				stamp = Stamp.find_by(id: request[:stamp_id])
-				stamp.post_stamp() unless stamp.nil?
-				cache.delete('stamp')
-				cache.set('stamp', Stamp.get_stamps.map{|i| i.to_hash})
-			end
-			if @statement.res && @statement.res.user.email.length > 0 && @statement.res.user.massr_id != request[:user].massr_id
-				send_mail(@statement.res.user, @statement)
+			begin
+				if (request[:stamp].nil?)
+					@statement.update_statement( request ) unless request[:body].size == 0
+				else
+					@statement.update_statement( request ) unless request[:stamp].size == 0
+					stamp = Stamp.find_by(id: request[:stamp_id])
+					stamp.post_stamp() unless stamp.nil?
+					cache.delete('stamp')
+					cache.set('stamp', Stamp.get_stamps.map{|i| i.to_hash})
+				end
+				if @statement.res && @statement.res.user.email.length > 0 && @statement.res.user.massr_id != request[:user].massr_id
+					send_mail(@statement.res.user, @statement)
+				end
+			rescue
+				return 404
 			end
 
 			if params[:format] == 'json'
@@ -90,8 +94,14 @@ module Massr
 		end
 
 		before '/statement/:id/like' do
+<<<<<<< 5b32f8f0ba461a894b4eba7f37ed5bfe8cfb0d7b
 			@user = User.find_by(id: session[:user_id])
 			@statement = Statement.find_by(id: params[:id])
+=======
+			@user = User.find_by_id(session[:user_id])
+			@statement = Statement.find_by_id(params[:id])
+			not_found unless @statement
+>>>>>>> catch error of deleted statements by res, like or delete
 		end
 
 		post '/statement/:id/like' do
