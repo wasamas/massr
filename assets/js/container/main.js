@@ -10,7 +10,7 @@ import {MuiThemeProvider, AppBar} from 'material-ui';
 import TitleBar from '../component/title_bar';
 import Timeline, {UPDATE_STATEMENTS} from './timeline';
 import {POST_HITOKOTO, POST_RES} from './hitokoto_form';
-import {POST_LIKE, POST_UNLIKE, POST_STAMP} from './statement';
+import {POST_LIKE, POST_UNLIKE, POST_STAMP, DELETE_HITOKOTO} from './statement';
 import SideBar from './side_bar';
 import Footer from '../component/footer';
 
@@ -145,6 +145,27 @@ export default class Main extends Flux {
 
 		this.on(POST_STAMP, statement => {
 			console.info('POST_STAMP', statement);
+		});
+
+		this.on(DELETE_HITOKOTO, statement_id => {
+			this.update(state => {
+				return new Promise((resolve, reject) => {
+					let form = new FormData();
+					form.append('_csrf', document.querySelector('meta[name="_csrf"]').content);
+					fetch('/statement/' + statement_id, {method: 'DELETE', body: form, credentials: 'same-origin'}).
+					then(res => {
+						if (res.ok) {
+							state.statements = state.statements.filter(s => {
+								return !(s.id === statement_id);
+							});
+							resolve(state);
+						} else {
+							reject(res);
+						}
+					}).
+					catch(err => console.error(DELETE_HITOKOTO, err));
+				});
+			});
 		});
 	}
 

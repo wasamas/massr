@@ -10,6 +10,7 @@ import {MuiThemeProvider, IconButton, Avatar, RefreshIndicator} from 'material-u
 import StampButton from '../component/stamp_button';
 import ResButton from '../component/res_button';
 import LikeButton from '../component/like_button';
+import DeleteButton from '../component/delete_button';
 import HitokotoForm from './hitokoto_form';
 import {get_icon_url} from '../util';
 
@@ -17,6 +18,7 @@ export const POST_STAMP = 'post-stamp';
 export const POST_RES = 'post-res';
 export const POST_LIKE = 'post-like';
 export const POST_UNLIKE = 'post-unlike';
+export const DELETE_HITOKOTO = 'delete-hitokoto';
 
 export default class Statement  extends Component {
 	constructor(...args) {
@@ -127,8 +129,13 @@ export default class Statement  extends Component {
 		const like = s.likes.findIndex(l => {
 			return(l.user && l.user.massr_id === this.props.me)
 		}) == -1 ? true : false;
+		const deleteButton = (s.user.massr_id === this.props.me) ?
+			<DeleteButton size={[20, 32]} label={this._('delete')}
+				onClick={()=>this.deleteAction(s)}/>
+			: '';
 
 		return(<div className='statement-action'>
+			{deleteButton}
 			<StampButton size={[20, 32]} label={this._('attach_stamp')}
 				onClick={()=>this.dispatch(POST_STAMP, s.id)}/>
 			<ResButton size={[20, 32]} label={this._('res')}
@@ -136,6 +143,12 @@ export default class Statement  extends Component {
 			<LikeButton size={[20, 32]} like={like} label={this._('like')}
 				onClick={()=>this.dispatch(like ? POST_LIKE:POST_UNLIKE, s)}/>
 		</div>);
+	}
+
+	deleteAction(s) {
+		if (window.confirm(this._('confirm_delete'))){
+			this.dispatch(DELETE_HITOKOTO, s.id);
+		}
 	}
 
 	form(s) {
