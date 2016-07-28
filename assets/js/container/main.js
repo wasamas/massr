@@ -12,6 +12,7 @@ import Timeline, {UPDATE_STATEMENTS} from './timeline';
 import {POST_HITOKOTO, POST_RES} from './hitokoto_form';
 import {POST_LIKE, POST_UNLIKE, POST_STAMP} from './statement';
 import SideBar from './side_bar';
+import Footer from '../component/footer';
 
 export default class Main extends Flux {
 	constructor(...args) {
@@ -155,6 +156,7 @@ export default class Main extends Flux {
 					<Timeline {...state}/>
 					<SideBar {...state}/>
 				</div>
+				<Footer/>
 			</div>
 		);
 	}
