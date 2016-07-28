@@ -18,12 +18,18 @@ body {
 div.container {
 	max-width: 700px;
 	text-align: left;
-	margin: 0 auto;
+	margin: 0 14px;
+	box-sizing: border-box;
+}
+
+@media screen and (min-width: 750px) {
+	div.container {
+		margin: 0 auto;
+	}
 }
 
 @media screen and (max-device-width: 480px) {
 	div.container {
-		box-sizing: border-box;
 		margin: 0 14px;
 	}
 }
