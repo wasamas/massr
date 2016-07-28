@@ -20,14 +20,14 @@ export default class Main extends Flux {
 
 		setInterval(() => {
 			this.update(state => {
-				//state.flush = true;
+				state.flush = true;
 				return state;
 			});
 			this.update(state => {
 				state.flush = false;
 				return state;
 			});
-		}, 10000);
+		}, 30000);
 	}
 
 	mergeStatement(oldArray, newArray) {
