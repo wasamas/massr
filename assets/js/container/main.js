@@ -7,7 +7,7 @@
 import * as React from 'react';
 import {Flux} from 'flumpt';
 import {MuiThemeProvider, AppBar} from 'material-ui';
-import TitleBar from '../component/title_bar';
+import TitleBar, * as menu from '../component/title_bar';
 import Timeline, {UPDATE_STATEMENTS} from './timeline';
 import {POST_HITOKOTO, POST_RES} from './hitokoto_form';
 import {POST_LIKE, POST_UNLIKE, POST_STAMP, DELETE_HITOKOTO} from './statement';
@@ -200,12 +200,48 @@ export default class Main extends Flux {
 				});
 			});
 		});
+
+		this.on(menu.MENU_RES, () => {
+			window.location.href = '/user/' + this.state.me + '/res';
+		});
+
+		this.on(menu.MENU_USER_PHOTOS, () => {
+			window.location.href = '/user/' + this.state.me + '/photos';
+		});
+
+		this.on(menu.MENU_ALL_PHOTOS, () => {
+			window.location.href = '/user/statement/photos';
+		});
+
+		this.on(menu.MENU_STAMP_LIST, () => {
+			window.location.href = '/user/stamps';
+		});
+
+		this.on(menu.MENU_LIKED, () => {
+			window.location.href = '/user/' + this.state.me + '/liked';
+		});
+
+		this.on(menu.MENU_LIKES, () => {
+			window.location.href = '/user/' + this.state.me + '/likes';
+		});
+
+		this.on(menu.MENU_SETTINGS, () => {
+			window.location.href = '/user';
+		});
+
+		this.on(menu.MENU_ADMIN, () => {
+			window.location.href = '/admin';
+		});
+
+		this.on(menu.MENU_LOGOUT, () => {
+			window.location.href = '/logout';
+		});
 	}
 
 	render(state) {
 		return(
 			<div>
-				<TitleBar title={state._.site_name}/>
+				<TitleBar me={state.me} settings={state.settings}/>
 				<div className='container'>
 					<Timeline {...state}/>
 					<SideBar {...state}/>
