@@ -7,7 +7,7 @@
 import * as React from 'react';
 import {Flux} from 'flumpt';
 import {MuiThemeProvider, AppBar} from 'material-ui';
-import TitleBar, * as menu from '../component/title_bar';
+import TitleBar, * as menu from './title_bar';
 import Timeline, {UPDATE_STATEMENTS} from './timeline';
 import {POST_HITOKOTO, POST_RES} from './hitokoto_form';
 import {POST_LIKE, POST_UNLIKE, POST_STAMP, DELETE_HITOKOTO} from './statement';
