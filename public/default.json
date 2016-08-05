@@ -12,6 +12,7 @@
 	},
 	"local": {
 		"site_name": "Massr",
+		"top": "トップ",
 		"like": "わかるわ",
 		"unlike": "わからないわ",
 		"delete": "削除",

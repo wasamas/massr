@@ -201,6 +201,10 @@ export default class Main extends Flux {
 			});
 		});
 
+		this.on(menu.MENU_TOP, () => {
+			window.location.href = '/';
+		});
+
 		this.on(menu.MENU_RES, () => {
 			window.location.href = '/user/' + this.state.me + '/res';
 		});

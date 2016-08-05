@@ -9,6 +9,7 @@ import {Component} from 'flumpt';
 import {MuiThemeProvider, AppBar, Drawer, MenuItem} from 'material-ui';
 import muiTheme from '../theme';
 
+export const MENU_TOP = 'menu-top';
 export const MENU_RES = 'menu-res';
 export const MENU_USER_PHOTOS = 'menu-user-photos';
 export const MENU_ALL_PHOTOS = 'menu-all-photos';
@@ -31,6 +32,7 @@ export default class TitleBar extends Component {
 
 	menuItems() {
 		return [
+			[MENU_TOP, 'top'],
 			[MENU_RES, 'res'],
 			[MENU_USER_PHOTOS, 'user_photos', this.props.me],
 			[MENU_ALL_PHOTOS, 'all_photos'],
