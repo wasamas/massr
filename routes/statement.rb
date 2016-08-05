@@ -81,7 +81,7 @@ module Massr
 		end
 
 		get '/statement/:id' do
-			haml :user_statement, :locals => {:statement => @statement}
+			haml :user_statement, locals: {statement: @statement}
 		end
 
 		delete '/statement/:id' do
@@ -94,14 +94,9 @@ module Massr
 		end
 
 		before '/statement/:id/like' do
-<<<<<<< 5b32f8f0ba461a894b4eba7f37ed5bfe8cfb0d7b
 			@user = User.find_by(id: session[:user_id])
 			@statement = Statement.find_by(id: params[:id])
-=======
-			@user = User.find_by_id(session[:user_id])
-			@statement = Statement.find_by_id(params[:id])
 			not_found unless @statement
->>>>>>> catch error of deleted statements by res, like or delete
 		end
 
 		post '/statement/:id/like' do

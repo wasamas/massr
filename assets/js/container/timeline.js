@@ -14,7 +14,16 @@ export const UPDATE_STATEMENTS = 'update-statements';
 
 export default class Timeline extends Component {
 	fetchStatements() {
-		fetch('/index.json', {credentials: 'same-origin'}).
+		let path = '/index.json';
+		const pathname = window.location.pathname;
+
+		switch (true) {
+			case RegExp('^/user/.*?/res$').test(pathname):
+				path = pathname + '.json';
+				break;
+		}
+
+		fetch(path, {credentials: 'same-origin'}).
 		then(res => res.json()).
 		then(json => {
 			return this.dispatch(UPDATE_STATEMENTS, json);
