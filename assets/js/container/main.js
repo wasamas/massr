@@ -210,7 +210,7 @@ export default class Main extends Flux {
 		});
 
 		this.on(menu.MENU_ALL_PHOTOS, () => {
-			window.location.href = '/user/statement/photos';
+			window.location.href = '/statement/photos';
 		});
 
 		this.on(menu.MENU_STAMP_LIST, () => {

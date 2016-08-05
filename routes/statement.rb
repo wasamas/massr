@@ -62,10 +62,11 @@ module Massr
 
 
 		get '/statement/photos' do
-			haml :user_photos, :locals => {
-				:statements => Statement.get_statements(param_date, @query),
-				:q => nil,
-				:pagenation => true}
+			#haml :user_photos, :locals => {
+			#	:statements => Statement.get_statements(param_date, @query),
+			#	:q => nil,
+			#	:pagenation => true}
+			haml :index , :locals => {:q => nil}
 		end
 
 		get '/statement/photos.json' do
