@@ -21,6 +21,9 @@ export default class Timeline extends Component {
 			case RegExp('^/user/.*?/res$').test(pathname):
 				path = pathname + '.json';
 				break;
+			case RegExp('^/user/.*?/photos$').test(pathname):
+				path = pathname + '.json';
+				break;
 		}
 
 		fetch(path, {credentials: 'same-origin'}).

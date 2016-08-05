@@ -64,10 +64,11 @@ module Massr
 		end
 
 		get '/user/:massr_id/photos' do
-			haml :user_photos, locals: {
-				statements: Statement.get_statements(param_date, @query),
-				q: nil,
-				pagenation: true}
+			#haml :user_photos, :locals => {
+			#	:statements => Statement.get_statements(param_date, @query),
+			#	:q => nil,
+			#	:pagenation => true}
+			haml :index, locals: {q: nil}
 		end
 
 		before '/user/:massr_id/res*' do
