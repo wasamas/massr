@@ -54,13 +54,14 @@ export default class TitleBar extends Component {
 		return(<div>
 			<MuiThemeProvider muiTheme={muiTheme}>
 				<AppBar title={this._('site_name')}
-					onTouchTap={() => this.setState({menuOpen: !this.state.menuOpen})}
+					onLeftIconButtonTouchTap={() => this.setState({menuOpen: !this.state.menuOpen})}
+					onTitleTouchTap={()=>this.dispatch(MENU_TOP)}
 				/>
 			</MuiThemeProvider>
 			<MuiThemeProvider muiTheme={muiTheme}>
 				<Drawer docked={false} open={this.state.menuOpen}
 						onRequestChange={(menuOpen) => this.setState({menuOpen})}>
-					{this.menuItems()}
+					{this.state.menuOpen ? this.menuItems() : ''}
 				</Drawer>
 			</MuiThemeProvider>
 		</div>);
