@@ -16,7 +16,7 @@ export default class ResButton extends Component {
 		const style = {width: s[1], height: s[1], padding: (s[1]-s[0])/2}
 		return(<MuiThemeProvider>
 			<IconButton className='res'
-				onClick={(e)=>this.props.onClick()}
+				onTouchTap={(e)=>this.props.onClick()}
 				iconStyle={iconStyle}
 				style={style}
 				tooltip={this.props.label}

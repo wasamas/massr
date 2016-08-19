@@ -19,7 +19,7 @@ export default class LikeButton extends Component {
 		return(<MuiThemeProvider>
 			<IconButton className={className}
 				iconClassName={iconClassName}
-				onClick={(e)=>this.props.onClick()}
+				onTouchTap={(e)=>this.props.onClick()}
 				key='like'
 				iconStyle={iconStyle}
 				style={style}

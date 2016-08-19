@@ -89,7 +89,7 @@ export default class HitokotoForm extends Component {
 			<input ref='photo' accept='image/*' className='photo-shadow' name='photo' type='file' style={photoStyle} onChange={e => this.onPhotoChange(e)}/>
 			<MuiThemeProvider muiTheme={muiTheme}>
 				<IconButton className='photo-button'
-					onClick={e => this.selectPhoto()}
+					onTouchTap={e => this.selectPhoto()}
 					tooltip={this._('attach_photo')}
 				>
 					<ImagePhotoCamera/>
@@ -107,7 +107,7 @@ export default class HitokotoForm extends Component {
 			return(<div className='stamp-items' id='submit-stamp'>
 				<MuiThemeProvider muiTheme={muiTheme}>
 					<IconButton className='stamp-button'
-						onClick={e => console.info('HitokotoForm#EditorInsertEmoticon', e)}
+						onTouchTap={e => console.info('HitokotoForm#EditorInsertEmoticon', e)}
 						tooltip={this._('attach_stamp')}
 					>
 						<EditorInsertEmoticon/>

@@ -43,7 +43,7 @@ export default class TitleBar extends Component {
 			[MENU_ADMIN, 'admin_menu'],
 			[MENU_LOGOUT, 'logout'],
 		].map(m => {
-			return <MenuItem key={m[0]} onClick={() => {
+			return <MenuItem key={m[0]} onTouchTap={() => {
 				this.setState({menuOpen: false});
 				this.dispatch(m[0]);
 			}}>{this._(m[1], m[2])}</MenuItem>;
@@ -54,7 +54,7 @@ export default class TitleBar extends Component {
 		return(<div>
 			<MuiThemeProvider muiTheme={muiTheme}>
 				<AppBar title={this._('site_name')}
-					onClick={() => this.setState({menuOpen: !this.state.menuOpen})}
+					onTouchTap={() => this.setState({menuOpen: !this.state.menuOpen})}
 				/>
 			</MuiThemeProvider>
 			<MuiThemeProvider muiTheme={muiTheme}>
