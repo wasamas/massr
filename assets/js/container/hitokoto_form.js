@@ -53,7 +53,7 @@ export default class HitokotoForm extends Component {
 
 	onKeyUp(e) {
 		if (e.ctrlKey && e.keyCode == 13) { // ctrl+enter
-			e.preventDefault();
+			e.stopPropagation();
 			this.submitHitokoto();
 		}
 	}
