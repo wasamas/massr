@@ -122,7 +122,7 @@ export default class HitokotoForm extends Component {
 
 		return(<MuiThemeProvider muiTheme={muiTheme}>
 			<Paper className='new-post' style={paperStyle}>
-				<form ref='form' id='form-new' onSubmit={e => this.onSubmit(e)}>
+				<form ref='form' id='form-new'>
 					<div>
 						<MuiThemeProvider muiTheme={muiTheme}>
 							<TextField id='text-new' name='body' ref='body'
@@ -138,7 +138,7 @@ export default class HitokotoForm extends Component {
 					<div className='button'>
 						<MuiThemeProvider muiTheme={muiTheme}>
 							<FloatingActionButton className='submit'
-								type='submit'
+								onTouchTap={e => this.onSubmit(e)}
 								disabled={this.state.body.length == 0 ? true : false}
 								mini={true}
 							>
