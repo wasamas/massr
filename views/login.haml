@@ -2,13 +2,9 @@
 %html
 	%head
 		%title login - Massr
+		%link{rel: "stylesheet", type: "text/css", href: "/css/main.css"}
 		!= haml :head
 	%body
-		!= haml :header
-		.container-fluid
-			.row-fluid
-				.span12
-					.main
-						%p<#{_need_login}
-						%a.btn.btn-large.btn-primary{:href => "/auth/twitter", :title => "Login"}<TwitterでLogin &raquo;
-			!= haml :footer
+		%p.login-info<#{_need_login}
+		.main#main
+		%script{src: "/js/login.js"}

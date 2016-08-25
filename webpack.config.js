@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
 	entry: {
-		top: './assets/js/top.js',
+		login: './assets/js/login.js',
 		main: './assets/js/main.js'
 	},
 	output: {
