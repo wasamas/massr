@@ -910,7 +910,7 @@ $(function(){
 	$('#search-tag-field').on('keyup', function(){
 		var str = $(this).val();
 		$('img.item-stamp').each(function(i, elm){
-			var tag = $(elm).data('stamp-tag') || '';
+			var tag = ($(elm).data('stamp-tag') || '').toString();
 			if (tag.toLowerCase().indexOf(str.toLowerCase()) > -1) {
 				$(elm).parent().parent().parent().show();
 			} else {
