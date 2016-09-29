@@ -44,7 +44,7 @@ IDとパスワードでログインするため、利用するアカウントで
 ストレージとしてMongoDB利用しています。あらかじめインストールしておいてください(2.xが必要)。http://www.mongodb.org/downloads が参考になります。MacOSでhomebrewを使用している場合は以下:
 
 ```sh
-$ brew insatall mongodb
+$ brew install mongodb
 ```
 
 Debian/Ubuntu系では以下でインストールされますが、バージョンが古い場合もあります:
