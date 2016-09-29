@@ -63,7 +63,7 @@ $ mongod run --config /usr/local/etc/mongod.conf
 処理速度のためmemcachedを利用しています。あらかじめインストールしておいてください。http://memcached.org/ からダウンロードできます。MacOSでhomebrewを使用している場合は以下:
 
 ```sh
-$ brew insatall memcached
+$ brew install memcached
 ```
 
 自動起動しない場合、手動で起動しておきます。例:
