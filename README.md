@@ -126,7 +126,10 @@ $ heroku config:add \
   RACK_ENV=production \
   TWITTER_CONSUMER_ID=XXXXXXXXXXXXXXX \
   TWITTER_CONSUMER_SECRET=XXXXXXXXXXXXXXX \
-  TZ=Asia/Tokyo
+  TZ=Asia/Tokyo \
+  FORCE_HTTPS=1
+
+FORCE_HTTPSは、httpsでのアクセスを強制したい場合に指定します。
 
 # アプリケーションデプロイ
 $ git push heroku master
