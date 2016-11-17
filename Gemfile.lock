@@ -117,7 +117,7 @@ GEM
       slop (~> 3.4)
     public_suffix (2.0.4)
     puma (3.6.0)
-    rack (1.6.4)
+    rack (1.6.5)
     rack-protection (1.5.3)
       rack
     rack-session-mongo (0.0.1)
@@ -253,9 +253,6 @@ DEPENDENCIES
   twitter
   uglifier
   yui-compressor
-
-RUBY VERSION
-   ruby 2.3.2p217
 
 BUNDLED WITH
    1.13.6
