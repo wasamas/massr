@@ -123,6 +123,8 @@ GEM
     rack-session-mongo (0.0.1)
       mongo
       rack
+    rack-ssl (1.4.1)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rack_csrf (2.5.0)
@@ -234,6 +236,7 @@ DEPENDENCIES
   pry
   puma
   rack-session-mongo
+  rack-ssl
   rack_csrf
   rails-assets-bootstrap (~> 2.3.0)!
   rails-assets-jquery!
