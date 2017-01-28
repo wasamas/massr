@@ -79,9 +79,12 @@ $(function(){
 	$.pnotify.defaults.history = false;
 
 	/*
-	 * setup against CSRF
+	 * setup ajax
+	 *   - disable cache
+	 *   - against CSRF
 	 */
 	$.ajaxSetup({
+		cache: false,
 		beforeSend: function(xhr) {
 			var token = $('meta[name="_csrf"]').attr('content');
 			xhr.setRequestHeader('X_CSRF_TOKEN', token);
