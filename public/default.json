@@ -1,5 +1,10 @@
 {
 	"plugin": {
+		"notify/like test": {
+			"label": "test",
+			"delete": "owner",
+			"volatile": true
+		}
 	},
 	"resource": {
 		"icon_dir": "default"
