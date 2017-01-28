@@ -43,6 +43,19 @@ $(function(){
 	// Use local alias
 	var $ = jQuery;
 
+	/*
+	 * setup ajax
+	 *   - disable cache
+	 *   - against CSRF
+	 */
+	$.ajaxSetup({
+		cache: false,
+		beforeSend: function(xhr) {
+			var token = $('meta[name="_csrf"]').attr('content');
+			xhr.setRequestHeader('X_CSRF_TOKEN', token);
+		}
+	});
+
 	var me = Massr.me = $('#me').text();
 	var settings = {};
 	var _;
@@ -77,19 +90,6 @@ $(function(){
 	 * setup pnotify plugin
 	 */
 	$.pnotify.defaults.history = false;
-
-	/*
-	 * setup ajax
-	 *   - disable cache
-	 *   - against CSRF
-	 */
-	$.ajaxSetup({
-		cache: false,
-		beforeSend: function(xhr) {
-			var token = $('meta[name="_csrf"]').attr('content');
-			xhr.setRequestHeader('X_CSRF_TOKEN', token);
-		}
-	});
 
 	/*
 	 * setup auto reloading
