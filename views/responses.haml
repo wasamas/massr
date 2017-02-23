@@ -1,4 +1,4 @@
 %p
-	- statement.res_ids.each do |res|
+	- statement.ref_ids.each do |res|
 		- res.res = nil
 		!= haml :statement, :locals => {:statement => res, :is_new => false}
