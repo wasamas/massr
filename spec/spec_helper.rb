@@ -9,14 +9,12 @@
 #
 
 $:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..')).untaint
-Bundler.require :test if defined?(Bundler)
+Bundler.require(:default, :test) if defined?(Bundler)
 
 RSpec.configure do |config|
-	require 'mongo_mapper'
-	MongoMapper.connection = Mongo::Connection.new('localhost', 27017)
-	MongoMapper.database = 'massr_test'
+	Mongoid::load!('config/mongoid.yml', :test)
 	config.before(:each) do
-		MongoMapper.database.collections.each {|collection| collection.remove rescue nil}
+		Mongoid::Clients.default.database.drop
 	end
 end
 

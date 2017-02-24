@@ -1,23 +1,21 @@
-# -*- coding: utf-8; -*-
-require 'mongo_mapper'
-require 'json'
 require 'uri'
 
 module Massr
 	class Statement
-		include MongoMapper::Document
+		include ::Mongoid::Document
+		include ::Mongoid::Timestamps
+		store_in collection: "massr.statements"
 
-		key :body,  :type => String
-		key :stamp, :type => String
-		key :photos, Array
-		key :ref_ids, Array
+		field :body,    type: String
+		field :stamp,   type: String
+		field :photos,  type: Array
+		#field :ref_ids, type: Array # do not access directly, use refs field instead
 
-		timestamps!
+		belongs_to  :user,  class_name: 'Massr::User', inverse_of: :statements
+		embeds_many :likes, class_name: 'Massr::Like'
 
-		belongs_to :user  , :class_name => 'Massr::User'
-		belongs_to :res   , :class_name => 'Massr::Statement'
-		many       :likes , :class_name => 'Massr::Like'  , :dependent => :delete_all
-		many       :refs  , :class_name => 'Massr::Statement' , :in => :ref_ids
+		has_one     :res,   class_name: 'Massr::Statement'
+		belongs_to  :refs,  class_name: 'Massr::Statement', inverse_of: :res
 
 		def custom_validation
 			if body.nil && stamp.nil
@@ -26,15 +24,15 @@ module Massr
 			end
 		end
 
-		def self.get_statements(date,options={})
+		def self.get_statements(date, options={})
 			options[:created_at.lt] = Time.parse(date)
 			options[:order]         = :created_at.desc
 			options[:limit]         = $limit
 			return self.all(options)
 		end
 
-		def self.add_photo(id,uri)
-			statement = Statement.find_by_id(id)
+		def self.add_photo(id, uri)
+			statement = Statement.find_by(id: id)
 			statement[:photos] << uri.to_s
 			statement.save!
 		end
@@ -60,7 +58,7 @@ module Massr
 			self.user  = user
 
 			if request[:res_id]
-				res_statement  = Statement.find_by_id(request[:res_id])
+				res_statement  = Statement.find_by(id: request[:res_id])
 				res_statement.refs << self
 				self.res = res_statement
 				if res_statement.user.massr_id != user.massr_id
@@ -93,7 +91,7 @@ module Massr
 		end
 
 		def to_hash
-			res = Statement.find_by_id(res_id)
+			res = Statement.find_by(id: res.id) rescue nil
 			{
 				'id' => id,
 				'created_at' => created_at.localtime.strftime('%Y-%m-%d %H:%M:%S'),

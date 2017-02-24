@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'spec_helper'
 require 'models/statement'
 require 'models/user'
@@ -6,7 +5,7 @@ require 'models/like'
 
 describe 'Massr::Statement', :type => :model do
 	before do
-		Massr::Statement.collection.remove
+		Massr::Statement.collection.drop
 	end
 
 	describe '#update_statement' do
@@ -79,7 +78,7 @@ describe 'Massr::Statement', :type => :model do
 
 	describe '#like?' do
 		before :all do
-			Massr::User.collection.remove
+			Massr::User.collection.drop
 			@user0 = Massr::User.create_by_registration_form(prototype_user(0))
 			@statement = Massr::Statement.new.update_statement(prototype_statement(0, @user0))
 			@statement.likes << Massr::Like::new(:user => @user0)
@@ -98,10 +97,10 @@ describe 'Massr::Statement', :type => :model do
 
 	describe '#to_hash' do
 		before :all do
-			Massr::User.collection.remove
+			Massr::User.collection.drop
 			@user = Massr::User.create_by_registration_form(prototype_user(0))
 			@statement = Massr::Statement.new.update_statement(prototype_statement(0, @user))
-			@like = Massr::Like::new(:user => @user)
+			@like = Massr::Like::new(user: @user)
 			@statement.likes << @like
 		end
 		subject{ @statement.to_hash }
@@ -113,7 +112,7 @@ describe 'Massr::Statement', :type => :model do
 		it {expect(subject['user']).to be}
 		it {expect(subject['likes']).to be_a_kind_of(Array)}
 		it {expect(subject['re_ids']).to be_nil}
-		it {expect(subject['res_id']).to be_nil}
+		it {expect(subject['res']).to be_nil}
 	end
 
 	after do

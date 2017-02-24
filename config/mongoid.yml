@@ -1,0 +1,18 @@
+production:
+  clients:
+    default:
+      uri: <%= ENV['MONGODB_URI'] || ENV['MONGOLAB_URI'] %>
+  options:
+     log_level: :fatal
+development:
+  clients:
+    default:
+      uri: mongodb://localhost:27017/massr
+  options:
+     log_level: :info
+test:
+  clients:
+    default:
+      uri: mongodb://localhost:27017/massr_test
+  options:
+     log_level: :info
