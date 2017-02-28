@@ -32,8 +32,8 @@ module Massr
 		after '/auth/twitter/callback' do
 			##登録済みチェック
 			user = (
-				User.find_by_twitter_user_id(session[:twitter_user_id]) or
-				User.find_by_twitter_id(session[:twitter_id]))
+				User.find_by(twitter_user_id: session[:twitter_user_id]) or
+				User.find_by(twitter_id: session[:twitter_id]))
 			if user
 				session[:user_id] = user._id
 				redirect '/'

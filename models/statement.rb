@@ -14,8 +14,10 @@ module Massr
 		belongs_to  :user,  class_name: 'Massr::User', inverse_of: :statements
 		embeds_many :likes, class_name: 'Massr::Like'
 
-		has_one     :res,   class_name: 'Massr::Statement'
-		belongs_to  :refs,  class_name: 'Massr::Statement', inverse_of: :res
+		has_many   :refs,  class_name: 'Massr::Statement', inverse_of: :res
+		belongs_to :res,   class_name: 'Massr::Statement', inverse_of: :refs
+
+		has_one :stamp_source, class_name: 'Massr::Stamp', inverse_of: :original
 
 		def custom_validation
 			if body.nil && stamp.nil
@@ -52,24 +54,20 @@ module Massr
 		end
 
 		def update_statement(request)
-			self[:body], self[:photos],self[:stamp] = request[:body], request[:photos] , request[:stamp]
-
-			user = request[:user]
-			self.user  = user
+			self.user, self.body, self.photos, self.stamp = request[:user], request[:body], request[:photos], request[:stamp]
 
 			if request[:res_id]
-				res_statement  = Statement.find_by(id: request[:res_id])
+				res_statement = Statement.find_by(id: request[:res_id])
 				res_statement.refs << self
-				self.res = res_statement
 				if res_statement.user.massr_id != user.massr_id
-					res_statement.user.ress << self
+					res_statement.user.res_ids << self._id
 				end
 			end
 
-			if save!
+			if save(validate: false)
 				if request[:res_id]
-					res_statement.save!
-					res_statement.user.save!
+					res_statement.save!(validate: false)
+					res_statement.user.save!(validate: false)
 				end
 
 				# body内の画像

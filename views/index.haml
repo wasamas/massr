@@ -13,7 +13,7 @@
 			- if defined?(q) && q
 				.row-fluid
 					.span9
-						- exist_pin = Massr::SearchPin.find_by_word(q)
+						- exist_pin = Massr::SearchPin.find_by(word: q)
 						Search "
 						%span#query-string{title: q}<#{q.truncate}
 						"
@@ -24,7 +24,7 @@
 			.row-fluid
 				.span9
 					.main
-						- user = Massr::User.find_by_id(session[:user_id])
+						- user = Massr::User.find_by(id: session[:user_id])
 						- get_icon_url(user)
 						- if user.status == 0
 							- unauth_count = Massr::User.where(:status => 9).count
@@ -32,7 +32,7 @@
 								.alert.alert-info
 									%a{:href=>'/admin'}<#{_unauth_count(unauth_count)}
 						!= haml :notify
-						- response_count = user.ress.size
+						- response_count = user.res_ids.size
 						.alert.alert-info#new-res-size-main
 							%a#new-res-notice-text{:href=>"/user/#{current_user.massr_id}/res"}<#{_response_count(response_count)}
 							%a#new-res-notice-delete-button.close{:href => "#", :title => _clearres}<!&times;

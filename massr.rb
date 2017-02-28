@@ -61,8 +61,8 @@ module Massr
 				delivery_method :smtp, {
 					address: 'smtp.gmail.com',
 					port: '587',
-					user_name: ENV['GMAIL_USERNAME']
-					password: ENV['GMAIL_PASSWORD']
+					user_name: ENV['GMAIL_USERNAME'],
+					password: ENV['GMAIL_PASSWORD'],
 					:authentication => :plain,
 					:enable_starttls_auto => true
 				}
@@ -72,6 +72,7 @@ module Massr
 		end
 
 		Mongoid::load!('config/mongoid.yml')
+		Mongoid.raise_not_found_error = false
 
 		session_expire = 60 * 60 * 24 * 30 - 1
 		use Rack::Session::Dalli, cache: Dalli::Client.new, expire_after: session_expire
@@ -84,7 +85,6 @@ module Massr
 
 		#表示エントリ数
 		$limit = 20
-
 	end
 end
 

@@ -19,12 +19,11 @@ module Massr
 		field :name,                   type: String
 		field :email,                  type: String
 		field :status,                 type: Integer, default: UNAUTHORIZED
-		field :res_ids,                type: Array # do not access directly, use ress field instead
+		field :res_ids,                type: Array
 		validates_presence_of   :massr_id, :twitter_user_id, :twitter_id,
 		                        :twitter_icon_url, :twitter_icon_url, :name
 		validates_uniqueness_of :massr_id, :twitter_user_id, :twitter_id
 
-		has_many :ress, class_name: 'Massr::Statement'
 		has_many :statements, class_name: 'Massr::Statement'
 
 		def self.create_by_registration_form(request)

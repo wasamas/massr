@@ -1,32 +1,29 @@
-# -*- coding: utf-8; -*-
-require 'mongo_mapper'
 require 'json'
 require 'uri'
 
 module Massr
 	class Stamp
-		include MongoMapper::Document
+		include ::Mongoid::Document
+		include ::Mongoid::Timestamps
+		store_in collection: "massr.stapms"
 
-		key :image_url,  :type => String, :required => true , :unique => true
-		key :popular,	 :type => Integer, :default => 0
-		key :tag,		 :type => String
-
-		timestamps!
-
-		belongs_to :original , :class_name => 'Massr::Statement' , :required => true
-
+		field :image_url, type: String
+		field :popular,   type: Integer, :default => 0
+		field :tag,       type: String
+		validates_presence_of :image_url
 		validates_uniqueness_of :image_url
 
+		belongs_to :original, class_name: 'Massr::Statement', inverse_of: :stamp_source
+
 		def self.get_stamps(options={})
-			options[:order]			= :popular.desc
+			options[:order] = :popular.desc
 			return self.all(options)
 		end
 
 		def self.get_statements(options={})
-			options[:order]			= :created_at.desc
-			stamps = self.all(options)
+			stamps = get_stamps(options)
+			statements = []
 
-			statements = Array.new
 			stamps.each do |stamp|
 				original = stamp.original
 				if original.is_a? Massr::Statement
@@ -39,35 +36,32 @@ module Massr
 		end
 
 		def self.delete_stamp(url,options={})
-			stamp = self.find_by_image_url(url)
+			stamp = self.find_by(image_url: url)
 			stamp.delete
 		end
 
 		def update_stamp(request)
 			self[:image_url] = request[:image_url]
-			statement = Statement.find_by_id(request[:statement_id])
+			statement = Statement.find_by(id: request[:statement_id])
 			self.original = statement
-			if save
-				return self
-			end
+			save!
+			return self
 		end
 
 		def post_stamp()
 			self[:popular] += 1
-			if save
-				return self
-			end
+			save!
+			return self
 		end
 
 		def update_tag(request)
 			self[:tag] = request[:tag]
-			if save
-				return self
-			end
+			save!
+			return self
 		end
 
 		def to_hash
-			original = Statement.find_by_id(original_id)
+			original = Statement.find_by(id: original_id)
 			{
 				'id' => id,
 				'created_at' => created_at.localtime.strftime('%Y-%m-%d %H:%M:%S'),

@@ -22,7 +22,7 @@ module Massr
 			end
 
 			def current_user
-				@current_user ||= User.find_by_id(session[:user_id])
+				@current_user ||= User.find_by(id: session[:user_id])
 			end
 
 			def send_mail(user, statement)
@@ -99,7 +99,7 @@ module Massr
 
 			def get_stamp(photo)
 				dst = image_size_change(photo,1,false)
-				Massr::Stamp.find_by_image_url(dst)
+				Massr::Stamp.find_by(image_url: dst)
 			end
 
 			def clear_search_cache(body)

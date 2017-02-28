@@ -72,7 +72,7 @@ module Massr
 
 		delete '/search/pin' do
 			begin
-				pin = SearchPin.find_by_word(params[:q])
+				pin = SearchPin.find_by(word: params[:q])
 				SearchPin.destroy(pin.id)
 				return [{'q' => pin.word, 'label' => pin.label}].to_json
 			rescue NoMethodError
@@ -82,7 +82,7 @@ module Massr
 
 		put '/search/pin' do
 			begin
-				pin = SearchPin::find_by_word(params[:q])
+				pin = SearchPin::find_by(word: params[:q])
 				pin.label = params[:label]
 				return [{'q' => pin.word, 'label' => pin.label}].to_json
 			rescue NoMethodError

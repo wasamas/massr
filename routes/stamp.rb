@@ -36,7 +36,7 @@ module Massr
 		end
 
 		post '/stamp/tag' do
-			@stamp = Stamp.find_by_id(request[:stamp_id])
+			@stamp = Stamp.find_by(id: request[:stamp_id])
 			@stamp.update_tag( request ) unless @stamp.nil?
 			cache.delete('stamp')
 			cache.set('stamp', Stamp.get_stamps {|i| i.to_hash})

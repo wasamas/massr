@@ -32,13 +32,13 @@ module Massr
 		end
 
 		delete '/newres' do
-			access_user = User.find_by_id(session[:user_id])
+			access_user = User.find_by(id: session[:user_id])
 			res_ids = access_user.res_ids
 			access_user.clear_res_ids
 		end
 
 		get '/ressize.json' do
-			access_user = User.find_by_id(session[:user_id])
+			access_user = User.find_by(id: session[:user_id])
 			ressize = {
 				:user => access_user.massr_id,
 				:size => access_user.res_ids.size

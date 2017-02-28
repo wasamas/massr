@@ -22,7 +22,7 @@ module Massr
 		end
 
 		before "/user/:massr_id*" do
-			@user = User.find_by_massr_id(params[:massr_id].sub(/\.json$/,""))
+			@user = User.find_by(massr_id: params[:massr_id].sub(/\.json$/,""))
 			not_found unless @user
 		end
 
@@ -42,7 +42,7 @@ module Massr
 		end
 
 		delete '/user/:massr_id' do
-			user =  User.find_by_id(session[:user_id])
+			user =  User.find_by(id: session[:user_id])
 			redirect '/' unless user.admin?
 			Statement.delete_all_statements(@user)
 			@user.destroy
@@ -50,7 +50,7 @@ module Massr
 		end
 
 		before '/user/:massr_id/photos*' do
-			user = User.find_by_massr_id(params[:massr_id])
+			user = User.find_by(massr_id: params[:massr_id])
 			@query = {:user_id => user.id, "photos" => {:$ne => [] } }
 		end
 
@@ -70,7 +70,7 @@ module Massr
 		end
 
 		before '/user/:massr_id/res*' do
-			user = User.find_by_massr_id(params[:massr_id])
+			user = User.find_by(massr_id: params[:massr_id])
 			statements = Statement.where(
 				:user_id => user.id ,
 				:ref_ids => {:$ne => []},
@@ -94,7 +94,7 @@ module Massr
 		end
 
 		get '/user/:massr_id/res' do
-			access_user = User.find_by_id(session[:user_id])
+			access_user = User.find_by(id: session[:user_id])
 			res_ids = access_user.res_ids
 			access_user.clear_res_ids
 			haml :user_statements, :locals => {
@@ -105,7 +105,7 @@ module Massr
 		end
 
 		before '/user/:massr_id/liked*' do
-			user = User.find_by_massr_id(params[:massr_id])
+			user = User.find_by(massr_id: params[:massr_id])
 			@query = {:user_id => user.id, "likes.user_id" => {:$exists => true} }
 		end
 
@@ -125,7 +125,7 @@ module Massr
 		end
 
 		before '/user/:massr_id/likes*' do
-			user = User.find_by_massr_id(params[:massr_id])
+			user = User.find_by(massr_id: params[:massr_id])
 			@query = {"likes.user_id" => user.id }
 		end
 
@@ -145,7 +145,7 @@ module Massr
 		end
 
 		post '/user' do
-			user = User.find_by_id(session[:user_id])
+			user = User.find_by(id: session[:user_id])
 			request[:twitter_user_id] = session[:twitter_user_id]
 			request[:twitter_id] = session[:twitter_id]
 			request[:twitter_icon_url] = session[:twitter_icon_url]
@@ -179,7 +179,7 @@ module Massr
 		end
 
 		put '/user/:massr_id' do
-			user =  User.find_by_id(session[:user_id])
+			user =  User.find_by(id: session[:user_id])
 			redirect '/' unless user.admin?
 			User.change_status(params[:massr_id],params[:status])
 		end
