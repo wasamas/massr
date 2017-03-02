@@ -60,7 +60,7 @@ GEM
       json
     haml (4.0.7)
       tilt
-    hashie (3.5.4)
+    hashie (3.5.5)
     hike (1.2.3)
     hitimes (1.2.4)
     httmultiparty (0.3.16)
@@ -215,7 +215,7 @@ GEM
       simple_oauth (~> 0.3.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uglifier (3.0.4)
+    uglifier (3.1.2)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
