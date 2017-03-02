@@ -8,10 +8,9 @@
 # Distributed under GPL
 #
 require 'gyazo'
-require 'rmagick'
 
 #
-# Massr Twitter media plugin
+# Massr Gyazo media plugin
 #
 module Massr
 	module Plugin::Media
@@ -44,7 +43,7 @@ module Massr
 
 		private
 			def init_client
-				@client = Gazo::Client.new ENV['MEDIA_GYAZO_SECRET']
+				@client = ::Gazo::Client.new ENV['MEDIA_GYAZO_SECRET']
 			end
 		end
 	end
