@@ -43,7 +43,7 @@ module Massr
 
 		private
 			def init_client
-				@client = ::Gazo::Client.new ENV['MEDIA_GYAZO_SECRET']
+				@client = ::Gyazo::Client.new ENV['MEDIA_GYAZO_SECRET']
 			end
 		end
 	end
