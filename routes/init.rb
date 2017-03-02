@@ -12,7 +12,7 @@ module Massr
 	class App < Sinatra::Base
 		before do
 			cache.delete('main') unless request.get?
-			cache.set('stamp', Stamp.get_stamps {|i| i.to_hash}) unless cache.get('stamp')
+			cache.set('stamp', Stamp.get_stamps.map{|i| i.to_hash}) unless cache.get('stamp')
 
 			case request.path
 			when '/unauthorized'

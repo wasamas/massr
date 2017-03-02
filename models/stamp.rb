@@ -15,13 +15,17 @@ module Massr
 
 		belongs_to :original, class_name: 'Massr::Statement', inverse_of: :stamp_source
 
-		def self.get_stamps(options={})
-			options[:order] = :popular.desc
-			return self.all(options)
+		def self.get_stamps
+			all = self.all
+			if has_block?
+				return yield(all)
+			else
+				return all.sort_by(popular: 'desc')
+			end
 		end
 
-		def self.get_statements(options={})
-			stamps = get_stamps(options)
+		def self.get_statements(&block)
+			stamps = get_stamps(&block)
 			statements = []
 
 			stamps.each do |stamp|
