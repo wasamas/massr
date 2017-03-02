@@ -20,6 +20,7 @@ gem 'mail', require: 'mail'
 gem 'signet'
 gem 'picasa'
 gem 'twitter'
+gem 'gyazo'
 gem 'rmagick'
 gem 'rack-session-mongo', require: 'rack-session-mongo'
 gem 'dalli', require: ['dalli', 'rack/session/dalli']
