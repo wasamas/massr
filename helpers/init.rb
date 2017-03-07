@@ -55,7 +55,7 @@ module Massr
 			end
 
 			def param_date
-				date = params[:date] ? params[:date] : (Time.now + 1).strftime("%Y%m%d%H%M%S")
+				date = params[:date] ? params[:date] : (Time.now + 10).strftime("%Y%m%d%H%M%S")
 			end
 
 			def get_icon_url(user)
