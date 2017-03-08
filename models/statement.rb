@@ -94,7 +94,7 @@ module Massr
 		def to_hash
 			res = Statement.find_by(id: res.id) rescue nil
 			{
-				'id' => id,
+				'id' => id.to_s,
 				'created_at' => created_at.localtime.strftime('%Y-%m-%d %H:%M:%S'),
 				'body' => body,
 				'user' => user.to_hash,

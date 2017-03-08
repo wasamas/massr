@@ -112,7 +112,7 @@ describe 'Massr::Statement', type: :model do
 
 		it {is_expected.to be_a_kind_of(Hash)}
 		it {expect(subject['created_at']).to match(/^\d{4}-\d\d-\d\d \d\d:\d\d:\d\d$/)}
-		it {expect(subject['id']).to be_a_kind_of(BSON::ObjectId)}
+		it {expect(subject['id']).to be_a_kind_of(String)}
 		it {expect(subject['body']).to eq(prototype_statement(0, @user)[:body])}
 		it {expect(subject['user']['name']).to eq(prototype_user(0)[:name])}
 		it {expect(subject['likes']).to be_a_kind_of(Array)}

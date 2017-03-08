@@ -90,7 +90,7 @@ module Massr
 
 		def to_hash
 			{
-				'id' => id,
+				'id' => id.to_s,
 				'massr_id' => massr_id,
 				'twitter_user_id' => twitter_user_id,
 				'twitter_id' => twitter_id,

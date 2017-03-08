@@ -236,7 +236,7 @@ describe 'Massr::User', :type => :model do
 		subject{Massr::User.first.to_hash}
 
 		it {is_expected.to be_a_kind_of(Hash)}
-		it {expect(subject['id']).to be_a_kind_of(BSON::ObjectId)}
+		it {expect(subject['id']).to be_a_kind_of(String)}
 		it {expect(subject['massr_id']).to eq("wasamas")}
 		it {expect(subject['twitter_user_id']).to eq("00000000")}
 		it {expect(subject['twitter_id']).to eq("1234567")}

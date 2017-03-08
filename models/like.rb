@@ -11,7 +11,7 @@ module Massr
 
 		def to_hash
 			{
-				'id' => id,
+				'id' => id.to_s,
 				'user' => user.to_hash,
 			}
 		end
