@@ -48,9 +48,9 @@ module Massr
 		end
 
 		def self.each_authorized_user_without(me)
-			where( :massr_id => {:$ne => me.massr_id},
-					 :status => {:$ne => Massr::User::UNAUTHORIZED}).
-					 sort(:updated_at.desc).each do |member|
+			where( massr_id: {:$ne => me.massr_id},
+					 status: {:$ne => Massr::User::UNAUTHORIZED}).
+					 order_by(updated_at: 'desc').each do |member|
 				yield member
 			end
 		end

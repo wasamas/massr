@@ -17,10 +17,10 @@ module Massr
 
 		def self.get_stamps
 			all = self.all
-			if has_block?
+			if block_given?
 				return yield(all)
 			else
-				return all.sort_by(popular: 'desc')
+				return all.order_by(popular: 'desc')
 			end
 		end
 

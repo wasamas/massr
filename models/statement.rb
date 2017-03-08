@@ -26,11 +26,9 @@ module Massr
 			end
 		end
 
-		def self.get_statements(date, options={})
-			options[:created_at.lt] = Time.parse(date)
-			options[:order]         = :created_at.desc
-			options[:limit]         = $limit
-			return self.all(options)
+		def self.get_statements(date, queries={})
+			queries[:created_at.lt] = Time.parse(date)
+			return self.where(queries).order_by(created_at: 'desc').limit($limit)
 		end
 
 		def self.add_photo(id, uri)
@@ -82,6 +80,11 @@ module Massr
 			end
 
 			return self
+		end
+
+		def add_like(user)
+			self.likes << user
+			save!(validate: false)
 		end
 
 		def like?(user)

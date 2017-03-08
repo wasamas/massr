@@ -27,7 +27,7 @@
 						- user = Massr::User.find_by(id: session[:user_id])
 						- get_icon_url(user)
 						- if user.status == 0
-							- unauth_count = Massr::User.where(:status => 9).count
+							- unauth_count = Massr::User.where(status: 9).count
 							- unless unauth_count == 0
 								.alert.alert-info
 									%a{:href=>'/admin'}<#{_unauth_count(unauth_count)}

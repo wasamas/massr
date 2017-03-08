@@ -16,7 +16,7 @@ module Massr
 
 		get '/search.json' do
 			[].tap {|a|
-				Statement.get_statements(param_date,{:body => /#{@q}/}).each do |statement|
+				Statement.get_statements(param_date, {body: /#{@q}/}).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json
@@ -40,7 +40,7 @@ module Massr
 					statements << Statement.from_json(statement.to_json)
 				end
 			else
-				statements = Statement.get_statements(param_date,{:body => /#{@q}/i})
+				statements = Statement.get_statements(param_date, {body: /#{@q}/i})
 				cache.set('query_list', (cache.get('query_list') || []).push(@q).uniq)
 				cache.set("search:#{@q}", statements.to_json)
 			end

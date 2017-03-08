@@ -16,7 +16,7 @@ module Massr
 		end
 		
 		get '/admin' do
-			haml :admin, :locals => {:users => User.where(:_id => {:$ne => session[:user_id]}) }
+			haml :admin, :locals => {users: User.where(:_id.ne => session[:user_id])}
 		end
 	end
 end
