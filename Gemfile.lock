@@ -79,7 +79,7 @@ GEM
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (0.8.1)
-    json (2.0.3)
+    json (2.0.4)
     jwt (1.5.6)
     libv8 (3.16.14.19)
     mail (2.6.4)
@@ -103,7 +103,7 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     naught (1.1.0)
-    newrelic_rpm (4.0.0.332)
+    newrelic_rpm (4.1.0.333)
     oauth (0.5.1)
     omniauth (1.6.1)
       hashie (>= 3.4.6, < 3.6.0)
@@ -215,11 +215,11 @@ GEM
       simple_oauth (~> 0.3.1)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
-    uglifier (3.1.13)
+    uglifier (3.2.0)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.2)
+    unf_ext (0.0.7.3)
     yui-compressor (0.12.0)
 
 PLATFORMS
