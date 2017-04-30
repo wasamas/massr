@@ -88,7 +88,7 @@ module Massr
 							url.split('/').insert(-2,"s#{size}").join('/')
 						end
 					end
-				elsif host == 'i.gyazo.com'
+				elsif host =~ /^(i|thumb)\.gyazo\.com$/
 					url.sub(%r|/thumb/\d+/|, "/thumb/#{size}/")
 				else
 					url
