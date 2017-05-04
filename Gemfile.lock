@@ -58,7 +58,7 @@ GEM
       httmultiparty
       httparty
       json
-    haml (5.0.0)
+    haml (5.0.1)
       temple (>= 0.8.0)
       tilt
     hashie (3.5.5)
@@ -68,7 +68,7 @@ GEM
       httparty (>= 0.7.3)
       mimemagic
       multipart-post
-    http (2.2.1)
+    http (2.2.2)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
       http-form_data (~> 1.0.1)
