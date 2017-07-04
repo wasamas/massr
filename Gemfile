@@ -9,7 +9,7 @@ gem 'uglifier'
 gem 'yui-compressor'
 
 gem 'puma'
-gem 'haml', require: 'haml'
+gem 'hamlit', require: 'hamlit'
 gem 'omniauth', require: 'omniauth'
 gem 'omniauth-twitter', require: 'omniauth-twitter'
 gem 'mongo_mapper', require: 'mongo_mapper'
