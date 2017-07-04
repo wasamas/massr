@@ -779,9 +779,7 @@ $(function(){
 		var uri = document.createElement('a');
 		uri.href = url;
 
-		var pattern = /^[0-9a-zA-Z]+\.googleusercontent\.com$/;
-
-		if (uri.hostname.match(pattern) != null){
+		if(uri.hostname.match(/^[0-9a-zA-Z]+\.googleusercontent\.com$/) != null) {
 			pattern = /\/([whs][0-9]+|r(90|180|270)|-|c|p|o|d)+\//;
 			if (url.match(pattern) != null ){
 				if (centering == true){
@@ -800,6 +798,8 @@ $(function(){
 				parts.push(last);
 				return parts.join('/')
 			}
+		} else if(uri.hostname.match(/^thumb\.gyazo\.com$/) != null) {
+			return url.replace(/\/thumb\/\d+/, '/thumb/' + size)
 		} else {
 			return url;
 		}
