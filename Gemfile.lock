@@ -58,8 +58,9 @@ GEM
       httmultiparty
       httparty
       json
-    haml (5.0.1)
+    hamlit (2.8.4)
       temple (>= 0.8.0)
+      thor
       tilt
     hashie (3.5.5)
     hike (1.2.3)
@@ -201,6 +202,7 @@ GEM
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
       ref
+    thor (0.19.4)
     thread_safe (0.3.6)
     tilt (1.4.1)
     timers (4.1.2)
@@ -235,7 +237,7 @@ DEPENDENCIES
   dalli
   fuubar
   gyazo
-  haml
+  hamlit
   mail
   mongo_mapper
   newrelic_rpm
