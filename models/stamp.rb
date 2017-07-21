@@ -5,7 +5,7 @@ module Massr
 	class Stamp
 		include ::Mongoid::Document
 		include ::Mongoid::Timestamps
-		store_in collection: "massr.stapms"
+		store_in collection: "massr.stamps"
 
 		field :image_url, type: String
 		field :popular,   type: Integer, :default => 0

@@ -56,6 +56,7 @@ module Massr
 
 			register Sinatra::Reloader
 			also_reload './*.rb'
+			also_reload './models/*.rb'
 			also_reload './helpers/*.rb'
 
 			disable :protection

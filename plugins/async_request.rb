@@ -36,7 +36,7 @@ module Massr
 				begin
 					@nethttp.start do |http|
 						response = http.head( @uri.request_uri )
-						Statement.add_photo(@statement_id,@uri) if response["content-type"].to_s.include?('image')
+						Statement.add_photo(@statement_id, @uri) if response["content-type"].to_s.include?('image')
 					end
 				rescue SocketError => e
 					#URLの先が存在しないなど。

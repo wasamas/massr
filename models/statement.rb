@@ -68,7 +68,7 @@ module Massr
 					res_statement.user.save!(validate: false)
 				end
 
-				# body内の画像
+				# aync add photos in body message
 				re = URI.regexp(['http', 'https'])
 				request_uri = URI.parse(request.url)
 				self[:body].scan(re) do

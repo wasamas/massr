@@ -59,14 +59,14 @@ module Massr
 			end
 
 			def get_icon_url(user)
-				request.scheme == 'https' ? user.twitter_icon_url_https : user.twitter_icon_url
+				request.scheme == 'https' ? user['twitter_icon_url_https'] : user['twitter_icon_url']
 			end
 
 			def icon_dir
 				SETTINGS['resource']['icon_dir'] || 'default'
 			end
 
-			def image_size_change url,size,centering
+			def image_size_change(url, size, centering)
 				begin
 					host = url.match(%r|\Ahttps?://(.*?)/|)[1]
 				rescue NoMethodError

@@ -27,7 +27,7 @@ module Massr
 				stamp = Stamp.find_by(id: request[:stamp_id])
 				stamp.post_stamp() unless stamp.nil?
 				cache.delete('stamp')
-				cache.set('stamp', Stamp.get_stamps {|i| i.to_hash})
+				cache.set('stamp', Stamp.get_stamps.map{|i| i.to_hash})
 			end
 			if @statement.res && @statement.res.user.email.length > 0 && @statement.res.user.massr_id != request[:user].massr_id
 				send_mail(@statement.res.user, @statement)
@@ -84,7 +84,7 @@ module Massr
 			if current_user == Statement.find_by(id: params[:id]).user
 				stamp =  Stamp.find_by("original.id": params[:id])
 				stamp.destroy if stamp
-				Statement.destroy(params[:id])
+				Statement.find_by(_id: params[:id]).delete
 			end
 			redirect '/'
 		end

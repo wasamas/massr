@@ -25,12 +25,12 @@ module Massr
 		end
 
 		after '/stamp' do
-			cache.set('stamp', Stamp.get_stamps {|i| i.to_hash}) unless request.get?
+			cache.set('stamp', Stamp.get_stamps.map{|i| i.to_hash}) unless request.get?
 		end
 
 		get '/stamps' do
 			haml :user_photos, :locals => {
-				:statements => cache.get('stamp').map {|s| s.original},
+				:statements => cache.get('stamp').map {|s| s['original']},
 				:q => nil,
 				:pagenation => false}
 		end
@@ -39,7 +39,7 @@ module Massr
 			@stamp = Stamp.find_by(id: request[:stamp_id])
 			@stamp.update_tag( request ) unless @stamp.nil?
 			cache.delete('stamp')
-			cache.set('stamp', Stamp.get_stamps {|i| i.to_hash})
+			cache.set('stamp', Stamp.get_stamps.map{|i| i.to_hash})
 			@stamp.to_hash.to_json
 		end
 	end
