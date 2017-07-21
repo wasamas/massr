@@ -53,7 +53,10 @@ module Massr
 			# loading TWITTER_CONSUMER_ID and TWITTER_CONSUMER_SECRET,
 			# GMAIL_USERNAME and GMAIL_PASSWORD
 			Dotenv.load
+
 			register Sinatra::Reloader
+			also_reload './*.rb'
+			also_reload './helpers/*.rb'
 
 			disable :protection
 

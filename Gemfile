@@ -22,7 +22,6 @@ gem 'picasa'
 gem 'twitter'
 gem 'gyazo'
 gem 'rmagick'
-gem 'rack-session-mongo', require: 'rack-session-mongo'
 gem 'dalli', require: ['dalli', 'rack/session/dalli']
 gem 'celluloid'
 gem 'memcachier', require: 'memcachier'
