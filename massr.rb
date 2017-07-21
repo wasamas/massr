@@ -83,7 +83,7 @@ module Massr
 
 		use Rack::Csrf
 
-		#表示エントリ数
+		# max entries of 1st view
 		$limit = 20
 	end
 end
