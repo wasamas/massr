@@ -12,7 +12,8 @@ module Massr
 	class App < Sinatra::Base
 		helpers do
 			def stats(item)
-				MongoMapper.database.stats[item.to_s]
+				stats = Mongoid::Clients.default.database.command(dbStats: 1)
+				return stats.documents[0][item.to_s]
 			end
 		end
 	end

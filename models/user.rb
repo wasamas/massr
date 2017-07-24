@@ -71,7 +71,7 @@ module Massr
 		end
 
 		def clear_res_ids
-			self[:res_ids] = nil
+			self.res_ids = nil
 			save!
 			return self
 		end

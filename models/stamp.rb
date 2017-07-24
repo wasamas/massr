@@ -45,7 +45,7 @@ module Massr
 		end
 
 		def update_stamp(request)
-			self[:image_url] = request[:image_url]
+			self.image_url = request[:image_url]
 			statement = Statement.find_by(id: request[:statement_id])
 			self.original = statement
 			save!
@@ -53,13 +53,13 @@ module Massr
 		end
 
 		def post_stamp()
-			self[:popular] += 1
+			self.popular += 1
 			save!
 			return self
 		end
 
 		def update_tag(request)
-			self[:tag] = request[:tag]
+			self.tag = request[:tag]
 			save!
 			return self
 		end
