@@ -82,6 +82,10 @@ module Massr
 			return self
 		end
 
+		def photos # for compatibility
+			self[:photos] || []
+		end
+
 		def add_like(user)
 			self.likes << user
 			save!(validate: false)
