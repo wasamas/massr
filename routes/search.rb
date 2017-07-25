@@ -37,7 +37,7 @@ module Massr
 			if(cached_statements)
 				statements = []
 				JSON.parse(cached_statements).each do |statement|
-					statements << Statement.from_json(statement.to_json)
+					statements << Statement.new(statement)
 				end
 			else
 				statements = Statement.get_statements(param_date, {body: /#{@q}/i})
