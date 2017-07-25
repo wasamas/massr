@@ -73,7 +73,7 @@ module Massr
 		delete '/search/pin' do
 			begin
 				pin = SearchPin.find_by(word: params[:q])
-				SearchPin.destroy(pin.id)
+				pin.destroy
 				return [{'q' => pin.word, 'label' => pin.label}].to_json
 			rescue NoMethodError
 				return 404
