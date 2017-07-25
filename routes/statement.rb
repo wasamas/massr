@@ -95,19 +95,19 @@ module Massr
 		end
 
 		post '/statement/:id/like' do
-			@statement.likes.delete_if{ |like| !like.user}
+			@statement.likes.delete_if{|like| !like.user}
 			unless @statement.like?(@user)
-				like = Like.new(:user => @user)
+				like = Like.new(user: @user)
 				@statement.likes << like
 			end
-			@statement.save!
+			@statement.save!(validate: false)
 			@statement.to_hash.to_json
 		end
 
 		delete '/statement/:id/like' do
 			@statement.likes.delete_if{ |like| !like.user}
 			@statement.likes.delete_if{ |like| like.user.id == @user._id}
-			@statement.save!
+			@statement.save!(validate: false)
 			@statement.to_hash.to_json
 		end
 	end
