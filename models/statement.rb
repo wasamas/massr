@@ -37,17 +37,11 @@ module Massr
 			statement.save!(validate: false)
 		end
 
-		def self.delete_all_statements(user, options={})
-			options[:user_id] = user._id
-			Statement.destroy_all(options)
-
-			options={}
-			options[:"likes.user_id"] = user._id
-			statements = self.all(options)
-
-			statements.each do |statement|
-				statement.likes.delete_if{ |like| like.user_id == user._id}
-				statement.save!
+		def self.delete_all_statements(user)
+			Statement.destroy_all(user_id: user.id)
+			self.where('likes.user_id': user.id).each do |statement|
+				statement.likes.delete_if{|like| like.user_id == user.id}
+				statement.save!(validate: false)
 			end
 		end
 
