@@ -70,8 +70,13 @@ module Massr
 			return self
 		end
 
+		def res_ids
+			self[:res_ids] = [] unless self[:res_ids]
+			self[:res_ids]
+		end
+
 		def clear_res_ids
-			self.res_ids = nil
+			self[:res_ids] = []
 			save!
 			return self
 		end
