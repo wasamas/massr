@@ -29,10 +29,11 @@ module Massr
 		end
 
 		get '/stamps' do
-			haml :user_photos, :locals => {
-				:statements => cache.get('stamp').map {|s| s['original']},
-				:q => nil,
-				:pagenation => false}
+			haml :user_photos, locals: {
+				statements: cache.get('stamp').map {|s| Statement.new(s['original'])},
+				q: nil,
+				pagenation: false
+			}
 		end
 
 		post '/stamp/tag' do

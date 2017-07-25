@@ -1,36 +1,36 @@
-.mfp-hide.popup-photo{:id => "#{statement['_id']}"}
+.mfp-hide.popup-photo{id: "#{statement.id}"}
 	.stamp
 		- stamp = get_stamp(photo)
 		- if stamp
 			%a.unusestamp
-				%i.icon-remove-circle{:title => _unuse_stamp}
+				%i.icon-remove-circle{title: _unuse_stamp}
 		- else
 			%a.usestamp
-				%i.icon-ok-circle{:title => _use_stamp }
+				%i.icon-ok-circle{title: _use_stamp }
 	.image
-		%a{:href => "#{photo}", :target => "_blank"}
-			%img{:src => "#{photo}" , :alt => "#{statement['_id']}" , :title => "#{statement['_id']}"}
+		%a{href: "#{photo}", target: "_blank"}
+			%img{src: "#{photo}" , alt: "#{statement.id}" , title: "#{statement.id}"}
 	- if stamp
-		.tag{:style => "width: fit-content"}
+		.tag{style: "width: fit-content"}
 			%span Tag:
-			%input#stamp-tag{:type => "text", :value => "#{stamp.tag}", :"data-stamp-id" => stamp.id}
-			%button#update-stamp-tag{:class => "btn btn-small submit"} 更新
+			%input#stamp-tag{type: "text", value: "#{stamp.tag}", :"data-stamp-id" => stamp.id}
+			%button#update-stamp-tag{class: "btn btn-small submit"} 更新
 	- if detail
-		.statement{:id => "st-#{statement['_id']}"}
+		.statement{id: "st-#{statement.id}"}
 			/ アイコン
 			.statement-icon
-				%a{:href => "/user/#{statement['user']['massr_id']}"}
-					%img.massr-icon{:src => get_icon_url(statement['user'])}
+				%a{href: "/user/#{statement.user.massr_id}"}
+					%img.massr-icon{src: get_icon_url(statement.user)}
 
-			%div{:class => "#{session[:user_id] == statement['user']['_id'] ? "statement-body-me statement-body" : "statement-body"}"}
+			%div{class: "#{session[:user_id] == statement.user.id ? "statement-body-me statement-body" : "statement-body"}"}
 				/ 発言本文
 				.statement-message<
 					= statement['body'].gsub(/[\r\n]+/, "\r")
 				/ 発言の付属情報
 				.statement-info
 					by
-					%a{:href => "/user/#{statement['user']['massr_id']}"}<#{statement['user']['name']}
+					%a{href: "/user/#{statement.user.massr_id}"}<#{statement.user.name}
 					at
-					%a{:href => "/statement/#{statement['_id']}"}
+					%a{href: "/statement/#{statement.id}"}
 						= statement['created_at']
-					- statement['likes'].delete_if{|like| !like['user']}
+					- statement.likes.delete_if{|like| !like.user}

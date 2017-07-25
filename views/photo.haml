@@ -1,14 +1,14 @@
-.item{:id => "st-#{statement['_id']}"}
-	%div{:class => "#{session[:user_id] == statement['user']['_id'] ? "item-body-me item-body" : "item-body"}"}
+.item{id: "st-#{statement.id}"}
+	%div{:class => "#{session[:user_id] == statement.user.id ? "item-body-me item-body" : "item-body"}"}
 		/ 画像表示
 		.item-photos
-			- statement['photos'].each do |photo|
-				%a{:href => "##{statement['_id']}" , :class => "popup-image"}<
-					%img.item-photo{:src => "#{photo}" , :alt => "#{statement['_id']}" , :title => "#{statement['_id']}"}
-				!= haml :popup_photo , :locals => {:statement => statement,:photo => photo, :detail => true}
+			- statement.photos.each do |photo|
+				%a{:href => "##{statement.id}", :class => "popup-image"}<
+					%img.item-photo{src: "#{photo}", alt: "#{statement.id}", title: "#{statement.id}"}
+				!= haml :popup_photo, locals: {statement: statement, photo: photo, detail: true}
 
 		/ 発言の付属情報
 		.item-info
 			at
-			%a{:href => "/statement/#{statement['_id']}"}
-				= statement['created_at']
+			%a{href: "/statement/#{statement.id}"}
+				= statement.created_at
