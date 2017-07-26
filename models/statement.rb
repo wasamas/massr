@@ -33,7 +33,7 @@ module Massr
 
 		def self.add_photo(id, uri)
 			statement = Statement.find_by(id: id)
-			statement.photos << uri.to_s
+			statement.push(photos: uri.to_s)
 			statement.save!(validate: false)
 		end
 
@@ -50,18 +50,15 @@ module Massr
 
 			if request[:res_id]
 				res_statement = Statement.find_by(id: request[:res_id])
-				res_statement.refs << self
+				self.res = res_statement
+
 				if res_statement.user.massr_id != user.massr_id
-					res_statement.user.res_ids << self._id
+					res_statement.user.push(res_ids: self.id)
+					res_statement.user.save!(validate: false)
 				end
 			end
 
 			if save(validate: false)
-				if request[:res_id]
-					res_statement.save!(validate: false)
-					res_statement.user.save!(validate: false)
-				end
-
 				# aync add photos in body message
 				re = URI.regexp(['http', 'https'])
 				request_uri = URI.parse(request.url)
@@ -69,7 +66,7 @@ module Massr
 					uri = URI.parse($&) rescue next
 					next if uri.host == request_uri.host
 					response = nil
-					Massr::Plugin::AsyncRequest.new(uri).future.add_photo(self._id)
+					Massr::Plugin::AsyncRequest.new(uri).future.add_photo(self.id)
 				end unless self.body.nil?
 			end
 
@@ -81,16 +78,15 @@ module Massr
 		end
 
 		def add_like(user)
-			self.likes << user
+			self.push(likes: user)
 			save!(validate: false)
 		end
 
 		def like?(user)
-			likes.map{|like| like.user._id == user._id}.include?(true)
+			likes.map{|like| like.user.id == user.id}.include?(true)
 		end
 
 		def to_hash
-			res = Statement.find_by(id: res.id) rescue nil
 			{
 				'id' => id.to_s,
 				'created_at' => created_at.localtime.strftime('%Y-%m-%d %H:%M:%S'),
