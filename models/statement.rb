@@ -77,8 +77,8 @@ module Massr
 			self[:photos] || []
 		end
 
-		def add_like(user)
-			self.push(likes: user)
+		def add_like(like)
+			self.likes << like
 			save!(validate: false)
 		end
 

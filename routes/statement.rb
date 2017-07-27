@@ -97,10 +97,8 @@ module Massr
 		post '/statement/:id/like' do
 			@statement.likes.delete_if{|like| !like.user}
 			unless @statement.like?(@user)
-				like = Like.new(user: @user)
-				@statement.likes << like
+				@statement.add_like(Like.new(user: @user))
 			end
-			@statement.save!(validate: false)
 			@statement.to_hash.to_json
 		end
 
