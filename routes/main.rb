@@ -12,8 +12,8 @@ module Massr
 	class App < Sinatra::Base
 		get '/' do
 			haml :index , :locals => {
-				:statements => Statement.get_statements(param_date),
-				:q => nil}
+				statements: Statement.get_statements(param_date),
+				q: nil}
 		end
 
 		get '/index.json' do
@@ -32,13 +32,13 @@ module Massr
 		end
 
 		delete '/newres' do
-			access_user = User.find_by_id(session[:user_id])
+			access_user = User.find_by(id: session[:user_id])
 			res_ids = access_user.res_ids
 			access_user.clear_res_ids
 		end
 
 		get '/ressize.json' do
-			access_user = User.find_by_id(session[:user_id])
+			access_user = User.find_by(id: session[:user_id])
 			ressize = {
 				:user => access_user.massr_id,
 				:size => access_user.res_ids.size

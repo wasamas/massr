@@ -1,15 +1,15 @@
-# -*- coding: utf-8; -*-
-
 module Massr
 	class Message
-		include MongoMapper::Document
+		include ::Mongoid::Document
+		include ::Mongoid::Timestamps
+		store_in collection: 'massr.messages'
 		
-		key :from_user_id, :type => ObjectId, :required => true
-		key :to_user_id,   :type => ObjectId, :required => true
-		key :message,      :type => String,   :required => true
-		timestamps!
+		field :from_user_id, type: ObjectId
+		field :to_user_id,   type: ObjectId
+		field :message,      type: String
+		validates_presence_of :from_user_id, :to_user_id, :message
 
-		belongs_to :user, :class_name => 'User',  :in=> :from_user_id
-		belongs_to :user, :class_name => 'User',  :in=> :to_user_id
+		belongs_to :user, class_name: 'User',  in: :from_user_id
+		belongs_to :user, class_name: 'User',  in: :to_user_id
 	end
 end

@@ -1,38 +1,39 @@
-# -*- coding: utf-8; -*-
-require 'mongo_mapper'
 require_relative 'statement'
 
 module Massr
 	class User
-		include MongoMapper::Document
+		include ::Mongoid::Document
+		include ::Mongoid::Timestamps
+		store_in collection: "massr.users"
 
 		# user status code
 		ADMIN        = 0
 		AUTHORIZED   = 1
 		UNAUTHORIZED = 9
 
-		key :massr_id,                :type => String , :required => true ,:unique => true
-		key :twitter_user_id,         :type => String , :required => true ,:unique => true
-		key :twitter_id,              :type => String , :required => true ,:unique => true
-		key :twitter_icon_url,        :type => String , :required => true
-		key :twitter_icon_url_https,  :type => String , :required => true
-		key :name,                    :type => String , :required => true
-		key :email,                   :type => String
-		key :status,                  :type => Integer, :default  => UNAUTHORIZED
-		key :res_ids,                  Array
+		field :massr_id,               type: String
+		field :twitter_user_id,        type: String
+		field :twitter_id,             type: String
+		field :twitter_icon_url,       type: String
+		field :twitter_icon_url_https, type: String
+		field :name,                   type: String
+		field :email,                  type: String
+		field :status,                 type: Integer, default: UNAUTHORIZED
+		field :res_ids,                type: Array
+		validates_presence_of   :massr_id, :twitter_user_id, :twitter_id,
+		                        :twitter_icon_url, :twitter_icon_url, :name
+		validates_uniqueness_of :massr_id, :twitter_user_id, :twitter_id
 
-		timestamps!
-
-		many :ress ,            :class_name => 'Massr::Statement' , :in => :res_ids
+		has_many :statements, class_name: 'Massr::Statement'
 
 		def self.create_by_registration_form(request)
-			user = User.new(:massr_id => request[:massr_id])
+			user = User.new(massr_id: request[:massr_id])
 			user.update_profile(request)
 			return user
 		end
 
 		def self.change_status(id, status)
-			user = User.find_by_massr_id(id)
+			user = User.find_by(massr_id: id)
 			case status.to_s
 			when ADMIN.to_s then
 				user[:status] = ADMIN
@@ -43,37 +44,39 @@ module Massr
 			else
 				return
 			end
-			user.save!
+			user.save
 		end
 
 		def self.each_authorized_user_without(me)
-			where( :massr_id => {:$ne => me.massr_id},
-					 :status => {:$ne => Massr::User::UNAUTHORIZED}).
-					 sort(:updated_at.desc).each do |member|
+			where( massr_id: {:$ne => me.massr_id},
+					 status: {:$ne => Massr::User::UNAUTHORIZED}).
+					 order_by(updated_at: 'desc').each do |member|
 				yield member
 			end
 		end
 
 		def update_profile(request)
-			self[:twitter_user_id] = request[:twitter_user_id]
-			self[:twitter_id] = request[:twitter_id]
-			self[:twitter_icon_url] = request[:twitter_icon_url]
-			self[:twitter_icon_url_https] = request[:twitter_icon_url_https]
-			self[:name] = request[:name]
-			self[:email] = request[:email]
-
+			self.twitter_user_id = request[:twitter_user_id]
+			self.twitter_id = request[:twitter_id]
+			self.twitter_icon_url = request[:twitter_icon_url]
+			self.twitter_icon_url_https = request[:twitter_icon_url_https]
+			self.name = request[:name]
+			self.email = request[:email]
 
 			# 最初期のユーザは管理者として登録
-			if User.all().count() == 0
-				self[:status] = ADMIN
-			end
+			self.status = ADMIN if User.count == 0
 
-			save!
+			self.save!
 			return self
 		end
 
+		def res_ids
+			self[:res_ids] = [] unless self[:res_ids]
+			self[:res_ids]
+		end
+
 		def clear_res_ids
-			self[:res_ids] = nil
+			self[:res_ids] = []
 			save!
 			return self
 		end
@@ -92,7 +95,7 @@ module Massr
 
 		def to_hash
 			{
-				'id' => id,
+				'id' => id.to_s,
 				'massr_id' => massr_id,
 				'twitter_user_id' => twitter_user_id,
 				'twitter_id' => twitter_id,

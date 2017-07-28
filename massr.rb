@@ -1,12 +1,9 @@
-# -*- coding: utf-8; -*-
-#
 # massr.rb : Massr - Mini Wassr
 #
 # Copyright (C) 2012 by The wasam@s production
 # https://github.com/tdtds/massr
 #
 # Distributed under GPL
-#
 
 Bundler.require(:default, ENV['RACK_ENV'] || :development)
 require 'json'
@@ -28,27 +25,14 @@ module Massr
 		set :assets_precompile, %w(application.js application.css *.png *.jpg *.svg)
 		set :assets_css_compressor, :yui
 		set :assets_js_compressor, :uglifier
+		set :assets_paths, %w(assets/js assets/css)
 		register Sinatra::AssetPipeline
-		if defined?(RailsAssets)
-			RailsAssets.load_paths.each do |path|
-				settings.sprockets.append_path(path)
-			end
+		RailsAssets.load_paths.each do |path|
+			settings.sprockets.append_path(path)
 		end
 
 		configure :production do
-
 			require 'newrelic_rpm' if ENV['NEW_RELIC_LICENSE_KEY']
-
-			@auth_twitter  = {
-				:id => ENV['TWITTER_CONSUMER_ID'],
-				:secret => ENV['TWITTER_CONSUMER_SECRET']
-			}
-
-			uri = URI.parse(ENV['MONGODB_URI'] || ENV['MONGOLAB_URI'])
-			MongoMapper.connection = Mongo::Connection.from_uri(uri.to_s)
-			db_name = uri.path.gsub(/^\//, '')
-			MongoMapper.database = db_name
-			DB   = MongoMapper.connection.db(db_name)
 
 			Mail.defaults do # using sendgrid plugin
 				delivery_method :smtp, {
@@ -66,31 +50,23 @@ module Massr
 		end
 
 		configure :development, :test do
-			Bundler.require :development
+			# loading TWITTER_CONSUMER_ID and TWITTER_CONSUMER_SECRET,
+			# GMAIL_USERNAME and GMAIL_PASSWORD
+			Dotenv.load
+
 			register Sinatra::Reloader
+			also_reload './*.rb'
+			also_reload './models/*.rb'
+			also_reload './helpers/*.rb'
 
 			disable :protection
 
-			@auth_twitter = Pit::get( 'auth_twitter', :require => {
-					:id => 'your CONSUMER KEY of Twitter APP.',
-					:secret => 'your CONSUMER SECRET of Twitter APP.',
-				} )
-
-			MongoMapper.connection = Mongo::Connection.new('localhost', 27017)
-			db_name = 'massr'
-			MongoMapper.database = db_name
-			DB   = MongoMapper.connection.db(db_name)
-
-			auth_gmail = Pit::get( 'Gmail', :require => {
-				'mail' => 'Your Gmail address',
-				'pass' => 'Your Gmail Password'
-			} )
 			Mail.defaults do # using sendgrid plugin
 				delivery_method :smtp, {
 					address: 'smtp.gmail.com',
 					port: '587',
-					user_name: auth_gmail['mail'],
-					password: auth_gmail['pass'],
+					user_name: ENV['GMAIL_USERNAME'],
+					password: ENV['GMAIL_PASSWORD'],
 					:authentication => :plain,
 					:enable_starttls_auto => true
 				}
@@ -99,23 +75,20 @@ module Massr
 			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::DEBUG)
 		end
 
-		use(
-			Rack::Session::Mongo,{
-				:db => DB,
-				:expire_after => 6 * 30 * 24 * 60 * 60,
-				:secret => ENV['SESSION_SECRET']
-			})
+		Mongoid::load!('config/mongoid.yml')
+		Mongoid.raise_not_found_error = false
 
-		use(
-			OmniAuth::Strategies::Twitter,
-			@auth_twitter[:id],
-			@auth_twitter[:secret])
+		session_expire = 60 * 60 * 24 * 30 - 1
+		use Rack::Session::Dalli, cache: Dalli::Client.new, expire_after: session_expire
+
+		twitter_id = ENV['TWITTER_CONSUMER_ID']
+		twitter_secret = ENV['TWITTER_CONSUMER_SECRET']
+		use(OmniAuth::Strategies::Twitter, twitter_id, twitter_secret)
 
 		use Rack::Csrf
 
-		#表示エントリ数
+		# max entries of 1st view
 		$limit = 20
-
 	end
 end
 

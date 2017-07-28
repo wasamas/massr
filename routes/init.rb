@@ -12,7 +12,7 @@ module Massr
 	class App < Sinatra::Base
 		before do
 			cache.delete('main') unless request.get?
-			cache.set('stamp', Stamp.get_stamps {|i| i.to_hash}) unless cache.get('stamp')
+			cache.set('stamp', Stamp.get_stamps.map{|i| i.to_hash}) unless cache.get('stamp')
 
 			case request.path
 			when '/unauthorized'
@@ -25,7 +25,7 @@ module Massr
 				unless session[:user_id]
 					redirect '/login'
 				else
-					user =	User.find_by_id(session[:user_id])
+					user =	User.find_by(id: session[:user_id])
 					redirect '/logout' unless user
 					redirect '/logout' if user.twitter_user_id == nil && user.twitter_id != session[:twitter_id]
 					redirect '/logout' unless session[:twitter_icon_url_https]

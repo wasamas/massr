@@ -97,13 +97,13 @@ module Massr
 		end
 
 		post '/plugin/notify/like/:plugin' do
-			me = User.find_by_id(session[:user_id])
+			me = User.find_by(id: session[:user_id])
 			Massr::Plugin::Notify::Like.add(params[:plugin], me)
 			Massr::Plugin::Notify::Like.to_json(params[:plugin])
 		end
 
 		delete '/plugin/notify/like/:plugin/:user' do
-			me = User.find_by_id(session[:user_id])
+			me = User.find_by(id: session[:user_id])
 			Massr::Plugin::Notify::Like.delete(params[:plugin], params[:user], me)
 			Massr::Plugin::Notify::Like.to_json(params[:plugin])
 		end

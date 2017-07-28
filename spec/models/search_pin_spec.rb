@@ -5,7 +5,7 @@ require 'models/search_pin'
 describe 'Massr::SearchPin', :type => :model do
 	describe '.create_by_word' do
 		before :all do
-			Massr::SearchPin.collection.remove
+			Massr::SearchPin.collection.drop
 			@pin = Massr::SearchPin.create_by_word('aaa')
 		end
 		subject{ @pin }
@@ -23,7 +23,7 @@ describe 'Massr::SearchPin', :type => :model do
 
 	describe '#label=' do
 		before :all do
-			Massr::SearchPin.collection.remove
+			Massr::SearchPin.collection.drop
 			@pin = Massr::SearchPin.create_by_word('aaa')
 			@pin.label = 'bbb'
 		end

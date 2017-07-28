@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 require 'spec_helper'
 require 'models/plugin_setting'
 
 describe 'Massr::PluginSetting' do
 	describe '#get' do
 		before :all do
-			Massr::PluginSetting.collection.remove
+			Massr::PluginSetting.collection.drop
 		end
 
 		it('exist key') do

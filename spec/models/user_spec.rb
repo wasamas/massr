@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 require 'spec_helper'
 require 'models/user'
 require 'models/statement'
@@ -7,7 +6,7 @@ describe 'Massr::User', :type => :model do
 	describe '.create_by_registration_form' do
 		context '最初の新規ユーザ登録が正常にできているか' do
 			before :all do
-				Massr::User.collection.remove
+				Massr::User.collection.drop
 				@user = Massr::User.create_by_registration_form( prototype_user(0) )
 			end
 			subject{ @user }
@@ -55,7 +54,7 @@ describe 'Massr::User', :type => :model do
 
 		context '2番目の新規ユーザ登録が正常にできているか' do
 			before :all do
-				Massr::User.collection.remove
+				Massr::User.collection.drop
 				Massr::User.create_by_registration_form( prototype_user(0) )
 				@user = Massr::User.create_by_registration_form( prototype_user(1) )
 			end
@@ -106,12 +105,12 @@ describe 'Massr::User', :type => :model do
 	describe '.change_status' do
 		context '未承認アカウントを承認する' do
 			before :all do
-				Massr::User.collection.remove
+				Massr::User.collection.drop
 				Massr::User.create_by_registration_form( prototype_user(0) ) # admin
 				@user = Massr::User.create_by_registration_form( prototype_user(1) ) # unauthorized
 				massr_id = @user.massr_id.to_s
 				Massr::User.change_status(massr_id, Massr::User::AUTHORIZED)
-				@user = Massr::User.find_by_massr_id(massr_id)
+				@user = Massr::User.find_by(massr_id: massr_id)
 			end
 			subject{ @user }
 
@@ -125,9 +124,9 @@ describe 'Massr::User', :type => :model do
 	describe '#update' do
 		context 'すべての属性を指定して更新する' do
 			before :all do
-				Massr::User.collection.remove
+				Massr::User.collection.drop
 				Massr::User.create_by_registration_form( prototype_user(0) )
-				@user = Massr::User.find_by_twitter_user_id(prototype_user(0)[:twitter_user_id])
+				@user = Massr::User.find_by(twitter_user_id: prototype_user(0)[:twitter_user_id])
 				@user.update_profile(prototype_user(1))
 			end
 			subject{ @user }
@@ -174,7 +173,7 @@ describe 'Massr::User', :type => :model do
 	describe 'admin?' do
 		context 'ユーザが管理者の場合' do
 			before :all do
-				Massr::User.collection.remove
+				Massr::User.collection.drop
 				@user = Massr::User.create_by_registration_form( prototype_user(0) )
 			end
 			subject{ @user }
@@ -187,7 +186,7 @@ describe 'Massr::User', :type => :model do
 
 		context 'ユーザが管理者でない場合' do
 			before :all do
-				Massr::User.collection.remove
+				Massr::User.collection.drop
 				Massr::User.create_by_registration_form( prototype_user(1) )
 				@user = Massr::User.create_by_registration_form( prototype_user(0) )
 			end
@@ -203,7 +202,7 @@ describe 'Massr::User', :type => :model do
 	describe 'authorized?' do
 		context 'ユーザが認可済の場合' do
 			before :all do
-				Massr::User.collection.remove
+				Massr::User.collection.drop
 				@user = Massr::User.create_by_registration_form( prototype_user(0) )
 			end
 			subject{ @user }
@@ -216,7 +215,7 @@ describe 'Massr::User', :type => :model do
 
 		context 'ユーザが未認可の場合' do
 			before :all do
-				Massr::User.collection.remove
+				Massr::User.collection.drop
 				Massr::User.create_by_registration_form( prototype_user(1) )
 				@user = Massr::User.create_by_registration_form( prototype_user(0) )
 			end
@@ -231,12 +230,13 @@ describe 'Massr::User', :type => :model do
 
 	describe '#to_hash' do
 		before :all do
+			Massr::User.collection.drop
 			@user = Massr::User.create_by_registration_form(prototype_user(0))
 		end
-		subject{ @user.to_hash }
+		subject{Massr::User.first.to_hash}
 
 		it {is_expected.to be_a_kind_of(Hash)}
-		it {expect(subject['id']).to be_a_kind_of(BSON::ObjectId)}
+		it {expect(subject['id']).to be_a_kind_of(String)}
 		it {expect(subject['massr_id']).to eq("wasamas")}
 		it {expect(subject['twitter_user_id']).to eq("00000000")}
 		it {expect(subject['twitter_id']).to eq("1234567")}

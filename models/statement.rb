@@ -1,23 +1,23 @@
-# -*- coding: utf-8; -*-
-require 'mongo_mapper'
-require 'json'
 require 'uri'
 
 module Massr
 	class Statement
-		include MongoMapper::Document
+		include ::Mongoid::Document
+		include ::Mongoid::Timestamps
+		store_in collection: "massr.statements"
 
-		key :body,  :type => String
-		key :stamp, :type => String
-		key :photos, Array
-		key :ref_ids, Array
+		field :body,    type: String
+		field :stamp,   type: String
+		field :photos,  type: Array
+		#field :ref_ids, type: Array # do not access directly, use refs field instead
 
-		timestamps!
+		belongs_to  :user,  class_name: 'Massr::User', inverse_of: :statements
+		embeds_many :likes, class_name: 'Massr::Like'
 
-		belongs_to :user  , :class_name => 'Massr::User'
-		belongs_to :res   , :class_name => 'Massr::Statement'
-		many       :likes , :class_name => 'Massr::Like'  , :dependent => :delete_all
-		many       :refs  , :class_name => 'Massr::Statement' , :in => :ref_ids
+		has_many   :refs,  class_name: 'Massr::Statement', inverse_of: :res
+		belongs_to :res,   class_name: 'Massr::Statement', inverse_of: :refs
+
+		has_one :stamp_source, class_name: 'Massr::Stamp', inverse_of: :original
 
 		def custom_validation
 			if body.nil && stamp.nil
@@ -26,76 +26,69 @@ module Massr
 			end
 		end
 
-		def self.get_statements(date,options={})
-			options[:created_at.lt] = Time.parse(date)
-			options[:order]         = :created_at.desc
-			options[:limit]         = $limit
-			return self.all(options)
+		def self.get_statements(date, queries={})
+			queries[:created_at.lt] = Time.parse(date)
+			return self.where(queries).order_by(created_at: 'desc').limit($limit)
 		end
 
-		def self.add_photo(id,uri)
-			statement = Statement.find_by_id(id)
-			statement[:photos] << uri.to_s
-			statement.save!
+		def self.add_photo(id, uri)
+			statement = Statement.find_by(id: id)
+			statement.push(photos: uri.to_s)
+			statement.save!(validate: false)
 		end
 
-		def self.delete_all_statements(user, options={})
-			options[:user_id] = user._id
-			Statement.destroy_all(options)
-
-			options={}
-			options[:"likes.user_id"] = user._id
-			statements = self.all(options)
-
-			statements.each do |statement|
-				statement.likes.delete_if{ |like| like.user_id == user._id}
-				statement.save!
+		def self.delete_all_statements(user)
+			Statement.destroy_all(user_id: user.id)
+			self.where('likes.user_id': user.id).each do |statement|
+				statement.likes.delete_if{|like| like.user_id == user.id}
+				statement.save!(validate: false)
 			end
 		end
 
 		def update_statement(request)
-			self[:body], self[:photos],self[:stamp] = request[:body], request[:photos] , request[:stamp]
-
-			user = request[:user]
-			self.user  = user
+			self.user, self.body, self.photos, self.stamp = request[:user], request[:body], request[:photos], request[:stamp]
 
 			if request[:res_id]
-				res_statement  = Statement.find_by_id(request[:res_id])
-				res_statement.refs << self
+				res_statement = Statement.find_by(id: request[:res_id])
 				self.res = res_statement
+
 				if res_statement.user.massr_id != user.massr_id
-					res_statement.user.ress << self
+					res_statement.user.push(res_ids: self.id)
+					res_statement.user.save!(validate: false)
 				end
 			end
 
-			if save!
-				if request[:res_id]
-					res_statement.save!
-					res_statement.user.save!
-				end
-
-				# body内の画像
+			if save(validate: false)
+				# aync add photos in body message
 				re = URI.regexp(['http', 'https'])
 				request_uri = URI.parse(request.url)
-				self[:body].scan(re) do
+				self.body.scan(re) do
 					uri = URI.parse($&) rescue next
 					next if uri.host == request_uri.host
 					response = nil
-					Massr::Plugin::AsyncRequest.new(uri).future.add_photo(self._id)
-				end unless self[:body].nil?
+					Massr::Plugin::AsyncRequest.new(uri).future.add_photo(self.id)
+				end unless self.body.nil?
 			end
 
 			return self
 		end
 
+		def photos # for compatibility
+			self[:photos] || []
+		end
+
+		def add_like(like)
+			self.likes << like
+			save!(validate: false)
+		end
+
 		def like?(user)
-			likes.map{|like| like.user._id == user._id}.include?(true)
+			likes.map{|like| like.user.id == user.id}.include?(true)
 		end
 
 		def to_hash
-			res = Statement.find_by_id(res_id)
 			{
-				'id' => id,
+				'id' => id.to_s,
 				'created_at' => created_at.localtime.strftime('%Y-%m-%d %H:%M:%S'),
 				'body' => body,
 				'user' => user.to_hash,

@@ -14,35 +14,36 @@ module Massr
 		DEFAULT_ICON_SIZE = 90
 
 		get '/users.html' do
-			haml :users , :locals => { :users => User.sort(:created_at.desc) }
+			haml :users , locals: {users: User.order_by(created_at: 'desc') }
 		end
 
 		get '/user' do
-			haml :user , :locals => {:update => params[:update]}
+			haml :user , locals: {update: params[:update]}
 		end
 
 		before "/user/:massr_id*" do
-			@user = User.find_by_massr_id(params[:massr_id].sub(/\.json$/,""))
+			@user = User.find_by(massr_id: params[:massr_id].sub(/\.json$/,""))
 			not_found unless @user
 		end
 
 		get '/user/:massr_id.json' do
 			[].tap {|a|
-				Statement.get_statements(param_date, {:user_id => @user.id}).each do |statement|
+				Statement.get_statements(param_date, {user_id: @user.id}).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json
 		end
 
 		get '/user/:massr_id' do
-			haml :user_statements , :locals => {
-				:res_ids    => nil,
-				:statements => Statement.get_statements(param_date, {:user_id => @user.id}),
-				:q => nil}
+			haml :user_statements , locals: {
+				res_ids: nil,
+				statements: Statement.get_statements(param_date, {user_id: @user.id}),
+				q: nil
+			}
 		end
 
 		delete '/user/:massr_id' do
-			user =  User.find_by_id(session[:user_id])
+			user =  User.find_by(id: session[:user_id])
 			redirect '/' unless user.admin?
 			Statement.delete_all_statements(@user)
 			@user.destroy
@@ -50,8 +51,8 @@ module Massr
 		end
 
 		before '/user/:massr_id/photos*' do
-			user = User.find_by_massr_id(params[:massr_id])
-			@query = {:user_id => user.id, "photos" => {:$ne => [] } }
+			user = User.find_by(massr_id: params[:massr_id])
+			@query = {user_id: user.id, :photos.ne => []}
 		end
 
 		get '/user/:massr_id/photos.json' do
@@ -63,26 +64,26 @@ module Massr
 		end
 
 		get '/user/:massr_id/photos' do
-			haml :user_photos, :locals => {
-				:statements => Statement.get_statements(param_date, @query),
-				:q => nil,
-				:pagenation => true}
+			haml :user_photos, locals: {
+				statements: Statement.get_statements(param_date, @query),
+				q: nil,
+				pagenation: true}
 		end
 
 		before '/user/:massr_id/res*' do
-			user = User.find_by_massr_id(params[:massr_id])
+			user = User.find_by(massr_id: params[:massr_id])
 			statements = Statement.where(
-				:user_id => user.id ,
-				:ref_ids => {:$ne => []},
-				:created_at => {:$lt => Time.parse(param_date)}).
-				sort(:updated_at.desc)
+				user_id: user.id ,
+				:ref_ids.ne => [],
+				:created_at.lt => Time.parse(param_date)
+			).order_by(updated_at: 'desc')
 			statements = statements.limit($limit)
 
 			received_id = Array.new
 			statements.each do |statement|
 				received_id |= (statement.ref_ids) unless statement.ref_ids.nil?
 			end
-			@query = {:_id => { :$in => received_id.uniq }}
+			@query = {:_id.in => received_id.uniq}
 		end
 
 		get '/user/:massr_id/res.json' do
@@ -94,19 +95,19 @@ module Massr
 		end
 
 		get '/user/:massr_id/res' do
-			access_user = User.find_by_id(session[:user_id])
+			access_user = User.find_by(id: session[:user_id])
 			res_ids = access_user.res_ids
 			access_user.clear_res_ids
-			haml :user_statements, :locals => {
-				:res_ids    => res_ids,
-				:statements => Statement.get_statements(param_date, @query),
-				:q => nil}
-
+			haml :user_statements, locals: {
+				res_ids: res_ids,
+				statements: Statement.get_statements(param_date, @query),
+				q: nil
+			}
 		end
 
 		before '/user/:massr_id/liked*' do
-			user = User.find_by_massr_id(params[:massr_id])
-			@query = {:user_id => user.id, "likes.user_id" => {:$exists => true} }
+			user = User.find_by(massr_id: params[:massr_id])
+			@query = {user_id: user.id, "likes.user_id" => {:$exists => true} }
 		end
 
 		get '/user/:massr_id/liked.json' do
@@ -118,14 +119,15 @@ module Massr
 		end
 
 		get '/user/:massr_id/liked' do
-			haml :user_statements, :locals => {
-				:res_ids    => nil,
-				:statements => Statement.get_statements(param_date, @query),
-				:q => nil}
+			haml :user_statements, locals: {
+				res_ids: nil,
+				statements: Statement.get_statements(param_date, @query),
+				q: nil
+			}
 		end
 
 		before '/user/:massr_id/likes*' do
-			user = User.find_by_massr_id(params[:massr_id])
+			user = User.find_by(massr_id: params[:massr_id])
 			@query = {"likes.user_id" => user.id }
 		end
 
@@ -138,14 +140,15 @@ module Massr
 		end
 
 		get '/user/:massr_id/likes' do
-			haml :user_statements, :locals => {
-				:res_ids    => nil,
-				:statements => Statement.get_statements(param_date, @query),
-				:q => nil}
+			haml :user_statements, locals: {
+				res_ids: nil,
+				statements: Statement.get_statements(param_date, @query),
+				q: nil
+			}
 		end
 
 		post '/user' do
-			user = User.find_by_id(session[:user_id])
+			user = User.find_by(id: session[:user_id])
 			request[:twitter_user_id] = session[:twitter_user_id]
 			request[:twitter_id] = session[:twitter_id]
 			request[:twitter_icon_url] = session[:twitter_icon_url]
@@ -179,7 +182,7 @@ module Massr
 		end
 
 		put '/user/:massr_id' do
-			user =  User.find_by_id(session[:user_id])
+			user =  User.find_by(id: session[:user_id])
 			redirect '/' unless user.admin?
 			User.change_status(params[:massr_id],params[:status])
 		end

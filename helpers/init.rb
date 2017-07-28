@@ -22,7 +22,7 @@ module Massr
 			end
 
 			def current_user
-				@current_user ||= User.find_by_id(session[:user_id])
+				@current_user ||= User.find_by(id: session[:user_id])
 			end
 
 			def send_mail(user, statement)
@@ -55,18 +55,18 @@ module Massr
 			end
 
 			def param_date
-				date = params[:date] ? params[:date] : (Time.now + 1).strftime("%Y%m%d%H%M%S")
+				date = params[:date] ? params[:date] : (Time.now + 10).strftime("%Y%m%d%H%M%S")
 			end
 
 			def get_icon_url(user)
-				request.scheme == 'https' ? user.twitter_icon_url_https : user.twitter_icon_url
+				request.scheme == 'https' ? user['twitter_icon_url_https'] : user['twitter_icon_url']
 			end
 
 			def icon_dir
 				SETTINGS['resource']['icon_dir'] || 'default'
 			end
 
-			def image_size_change url,size,centering
+			def image_size_change(url, size, centering)
 				begin
 					host = url.match(%r|\Ahttps?://(.*?)/|)[1]
 				rescue NoMethodError
@@ -101,7 +101,7 @@ module Massr
 
 			def get_stamp(photo)
 				dst = image_size_change(photo,1,false)
-				Massr::Stamp.find_by_image_url(dst)
+				Massr::Stamp.find_by(image_url: dst)
 			end
 
 			def clear_search_cache(body)

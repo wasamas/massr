@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
-ruby '~> 2.3.0'
+ruby '~> 2.4.1'
 
-gem 'sinatra', require: 'sinatra/base'
+gem 'sinatra', '>= 1.4.8', require: 'sinatra/base'
 gem 'sinatra-asset-pipeline', require: 'sinatra/asset_pipeline'
-gem 'sprockets-helpers', '= 1.1.0'
+gem 'sprockets-helpers'
 gem 'uglifier'
 gem 'yui-compressor'
 
@@ -12,8 +12,7 @@ gem 'puma'
 gem 'hamlit', require: 'hamlit'
 gem 'omniauth', require: 'omniauth'
 gem 'omniauth-twitter', require: 'omniauth-twitter'
-gem 'mongo_mapper', require: 'mongo_mapper'
-gem 'activemodel', '~> 4.2'
+gem 'mongoid', require: 'mongoid'
 gem 'bson_ext'
 gem 'rack_csrf', require: 'rack/csrf'
 gem 'rack-ssl', require: 'rack/ssl'
@@ -23,9 +22,9 @@ gem 'picasa'
 gem 'twitter'
 gem 'gyazo'
 gem 'rmagick'
-gem 'rack-session-mongo', require: 'rack-session-mongo'
-gem 'dalli', require: 'dalli'
+gem 'dalli', require: ['dalli', 'rack/session/dalli']
 gem 'celluloid'
+gem 'memcachier', require: 'memcachier'
 
 source 'https://rails-assets.org' do
 	gem 'rails-assets-jquery'
@@ -35,12 +34,11 @@ end
 
 group :development, :test do
 	gem 'rake'
-	gem 'rspec'
+	gem 'guard-rspec'
 	gem 'fuubar'
 	gem 'sinatra-contrib', require: 'sinatra/reloader'
-	gem 'pit', require: 'pit'
+	gem 'dotenv', require: 'dotenv'
 	gem 'pry'
-	gem 'autotest'
 	gem 'therubyracer'
 end
 

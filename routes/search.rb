@@ -16,7 +16,7 @@ module Massr
 
 		get '/search.json' do
 			[].tap {|a|
-				Statement.get_statements(param_date,{:body => /#{@q}/}).each do |statement|
+				Statement.get_statements(param_date, {body: /#{@q}/}).each do |statement|
 					a << statement.to_hash
 				end
 			}.to_json
@@ -37,10 +37,10 @@ module Massr
 			if(cached_statements)
 				statements = []
 				JSON.parse(cached_statements).each do |statement|
-					statements << Statement.from_json(statement.to_json)
+					statements << Statement.new(statement)
 				end
 			else
-				statements = Statement.get_statements(param_date,{:body => /#{@q}/i})
+				statements = Statement.get_statements(param_date, {body: /#{@q}/i})
 				cache.set('query_list', (cache.get('query_list') || []).push(@q).uniq)
 				cache.set("search:#{@q}", statements.to_json)
 			end
@@ -72,8 +72,8 @@ module Massr
 
 		delete '/search/pin' do
 			begin
-				pin = SearchPin.find_by_word(params[:q])
-				SearchPin.destroy(pin.id)
+				pin = SearchPin.find_by(word: params[:q])
+				pin.destroy
 				return [{'q' => pin.word, 'label' => pin.label}].to_json
 			rescue NoMethodError
 				return 404
@@ -82,7 +82,7 @@ module Massr
 
 		put '/search/pin' do
 			begin
-				pin = SearchPin::find_by_word(params[:q])
+				pin = SearchPin::find_by(word: params[:q])
 				pin.label = params[:label]
 				return [{'q' => pin.word, 'label' => pin.label}].to_json
 			rescue NoMethodError

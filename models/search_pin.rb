@@ -1,22 +1,22 @@
-# -*- coding: utf-8; -*-
-require 'mongo_mapper'
-
 module Massr
 	class SearchPin
-		include MongoMapper::Document
+		include ::Mongoid::Document
+		store_in collection: 'massr.search_pins'
 
-		key :word,  :type => String, :required => true, :unique => true
-		key :label, :type => String, :required => true
+		field :word,  type: String
+		field :label, type: String
+		validates_presence_of :word, :label
+		validates_uniqueness_of :word
 
 		def self.create_by_word(word, label = nil)
-			pin = SearchPin.new(word: word, label: label ? label : word)
-			pin.save!
+			pin = SearchPin.create(word: word, label: label ? label : word)
+			pin.save
 			return pin
 		end
 
 		def label=(label)
 			self[:label] = label
-			save!
+			save
 			self
 		end
 	end

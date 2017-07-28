@@ -1,19 +1,17 @@
-# -*- coding: utf-8; -*-
-require 'mongo_mapper'
-
 module Massr
 	class Like
-		include MongoMapper::EmbeddedDocument
+		include ::Mongoid::Document
+		include ::Mongoid::Timestamps
 
-		key :is_read,  :type => Boolean,  :required => true
-		timestamps!
+		field :is_read,  :type => Boolean
+		validates_presence_of :is_read
 
-		embedded_in :statement
-		belongs_to :user  , :class_name => 'Massr::User'
+		embedded_in :statement, class_name: 'Massr::Statement', inverse_of: :likes
+		belongs_to :user, class_name: 'Massr::User'
 
 		def to_hash
 			{
-				'id' => id,
+				'id' => id.to_s,
 				'user' => user.to_hash,
 			}
 		end
