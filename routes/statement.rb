@@ -20,17 +20,21 @@ module Massr
 				# no photos
 			end
 
-			if (request[:stamp].nil?)
-				@statement.update_statement( request ) unless request[:body].size == 0
-			else
-				@statement.update_statement( request ) unless request[:stamp].size == 0
-				stamp = Stamp.find_by(id: request[:stamp_id])
-				stamp.post_stamp() unless stamp.nil?
-				cache.delete('stamp')
-				cache.set('stamp', Stamp.get_stamps.map{|i| i.to_hash})
-			end
-			if @statement.res && @statement.res.user.email.length > 0 && @statement.res.user.massr_id != request[:user].massr_id
-				send_mail(@statement.res.user, @statement)
+			begin
+				if (request[:stamp].nil?)
+					@statement.update_statement( request ) unless request[:body].size == 0
+				else
+					@statement.update_statement( request ) unless request[:stamp].size == 0
+					stamp = Stamp.find_by(id: request[:stamp_id])
+					stamp.post_stamp() unless stamp.nil?
+					cache.delete('stamp')
+					cache.set('stamp', Stamp.get_stamps.map{|i| i.to_hash})
+				end
+				if @statement.res && @statement.res.user.email.length > 0 && @statement.res.user.massr_id != request[:user].massr_id
+					send_mail(@statement.res.user, @statement)
+				end
+			rescue
+				return 404
 			end
 
 			if params[:format] == 'json'
@@ -58,10 +62,11 @@ module Massr
 
 
 		get '/statement/photos' do
-			haml :user_photos, :locals => {
-				:statements => Statement.get_statements(param_date, @query),
-				:q => nil,
-				:pagenation => true}
+			#haml :user_photos, :locals => {
+			#	:statements => Statement.get_statements(param_date, @query),
+			#	:q => nil,
+			#	:pagenation => true}
+			haml :index , :locals => {:q => nil}
 		end
 
 		get '/statement/photos.json' do
@@ -77,7 +82,7 @@ module Massr
 		end
 
 		get '/statement/:id' do
-			haml :user_statement, :locals => {:statement => @statement}
+			haml :user_statement, locals: {statement: @statement}
 		end
 
 		delete '/statement/:id' do
@@ -92,6 +97,7 @@ module Massr
 		before '/statement/:id/like' do
 			@user = User.find_by(id: session[:user_id])
 			@statement = Statement.find_by(id: params[:id])
+			not_found unless @statement
 		end
 
 		post '/statement/:id/like' do

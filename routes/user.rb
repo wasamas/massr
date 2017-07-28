@@ -64,10 +64,11 @@ module Massr
 		end
 
 		get '/user/:massr_id/photos' do
-			haml :user_photos, locals: {
-				statements: Statement.get_statements(param_date, @query),
-				q: nil,
-				pagenation: true}
+			#haml :user_photos, :locals => {
+			#	:statements => Statement.get_statements(param_date, @query),
+			#	:q => nil,
+			#	:pagenation => true}
+			haml :index, locals: {q: nil}
 		end
 
 		before '/user/:massr_id/res*' do
@@ -96,13 +97,13 @@ module Massr
 
 		get '/user/:massr_id/res' do
 			access_user = User.find_by(id: session[:user_id])
-			res_ids = access_user.res_ids
+			#res_ids = access_user.res_ids
 			access_user.clear_res_ids
-			haml :user_statements, locals: {
-				res_ids: res_ids,
-				statements: Statement.get_statements(param_date, @query),
-				q: nil
-			}
+			#haml :user_statements, :locals => {
+			#	:res_ids    => res_ids,
+			#	:statements => Statement.get_statements(param_date, @query),
+			#	:q => nil}
+			haml :index, locals: {q: nil}
 		end
 
 		before '/user/:massr_id/liked*' do

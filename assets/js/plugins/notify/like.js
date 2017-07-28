@@ -5,6 +5,7 @@
  *
  * Distributed under GPL
  */
+import Massr from '../../massr';
 
 $(function(){
 	var me = Massr.me;

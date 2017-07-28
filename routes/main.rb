@@ -11,9 +11,11 @@
 module Massr
 	class App < Sinatra::Base
 		get '/' do
-			haml :index , :locals => {
-				statements: Statement.get_statements(param_date),
-				q: nil}
+			haml :index, locals: {q: nil}
+		end
+
+		get '/settings.json' do
+			SETTINGS.to_json
 		end
 
 		get '/index.json' do

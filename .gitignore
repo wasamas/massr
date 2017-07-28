@@ -13,10 +13,14 @@ spec/reports
 test/tmp
 test/version_tmp
 tmp
-vendor
+vendor/
+node_modules/
+npm-debug.log
 public/custom.json
 public/custom_cache.json
 public/assets/
+public/js/*.js*
+public/css/*.css*
 
 # YARD artifacts
 .yardoc

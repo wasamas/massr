@@ -5,11 +5,12 @@
  *
  * Distributed under GPL
  */
+import jQuery from 'jquery';
 
 /*
  * name space, defaults and global utilities
  */
-Massr = {
+var Massr = {
 	intervalFunctions: [],
 	me: '',
 	settings: {},
@@ -34,7 +35,7 @@ Massr = {
 		}
 	}
 };
-
+export default Massr;
 
 /*
  * massr main
@@ -62,28 +63,20 @@ $(function(){
 	var fileEnabled = false; try {if (FileReader) {fileEnabled = true;}} catch (e) {}
 	var posting = false;
 
-	$.when(
-		$.getJSON('/default.json'), // default setting
-		(function(){ // custom setting
-			if(Massr.setting_file){
-				return $.getJSON(Massr.setting_file);
-			}else{
-				return [{plugin:{}, resource:{}, setting:{}, local:{}}];
-			}
-		})()
-	).done(function(default_settings, custom_settings){
-		$.each(default_settings[0], function(k, v){
-			settings[k] = $.extend({}, default_settings[0][k], custom_settings[0][k]);
-		});
-		Massr.settings = settings;
+	$.ajax({
+		url: '/settings.json',
+		type: 'GET',
+		dataType: 'json',
+		cashe: 'false'
+	}).done(function(json){
+		Massr.settings = settings = json;
 		_ = settings['local'];
 
 		$.each(settings['plugin'], function(name, opts){
 			Massr.plugin_setup(name, opts);
 		});
-
 	}).fail(function(){
-		message.error('loading settings');
+		message.error('could not load settings');
 	});
 
 	/*
@@ -734,6 +727,10 @@ $(function(){
 	 * automatic link
 	 */
 	$('.statement-message').autoLink().embedStatement();
+
+	/*
+	 * layout images
+	 */
 	var $container = $('#items');
 	$container.imagesLoaded(function(){
 		$container.masonry({

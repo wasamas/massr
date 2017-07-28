@@ -11,10 +11,6 @@ begin
 rescue LoadError => e
 end
 
-require 'sinatra/asset_pipeline/task'
-require './massr'
-Sinatra::AssetPipeline::Task.define! Massr::App
-
 # Local Variables:
 # mode: ruby
 # indent-tabs-mode: t

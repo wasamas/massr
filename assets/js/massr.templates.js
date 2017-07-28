@@ -5,6 +5,7 @@
  *
  * Distributed under GPL
  */
+import Massr from './massr';
 
 $(function(){
 	// template of a statement
