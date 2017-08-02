@@ -3,6 +3,7 @@ production:
     default:
       uri: <%= ENV['MONGODB_URI'] || ENV['MONGOLAB_URI'] %>
       options:
+        max_pool_size: 10
         connect_timeout: 30
         wait_queue_timeout: 30
   options:
