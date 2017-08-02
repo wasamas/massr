@@ -2,6 +2,9 @@ production:
   clients:
     default:
       uri: <%= ENV['MONGODB_URI'] || ENV['MONGOLAB_URI'] %>
+      options:
+        connect_timeout: 15
+        wait_queue_timeout: 15
   options:
      log_level: :fatal
 development:
