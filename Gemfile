@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '~> 2.4.1'
+ruby '~> 2.4.2'
 
 gem 'sinatra', '>= 1.4.8', require: 'sinatra/base'
 gem 'sinatra-asset-pipeline', require: 'sinatra/asset_pipeline'
