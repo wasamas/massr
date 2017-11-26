@@ -135,13 +135,13 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (3.0.1)
-    puma (3.10.0)
+    puma (3.11.0)
     rack (1.6.8)
     rack-protection (1.5.3)
       rack
     rack-ssl (1.4.1)
       rack
-    rack-test (0.7.0)
+    rack-test (0.8.2)
       rack (>= 1.0, < 3)
     rack_csrf (2.6.0)
       rack (>= 1.1.0)
