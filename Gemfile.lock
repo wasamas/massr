@@ -68,11 +68,11 @@ GEM
       httmultiparty
       httparty
       json
-    hamlit (2.8.5)
+    hamlit (2.8.6)
       temple (>= 0.8.0)
       thor
       tilt
-    hashie (3.5.6)
+    hashie (3.5.7)
     hitimes (1.2.6)
     httmultiparty (0.3.16)
       httparty (>= 0.7.3)
@@ -117,7 +117,7 @@ GEM
     multipart-post (2.0.0)
     naught (1.1.0)
     nenv (0.3.0)
-    newrelic_rpm (4.6.0.338)
+    newrelic_rpm (4.7.0.339)
     notiffany (0.1.1)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -171,7 +171,7 @@ GEM
     rspec-support (3.7.0)
     ruby-progressbar (1.9.0)
     ruby_dep (1.5.0)
-    sass (3.5.3)
+    sass (3.5.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
