@@ -2,9 +2,9 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    activemodel (5.1.4)
-      activesupport (= 5.1.4)
-    activesupport (5.1.4)
+    activemodel (5.1.5)
+      activesupport (= 5.1.5)
+    activesupport (5.1.5)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (~> 0.7)
       minitest (~> 5.1)
@@ -45,7 +45,7 @@ GEM
     dotenv (2.2.1)
     equalizer (0.0.11)
     execjs (2.7.0)
-    ffi (1.9.18)
+    ffi (1.9.22)
     formatador (0.2.5)
     fuubar (2.3.1)
       rspec-core (~> 3.0)
@@ -68,7 +68,7 @@ GEM
       httmultiparty
       httparty
       json
-    hamlit (2.8.6)
+    hamlit (2.8.7)
       temple (>= 0.8.0)
       thor
       tilt
@@ -87,9 +87,9 @@ GEM
       domain_name (~> 0.5)
     http-form_data (2.0.0)
     http_parser.rb (0.6.0)
-    httparty (0.15.6)
+    httparty (0.16.0)
       multi_xml (>= 0.5.2)
-    i18n (0.9.3)
+    i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     json (2.1.0)
     libv8 (3.16.14.19)
@@ -107,7 +107,7 @@ GEM
     mimemagic (0.3.2)
     mini_mime (1.0.0)
     minitest (5.11.3)
-    mongo (2.5.0)
+    mongo (2.5.1)
       bson (>= 4.3.0, < 5.0.0)
     mongoid (6.3.0)
       activemodel (~> 5.1)
@@ -115,7 +115,7 @@ GEM
     multi_json (1.13.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
-    mustermann (1.0.1)
+    mustermann (1.0.2)
     naught (1.1.0)
     nenv (0.3.0)
     newrelic_rpm (4.8.0.341)
@@ -135,10 +135,10 @@ GEM
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    public_suffix (3.0.1)
+    public_suffix (3.0.2)
     puma (3.11.2)
     rack (2.0.4)
-    rack-protection (2.0.0)
+    rack-protection (2.0.1)
       rack
     rack-ssl (1.4.1)
       rack
@@ -177,10 +177,10 @@ GEM
       rb-inotify (~> 0.9, >= 0.9.7)
     shellany (0.0.1)
     simple_oauth (0.3.1)
-    sinatra (2.0.0)
+    sinatra (2.0.1)
       mustermann (~> 1.0)
       rack (~> 2.0)
-      rack-protection (= 2.0.0)
+      rack-protection (= 2.0.1)
       tilt (~> 2.0)
     sinatra-asset-pipeline (2.0.0)
       coffee-script (~> 2.4)
@@ -189,12 +189,12 @@ GEM
       sinatra (~> 2.0)
       sprockets (~> 3.7)
       sprockets-helpers (~> 1.2)
-    sinatra-contrib (2.0.0)
+    sinatra-contrib (2.0.1)
       backports (>= 2.0)
       multi_json
       mustermann (~> 1.0)
-      rack-protection (= 2.0.0)
-      sinatra (= 2.0.0)
+      rack-protection (= 2.0.1)
+      sinatra (= 2.0.1)
       tilt (>= 1.3, < 3)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
@@ -221,13 +221,13 @@ GEM
       multipart-post (~> 2.0)
       naught (~> 1.0)
       simple_oauth (~> 0.3.0)
-    tzinfo (1.2.4)
+    tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.1.5)
+    uglifier (4.1.6)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.4)
+    unf_ext (0.0.7.5)
     yui-compressor (0.12.0)
 
 PLATFORMS
