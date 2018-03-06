@@ -45,7 +45,7 @@ GEM
     dotenv (2.2.1)
     equalizer (0.0.11)
     execjs (2.7.0)
-    ffi (1.9.22)
+    ffi (1.9.23)
     formatador (0.2.5)
     fuubar (2.3.1)
       rspec-core (~> 3.0)
