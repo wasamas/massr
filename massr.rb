@@ -46,6 +46,7 @@ module Massr
 				}
 			end
 
+			enable :logging
 			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::WARN)
 		end
 
@@ -72,6 +73,7 @@ module Massr
 				}
 			end
 
+			enable :logging
 			Massr::Plugin::Logging.instance.level(Massr::Plugin::Logging::DEBUG)
 		end
 
