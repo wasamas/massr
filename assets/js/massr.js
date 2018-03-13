@@ -52,7 +52,7 @@ $(function(){
 		cache: false,
 		beforeSend: function(xhr) {
 			var token = $('meta[name="_csrf"]').attr('content');
-			xhr.setRequestHeader('X_CSRF_TOKEN', token);
+			xhr.setRequestHeader('X-CSRF-TOKEN', token);
 		}
 	});
 
