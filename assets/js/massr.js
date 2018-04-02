@@ -156,7 +156,7 @@ $(function(){
 
 			// for Safari
 			if(formdata.get("photo").name == "") {
-				formdata.remove("photo");
+				formdata.delete("photo");
 			}
 
 			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
