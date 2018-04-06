@@ -211,6 +211,12 @@ $(function(){
 		if($body.val().trim()){
 			var method = $form.attr('method');
 			var formdata = new FormData(form);
+
+			// for Safari
+			if(formdata.get("photo").name == "") {
+				formdata.delete("photo");
+			}
+
 			$form.find("button").attr("disabled", "disabled").empty().append('<img src="/img/masao_loading.gif">');
 			$form.find("textarea").slideUp();
 
