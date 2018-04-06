@@ -68,7 +68,7 @@ GEM
       httmultiparty
       httparty
       json
-    hamlit (2.8.7)
+    hamlit (2.8.8)
       temple (>= 0.8.0)
       thor
       tilt
