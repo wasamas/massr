@@ -804,7 +804,7 @@ $(function(){
 				parts.push(last);
 				return parts.join('/')
 			}
-		} else if(uri.hostname.match(/^thumb\.gyazo\.com$/) != null) {
+		} else if(uri.hostname.match(/^(thumb|i)\.gyazo\.com$/) != null) {
 			return url.replace(/\/thumb\/\d+/, '/thumb/' + size)
 		} else {
 			return url;

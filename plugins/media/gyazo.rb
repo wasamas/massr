@@ -33,7 +33,7 @@ module Massr
 				retry_count = 0
 				begin
 					res = @client.upload(path.to_s)
-					return res['thumb_url'].sub(%r|/thumb/\d+/|, "/thumb/#{display_size}/")
+					return res['url'].sub(%r|^https://i\.gyazo\.com|, "https://i.gyazo.com/thumb/#{display_size}")
 				rescue
 					init_client
 					retry if (retry_count += 1) < 10
