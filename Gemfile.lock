@@ -68,7 +68,7 @@ GEM
       httmultiparty
       httparty
       json
-    hamlit (2.8.7)
+    hamlit (2.8.8)
       temple (>= 0.8.0)
       thor
       tilt
@@ -87,7 +87,7 @@ GEM
       domain_name (~> 0.5)
     http-form_data (2.1.0)
     http_parser.rb (0.6.0)
-    httparty (0.16.2)
+    httparty (0.15.7)
       multi_xml (>= 0.5.2)
     i18n (1.0.0)
       concurrent-ruby (~> 1.0)
@@ -242,6 +242,7 @@ DEPENDENCIES
   guard-rspec
   gyazo
   hamlit
+  httparty (~> 0.15.0)
   mail
   memcachier
   mongoid (~> 6.0)
@@ -265,6 +266,9 @@ DEPENDENCIES
   twitter
   uglifier
   yui-compressor
+
+RUBY VERSION
+   ruby 2.5.1p57
 
 BUNDLED WITH
    1.16.1

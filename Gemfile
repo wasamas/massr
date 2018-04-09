@@ -19,6 +19,7 @@ gem 'rack-ssl', require: 'rack/ssl'
 gem 'mail', require: 'mail'
 gem 'twitter'
 gem 'gyazo'
+gem 'httparty', '~> 0.15.0' # for error in gyazo
 gem 'rmagick'
 gem 'dalli', require: ['dalli', 'rack/session/dalli']
 gem 'celluloid'
