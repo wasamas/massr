@@ -1,3 +1,16 @@
+#
+# Dockerfile for massr
+#
+# need some ENVs:
+#   MONGODB_URI
+#   MEMCACHE_SERVERS
+#   TWITTER_CONSUMER_ID
+#   TWITTER_CONSUMER_SECRET
+#
+# and some optional ENVs:
+#   MASSR_SETTINGS
+#   MEDIA_* (for media plugins)
+#
 FROM ruby:2.5.0-stretch
 MAINTAINER tdtds <t@tdtds.jp>
 
