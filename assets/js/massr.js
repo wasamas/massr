@@ -14,16 +14,8 @@ Massr = {
 	me: '',
 	settings: {},
 
-	isHttps: function(){
-		return location.href.match(/^https/);
-	},
-
 	get_icon_url: function(user){
-		if (this.isHttps()) {
-			return user.twitter_icon_url_https;
-		} else {
-			return user.twitter_icon_url;
-		}
+		return user.twitter_icon_url_https;
 	},
 
 	shrinkText: function(text){ // replace CR/LF to single space
