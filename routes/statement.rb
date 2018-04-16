@@ -36,7 +36,7 @@ module Massr
 			if params[:format] == 'json'
 				@statement.to_hash.to_json
 			else
-				redirect '/'
+				redirect to('/')
 			end
 		end
 
@@ -86,7 +86,7 @@ module Massr
 				stamp.destroy if stamp
 				Statement.find_by(_id: params[:id]).delete
 			end
-			redirect '/'
+			redirect to('/')
 		end
 
 		before '/statement/:id/like' do

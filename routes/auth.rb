@@ -16,7 +16,7 @@ module Massr
 
 		get '/logout' do
 			session.clear
-			redirect '/'
+			redirect to('/')
 		end
 
 		get '/auth/twitter/callback' do
@@ -36,9 +36,9 @@ module Massr
 				User.find_by(twitter_id: session[:twitter_id]))
 			if user
 				session[:user_id] = user._id
-				redirect '/'
+				redirect to('/')
 			else
-				redirect '/user'
+				redirect to('/user')
 			end
 		end
 

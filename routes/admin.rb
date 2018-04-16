@@ -12,7 +12,7 @@ module Massr
 	class App < Sinatra::Base
 		before '/admin*' do
 			user =  User.find_by(id: session[:user_id])
-			redirect '/' unless user.admin?
+			redirect to('/') unless user.admin?
 		end
 		
 		get '/admin' do

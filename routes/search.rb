@@ -11,7 +11,7 @@ module Massr
 	class App < Sinatra::Base
 		before '/search*' do
 			@q = params[:q].strip if params[:q]
-			redirect '/' unless @q
+			redirect to('/') unless @q
 		end
 
 		get '/search.json' do
@@ -24,12 +24,12 @@ module Massr
 
 		get '/search' do
 			if @q.size == 0 then
-				redirect '/'
+				redirect to('/')
 				return
 			end
 
 			if @q != params[:q] then
-				redirect '/search?q=' + @q
+				redirect to('/search?q=' + @q)
 				return
 			end
 
@@ -49,7 +49,7 @@ module Massr
 					:statements => statements ,
 					:q => @q}
 			rescue RegexpError
-				redirect '/'
+				redirect to('/')
 			end
 		end
 
