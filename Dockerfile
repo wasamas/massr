@@ -11,7 +11,7 @@
 #   MASSR_SETTINGS
 #   MEDIA_* (for media plugins)
 #
-FROM ruby:2.5.0-stretch
+FROM ruby:2.5
 MAINTAINER tdtds <t@tdtds.jp>
 
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - \
