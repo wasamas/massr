@@ -147,7 +147,7 @@ $(function(){
 			var formdata = new FormData(form);
 
 			// for Safari
-			if(formdata.get("photo").name == "") {
+			if(formdata.get("photo") && formdata.get("photo").name == "") {
 				formdata.delete("photo");
 			}
 
@@ -205,7 +205,7 @@ $(function(){
 			var formdata = new FormData(form);
 
 			// for Safari
-			if(formdata.get("photo").name == "") {
+			if(formdata.get("photo") && formdata.get("photo").name == "") {
 				formdata.delete("photo");
 			}
 
