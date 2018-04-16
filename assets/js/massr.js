@@ -510,6 +510,7 @@ $(function(){
 				});
 			}
 		}
+		return false;
 	});
 
 	/*
