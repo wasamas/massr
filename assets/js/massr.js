@@ -505,8 +505,8 @@ $(function(){
 				$.ajax({
 					url: '/statement/'+statement,
 					type: 'DELETE'}).
-				done(function(result) {
-					location.href = "/";
+				always(function() {
+					location.reload();
 				});
 			}
 		}
