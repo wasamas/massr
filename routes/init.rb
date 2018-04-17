@@ -20,18 +20,18 @@ module Massr
 			when '/logout'
 			when %r|^/auth/|
 			when '/user'
-				redirect '/login' unless session[:twitter_user_id]
+				redirect to('/login') unless session[:twitter_user_id]
 			else
 				unless session[:user_id]
-					redirect '/login'
+					redirect to('/login')
 				else
 					user =	User.find_by(id: session[:user_id])
-					redirect '/logout' unless user
-					redirect '/logout' if user.twitter_user_id == nil && user.twitter_id != session[:twitter_id]
-					redirect '/logout' unless session[:twitter_icon_url_https]
-					redirect '/user?update=true' unless user.twitter_user_id
-					redirect '/user?update=true' unless user.twitter_icon_url_https
-					redirect '/unauthorized' unless user.authorized?
+					redirect to('/logout') unless user
+					redirect to('/logout') if user.twitter_user_id == nil && user.twitter_id != session[:twitter_id]
+					redirect to('/logout') unless session[:twitter_icon_url_https]
+					redirect to('/user?update=true') unless user.twitter_user_id
+					redirect to('/user?update=true') unless user.twitter_icon_url_https
+					redirect to('/unauthorized') unless user.authorized?
 				end
 			end
 		end

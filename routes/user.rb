@@ -44,10 +44,10 @@ module Massr
 
 		delete '/user/:massr_id' do
 			user =  User.find_by(id: session[:user_id])
-			redirect '/' unless user.admin?
+			redirect to('/') unless user.admin?
 			Statement.delete_all_statements(@user)
 			@user.destroy
-			redirect '/'
+			redirect to('/')
 		end
 
 		before '/user/:massr_id/photos*' do
@@ -178,12 +178,12 @@ module Massr
 				session[:user_id] = user._id
 			end
 
-			redirect '/'
+			redirect to('/')
 		end
 
 		put '/user/:massr_id' do
 			user =  User.find_by(id: session[:user_id])
-			redirect '/' unless user.admin?
+			redirect to('/') unless user.admin?
 			User.change_status(params[:massr_id],params[:status])
 		end
 	end

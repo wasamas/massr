@@ -21,7 +21,7 @@ module Massr
 
 		delete '/stamp' do
 			Stamp.delete_stamp(params[:image_url])
-			redirect '/'
+			redirect to('/')
 		end
 
 		after '/stamp' do
