@@ -35,6 +35,7 @@ module Massr
 			end
 		end
 
+		DB = nil
 		configure :production do
 
 			require 'newrelic_rpm' if ENV['NEW_RELIC_LICENSE_KEY']
@@ -44,11 +45,14 @@ module Massr
 				:secret => ENV['TWITTER_CONSUMER_SECRET']
 			}
 
-			uri = URI.parse(ENV['MONGODB_URI'] || ENV['MONGOLAB_URI'])
-			MongoMapper.connection = Mongo::Connection.from_uri(uri.to_s)
-			db_name = uri.path.gsub(/^\//, '')
-			MongoMapper.database = db_name
-			DB   = MongoMapper.connection.db(db_name)
+			begin
+				uri = URI.parse(ENV['MONGODB_URI'] || ENV['MONGOLAB_URI'])
+				MongoMapper.connection = Mongo::Connection.from_uri(uri.to_s)
+				db_name = uri.path.gsub(/^\//, '')
+				MongoMapper.database = db_name
+				DB = MongoMapper.connection.db(db_name)
+			rescue Mongo::ConnectionFailure
+			end
 
 			Mail.defaults do # using sendgrid plugin
 				delivery_method :smtp, {
@@ -79,7 +83,7 @@ module Massr
 			MongoMapper.connection = Mongo::Connection.new('localhost', 27017)
 			db_name = 'massr'
 			MongoMapper.database = db_name
-			DB   = MongoMapper.connection.db(db_name)
+			DB = MongoMapper.connection.db(db_name)
 
 			auth_gmail = Pit::get( 'Gmail', :require => {
 				'mail' => 'Your Gmail address',
@@ -104,7 +108,7 @@ module Massr
 				:db => DB,
 				:expire_after => 6 * 30 * 24 * 60 * 60,
 				:secret => ENV['SESSION_SECRET']
-			})
+			}) if DB
 
 		use(
 			OmniAuth::Strategies::Twitter,

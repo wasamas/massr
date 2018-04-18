@@ -1,0 +1,4 @@
+vendor
+.env
+.ruby-version
+.git
