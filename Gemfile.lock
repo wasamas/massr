@@ -2,16 +2,16 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
-    activemodel (5.1.6)
-      activesupport (= 5.1.6)
-    activesupport (5.1.6)
+    activemodel (5.2.0)
+      activesupport (= 5.2.0)
+    activesupport (5.2.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    backports (3.11.1)
+    backports (3.11.3)
     bson (4.3.0)
     bson_ext (1.5.1)
     buftok (0.2.0)
@@ -38,11 +38,11 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
-    dalli (2.7.7)
+    dalli (2.7.8)
     diff-lcs (1.3)
-    domain_name (0.5.20170404)
+    domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
-    dotenv (2.2.1)
+    dotenv (2.3.0)
     equalizer (0.0.11)
     execjs (2.7.0)
     ffi (1.9.23)
@@ -89,7 +89,7 @@ GEM
     http_parser.rb (0.6.0)
     httparty (0.15.7)
       multi_xml (>= 0.5.2)
-    i18n (1.0.0)
+    i18n (1.0.1)
       concurrent-ruby (~> 1.0)
     json (2.1.0)
     libv8 (3.16.14.19)
@@ -136,7 +136,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
     public_suffix (3.0.2)
-    puma (3.11.3)
+    puma (3.11.4)
     rack (2.0.4)
     rack-protection (2.0.1)
       rack
@@ -223,7 +223,7 @@ GEM
       simple_oauth (~> 0.3.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.1.8)
+    uglifier (4.1.9)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
@@ -266,9 +266,6 @@ DEPENDENCIES
   twitter
   uglifier
   yui-compressor
-
-RUBY VERSION
-   ruby 2.5.1p57
 
 BUNDLED WITH
    1.16.1
