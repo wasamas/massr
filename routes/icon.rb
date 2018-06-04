@@ -3,7 +3,7 @@
 # routes/icon.rb
 #
 # Copyright (C) 2014 by The wasam@s production
-# https://github.com/tdtds/massr
+# https://github.com/wasamas/massr
 #
 # Distributed under GPL
 #

@@ -3,7 +3,7 @@
 # helpers/picasa.rb : helper methods of upload to picasa album
 #
 # Copyright (C) 2012 by The wasam@s production
-# https://github.com/tdtds/massr
+# https://github.com/wasamas/massr
 #
 # Distributed under GPL
 #

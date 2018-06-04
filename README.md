@@ -2,7 +2,7 @@ Massr - Mini Wassr
 =====
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-[![Build Status](https://secure.travis-ci.org/tdtds/massr.png)](https://travis-ci.org/tdtds/massr) [![Dependency Status](https://gemnasium.com/tdtds/massr.png)](https://gemnasium.com/tdtds/massr)
+[![Build Status](https://secure.travis-ci.org/wasamas/massr.png)](https://travis-ci.org/wasamas/massr)
 
 ## Massrについて
 
@@ -90,7 +90,7 @@ $ brew install imagemagick
 Massr実行のための環境を設定して、実行します:
 
 ```sh
-$ git clone git://github.com/tdtds/massr.git
+$ git clone git://github.com/wasamas/massr.git
 $ cd massr
 $ mkdir vendor
 $ bundle install --path vendor/bundle
@@ -110,7 +110,7 @@ http://127.0.0.1:9393 へ接続し、動作確認します。
 まず https://toolbelt.heroku.com/ から自分の環境に合った heroku toolbelt をインストールし、ログインまで済ませておきます。
 
 ```sh
-$ git clone git://github.com/tdtds/massr.git
+$ git clone git://github.com/wasamas/massr.git
 $ cd massr
 $ mkdir vendor
 $ bundle install --path vendor/bundle
@@ -300,7 +300,7 @@ localセクションでは、用語の変更を行えます。
 
 ### プラグインでカスタマイズ
 
-いくつかのプラグインが提供されています。詳しくは[Wiki](https://github.com/tdtds/massr/wiki/Plugins)を参照して下さい。
+いくつかのプラグインが提供されています。詳しくは[Wiki](https://github.com/wasamas/massr/wiki/Plugins)を参照して下さい。
 
 プラグインのカスタマイズも、設定用JSONファイルに記述します。pluginセクションの中に、各プラグインの仕様に合わせて記述して下さい。
 

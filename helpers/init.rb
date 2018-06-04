@@ -3,7 +3,7 @@
 # helpers/init.rb : initialize helper
 #
 # Copyright (C) 2012 by The wasam@s production
-# https://github.com/tdtds/massr
+# https://github.com/wasamas/massr
 #
 # Distributed under GPL
 #
@@ -37,7 +37,7 @@ module Massr
 				Thread.start do
 					begin
 						Mail.deliver do
-							from 'no-reply@tdtds.jp'
+							from 'no-reply@wasamas.net'
 							to	user.email
 							subject 'Message from Massr'
 							content_type 'text/plain; charset=UTF-8'

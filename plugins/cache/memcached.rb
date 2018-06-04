@@ -3,7 +3,7 @@
 # plugins/cache/memcached.rb : massr cache plugin of memcached
 #
 # Copyright (C) 2016 by The WASAM@S Production
-# https://github.com/tdtds/massr
+# https://github.com/wasamas/massr
 #
 # Distributed under GPL
 #

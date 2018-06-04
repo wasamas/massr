@@ -4,7 +4,7 @@
 # mongo_tools.sh :  MongoDB Tools {Backup / Restore / Delete}
 # 
 # Copyright (C) 2015 by The wasam@s production
-# https://github.com/tdtds/massr
+# https://github.com/wasamas/massr
 #
 # Distributed under GPL
 #

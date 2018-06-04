@@ -3,7 +3,7 @@
 # plugins/notify/information.rb : massr notify plugin for information message on top of page
 #
 # Copyright (C) 2013 by The wasam@s production
-# https://github.com/tdtds/massr
+# https://github.com/wasamas/massr
 #
 # Distributed under GPL
 #

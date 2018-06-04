@@ -3,7 +3,7 @@
 # usage: set Gyazo API's access token to ENV['MEDIA_GYAZO_SECRET']
 #
 # Copyright (C) 2017 by The wasam@s production
-# https://github.com/tdtds/massr
+# https://github.com/wasamas/massr
 #
 # Distributed under GPL
 #

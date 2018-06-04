@@ -3,7 +3,7 @@
 # routes/user.rb
 #
 # Copyright (C) 2012 by The wasam@s production
-# https://github.com/tdtds/massr
+# https://github.com/wasamas/massr
 #
 # Distributed under GPL
 #
