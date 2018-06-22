@@ -83,6 +83,7 @@ module Massr
 		session_expire = 60 * 60 * 24 * 30 - 1
 		use Rack::Session::Dalli, cache: Dalli::Client.new, expire_after: session_expire
 
+		OmniAuth.config.full_host = ENV['FULL_HOST'] if ENV['FULL_HOST']
 		twitter_id = ENV['TWITTER_CONSUMER_ID']
 		twitter_secret = ENV['TWITTER_CONSUMER_SECRET']
 		use(OmniAuth::Strategies::Twitter, twitter_id, twitter_secret)
