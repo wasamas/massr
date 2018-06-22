@@ -110,6 +110,7 @@ module Massr
 				:secret => ENV['SESSION_SECRET']
 			}) if DB
 
+		OmniAuth.config.full_host = ENV['FULL_HOST'] if ENV['FULL_HOST']
 		use(
 			OmniAuth::Strategies::Twitter,
 			@auth_twitter[:id],
