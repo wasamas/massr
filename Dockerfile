@@ -9,6 +9,7 @@
 #
 # and some optional ENVs:
 #   MASSR_SETTINGS
+#   FULL_HOST (for internal of reverse proxy)
 #   MEDIA_* (for media plugins)
 #
 FROM ruby:2.3
@@ -23,9 +24,11 @@ ENV LANG=ja_JP.utf8
 ENV RACK_ENV=production
 ENV MONGODB_URI=mongodb://mongodb:27017/massr
 WORKDIR /opt/massr
-COPY [ ".", "/opt/massr/" ]
-RUN bundle --path=vendor/bundle --without=development:test --jobs=4 --retry=3 \
-    && bundle exec rake assets:precompile
+COPY ["Gemfile", "Gemfile.lock", "/opt/massr/"]
+RUN bundle --path=vendor/bundle --without=development:test --jobs=4 --retry=3
+
+COPY [".", "/opt/massr/"]
+RUN bundle exec rake assets:precompile
 
 EXPOSE 9393
 ENTRYPOINT ["bundle", "exec", "puma", "--port", "9393"]
