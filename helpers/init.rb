@@ -37,9 +37,9 @@ module Massr
 				Thread.start do
 					begin
 						Mail.deliver do
-							from 'no-reply@tdtds.jp'
+							from 'no-reply@wasamas.net'
 							to	user.email
-							subject 'Message from Massr'
+							subject 'Message from Wasamas'
 							content_type 'text/plain; charset=UTF-8'
 							body msg.gsub(/^\t+/, '')
 						end

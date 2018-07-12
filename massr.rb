@@ -57,8 +57,8 @@ module Massr
 			Mail.defaults do # using sendgrid plugin
 				delivery_method :smtp, {
 					:address => 'smtp.sendgrid.net',
-					:port => '587',
-					:domain => 'heroku.com',
+					:port => ENV['SENDGRID_PORT'] || 587,
+					:domain => 'wasamas.net',
 					:user_name => ENV['SENDGRID_USERNAME'],
 					:password => ENV['SENDGRID_PASSWORD'],
 					:authentication => :plain,
