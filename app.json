@@ -1,5 +1,9 @@
 {
   "name": "Massr",
+  "buildpacks": [
+	  {"url": "heroku/jvm"},
+	  {"url": "heroku/ruby"}
+  ],
   "addons": [
     "sendgrid",
     "memcachier",
