@@ -23,76 +23,59 @@ Massr - Mini Wassr
 ## 実行方法
 
 ### 前準備
-* Twitter用開発者登録
-『https://dev.twitter.com/apps/ 』でアプリ登録
+まずログイン認証に必要なTwitter開発者登録をします。
 
-call back用のURLは『http://127.0.0.1:9393/auth/twitter/callback 』(開発用)、または、『http://HOGE-FUGA.herokuapp.com/auth/twitter/callback 』(heroku用)とする。
+https://apps.twitter.com/ でTwitterアプリをひとつ登録します。Callback URLは:
 
-* Googleアカウント用意[オプション]
-画像のアップロードにPicasaを利用する場合、Googleアカウントが必要です。
-IDとパスワードでログインするため、利用するアカウントで二段階認証を設定している場合はMassr用のパスワードの発行、そうでない場合は「安全性の低いアプリのアクセス」を有効にする必要があります。
-設定は https://www.google.com/settings/security で変更できます。
+* http://localhost:9393/auth/twitter/callback (ローカル運用 or 開発用)
+* https://HOGE-FUGA.herokuapp.com/auth/twitter/callback (herokuで運用)
 
-* 画像投稿用Twitterアカウントの用意[オプション]
-画像のアップロードにTwitterを利用する場合、Twitterアカウントが必要です。上記で用意した開発者用アカウントを流用してもかまいませんが、画像がポストされるので専用のものを用意した方がよいでしょう。また、いわゆる鍵付きアカウントにしておくと良いでしょう。
+のように、運用するホストに対して「/auth/twitter/callback」を付加したものになります。
 
-このアカウントでも同様に開発者登録をしてアプリケーションをセットアップして、Consumer keyおよびSecretに加えてAccess TokenおよびSecretの4つのキーを入手しておきます。
+### Dockerでの実行方法
+massrはDockerで動かすのが簡単です。massr本体に加えて、mongodbおよびmemcachedのコンテナが必要です。
 
-### 開発環境(development)で実行方法
+```sh
+# mongodbコンテナの起動
+$ docker run -d --name mongodb -v mongodb:/data/db -p 27017:27017 mongo:3.4
 
+# memcachedコンテナの起動
+$ docker run -d --name memcached -p 11211:11211 memcached:latest
+
+# massrコンテナの起動
+# 環境変数を与えるための.envファイルを作成しておきます
+$ cat .env
+RACK_ENV=production
+MONGODB_URI=mongodb://mongodb:27017/massr
+MEMCACHE_SERVERS=memcached:11211
+TWITTER_CONSUMER_ID=【YOUR TWITTER CONSUMER KEY】
+TWITTER_CONSUMER_SECRET=【YOUR TWITTER SECRET KEY】
+
+$ docker run -d -p 9393:9393 --env-file .env --link mongodb --link memcached wasamas/massr:latest
+```
+
+ブラウザで http://localhost:9393 へアクセスするとログインできるようになります。
+
+### Herokuでの実行方法
+Herokuでも簡単に運用できます。 https://github.com/wasamas/massr のREADMEにある「Deploy to Heroku」ボタンを押して、適当なApp nameと`TWITTER_CONSUMER_ID`および`TWITTER_CONSUMER_SECRET`を指定してDeploy appすればOKです(TwitterのCallback URLを適切に設定しておいてください)。
+
+### 開発環境(development)での実行方法
 #### MongoDBを起動する
-ストレージとしてMongoDB利用しています。あらかじめインストールしておいてください(2.xが必要)。http://www.mongodb.org/downloads が参考になります。MacOSでhomebrewを使用している場合は以下:
-
-```sh
-$ brew install mongodb
-```
-
-Debian/Ubuntu系では以下でインストールされますが、バージョンが古い場合もあります:
-
-```sh
-$ sudo apt-get install mongodb
-```
-
-自動起動しない場合、手動で起動しておきます。例:
-
-```sh
-$ mongod run --config /usr/local/etc/mongod.conf
-```
+ストレージとしてMongoDB利用しています。あらかじめインストールしておいてください(3.xが必要)。https://www.mongodb.com/download-center#community が参考になります。多くのディストリビューションで「mongodb」がパッケージ名になります。
 
 #### memcachedを起動する
-処理速度のためmemcachedを利用しています。あらかじめインストールしておいてください。http://memcached.org/ からダウンロードできます。MacOSでhomebrewを使用している場合は以下:
-
-```sh
-$ brew install memcached
-```
-
-自動起動しない場合、手動で起動しておきます。例:
-
-```sh
-$ memcached -p 11211 -m 64m
-```
+処理速度向上のためmemcachedを利用しています。あらかじめインストールしておいてください。http://memcached.org/ からダウンロードできます。多くのディストリビューションで「memcached」がパッケージ名になります。
 
 #### imagemagickをインストール
 
-CentOSなら
-
-```sh
-sudo yum -y install ImageMagick-devel
-```
-
-MacOSでhomebrewを使用している場合は以下:
-
-```sh
-$ brew install imagemagick
-```
+画像投稿をする場合に、サイズ変更等のために内部でImageMagickを使っています。パッケージをインストールしておいてください。
 
 #### Massrを起動する
-Massr実行のための環境を設定して、実行します:
+Massr実行のための環境を設定して、実行します。なお実行にはrubyが必要です:
 
 ```sh
 $ git clone git://github.com/wasamas/massr.git
 $ cd massr
-$ mkdir vendor
 $ bundle install --path vendor/bundle
 $ export RACK_ENV=development
 $ export EDITOR=vi
@@ -104,133 +87,7 @@ developmentでの初回起動時にはTwitterのAPI情報、Gmailのアカウン
 TwitterのAPI情報はユーザ認証に、Gmailのアカウント情報はメールの送信に使用します。
 それぞれ ~/.pit/ 以下にファイルが作成されますので、上手く動作しないときはこの中のファイルを編集するか、一度削除して起動し直してください。
 
-http://127.0.0.1:9393 へ接続し、動作確認します。
-
-### Heroku環境(production)での実行方法
-まず https://toolbelt.heroku.com/ から自分の環境に合った heroku toolbelt をインストールし、ログインまで済ませておきます。
-
-```sh
-$ git clone git://github.com/wasamas/massr.git
-$ cd massr
-$ mkdir vendor
-$ bundle install --path vendor/bundle
-
-# アプリ初回作成時
-$ heroku apps:create massr-XXX #アプリ作成
-$ heroku addons:add mongolab:starter # MongoLabの有効化
-$ heroku addons:add sendgrid:starter # SendGridの有効化
-$ heroku addons:add memcachier:dev   # memcachierの有効化
-
-## ※ MongoLab・SendGrid を有効にするには Herokuにてクレジットカード登録が必要です
-$ heroku config:add \
-  RACK_ENV=production \
-  TWITTER_CONSUMER_ID=XXXXXXXXXXXXXXX \
-  TWITTER_CONSUMER_SECRET=XXXXXXXXXXXXXXX \
-  TZ=Asia/Tokyo \
-  FORCE_HTTPS=1
-
-FORCE_HTTPSは、httpsでのアクセスを強制したい場合に指定します。
-
-# アプリケーションデプロイ
-$ git push heroku master
-$ heroku ps:scale web=1
-
-# ログみてちゃんと動いているか確認してください
-$ heroku ps
-$ heroku logs -t
-```
-
-### 画像投稿を有効化する方法
-
-画像投稿にPicasaウェブアルバムを利用する場合は、設定が必要です。
-PicasaウェブアルバムではGoogle+と連携することで、2048px x 2048px以下の画像が容量無制限でアップロード可能となります。
-
-yamlファイルに以下の設定をすることで、Picasaを使った画像投稿機能が有効になります:
-
-```
-"plugin": {
-  "media/picasa": {
-  }
-}
-```
-
-また、Herokuの環境変数に以下の設定が必要です:
-
-```sh
-$ heroku config:add \
-  PICASA_ID=XXXXXXXXXXXXXXX \
-  GOOGLE_OAUTH_CLIENT_ID=XXXXXXX \
-  GOOGLE_OAUTH_CLIENT_SECRET=XXXXXXX \
-  GOOGLE_OAUTH_REDIRECT=XXXXXXX \
-  GOOGLE_OAUTH_REFRESH_TOKEN=XXXXXXX
-```
-
-GOOGLEで始まる各変数は[googleapi - Google API OAuth2.0のアクセストークン&リフレッシュトークン取得手順メモ - Qiita](http://qiita.com/kossacks/items/8d279bcc1acc2c2153ab)を参考に取得して下さい。
-（scopeは https://picasaweb.google.com/data/ ）
-
-有効にすることで、Picasaウェブアルバム上に『MassrYYMMNNN』というアルバムを作成し、
-そこに投稿された画像を登録します。
-
-投稿される画像はデフォルトで2048px x 2048px以下になるようにリサイズされます。
-投稿する画像サイズを変更する場合は後述する設定ファイルに指定して下さい。
-オリジナルサイズを利用したい場合は十分に大きい値を設定する必要があります。
-
-また、表示時に読み込まれる画像サイズはデフォルトで長辺が800pxになるように取得するようになっています。
-表示する画像サイズを変更する場合も、後述する設定ファイルに指定して下さい。
-
-画像投稿にTwitterを利用する場合は、yamlファイルに以下の設定が必要です。
-
-```
-"plugin": {
-  "media/twitter": {
-    "consumer_key": "aaaaaaaaaaaaaaa",
-	 "access_token": "bbbbbbbbbbbbbbbbb"
-  }
-}
-```
-
-また、Herokuの環境変数に以下の設定が必要です:
-
-```sh
-$ heroku config:add \
-  MEDIA_CONSUMER_SECRET=XXXXXXXXXXXXXXX \
-  MEDIA_ACCESS_TOKEN_SECRET=XXXXXXXXXXXXXXX
-```
-
-ただし、Twitterを利用する場合、スタンプ用の画像はうまく表示されないので、事実上スタンプ機能は使えなくなります。
-
-### New Relicアドオンよるパフォーマンス計測を実施する方法
-
-New Relicにてパフォーマンス計測等を実施する場合は以下の設定を実施することで有効になります。
-
-※New Relicアドオンはproductionでのみ有効になります。
-
-詳細は [New Relic | Heroku Dev Center](https://devcenter.heroku.com/articles/newrelic)をご参照ください。
-
-#### アドオンの有効化
-
-```sh
-$ heroku addons:add newrelic:standard
-$ heroku config:set NEW_RELIC_APP_NAME="XXXXXXXXXXXXXXXX" #new relicのサイトにて表示されるアプリケーション名
-```
-
-#### コンフィグファイルの修正
-
-同梱されている config/newrelic.yml を環境に合わせ変更してください。
-
-
-### mongodbデータへの修正適用方法
-commit b5151ea7より、modeles/userに関して、User.statement_idsを廃止しました。
-データベースへの修正を適用しなくても動作に問題有りませんが、以下のコマンドを適用し、
-データベースの修正を実施することを推奨します。
-データベースへの接続方法に関しては各環境をご確認ください。
-（herokuの場合 heroku configコマンドで確認可能です）
-
-```sh
-$ mongo ${HOST}:${PORT}/${DBNAME} -u ${MONGO_USER} -p ${MONGO_PASS}
-
-> db.massr.users.update({},{$unset: {statement_ids:1}},false,true)
-```
+http://localhost:9393 へ接続し、動作確認します。
 
 ## カスタマイズ
 ### 設定ファイル
@@ -298,15 +155,39 @@ localセクションでは、用語の変更を行えます。
 
 この他に、後述するプラグインの設定もこのファイルで行えます。
 
-### プラグインでカスタマイズ
+### 画像投稿を有効化する方法
 
-いくつかのプラグインが提供されています。詳しくは[Wiki](https://github.com/wasamas/massr/wiki/Plugins)を参照して下さい。
+いくつかのサービスと連携して、massrへ画像を投稿できます。ここではTwitterを例にとって説明します。その他のサービスについては plugins/media の下にあるファイルを参照してください。
+
+画像投稿用Twitterアカウントを用意します。認証用にで用意した開発者用アカウントを流用してもかまいませんが、画像がポストされるので専用のものを用意した方がよいでしょう。また、いわゆる鍵付きアカウントにしておくと良いでしょう。このアカウントでも同様に開発者登録をしてアプリケーションをセットアップし、Consumer keyおよびSecretに加えてAccess TokenおよびSecretの4つのキーを入手しておきます。
+
+public/default.jsonに以下の設定が必要です。
+
+```
+"plugin": {
+  "media/twitter": {
+    "consumer_key": "aaaaaaaaaaaaaaa",
+	 "access_token": "bbbbbbbbbbbbbbbbb"
+  }
+}
+```
+
+また、環境変数に以下の設定が必要です:
+
+```sh
+MEDIA_CONSUMER_SECRET=XXXXXXXXXXXXXXX
+MEDIA_ACCESS_TOKEN_SECRET=XXXXXXXXXXXXXXX
+```
+
+### その他のプラグインでカスタマイズ
+
+画像投稿以外にも、いくつかのプラグインが提供されています。詳しくは[Wiki](https://github.com/wasamas/massr/wiki/Plugins)を参照して下さい。
 
 プラグインのカスタマイズも、設定用JSONファイルに記述します。pluginセクションの中に、各プラグインの仕様に合わせて記述して下さい。
 
 ## ライセンス
-Massrの著作権は「The wasam@s production」が保有しており、GPLのもとで改変・再配布が可能です。ただし、同梱する下記のプロダクトはその限りではありません。
+Massrの著作権は「the wasam@s production」が保有しており、GPLのもとで改変・再配布が可能です。ただし、同梱する下記のプロダクトはその限りではありません。
 
 * Twitter Bootstrap (public/cs/bootstrap*, public/js/bootstrap*)
 * Magnific Popup (public/cs/magnific-popup.css, public/js/jquery.magnific-popup*)
-* jQuery URL Parser plugin (public/js/jquery.purl.js)
+* jQuery URL Parser plugin (public/jsquery.purl.js)
