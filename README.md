@@ -23,14 +23,12 @@ Massr - Mini Wassr
 ## 実行方法
 
 ### 前準備
-まずログイン認証に必要なTwitter開発者登録をします。
+まずログイン認証に必要なTwitter開発者登録をします。[TwitterのApplication Management](https://apps.twitter.com/)でTwitterアプリをひとつ登録します。Callback URLは:
 
-https://apps.twitter.com/ でTwitterアプリをひとつ登録します。Callback URLは:
+* `http://localhost:9393/auth/twitter/callback` (ローカル運用 or 開発用)
+* `https://EXAMPLE.herokuapp.com/auth/twitter/callback` (herokuで運用)
 
-* http://localhost:9393/auth/twitter/callback (ローカル運用 or 開発用)
-* https://HOGE-FUGA.herokuapp.com/auth/twitter/callback (herokuで運用)
-
-のように、運用するホストに対して「/auth/twitter/callback」を付加したものになります。
+のように、運用するホストに対して「`/auth/twitter/callback`」を付加したものになります。
 
 ### Dockerでの実行方法
 massrはDockerで動かすのが簡単です。massr本体に加えて、mongodbおよびmemcachedのコンテナが必要です。
