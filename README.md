@@ -12,7 +12,7 @@ Massr - Mini Wassr
 
 ないなら作ればいい。
 
-……というわけで作られたのがこのMassrです。Wassrの全機能を実装するわけではないので、名前もMiniですが、さらに用途も限定されているため「あなたが求めている」Wassrですらないかも知れません。Massrが目指しているのは以下のようなものです:
+……というわけで作られたのがこのMassrです。Wassrの全機能を実装するわけではないので、名前もMiniですが、さらに用途も限定されているため「あなたが求めているWassr」ですらないかも知れません。Massrが目指しているのは以下のようなものです:
 
 * シンプルな掲示板である (スレッドや話題別のコミュはいらない)
 * 会員限定 (Wassrの鍵付きユーザ同士のソーシャルネットワークを想定)
@@ -55,7 +55,7 @@ $ docker run -d -p 9393:9393 --env-file .env --link mongodb --link memcached was
 ブラウザで http://localhost:9393 へアクセスするとログインできるようになります。
 
 ### Herokuでの実行方法
-Herokuでも簡単に運用できます。 https://github.com/wasamas/massr のREADMEにある「Deploy to Heroku」ボタンを押して、適当なApp nameと`TWITTER_CONSUMER_ID`および`TWITTER_CONSUMER_SECRET`を指定してDeploy appすればOKです(TwitterのCallback URLを適切に設定しておいてください)。
+Herokuでも簡単に運用できます。 [massrのGitHub](https://github.com/wasamas/massr)のREADMEにある「Deploy to Heroku」ボタンを押して、適当なApp nameと`TWITTER_CONSUMER_ID`および`TWITTER_CONSUMER_SECRET`を指定してDeploy appすればOKです(TwitterのCallback URLを適切に設定しておいてください)。
 
 ### 開発環境(development)での実行方法
 #### MongoDBを起動する
@@ -81,7 +81,7 @@ $ bundle exec rake assets:precompile
 $ bundle exec puma --port 9393
 ```
 
-developmentでの初回起動時にはTwitterのAPI情報、Gmailのアカウント情報を設定するようviが起動します。(上記でEDITORに指定したエディタ)
+developmentでの初回起動時にはTwitterのAPI情報、Gmailのアカウント情報を設定するようviが起動します。(上記で`EDITOR`に指定したエディタ)
 TwitterのAPI情報はユーザ認証に、Gmailのアカウント情報はメールの送信に使用します。
 それぞれ ~/.pit/ 以下にファイルが作成されますので、上手く動作しないときはこの中のファイルを編集するか、一度削除して起動し直してください。
 
@@ -90,7 +90,7 @@ http://localhost:9393 へ接続し、動作確認します。
 ## カスタマイズ
 ### 設定ファイル
 
-public/default.json (JSONフォーマット)に、カスタマイズ可能な項目が書かれています。これをコピーして環境変数MASSR_SETTINGSにファイル名やURLを指定することでそのファイルを使うことも可能です。MASSR_SETTINGSに指定したファイルはpublicの下に置くか、サーバサイドから参照可能なURLである必要があります(URLの場合クライアントサイドではMassr側で作成したコピーを使います)。
+`public/default.json` (JSONフォーマット)に、カスタマイズ可能な項目が書かれています。これをコピーして環境変数`MASSR_SETTINGS`にファイル名やURLを指定することでそのファイルを使うことも可能です。`MASSR_SETTINGS`に指定したファイルは`public`の下に置くか、サーバサイドから参照可能なURLである必要があります(URLの場合クライアントサイドではMassr側で作成したコピーを使います)。
 
 ```sh
 # ファイル(public/settings.json)の場合
@@ -102,12 +102,12 @@ $ heroku config:add MASSR_SETTINGS=custom.json
 $ heroku config:add MASSR_SETTINGS=http://exapmle.com/massr_custom.json
 ```
 
-なお、MASSR_SETTINGSはMassr起動時に読み込まれるので、で指定したファイルを書き換えてもMassrを再起動するまでその内容は反映されません。カスタマイズしたjsonファイルには、元のdefault.jsonとの差分のみ書いてあればOKです。
+なお、`MASSR_SETTINGS`はMassr起動時に読み込まれるので、指定したファイルを書き換えてもMassrを再起動するまでその内容は反映されません。カスタマイズしたjsonファイルには、元のdefault.jsonとの差分のみ書いてあればOKです。
 
 ### Massrの設定
 設定ファイルで変更できるのは、以下のとおりです:
 
-resourceセクションの中で、Massrのアイコンを変更する設定を記述します。
+`resource`セクションの中で、Massrのアイコンを変更する設定を記述します。
 
 ```
 "resource": {
@@ -129,9 +129,9 @@ resourceセクションの中で、Massrのアイコンを変更する設定を�
 	- apple-touch-icon-72x72.png
 	- apple-touch-icon-114x114.png
 
-また、icon_dirを指定しない場合、"default"が設定されます。
+また、`icon_dir`を指定しない場合、"default"が設定されます。
 
-settingセクションの中で、Massrの動作を変更する設定を記述します。
+`setting`セクションの中で、Massrの動作を変更する設定を記述します。
 
 ```
 "setting": {
@@ -143,7 +143,7 @@ settingセクションの中で、Massrの動作を変更する設定を記述�
 * upload_photo_size : 画像アップロード時の最大サイズ(ピクセル)
 * display_photo_size: 画像表示時の最大サイズ(ピクセル)
 
-localセクションでは、用語の変更を行えます。
+`local`セクションでは、用語の変更を行えます。
 
 ```
 "local": {
@@ -153,13 +153,13 @@ localセクションでは、用語の変更を行えます。
 
 この他に、後述するプラグインの設定もこのファイルで行えます。
 
-### 画像投稿を有効化する方法
+### 画像を投稿する
 
-いくつかのサービスと連携して、massrへ画像を投稿できます。ここではTwitterを例にとって説明します。その他のサービスについては plugins/media の下にあるファイルを参照してください。
+いくつかのサービスと連携して、massrへ画像を投稿できます。ここではTwitterを例にとって説明します。その他のサービスについては `plugins/media`の下にあるファイルを参照してください。
 
 画像投稿用Twitterアカウントを用意します。認証用にで用意した開発者用アカウントを流用してもかまいませんが、画像がポストされるので専用のものを用意した方がよいでしょう。また、いわゆる鍵付きアカウントにしておくと良いでしょう。このアカウントでも同様に開発者登録をしてアプリケーションをセットアップし、Consumer keyおよびSecretに加えてAccess TokenおよびSecretの4つのキーを入手しておきます。
 
-public/default.jsonに以下の設定が必要です。
+`public/default.json`に以下の設定を追加します:
 
 ```
 "plugin": {
@@ -181,11 +181,11 @@ MEDIA_ACCESS_TOKEN_SECRET=XXXXXXXXXXXXXXX
 
 画像投稿以外にも、いくつかのプラグインが提供されています。詳しくは[Wiki](https://github.com/wasamas/massr/wiki/Plugins)を参照して下さい。
 
-プラグインのカスタマイズも、設定用JSONファイルに記述します。pluginセクションの中に、各プラグインの仕様に合わせて記述して下さい。
+プラグインのカスタマイズも、設定用JSONファイルに記述します。`plugin`セクションの中に、各プラグインの仕様に合わせて記述して下さい。
 
 ## ライセンス
 Massrの著作権は「the wasam@s production」が保有しており、GPLのもとで改変・再配布が可能です。ただし、同梱する下記のプロダクトはその限りではありません。
 
 * Twitter Bootstrap (public/cs/bootstrap*, public/js/bootstrap*)
 * Magnific Popup (public/cs/magnific-popup.css, public/js/jquery.magnific-popup*)
-* jQuery URL Parser plugin (public/jsquery.purl.js)
+* jQuery URL Parser plugin (public/js/query.purl.js)
