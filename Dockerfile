@@ -16,8 +16,8 @@ FROM ruby:2.5
 MAINTAINER tdtds <t@tdtds.jp>
 
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - \
-	 && apt install -y nodejs openjdk-8-jre \
-	 && apt -y clean \
+    && apt install -y nodejs openjdk-8-jre \
+    && apt -y clean \
     && echo -e "install: --no-document\nupdate: --no-document" >/etc/gemrc \
     && mkdir -p /opt/massr
 
