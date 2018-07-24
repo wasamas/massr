@@ -4,6 +4,7 @@
 .config
 .ruby-version
 .env
+*.code-workspace
 coverage
 InstalledFiles
 lib/bundler/man
