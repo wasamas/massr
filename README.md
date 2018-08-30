@@ -23,7 +23,7 @@ Massr - Mini Wassr
 ## 実行方法
 
 ### 前準備
-まずログイン認証に必要なTwitter開発者登録をします。[TwitterのApplication Management](https://apps.twitter.com/)でTwitterアプリをひとつ登録します。Callback URLは:
+まずログイン認証に必要なTwitter開発者登録をします。[Twitter DeveloperのApps](https://developer.twitter.com/en/apps)でTwitterアプリをひとつ登録します。Callback URLは:
 
 * `http://localhost:9393/auth/twitter/callback` (ローカル運用 or 開発用)
 * `https://EXAMPLE.herokuapp.com/auth/twitter/callback` (herokuで運用)
