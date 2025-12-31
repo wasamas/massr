@@ -19,6 +19,7 @@ module Massr
 			when '/login'
 			when '/logout'
 			when %r|^/auth/|
+			when %r|^/assets/|
 			when '/user'
 				redirect to('/login') unless session[:twitter_user_id]
 			else
@@ -42,6 +43,7 @@ module Massr
 	end
 end
 
+require_relative 'assets'
 require_relative 'main'
 require_relative 'auth'
 require_relative 'statement'

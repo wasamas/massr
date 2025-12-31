@@ -11,9 +11,28 @@ begin
 rescue LoadError => e
 end
 
-require 'sinatra/asset_pipeline/task'
 require './massr'
-Sinatra::AssetPipeline::Task.define! Massr::App
+require 'sprockets'
+require 'fileutils'
+
+namespace :assets do
+	desc 'Precompile assets'
+	task :precompile do
+		sprockets = Massr::App.sprockets
+		manifest = Sprockets::Manifest.new(sprockets, File.join(Massr::App.public_folder, 'assets'))
+
+		# Clean old assets
+		FileUtils.rm_rf(File.join(Massr::App.public_folder, 'assets'))
+
+		# Compile assets
+		manifest.compile(['application.js', 'application.css'])
+	end
+
+	desc 'Clean compiled assets'
+	task :clean do
+		FileUtils.rm_rf(File.join(Massr::App.public_folder, 'assets'))
+	end
+end
 
 # Local Variables:
 # mode: ruby

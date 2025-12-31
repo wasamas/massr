@@ -20,7 +20,7 @@ module Massr
 			if %r|\Ahttps?://| =~ env
 				# saving copy to cache
 				custom_settings_uri = '/custom_cache.json'
-				open("public#{custom_settings_uri}", 'w'){|o|o.write(open(env, &:read))}
+				File.open("public#{custom_settings_uri}", 'w:UTF-8'){|o|o.write(URI.open(env, &:read))}
 			else # local
 				if %r|\.\.| =~ env
 					puts "MASSR_SETTINGS cannot contains '..'."
@@ -30,8 +30,8 @@ module Massr
 				custom_settings_uri = '/' + custom_settings_uri if %r|\A/| !~ custom_settings_uri
 			end
 		end
-		default_settings = JSON.parse(open("public/default.json", &:read))
-		custom_settings = JSON.parse(open("public#{custom_settings_uri}", &:read)) if custom_settings_uri
+		default_settings = JSON.parse(File.open("public/default.json", 'r:UTF-8', &:read))
+		custom_settings = JSON.parse(File.open("public#{custom_settings_uri}", 'r:UTF-8', &:read)) if custom_settings_uri
 		default_settings.keys.each do |key|
 			default_settings[key].merge!(custom_settings[key]) if custom_settings[key]
 		end

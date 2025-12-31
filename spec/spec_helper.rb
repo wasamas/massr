@@ -8,7 +8,7 @@
 # Distributed under GPL
 #
 
-$:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..')).untaint
+$:.unshift File.expand_path(File.join(File.dirname(__FILE__), '..'))
 Bundler.require(:default, :test) if defined?(Bundler)
 
 RSpec.configure do |config|

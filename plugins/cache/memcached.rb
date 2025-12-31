@@ -7,12 +7,10 @@
 #
 # Distributed under GPL
 #
-require 'celluloid'
 
 module Massr
 	module Plugin::Cache
 		class Memcached
-			include Celluloid
 
 			def initialize(label, opts = {})
 				if ENV['MEMCACHE_SERVERS'] || ENV["MEMCACHIER_SERVERS"]

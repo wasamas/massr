@@ -1,9 +1,11 @@
-//= require jquery
-//= require bootstrap
-//= require magnific-popup
+//= require jquery-2.0.3.min
+//= require bootstrap-2.3.2.min
+//= require jquery.magnific-popup-1.1.0.min
 //= require jquery.masonry.min
 //= require jquery.pnotify
 //= require jquery.purl
 //= require jquery.auto-link
 //= require massr
-//= require_tree .
+//= require massr.templates
+//= require massr.plugin
+//= require_tree ./plugins

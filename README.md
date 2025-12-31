@@ -33,6 +33,8 @@ Massr - Mini Wassr
 ### Dockerでの実行方法
 massrはDockerで動かすのが簡単です。massr本体に加えて、mongodbおよびmemcachedのコンテナが必要です。
 
+**注意**: Ruby 4.0.0対応版では、Dockerイメージは`ruby:4.0`ベース、Node.js 20.x、OpenJDK 17を使用します。
+
 ```sh
 # mongodbコンテナの起動
 $ docker run -d --name mongodb -v mongodb:/data/db -p 27017:27017 mongo:3.4
@@ -71,9 +73,24 @@ Herokuでも簡単に運用できます。 [massrのGitHub](https://github.com/w
 #### Massrを起動する
 Massr実行のための環境を設定して、実行します。なお実行にはrubyが必要です:
 
+**必要な環境:**
+- Ruby 4.0.0以上
+- Node.js 20.x以上（アセットコンパイル用）
+- MongoDB 3.x以上
+- memcached
+- ImageMagick
+
 ```sh
 $ git clone git://github.com/wasamas/massr.git
 $ cd massr
+
+# vendor/assets用JavaScriptファイルのダウンロード（初回のみ）
+$ mkdir -p vendor/assets/javascripts
+$ curl -o vendor/assets/javascripts/jquery-2.0.3.min.js https://code.jquery.com/jquery-2.0.3.min.js
+$ curl -o vendor/assets/javascripts/bootstrap-2.3.2.min.js https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js
+$ curl -o vendor/assets/javascripts/jquery.magnific-popup-1.1.0.min.js https://cdnjs.cloudflare.com/ajax/libs/magnific-popup/1.1.0/jquery.magnific-popup.min.js
+
+# 依存関係のインストール
 $ bundle install --path vendor/bundle
 $ export RACK_ENV=development
 $ export EDITOR=vi

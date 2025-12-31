@@ -10,5 +10,7 @@
 				.span12
 					.main
 						%p<#{_need_login}
-						%a.btn.btn-large.btn-primary{:href => "/auth/twitter", :title => "Login"}<TwitterでLogin &raquo;
+						%form{:action => "/auth/twitter", :method => "post"}
+							%input{csrf_input}
+							%button.btn.btn-large.btn-primary{:type => "submit", :title => "Login"}<TwitterでLogin &raquo;
 			!= haml :footer

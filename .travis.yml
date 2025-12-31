@@ -5,7 +5,7 @@ bundler_args: --without development
 before_install:
 
 rvm:
-  - 2.6.0
+  - 4.0.0
 
 cache:
   bundler: true

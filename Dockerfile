@@ -12,11 +12,11 @@
 #   FULL_HOST (for internal of reverse proxy)
 #   MEDIA_* (for media plugins)
 #
-FROM ruby:2.5
+FROM ruby:4.0
 MAINTAINER tdtds <t@tdtds.jp>
 
-RUN curl -sL https://deb.nodesource.com/setup_9.x | bash - \
-    && apt install -y nodejs openjdk-8-jre \
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt install -y nodejs openjdk-17-jre \
     && apt -y clean \
     && echo -e "install: --no-document\nupdate: --no-document" >/etc/gemrc \
     && mkdir -p /opt/massr

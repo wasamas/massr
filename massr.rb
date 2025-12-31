@@ -8,6 +8,9 @@
 Bundler.require(:default, ENV['RACK_ENV'] || :development)
 require 'json'
 
+# Ruby 4.0 compatibility patch for CGI.parse
+require_relative 'config/initializers/cgi_parse_patch'
+
 require_relative 'plugins/logging'
 require_relative 'plugins/async_request'
 
@@ -22,13 +25,30 @@ module Massr
 	class App < Sinatra::Base
 		set :haml, {format: :html5}
 
-		set :assets_precompile, %w(application.js application.css *.png *.jpg *.svg)
-		set :assets_css_compressor, :yui
-		set :assets_js_compressor, :uglifier
-		set :assets_paths, %w(assets/js assets/css)
-		register Sinatra::AssetPipeline
-		RailsAssets.load_paths.each do |path|
-			settings.sprockets.append_path(path)
+		# Sprockets 3.x configuration
+		set :sprockets, Sprockets::Environment.new(root)
+		set :assets_prefix, '/assets'
+		set :digest_assets, (ENV['RACK_ENV'] == 'production')
+
+		configure do
+			sprockets.append_path(File.join(root, 'assets/js'))
+			sprockets.append_path(File.join(root, 'assets/css'))
+
+			if ENV['RACK_ENV'] == 'production'
+				sprockets.css_compressor = :yui
+				sprockets.js_compressor = :uglifier
+			end
+
+			Sprockets::Helpers.configure do |config|
+				config.environment = sprockets
+				config.prefix = assets_prefix
+				config.digest = digest_assets
+				config.public_path = public_folder
+			end
+		end
+
+		helpers do
+			include Sprockets::Helpers
 		end
 
 		configure :production do
@@ -81,12 +101,25 @@ module Massr
 		Mongoid.raise_not_found_error = false
 
 		session_expire = 60 * 60 * 24 * 30 - 1
-		use Rack::Session::Dalli, cache: Dalli::Client.new, expire_after: session_expire
+		memcache_servers = ENV['MEMCACHE_SERVERS'] || ENV['MEMCACHIER_SERVERS'] || 'localhost:11211'
+		use Rack::Session::Dalli,
+			memcache_server: memcache_servers,
+			username: ENV['MEMCACHE_USERNAME'] || ENV['MEMCACHIER_USERNAME'],
+			password: ENV['MEMCACHE_PASSWORD'] || ENV['MEMCACHIER_PASSWORD'],
+			expire_after: session_expire
 
-		OmniAuth.config.full_host = ENV['FULL_HOST'] if ENV['FULL_HOST']
+		# CSRF protection is handled by Rack::Csrf, so disable OmniAuth's own CSRF protection
 		twitter_id = ENV['TWITTER_CONSUMER_ID']
 		twitter_secret = ENV['TWITTER_CONSUMER_SECRET']
-		use(OmniAuth::Strategies::Twitter, twitter_id, twitter_secret)
+		use OmniAuth::Builder do
+			configure do |config|
+				config.full_host = ENV['FULL_HOST'] if ENV['FULL_HOST']
+				config.allowed_request_methods = [:post, :get]
+				config.silence_get_warning = true
+				config.request_validation_phase = proc {}
+			end
+			provider :twitter, twitter_id, twitter_secret
+		end
 
 		use Rack::Csrf
 

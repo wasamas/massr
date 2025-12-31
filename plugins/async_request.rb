@@ -10,14 +10,18 @@
 require 'uri'
 require 'net/http'
 require 'net/https'
-require 'thread'
-require 'celluloid'
+require 'concurrent'
 
 
 module Massr
 	module Plugin
 		class AsyncRequest
-			include Celluloid
+			@@executor = Concurrent::ThreadPoolExecutor.new(
+				min_threads: 2,
+				max_threads: 5,
+				max_queue: 10,
+				fallback_policy: :caller_runs
+			)
 
 			def initialize(uri)
 				@uri = uri
@@ -33,16 +37,23 @@ module Massr
 
 			def add_photo(statement_id)
 				@statement_id = statement_id
-				begin
-					@nethttp.start do |http|
-						response = http.head( @uri.request_uri )
-						Statement.add_photo(@statement_id, @uri) if response["content-type"].to_s.include?('image')
+				@@executor.post do
+					begin
+						@nethttp.start do |http|
+							response = http.head( @uri.request_uri )
+							Statement.add_photo(@statement_id, @uri) if response["content-type"].to_s.include?('image')
+						end
+					rescue SocketError => e
+						#URLの先が存在しないなど。
+					rescue Timeout::Error => e
+						#タイムアウト
 					end
-				rescue SocketError => e
-					#URLの先が存在しないなど。
-				rescue Timeout::Error => e
-					#タイムアウト
 				end
+			end
+
+			def self.shutdown
+				@@executor.shutdown
+				@@executor.wait_for_termination(5)
 			end
 		end
 	end

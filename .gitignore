@@ -23,3 +23,7 @@ public/assets/
 .yardoc
 _yardoc
 doc/
+log/
+
+# Claude Code configuration
+.claude/
