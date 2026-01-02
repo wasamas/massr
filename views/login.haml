@@ -13,4 +13,6 @@
 						%form{:action => "/auth/twitter", :method => "post"}
 							%input{csrf_input}
 							%button.btn.btn-large.btn-primary{:type => "submit", :title => "Login"}<TwitterでLogin &raquo;
+						.passkey-login-section{:style => "margin-bottom: 20px;"}
+							%button#passkey-login-btn.btn.btn-large.btn-success{:type => "button"} PasskeyでLogin &raquo;
 			!= haml :footer

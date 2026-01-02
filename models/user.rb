@@ -20,9 +20,15 @@ module Massr
 		field :email,                  type: String
 		field :status,                 type: Integer, default: UNAUTHORIZED
 		field :res_ids,                type: Array
+
+		# WebAuthn/Passkey関連フィールド
+		field :webauthn_id,            type: String
+		field :webauthn_credentials,   type: Array, default: []
+
 		validates_presence_of   :massr_id, :twitter_user_id, :twitter_id,
 		                        :twitter_icon_url, :twitter_icon_url, :name
 		validates_uniqueness_of :massr_id, :twitter_user_id, :twitter_id
+		validates_uniqueness_of :webauthn_id, allow_nil: true
 
 		has_many :statements, class_name: 'Massr::Statement'
 
@@ -87,6 +93,46 @@ module Massr
 
 		def authorized?
 			status != UNAUTHORIZED
+		end
+
+		# WebAuthn/Passkey関連メソッド
+		def has_passkey?
+			webauthn_credentials.present? && !webauthn_credentials.empty?
+		end
+
+		def ensure_webauthn_id
+			self.webauthn_id ||= SecureRandom.urlsafe_base64(32)
+			save!
+		end
+
+		def add_webauthn_credential(credential_data)
+			self.webauthn_credentials ||= []
+			self.webauthn_credentials << {
+				'id' => credential_data[:id],
+				'public_key' => credential_data[:public_key],
+				'sign_count' => credential_data[:sign_count],
+				'nickname' => credential_data[:nickname] || 'Default',
+				'created_at' => Time.now
+			}
+			save!
+		end
+
+		def find_webauthn_credential(credential_id)
+			return nil unless webauthn_credentials
+			webauthn_credentials.find { |c| c['id'] == credential_id }
+		end
+
+		def update_sign_count(credential_id, new_count)
+			credential = find_webauthn_credential(credential_id)
+			return false unless credential
+			credential['sign_count'] = new_count
+			save!
+		end
+
+		def remove_webauthn_credential(credential_id)
+			return false unless webauthn_credentials
+			self.webauthn_credentials.reject! { |c| c['id'] == credential_id }
+			save!
 		end
 
 		def to_json(stat = nil)

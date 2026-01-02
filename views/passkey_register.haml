@@ -1,0 +1,41 @@
+!!!
+%html
+	%head
+		%title Passkey登録 - Massr
+		!= haml :head
+	%body
+		!= haml :header
+		.container-fluid
+			.row-fluid
+				.span9
+					.main
+						%h2 Passkey（パスキー）の登録
+
+						- if user.has_passkey?
+							.alert.alert-success
+								Passkeyは既に登録済みです。次回以降、指紋認証や顔認証でログインできます。
+						- else
+							.alert.alert-info
+								Passkeyを登録すると、次回以降パスワード不要で素早くログインできます。
+
+						%p
+							Passkeyは、指紋認証、顔認証、セキュリティキーなどを使った
+							安全で便利なログイン方法です。
+
+						%form#passkey-registration-form
+							.control-group
+								%label.control-label{:for => 'credential-nickname'} デバイス名
+								.controls
+									%input#credential-nickname.input-large{:type => "text", :placeholder => "例: iPhone, YubiKey", :value => ""}
+									%span.help-block デバイスを識別するための名前（任意）
+
+							.control-group
+								.controls
+									%button#register-passkey-btn.btn.btn-primary.btn-large{:type => "button"} Passkeyを登録
+									%a.btn.btn-large{:href => "/"} スキップ
+
+						%div#passkey-status
+
+				.span3
+					!= haml :sidebar
+		!= haml :footer

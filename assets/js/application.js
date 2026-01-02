@@ -8,4 +8,7 @@
 //= require massr
 //= require massr.templates
 //= require massr.plugin
+//= require passkey-login
+//= require passkey-register
+//= require passkey-manage
 //= require_tree ./plugins

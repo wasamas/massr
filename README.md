@@ -104,6 +104,47 @@ TwitterのAPI情報はユーザ認証に、Gmailのアカウント情報はメ�
 
 http://localhost:9393 へ接続し、動作確認します。
 
+## Passkey（パスキー）認証
+
+Massrでは、パスワード不要で安全にログインできるPasskey認証に対応しています。
+
+### Passkeyとは
+
+Passkeyは、指紋認証、顔認証、セキュリティキーなどを使った次世代の認証方法です。パスワードを覚える必要がなく、フィッシング攻撃にも強い安全な認証方式です。
+
+### 利用方法
+
+1. **初回登録**: Twitterでログイン後、設定画面からPasskey登録が可能です
+2. **Passkey登録**: デバイス名を入力し、「Passkeyを登録」をクリック
+3. **次回以降**: ログイン画面で「Passkeyでログイン」を選択し、指紋認証や顔認証でログイン
+
+### 環境変数
+
+Passkey機能を有効にするには、以下の環境変数を設定してください：
+
+```sh
+# 本番環境
+WEBAUTHN_ORIGIN=https://your-domain.com
+WEBAUTHN_RP_NAME=Massr
+
+# 開発環境
+WEBAUTHN_ORIGIN=http://localhost:9292
+WEBAUTHN_RP_NAME=Massr Development
+```
+
+### 対応ブラウザ
+
+- Chrome 67以降
+- Firefox 60以降
+- Safari 14以降
+- Edge 18以降
+
+### 注意事項
+
+- Passkeyは HTTPS環境でのみ利用可能です（開発環境ではlocalhostのみHTTP可）
+- デバイスを紛失した場合は、Twitter認証でログイン後、設定画面からPasskeyを削除できます
+- 複数のデバイス（iPhone、Android、PCなど）にPasskeyを登録できます
+
 ## カスタマイズ
 ### 設定ファイル
 

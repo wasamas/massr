@@ -15,6 +15,7 @@ gem 'hamlit', '~> 3.0', require: 'hamlit'
 #gem 'omniauth-twitter', '~> 1.4', require: 'omniauth-twitter'
 gem 'omniauth', require: 'omniauth'
 gem 'omniauth-twitter',  require: 'omniauth-twitter'
+gem 'webauthn', '~> 3.0'
 gem 'mongoid', '~> 9.0', require: 'mongoid'
 # gem 'bson_ext'  # Integrated into bson gem
 gem 'rack_csrf', require: 'rack/csrf'

@@ -1,0 +1,45 @@
+!!!
+%html
+	%head
+		%title Passkey管理 - Massr
+		!= haml :head
+	%body
+		!= haml :header
+		.container-fluid
+			.row-fluid
+				.span9
+					.main
+						%h2 Passkey管理
+
+						- if user.has_passkey?
+							%p 登録済みのPasskey一覧
+							%table.table.table-striped
+								%thead
+									%tr
+										%th デバイス名
+										%th 登録日時
+										%th 操作
+								%tbody
+									- user.webauthn_credentials.each do |cred|
+										%tr{"data-credential-id" => cred['id']}
+											%td= cred['nickname']
+											%td= cred['created_at'].strftime('%Y-%m-%d %H:%M')
+											%td
+												%button.btn.btn-danger.btn-small.delete-credential{"data-credential-id" => cred['id']} 削除
+
+							%hr
+
+						%h3 新しいPasskeyを追加
+						%form#passkey-add-form
+							.control-group
+								%label.control-label{:for => 'new-credential-nickname'} デバイス名
+								.controls
+									%input#new-credential-nickname.input-large{:type => "text", :placeholder => "例: MacBook, Android"}
+
+							.control-group
+								.controls
+									%button#add-passkey-btn.btn.btn-primary{:type => "button"} Passkeyを追加
+
+				.span3
+					!= haml :sidebar
+		!= haml :footer

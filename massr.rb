@@ -121,6 +121,14 @@ module Massr
 			provider :twitter, twitter_id, twitter_secret
 		end
 
+		# WebAuthn configuration
+		WebAuthn.configure do |config|
+			config.allowed_origins = [ENV['WEBAUTHN_ORIGIN']]
+			config.rp_name = ENV['WEBAUTHN_RP_NAME'] 
+			config.algorithms = ['ES256', 'RS256']
+			config.credential_options_timeout = 60_000
+		end
+
 		use Rack::Csrf
 
 		# max entries of 1st view
