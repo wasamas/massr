@@ -31,11 +31,23 @@ module Massr
 					media_client = media_plugins.first
 					raise Massr::NoPhotoError.new unless media_client
 
-					path = photo_info[:tempfile].to_path || ''
+					unless photo_info && photo_info[:tempfile]
+						puts "Media upload error: photo_info or tempfile is nil"
+						raise Massr::NoPhotoError.new
+					end
+
+					path = photo_info[:tempfile].to_path
+					unless path && File.exist?(path)
+						puts "Media upload error: tempfile path is invalid or file does not exist (path: #{path})"
+						raise Massr::NoPhotoError.new
+					end
+
 					content_type = specify_content_type(photo_info[:head])
 					media_client.resize_file(path, size, square)
 					return media_client.upload_file(path, content_type, SETTINGS['setting']['display_photo_size'])
-				rescue StandardError
+				rescue StandardError => e
+					puts "Media upload error: #{e.class}: #{e.message}"
+					puts e.backtrace.first(5).join("\n")
 					raise Massr::NoPhotoError
 				end
 			end

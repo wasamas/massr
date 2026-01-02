@@ -19,7 +19,8 @@ module Massr
 
 			def initialize(label, opts)
 				unless ENV['MEDIA_GYAZO_SECRET']
-					raise StandardError::new('MEDIA_GYAZO_SECRET not found')
+					puts "ERROR: MEDIA_GYAZO_SECRET environment variable is not set"
+					raise StandardError.new('MEDIA_GYAZO_SECRET not found')
 				end
 				init_client
 			end
@@ -32,9 +33,21 @@ module Massr
 				display_size ||= DEFAULT_DISPLAY_PHOTO_SIZE
 				retry_count = 0
 				begin
-					res = @client.upload(path.to_s)
-					return res['url'].sub(%r|^https://i\.gyazo\.com|, "https://i.gyazo.com/thumb/#{display_size}")
-				rescue
+					res = @client.upload(imagefile: path.to_s)
+
+					# レスポンスからURLを取得
+					url = res[:url] || res['url']
+
+					unless url
+						puts "ERROR: Could not extract URL from Gyazo response: #{res.inspect}"
+						raise StandardError.new("No URL in Gyazo response")
+					end
+
+					return url.sub(%r|^https://i\.gyazo\.com|, "https://i.gyazo.com/thumb/#{display_size}")
+				rescue => e
+					puts "Gyazo upload error (attempt #{retry_count + 1}/10): #{e.class}: #{e.message}"
+					puts "  File path: #{path}"
+					puts "  File exists: #{File.exist?(path)}" if path
 					init_client
 					retry if (retry_count += 1) < 10
 					raise
