@@ -30,7 +30,7 @@ module Massr
 
 		get '/stamps' do
 			haml :user_photos, locals: {
-				statements: cache.get('stamp').map {|s| Statement.new(s['original'])},
+				statements: Stamp.get_stamps.map {|i| i.original},
 				q: nil,
 				pagenation: false
 			}

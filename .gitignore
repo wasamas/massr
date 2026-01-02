@@ -19,6 +19,7 @@ public/custom.json
 public/custom_cache.json
 public/assets/
 .serena
+mise.toml
 
 # YARD artifacts
 .yardoc

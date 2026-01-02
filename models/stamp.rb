@@ -71,14 +71,12 @@ module Massr
 		end
 
 		def to_hash
-			original = Statement.find_by(id: original_id)
 			{
 				'id' => id.to_s,
 				'created_at' => created_at.localtime.strftime('%Y-%m-%d %H:%M:%S'),
 				'image_url' => image_url,
 				'tag' => tag,
 				'popular' => popular,
-				'original' => original ? original.to_hash : nil
 			}
 		end
 	end
