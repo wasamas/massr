@@ -15,6 +15,12 @@ module Massr
 
 		belongs_to :original, class_name: 'Massr::Statement', inverse_of: :stamp_source
 
+		# インデックス定義
+		index({ image_url: 1 }, { unique: true })
+		index({ popular: -1 })
+		index({ original_id: 1 })
+		index({ tag: 1 })
+
 		def self.get_stamps
 			all = self.all
 			if block_given?

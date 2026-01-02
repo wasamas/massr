@@ -63,6 +63,30 @@ Herokuでも簡単に運用できます。 [massrのGitHub](https://github.com/w
 #### MongoDBを起動する
 ストレージとしてMongoDB利用しています。あらかじめインストールしておいてください(3.xが必要)。https://www.mongodb.com/download-center#community が参考になります。多くのディストリビューションで「mongodb」がパッケージ名になります。
 
+##### MongoDBのインデックス作成
+
+初回セットアップ時やモデル定義変更後は、MongoDBにインデックスを作成する必要があります。以下のコマンドを実行してください：
+
+```sh
+$ bundle exec rake db:create_indexes
+```
+
+このコマンドにより、以下のコレクションにパフォーマンス向上のためのインデックスが作成されます：
+
+- **users**: `massr_id`, `twitter_user_id`, `twitter_id`, `webauthn_id`, `status`, `updated_at`
+- **statements**: `user_id`, `created_at`, `res_id`
+- **stamps**: `image_url`, `popular`, `original_id`, `tag`
+- **plugin_settings**: `plugin` + `key`（複合インデックス）
+- **search_pins**: `word`
+- **messages**: `from_user_id`, `to_user_id`
+
+インデックスが正しく作成されたかどうかは、MongoDBシェルで確認できます：
+
+```sh
+$ mongosh massr --eval "db.massr.users.getIndexes()"
+$ mongosh massr --eval "db.massr.statements.getIndexes()"
+```
+
 #### memcachedを起動する
 処理速度向上のためmemcachedを利用しています。あらかじめインストールしておいてください。http://memcached.org/ からダウンロードできます。多くのディストリビューションで「memcached」がパッケージ名になります。
 

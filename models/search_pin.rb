@@ -8,6 +8,9 @@ module Massr
 		validates_presence_of :word, :label
 		validates_uniqueness_of :word
 
+		# インデックス定義
+		index({ word: 1 }, { unique: true })
+
 		def self.create_by_word(word, label = nil)
 			pin = SearchPin.create(word: word, label: label ? label : word)
 			pin.save

@@ -8,6 +8,9 @@ module Massr
 		field :value,  type: String
 		validates_presence_of :plugin, :key, :value
 
+		# インデックス定義
+		index({ plugin: 1, key: 1 })
+
 		def self.set(key, value)
 			set = where(plugin: plugin_name, key: key).first
 			if set

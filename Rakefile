@@ -15,6 +15,18 @@ require './massr'
 require 'sprockets'
 require 'fileutils'
 
+namespace :db do
+	desc 'Create MongoDB indexes'
+	task :create_indexes do
+		require './models/init'
+		Mongoid.models.each do |model|
+			puts "Creating indexes for #{model.name}..."
+			model.create_indexes
+		end
+		puts "Indexes created successfully!"
+	end
+end
+
 namespace :assets do
 	desc 'Precompile assets'
 	task :precompile do

@@ -11,5 +11,9 @@ module Massr
 
 		belongs_to :user, class_name: 'User',  in: :from_user_id
 		belongs_to :user, class_name: 'User',  in: :to_user_id
+
+		# インデックス定義
+		index({ from_user_id: 1 })
+		index({ to_user_id: 1 })
 	end
 end

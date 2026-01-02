@@ -19,6 +19,11 @@ module Massr
 
 		has_one :stamp_source, class_name: 'Massr::Stamp', inverse_of: :original
 
+		# インデックス定義
+		index({ user_id: 1 })
+		index({ created_at: -1 })
+		index({ res_id: 1 })
+
 		def custom_validation
 			if body.nil && stamp.nil
 				errors.add( :body,  "Please enter the body or stamp.")

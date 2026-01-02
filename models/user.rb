@@ -30,6 +30,14 @@ module Massr
 		validates_uniqueness_of :massr_id, :twitter_user_id, :twitter_id
 		validates_uniqueness_of :webauthn_id, allow_nil: true
 
+		# インデックス定義
+		index({ massr_id: 1 }, { unique: true })
+		index({ twitter_user_id: 1 }, { unique: true })
+		index({ twitter_id: 1 }, { unique: true })
+		index({ webauthn_id: 1 }, { unique: true, sparse: true })
+		index({ status: 1 })
+		index({ updated_at: -1 })
+
 		has_many :statements, class_name: 'Massr::Statement'
 
 		def self.create_by_registration_form(request)
