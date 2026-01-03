@@ -36,7 +36,7 @@ module Massr
 
 			if ENV['RACK_ENV'] == 'production'
 				sprockets.css_compressor = :yui
-				sprockets.js_compressor = :uglifier
+				sprockets.js_compressor = Uglifier.new(harmony: true)
 			end
 
 			Sprockets::Helpers.configure do |config|

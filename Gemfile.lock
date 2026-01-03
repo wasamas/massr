@@ -335,6 +335,7 @@ DEPENDENCIES
   newrelic_rpm
   omniauth
   omniauth-twitter
+  ostruct
   pry
   puma (~> 6.4)
   rack (~> 2.2)

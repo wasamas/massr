@@ -15,8 +15,8 @@
 FROM ruby:4.0
 MAINTAINER tdtds <t@tdtds.jp>
 
-RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt install -y nodejs openjdk-17-jre \
+RUN curl -sL https://deb.nodesource.com/setup_24.x | bash - \
+    && apt install -y nodejs openjdk-21-jre \
     && apt -y clean \
     && echo -e "install: --no-document\nupdate: --no-document" >/etc/gemrc \
     && mkdir -p /opt/massr
@@ -25,7 +25,9 @@ ENV LANG=ja_JP.utf8
 ENV RACK_ENV=production
 WORKDIR /opt/massr
 COPY ["Gemfile", "Gemfile.lock", "/opt/massr/"]
-RUN bundle --path=vendor/bundle --without=development:test --jobs=4 --retry=3
+RUN bundle config set --local path vendor/bundle \
+    && bundle config set --local without development:test \
+    && bundle install --jobs=4 --retry=3
 
 COPY [".", "/opt/massr/"]
 RUN bundle exec rake assets:precompile

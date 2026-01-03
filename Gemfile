@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 ruby '~> 4.0.0'
 
+gem 'ostruct'  # Required for Ruby 4.0+
 gem 'sinatra', '~> 3.2', require: 'sinatra/base'
 gem 'sprockets', '~> 3.7'
 gem 'sprockets-helpers'
